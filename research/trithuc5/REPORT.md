@@ -5,46 +5,48 @@
 **Artifact đã đo:** bản sao HTML công khai, 14.226.000 byte, 15.912 dòng, SHA-256 `fe6fef993c24a4a8bbe3839004a31a47e3392cf6598efd5290303901ecd792b5`. File: `research/trithuc5/index.html`.  
 **PoC đã chạy:** `node research/trithuc5/poc/poc_client.js` → exit code `0`, mọi assertion đạt. Script trích **hàm thật từ source** và thực thi cục bộ; không gọi API ghi của target.
 
+**Redaction:** mọi giá trị credential, salt, chữ ký và khóa đã bị thay bằng `[REDACTED_*]`. Các vị trí source vẫn được giữ nguyên để tra cứu; bản HTML công khai chứa các literal gốc.
+
 ---
 
 ## 1. Admin auth — CAO
 
 **Vị trí code**
-- `state.adminCreds` — dòng 1505–1508: `username: atob('dGhheXRydW5n')`, `password: atob('VEhBWVRSVU5HMjAyNg==')`.
-- `submitAdminLogin` — dòng 13999–14004: danh sách user hợp lệ gồm `state.adminCreds.username`, `atob('dGhheXRydW5n')`, `atob('YWRtaW4=')`; password hợp lệ gồm `state.adminCreds.password` và `atob('VEhBWVRSVU5HMjAyNg==')`.
-- `computeAdminSessionSig` — dòng 2821–2824: `ADM_SESS|<user>|<ts>|TRITHUC50_ADM_SALT_V27` → `adm_ + hashStringHex(raw)`.
+- `state.adminCreds` — dòng 1505–1508: `username: atob('[REDACTED]')`, `password: atob('[REDACTED]')`.
+- `submitAdminLogin` — dòng 13999–14004: danh sách user hợp lệ gồm `state.adminCreds.username`, `atob('[REDACTED]')`, `atob('[REDACTED_ALIAS]')`; password hợp lệ gồm `state.adminCreds.password` và `atob('[REDACTED]')`.
+- `computeAdminSessionSig` — dòng 2821–2824: `ADM_SESS|<user>|<ts>|[REDACTED_ADMIN_SALT]` → `adm_ + hashStringHex(raw)`.
 - Khôi phục session — dòng 2398–2405: chấp nhận session nếu `!parsedSess.sig || parsedSess.sig === expectedSig`, trong vòng 7 ngày.
 - Khóa 60 giây sau 5 lần sai — dòng 14022–14028: chỉ là `state` trong RAM, reset khi tải lại trang.
 
 **PoC đã thực thi (local)**
 ```
-decoded admin username: thaytrung
-decoded admin password: THAYTRUNG2026
-forged session: {"loggedIn":true,"username":"thaytrung","ts":1795000000000,"sig":"adm_6FEA3D00"}
+decoded admin username: [REDACTED]
+decoded admin password: [REDACTED]
+forged session: {"loggedIn":true,"username":"[REDACTED]","ts":1795000000000,"sig":"[REDACTED]"}
 ```
 Các bước tái lập trong profile riêng:
 1. Mở target, F12 → Console.
-2. Gõ `atob('dGhheXRydW5n')` và `atob('VEhBWVRSVU5HMjAyNg==')` → credentials.
-3. Đăng nhập qua modal Quản trị bằng cặp đó, hoặc bỏ qua hoàn toàn: ghi `localStorage['TRITHUC50_REMEMBER_ADMIN_SESSION_V26'] = JSON.stringify({loggedIn:true,username:'thaytrung',ts:Date.now(),sig:...})` với `sig` tính bằng `computeAdminSessionSig` trong source.
+2. Gõ `atob('[REDACTED]')` và `atob('[REDACTED]')` → credentials.
+3. Đăng nhập qua modal Quản trị bằng cặp đó, hoặc bỏ qua hoàn toàn: ghi `localStorage['TRITHUC50_REMEMBER_ADMIN_SESSION_V26'] = JSON.stringify({loggedIn:true,username:'[REDACTED]',ts:Date.now(),sig:...})` với `sig` tính bằng `computeAdminSessionSig` trong source.
 4. Reload → dòng 2405 đặt `state.isAdminLoggedIn = true`.
 
 **Thiệt hại thực tế:** bất kỳ ai tải trang đều có quyền Quản trị trong browser của họ: duyệt VIP, sửa đề, xóa user trong state locally, và đẩy packet `fromAdmin:true` ra kênh đồng bộ dùng chung. Không cần tài khoản, không cần đoán mật khẩu.
 
-**Bản vá:** xóa hoàn toàn so sánh credential khỏi client. Đăng nhập qua endpoint server-side, mật khẩu lưu dưới dạng Argon2id/bcrypt, so sánh constant-time, trả cookie `HttpOnly; Secure; SameSite=Strict` hoặc JWT ngắn hạn do server ký. Salt session chỉ tồn tại ở server. Giới hạn đăng nhập và audit log ở server. Xoay mật khẩu `THAYTRUNG2026` và mọi salt đã lộ.
+**Bản vá:** xóa hoàn toàn so sánh credential khỏi client. Đăng nhập qua endpoint server-side, mật khẩu lưu dưới dạng Argon2id/bcrypt, so sánh constant-time, trả cookie `HttpOnly; Secure; SameSite=Strict` hoặc JWT ngắn hạn do server ký. Salt session chỉ tồn tại ở server. Giới hạn đăng nhập và audit log ở server. Xoay mật khẩu quản trị và mọi salt đã lộ.
 
 ---
 
 ## 2. Toàn vẹn dữ liệu / VIP — CAO
 
 **Vị trí code**
-- `computeUserIntegritySig` — dòng 2806–2819. Raw string có cờ VIP, `vipPlan`, `vipExpiresAt`, gmail, `maxDevices` + salt literal `TRITHUC50_SEC_SALT_2026_V27`; hash 2×32-bit, output `v27_<16 hex>`.
+- `computeUserIntegritySig` — dòng 2806–2819. Raw string có cờ VIP, `vipPlan`, `vipExpiresAt`, gmail, `maxDevices` + salt literal `[REDACTED_INTEGRITY_SALT]`; hash 2×32-bit, output `v27_<16 hex>`.
 - `verifyRuntimeSecurityIntegrity` — dòng 2826–2846, chỉ so sánh `stu._sig !== computeUserIntegritySig(stu)` rồi thu hồi VIP trong RAM.
 - Dòng 3910: hàm này được gọi mỗi 2 giây bởi radar anti-cheat.
 
 **PoC đã thực thi (local)**
 ```
-original _sig:   v27_f8f6ee4a6d22da92
-recomputed _sig: v27_dc34659e987926bf
+original _sig:   [REDACTED]
+recomputed _sig: [REDACTED]
 ```
 User mẫu chuyển từ không VIP sang `k12/k11/k10/luyende = true`, `vipPlan='lifetime'`, `maxDevices=999` rồi tự gán `_sig` mới → vừa khớp kiểm tra ở dòng 2832.
 
@@ -107,7 +109,7 @@ User mẫu chuyển từ không VIP sang `k12/k11/k10/luyende = true`, `vipPlan=
 
 **Vị trí code**
 - Topic/endpoint/app key — dòng 2918–2924: `trithuc50_v436_live_sync_hn`, `trithuc50_v436_bak_sync_hn`, `https://ntfy.sh/<topic>`, `tt50v436hn`, `https://keyvalue.immanuel.co/api/KeyVal/{GetValue,UpdateValue}/tt50v436hn/`.
-- `computeCloudPacketAdminSig` — dòng 2975–2983: `TT50_ADM_PKT_V436|<ts>|<hideAuthor>|<delKeys>|<users>|THAYTRUNG_SECRET_2026_V436` → `asig_ + hashStringHex`.
+- `computeCloudPacketAdminSig` — dòng 2975–2983: `TT50_ADM_PKT_V436|<ts>|<hideAuthor>|<delKeys>|<users>|[REDACTED_CLOUD_SECRET]` → `asig_ + hashStringHex`.
 - `pushCloudSyncPacket` — dòng 3282–3345: POST ntfy không có header auth (chỉ `Content-Type`, dòng 3311–3315), ghi KV qua URL key công khai.
 - `processIncomingCloudPacket` — dòng 3142–3268. Dòng 3145:
   `isVerifiedAdmin = Boolean(data.fromAdmin && (!data.adminSig || data.adminSig === computeCloudPacketAdminSig(data)))`.
@@ -116,7 +118,7 @@ User mẫu chuyển từ không VIP sang `k12/k11/k10/luyende = true`, `vipPlan=
 
 **PoC đã thực thi (local, không gửi đi)**
 ```
-forged adminSig: asig_87F7BD19
+forged adminSig: [REDACTED]
 ```
 Script tạo packet `fromAdmin:true` với `deletedMap` và user giả, ký bằng secret trích từ source, và xác nhận assertion: dòng 3145 chấp nhận gói **thiếu adminSig**, dòng 3161 áp dụng tombstone mà không kiểm tra quyền.
 

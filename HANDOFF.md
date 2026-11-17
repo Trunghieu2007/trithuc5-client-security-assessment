@@ -71,8 +71,8 @@ would be needed.
 - `node research/trithuc5/poc/poc_client.js` → exit 0. It extracts and executes the real
   `hashStringHex`, `computeUserIntegritySig`, `computeAdminSessionSig`,
   `computeCloudPacketAdminSig`, `decryptV97EmbedPayload` and base64url helpers from the HTML.
-- Decoded admin credentials: `thaytrung` / `THAYTRUNG2026`. Forged session sig example
-  `adm_6FEA3D00`; forged cloud packet sig example `asig_87F7BD19`.
+- Decoded admin credentials: `[REDACTED]` / `[REDACTED]`. Forged signature values are redacted
+  in all published reports; the arithmetic is reproducible from the public source.
 - 15 bundled exams expose `correctAnswers` in plaintext on line 1047.
 - Cloud constants on lines 2918–2924: ntfy topics `trithuc50_v436_live_sync_hn` /
   `trithuc50_v436_bak_sync_hn`, KV app key `tt50v436hn`.
@@ -112,7 +112,9 @@ All artifacts in this repository were published on 2026-11-18 to
 `https://github.com/Trunghieu2007/trithuc5-client-security-assessment` (public, branch `main`).
 Commit `4675ab1` contains seven files; a follow-up commit records this handoff note.
 Verification: `gh repo view ... --json visibility` returned `PUBLIC`; remote file listing was
-read back through the GitHub API and matched local sizes. The 14,226,000-byte HTML copy is
-included so every line number in the report remains checkable.
+read back through the GitHub API and matched local sizes. The initial commit included the
+verbatim HTML copy; it was removed in the investigation commit because the target publishes
+credential literals inside it. `research/trithuc5/SOURCE.md` now documents how to fetch and
+verify the exact hash without republishing those values.
 
 
