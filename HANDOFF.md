@@ -124,4 +124,17 @@ A later pass re-fetched the target with cache busting at `2026-11-17T19:00:09Z` 
 secure controls. F-02 was downgraded from Critical to High; NEW-04 from Low to Informational.
 No finding is `FIXED`; the release remains blocked.
 
-
+## Phase 3 — Deep investigation addition
+Independent fetch at `2026-11-17T19:23:58Z`: HTTP 200, 14,226,000 bytes, same SHA-256
+`fe6fef993c24a4a8bbe3839004a31a47e3392cf6598efd5290303901ecd792b5`; no new commits existed
+after `d038d16` before this work. Added `DEEP_INVESTIGATION.md`, `NEW_FINDINGS.md`,
+`ATTACK_SURFACE_MAP.md`, `UNVERIFIED_HYPOTHESES.md`, `tests/phase3_harness.js`,
+`tests/phase3_tests.js`, and Phase 3 evidence logs. Three new findings were added:
+NEW-08 (registration password to Google Form/activity log, High, `LOCAL_CONFIRMED`),
+NEW-09 (secret mirroring to cookie/`window.name`, Medium, `LOCAL_CONFIRMED`), and
+NEW-10 (client-controlled admin-tester audit suppression, Medium, `LOCAL_CONFIRMED`).
+NEW-01 was strengthened by predictable per-user KV keys (`DUPLICATE` classification) and
+NEW-03 by automatic 24h replay. Prototype pollution and cross-VM mutation were tested and not
+reproduced. Tests: historical 40/40, Phase 3 8/8, secure controls 1 pass/8 expected failures.
+No live packet, form submission, real account, or production modification was performed.
+Release remains blocked; no finding is `FIXED`.

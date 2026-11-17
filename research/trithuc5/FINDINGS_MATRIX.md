@@ -19,6 +19,9 @@ Evidence levels: `CONFIRMED`, `STATIC_CONFIRMED`, `LIKELY`, `UNVERIFIED`, `FIXED
 | NEW-05 | Gemini key in localStorage | No | Valid, scope narrowed | STATIC_CONFIRMED | Low | Proxy through server; no embedded live key found |
 | NEW-06 | Missing security headers | No | Valid | STATIC_CONFIRMED | Informational | Add CSP, frame and content-type headers; narrow CORS |
 | NEW-07 | Cross-tab storage trust | No | Valid, expanded | CONFIRMED (tab replacement + persistence in VM); cloud propagation LIKELY | Medium | Validate state; stop replacing security state from storage events |
+| NEW-08 | Password in activity log / Google Form | No | New in Phase 3 | LOCAL_CONFIRMED + STATIC_CONFIRMED; live form UNVERIFIED | High | Remove password from log strings; review form retention; server-side audit log |
+| NEW-09 | Secret mirroring to cookie / window.name | No | New in Phase 3 | LOCAL_CONFIRMED + STATIC_CONFIRMED; cross-origin navigation UNVERIFIED | Medium | Stop mirroring security state; use HttpOnly/Secure cookies where needed |
+| NEW-10 | Admin-tester audit suppression | No | New in Phase 3 | LOCAL_CONFIRMED + STATIC_CONFIRMED | Medium | Authenticate test identities server-side; stop trusting mutable user flags |
 
 ## Revalidation changes
 
@@ -33,6 +36,11 @@ Evidence levels: `CONFIRMED`, `STATIC_CONFIRMED`, `LIKELY`, `UNVERIFIED`, `FIXED
   in historical public packets is unverified.
 - **NEW-07 expanded.** A-04-T02 confirms cross-VM tab replacement and persistence; propagation
   through cloud sync remains `LIKELY`.
+- **Phase 3 additions.** NEW-08, NEW-09 and NEW-10 were added with `LOCAL_CONFIRMED` evidence.
+  P3-03 strengthens NEW-03 (24h automatic replay window). P3-04 is classified `DUPLICATE` of
+  NEW-01 and adds predictable KV key evidence. P3-06/P3-07 are `NOT_REPRODUCIBLE` negative controls.
+  Phase 3 uses the states `LOCAL_CONFIRMED`, `STATIC_CONFIRMED`, `UNVERIFIED`, `NOT_REPRODUCIBLE`
+  and `DUPLICATE`; earlier labels in this table remain for historical continuity.
 
 ## Status notes
 
@@ -59,9 +67,14 @@ Evidence levels: `CONFIRMED`, `STATIC_CONFIRMED`, `LIKELY`, `UNVERIFIED`, `FIXED
 | NEW-05 | A-02-T01 |
 | NEW-06 | A-03-T01 |
 | NEW-07 | A-04-T01, A-04-T02 |
+| NEW-08 | P3-01 |
+| NEW-09 | P3-02 |
+| NEW-10 | P3-05 |
 | Harness integrity | H-01 |
 | Post-patch controls | SC-01 … SC-09 |
+| Phase 3 negative controls | P3-06, P3-07 |
 
-Authoritative suite: **40 checks, 40 pass, 0 fail**, exit 0 (`evidence/test-results.txt`).
+Historical suite: **40 checks, 40 pass, 0 fail**, exit 0 (`evidence/test-results.txt`).
+Phase 3 suite: **8 checks, 8 pass, 0 fail**, exit 0 (`evidence/phase3-test-results.txt`).
 Post-patch controls on the current build: **1 pass, 8 expected failures**, exit 1
-(`evidence/secure-controls-before-patch.txt`). All nine must pass after remediation.
+(`evidence/secure-controls-before-patch.txt`, `evidence/secure-controls-phase3.txt`). All nine must pass after remediation.

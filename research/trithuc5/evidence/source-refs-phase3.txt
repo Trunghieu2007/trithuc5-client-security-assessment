@@ -1,0 +1,31 @@
+Phase 3 source references — pinned SHA-256 fe6fef993c24a4a8bbe3839004a31a47e3392cf6598efd5290303901ecd792b5
+
+NEW-08 registration password to Google Form / activity log
+  13295-13303  registration log string with MK: ${p}
+  3547-3555    saveActivityLogsState -> STORAGE_KEYS.ACTIVITY_LOGS
+  4094-4106    syncActivityLogToGoogleForm compactDetail includes targetTitle
+  4225-4261    postToGoogleFormEndpoint builds entry payload and window.__GFORM_SENT_LOG__
+  1510-1521    default googleFormConfig and autoSyncActivity
+
+NEW-09 safeStorageSet multi-store mirror
+  1310-1322    readWindowNameStore / writeWindowNameStore
+  1325-1373    safeStorageGet / Set / Remove
+  14010-14013  admin remembered credentials and session writes
+  13308-13309  student remembered credentials write
+  2613-2618    device token read via safeStorageGet and write via safeStorageSet
+
+NEW-10 admin-tester audit suppression
+  8729-8740    isAdminExamAttempt identity heuristics
+  4119-4123    logStudentActivity early return
+  13847-13861  exitExamRoom history purge
+
+P3-03 automatic 24h replay (NEW-03 strengthening)
+  3369-3385    SSE stream with since=24h
+  3397-3456    ntfy poll with since=24h and processIncomingCloudPacket
+
+P3-04 predictable per-user KV key (NEW-01 duplicate evidence)
+  3348-3363    u_<slug>_<idx> key construction and Base64URL chunk write
+
+Negative controls
+  3049-3060    isUserDeletedByTombstone numeric comparison
+  3161-3188    tombstone merge and user filter

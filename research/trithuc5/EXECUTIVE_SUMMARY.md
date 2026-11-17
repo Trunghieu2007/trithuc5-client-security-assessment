@@ -2,10 +2,12 @@
 
 ## Overall posture
 
-A fresh cache-busted fetch on `2026-11-17T19:00:09Z` returned HTTP 200 with the same SHA-256 as
-the previous assessment: `fe6fef993c24a4a8bbe3839004a31a47e3392cf6598efd5290303901ecd792b5`.
-No fix has been deployed. All six original findings remain valid. Seven additional issues were
-revalidated; two were downgraded after closer evidence review.
+A fresh cache-busted fetch on `2026-11-17T19:00:09Z` and an independent Phase 3 fetch on
+`2026-11-17T19:23:58Z` both returned HTTP 200 with the same SHA-256 as the previous assessment:
+`fe6fef993c24a4a8bbe3839004a31a47e3392cf6598efd5290303901ecd792b5`.
+No fix has been deployed. All six original findings remain valid. Seven earlier additional issues
+were revalidated (two downgraded), and Phase 3 added three new findings plus two evidence
+strengthenings.
 
 The core problem is unchanged: authentication, entitlement, device binding, grading, and cloud
 state synchronization are all decided from data the client can read or modify. There is no
@@ -28,6 +30,9 @@ server-side authorization boundary in the measured bundle.
 | NEW-05 Gemini key | Low | STATIC_CONFIRMED; no live key found |
 | NEW-06 security headers | Informational | STATIC_CONFIRMED |
 | NEW-07 cross-tab storage trust | Medium | CONFIRMED local tab/persistence; cloud propagation LIKELY |
+| NEW-08 password in Google Form / activity log | High | LOCAL_CONFIRMED + STATIC_CONFIRMED; live form UNVERIFIED |
+| NEW-09 secret mirroring to cookie / window.name | Medium | LOCAL_CONFIRMED + STATIC_CONFIRMED |
+| NEW-10 admin-tester audit suppression | Medium | LOCAL_CONFIRMED + STATIC_CONFIRMED |
 
 ## Most serious attack chains
 
@@ -51,11 +56,13 @@ server-side authorization boundary in the measured bundle.
 
 ## Release blockers
 
-1. Remove the password field from public cloud serialization (NEW-01).
+1. Remove passwords from all public serialization, logs, and third-party form payloads (NEW-01, NEW-08).
 2. Authenticate every cloud packet before any state mutation, including tombstones (F-01, NEW-02).
 3. Move admin authentication and privileged operations to a server (F-02).
 4. Remove answer keys from client payloads and grade server-side (F-04).
-5. Make entitlement and device registration server-authoritative (F-03, F-05).
+5. Make entitlement, device registration, and test-identity flags server-authoritative (F-03, F-05, NEW-10).
+6. Stop mirroring credentials and session state into cookies and `window.name` (NEW-09, NEW-07).
+7. Add signed freshness/nonce handling to cloud packets (NEW-03).
 
 ## Recommended remediation order
 
@@ -66,6 +73,7 @@ apply headers, provider-key proxying, and honest UX labeling.
 ## Validation performed
 
 - `tests/run_all.js`: **40 checks, 40 pass, 0 fail**, exit 0.
+- `tests/phase3_tests.js`: **8 checks, 8 pass, 0 fail**, exit 0 (`evidence/phase3-test-results.txt`).
 - `tests/secure_controls.js`: **1 pass, 8 expected failures**, exit 1 on the current build; all
   nine must pass after remediation.
 - No production packet injection, destructive testing, real account access, or third-party data.

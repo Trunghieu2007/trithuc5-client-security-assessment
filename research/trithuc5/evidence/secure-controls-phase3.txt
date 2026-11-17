@@ -1,0 +1,14 @@
+=== POST-PATCH SECURE CONTROLS (expected to fail before remediation) ===
+source sha256: fe6fef993c24a4a8bbe3839004a31a47e3392cf6598efd5290303901ecd792b5
+PASS SC-01 positive: valid signed admin packet is applied
+FAIL SC-02 unsigned fromAdmin packet is rejected :: unsigned privileged packet must be rejected
+FAIL SC-03 invalid signature packet causes no tombstone or user mutation :: tombstone must be ignored
+FAIL SC-04 expired packet is rejected :: Expected values to be strictly equal:
+FAIL SC-05 replay protection is present in the verifier :: verifier must expose a replay cache
+FAIL SC-06 unauthorized tombstone is rejected :: The expression evaluated to a falsy value:
+FAIL SC-07 unauthorized user injection is rejected for every packet type :: no unsigned packet may create local users
+FAIL SC-08 password never enters a public packet :: The expression evaluated to a falsy value:
+FAIL SC-09 cross-account packet does not mutate an unrelated account :: Expected values to be strictly equal:
+
+TOTAL 9 PASS 1 FAIL 8
+CURRENT STATE: controls fail as expected before remediation
