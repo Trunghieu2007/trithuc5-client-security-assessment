@@ -5,7 +5,7 @@
 **Method:** static tracing of the current published HTML + isolated Node VM harness executing real extracted functions with mock ntfy/KV and synthetic users. No production writes, no real accounts, no third-party data.
 **Evidence labels:** `CONFIRMED` = reproduced in harness; `STATIC_CONFIRMED` = directly established from source; `LIKELY` = strong indicators, missing one validation step; `UNVERIFIED` = hypothesis only; `FIXED` = not applicable here.
 
-Credential values, salts, session signatures and private keys are deliberately not reproduced in this document. They remain in the verbatim public HTML copy under `research/trithuc5/index.html`; the reports refer to their source locations instead.
+Credential values, salts, session signatures and private keys are deliberately not reproduced in this document. They remain in the verbatim public HTML on the target site; the former repository copy `research/trithuc5/index.html` exists only in historical commit `4675ab1`. This report refers to source locations instead. See `REVALIDATION.md` and `EVIDENCE_AUDIT.md` for corrections to severity and evidence claims.
 
 ---
 

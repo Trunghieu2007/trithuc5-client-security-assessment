@@ -117,4 +117,11 @@ verbatim HTML copy; it was removed in the investigation commit because the targe
 credential literals inside it. `research/trithuc5/SOURCE.md` now documents how to fetch and
 verify the exact hash without republishing those values.
 
+## Evidence-audit addition
+A later pass re-fetched the target with cache busting at `2026-11-17T19:00:09Z` (HTTP 200,
+14,226,000 bytes, same SHA-256). It added `EVIDENCE_AUDIT.md`, `REVALIDATION.md`,
+`TEST_QUALITY.md`, `ADDITIONAL_FINDINGS.md`, a 40-check authoritative suite, and 9 post-patch
+secure controls. F-02 was downgraded from Critical to High; NEW-04 from Low to Informational.
+No finding is `FIXED`; the release remains blocked.
+
 

@@ -4,7 +4,8 @@ All items are local, synthetic, and safe to publish. No real usernames, password
 tokens, private keys, or production packet contents are stored here.
 
 ## Source identity
-- `current.html` (repo root of the local research copy; published as `research/trithuc5/index.html`)
+- `current.html` is fetched locally via `SOURCE.md`; it is **not** committed. The former
+  `research/trithuc5/index.html` exists only in historical commit `4675ab1`.
   - Bytes: 14,226,000
   - Lines: 15,912
   - SHA-256: `fe6fef993c24a4a8bbe3839004a31a47e3392cf6598efd5290303901ecd792b5`
@@ -14,7 +15,9 @@ tokens, private keys, or production packet contents are stored here.
   redeploy.
 
 ## Test output
-- `test-results.txt`: final run of `tests/run_all.js`, 34 tests, 34 pass, 0 fail.
+- `test-results.txt`: final run of `tests/run_all.js`, 40 checks, 40 pass, 0 fail.
+- `secure-controls-before-patch.txt`: final run of `tests/secure_controls.js`, 1 pass and 8
+  expected failures on the current build. All nine must pass after remediation.
 - The suite runs real functions extracted from `current.html` in a Node VM with mock
   localStorage/sessionStorage/cookie/window.name, a mock ntfy/KV transport, and synthetic
   users. It makes no production requests.
@@ -30,9 +33,18 @@ From the repository root:
 
 ```bash
 node research/trithuc5/tests/run_all.js
+node research/trithuc5/tests/secure_controls.js
 ```
 
-Expected final line: `TOTAL 34 PASS 34 FAIL 0`, exit code 0.
+Expected on the current build:
+
+```
+TOTAL 40 PASS 40 FAIL 0
+CURRENT STATE: controls fail as expected before remediation
+```
+
+`run_all.js` exits 0. `secure_controls.js` exits 1 until remediation is complete; after a
+correct patch it must exit 0 with all nine controls passing.
 
 ## Boundaries
 - No packet was sent to production ntfy topics or Cloud KV.

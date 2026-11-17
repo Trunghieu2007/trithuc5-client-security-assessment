@@ -6,6 +6,7 @@
 const assert = require('assert');
 const fs = require('fs');
 const path = require('path');
+const vm = require('vm');
 const h = require('./harness.js');
 
 const NOW = 1795000000000;
@@ -61,6 +62,20 @@ function allVip(overrides) {
 console.log('=== TRITHUC5.0 V4.3.9 isolated regression suite ===');
 console.log('source sha256: ' + h.readSource().sha);
 console.log('now (fixed): ' + NOW);
+
+test('H-01', 'extracted functions are syntactically complete and correctly named', () => {
+    const lines = h.readSource().lines;
+    for (const name of [
+        'processIncomingCloudPacket', 'pushCloudSyncPacket', 'serializeCompactUser',
+        'deserializeCompactUser', 'computeUserIntegritySig', 'computeAdminSessionSig',
+        'verifyAndBindStudentDeviceOnLogin', 'decryptV97EmbedPayload', 'saveUsersState'
+    ]) {
+        const code = h.extractFunction(lines, name).code;
+        assert.ok(new RegExp('^\\s*(?:async\\s+)?function\\s+' + name + '\\s*\\(').test(code));
+        new vm.Script(code);
+    }
+});
+
 console.log('--- F-01 cloud sync / ntfy / KV ---');
 
 test('F-01-T01', 'missing adminSig is accepted as admin and merges privileged fields', () => {
@@ -171,7 +186,7 @@ test('F-01-T10', 'unauthorized deletion request from non-admin packet is applied
     assert.strictEqual(e.state.users.some(u => u.username === 'delete_me'), false);
 });
 
-test('F-01-T11', 'public topic has no cross-browser isolation: packet from one client mutates another', () => {
+test('F-01-T11', 'two isolated VM environments accept the same packet (NOT proof of live ntfy delivery)', () => {
     const envA = h.createEnv({ now: NOW });
     const envB = h.createEnv({ now: NOW, state: { users: [h.compactUser({ username: 'cross_victim', status: 'active', updatedAt: NOW - 5 })] } });
     const p = packet(envA, {
@@ -182,7 +197,7 @@ test('F-01-T11', 'public topic has no cross-browser isolation: packet from one c
     const decoded = envB.decodeCloudMessageString(encoded);
     envB.processIncomingCloudPacket(decoded);
     const v = envB.state.users.find(u => u.username === 'cross_victim');
-    assert.strictEqual(v.status, 'locked', 'other client accepted packet from public channel');
+    assert.strictEqual(v.status, 'locked', 'second isolated VM accepted the same packet');
 });
 
 test('F-01-T12', 'forged tombstone persists and blocks later legitimate restore', () => {
@@ -209,6 +224,35 @@ test('F-01-T14', 'global cloud bus exposes direct packet application (static)', 
     const src = h.readSource().text;
     assert.ok(src.includes('window.__TRITHUC50_CLOUD_BUS__'));
     assert.ok(src.includes('applyIncomingPacket(packetObj)'));
+});
+
+test('F-01-T15', 'stale privileged packet can override a newer local downgrade', () => {
+    const e = h.createEnv({ now: NOW });
+    e.state.users = [h.compactUser({ username: 'downgraded', status: 'pending', vipPlan: 'none', updatedAt: NOW })];
+    const stale = signed(e, { users: [compact(e, { username: 'downgraded', status: 'active', vipPlan: 'lifetime', updatedAt: 1 })] });
+    e.processIncomingCloudPacket(stale);
+    const v = e.state.users.find(u => u.username === 'downgraded');
+    assert.strictEqual(v.status, 'active');
+    assert.strictEqual(v.vipPlan, 'lifetime');
+});
+
+test('F-01-T16', 'replay after a legitimate deletion remains blocked by tombstone', () => {
+    const e = h.createEnv({ now: NOW });
+    e.state.users = [h.compactUser({ username: 'gone', updatedAt: NOW })];
+    e.processIncomingCloudPacket(packet(e, { fromAdmin: true, deletedMap: { gone: NOW + 1000 } }));
+    e.processIncomingCloudPacket(signed(e, { users: [compact(e, { username: 'gone', updatedAt: 1 })] }));
+    assert.strictEqual(e.state.users.some(u => u.username === 'gone'), false);
+});
+
+test('F-01-T17', 'unsigned stale packet does not override a newer non-pending user', () => {
+    const e = h.createEnv({ now: NOW });
+    e.state.users = [h.compactUser({ username: 'stable', status: 'active', vipPlan: 'none', updatedAt: NOW })];
+    e.processIncomingCloudPacket(packet(e, {
+        type: 'ANY_OTHER_EVENT',
+        users: [compact(e, { username: 'stable', status: 'active', vipPlan: 'lifetime', updatedAt: 1 })]
+    }));
+    const v = e.state.users.find(u => u.username === 'stable');
+    assert.strictEqual(v.vipPlan, 'none');
 });
 
 console.log('--- F-02 admin auth / session ---');
@@ -414,6 +458,20 @@ test('A-04-T01', 'cross-tab storage event replaces state.users from writable loc
     assert.ok(block.includes("window.addEventListener('storage'"));
     assert.ok(block.includes('state.users = parsedU'));
     assert.ok(!/origin|isTrusted|signature/i.test(block));
+});
+
+test('A-04-T02', 'malicious localStorage state propagates to another VM tab and persists', () => {
+    const shared = h.makeMemoryStorage();
+    const tabA = h.createEnv({ now: NOW, localStore: shared });
+    const tabB = h.createEnv({ now: NOW, localStore: shared });
+    tabB.setupCrossTabUserSync();
+    const injected = [h.compactUser({ username: 'injected_via_tab', status: 'active' })];
+    const raw = JSON.stringify(injected);
+    tabA.safeStorageSet(tabA.STORAGE_KEYS.USERS, raw);
+    tabB.__dispatchWindowEvent('storage', { key: tabA.STORAGE_KEYS.USERS, newValue: raw });
+    assert.ok(tabB.state.users.some(u => u.username === 'injected_via_tab'));
+    tabB.saveUsersState();
+    assert.ok(shared.getItem(tabA.STORAGE_KEYS.USERS).includes('injected_via_tab'));
 });
 
 const outDir = path.join(__dirname, '..', 'evidence');

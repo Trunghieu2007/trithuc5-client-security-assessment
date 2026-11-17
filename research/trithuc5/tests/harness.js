@@ -108,7 +108,8 @@ const FN_NAMES = [
     'processIncomingCloudPacket', 'decodeCloudMessageString', 'buildTeacherSnapshotPacket',
     'pushCloudSyncPacket', 'pullCloudSyncMessages',
     'getCanvasAndWebGLHardwareSig', 'getHardwareDeviceProfile', 'isValidStudentGmail',
-    'verifyAndBindStudentDeviceOnLogin', 'decryptV97EmbedPayload'
+    'verifyAndBindStudentDeviceOnLogin', 'decryptV97EmbedPayload',
+    'saveUsersState', 'broadcastTeacherUsersToCloud'
 ];
 
 function createEnv(options) {
@@ -180,12 +181,20 @@ function createEnv(options) {
         antiAiInterval: null,
         LEGACY_SAMPLE_BANNED: new Set()
     };
+    const windowListeners = {};
     sandbox.window = {
         name: options.windowName || '',
         TRITHUC: {},
-        addEventListener: () => {},
-        removeEventListener: () => {},
+        addEventListener(type, fn) {
+            if (!windowListeners[type]) windowListeners[type] = [];
+            windowListeners[type].push(fn);
+        },
+        removeEventListener() {},
         getComputedStyle: () => ({ display: 'flex', visibility: 'visible', opacity: '1' })
+    };
+    sandbox.__windowListeners = windowListeners;
+    sandbox.__dispatchWindowEvent = (type, ev) => {
+        (windowListeners[type] || []).forEach(fn => fn(ev));
     };
     const cookieJar = {};
     const documentStub = {
@@ -222,6 +231,7 @@ function createEnv(options) {
 
     const pieces = [
         extractDeclaration(src.lines, 'const STORAGE_KEYS = {').code,
+        extractDeclaration(src.lines, 'const setupCrossTabUserSync =').code,
         extractLineRange(src.lines, 2918, 2926).code,
         ...FN_NAMES.map(n => extractFunction(src.lines, n).code),
         // Session restore block exactly as shipped (lines 2387-2411).
@@ -230,6 +240,7 @@ function createEnv(options) {
         'globalThis.STORAGE_KEYS = STORAGE_KEYS;',
         'globalThis.CLOUD_SYNC_TOPIC = CLOUD_SYNC_TOPIC;',
         'globalThis.CLOUD_KV_APP_KEY = CLOUD_KV_APP_KEY;',
+        'globalThis.setupCrossTabUserSync = setupCrossTabUserSync;',
         // Expose a wrapped tombstone deletion request path without calling network code.
         'function forceAdminFlagFromSource() { state.isAdminLoggedIn = true; }'
     ];
