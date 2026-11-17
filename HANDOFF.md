@@ -107,3 +107,12 @@ If the user authorises testing that can affect other users' client state: do it 
 lab profile, send exactly one clearly-marked synthetic packet to the public topic, and document
 the exact before/after local state. If not authorised, stop at the static finding.
 
+## Publication
+All artifacts in this repository were published on 2026-11-18 to
+`https://github.com/Trunghieu2007/trithuc5-client-security-assessment` (public, branch `main`).
+Commit `4675ab1` contains seven files; a follow-up commit records this handoff note.
+Verification: `gh repo view ... --json visibility` returned `PUBLIC`; remote file listing was
+read back through the GitHub API and matched local sizes. The 14,226,000-byte HTML copy is
+included so every line number in the report remains checkable.
+
+
