@@ -32,7 +32,7 @@ tokens, private keys, or production packet contents are stored here.
 - `source-refs.txt`: exact function names and line ranges used by the original tests.
 - `source-refs-phase3.txt`: line ranges used by NEW-08/09/10 and Phase 3 negative controls.
 - `live-console-observations.md`: user-supplied live browser console evidence (KV CORS block, Google Form 404, extension CSP noise, closure-scope finding).
-- `../poc/aero_hook_v2.js`, `../poc/aero_hook_v2.user.js`, `../poc/aero_hook_v3.user.js`: local test hooks. v3 is the recommended document-start userscript.
+- `../poc/aero_hook_v3.user.js` — the only retained local test hook. Install in Tampermonkey/Violentmonkey at `document-start`; user-tested and confirmed working.
 - `../phase3/fetch.info` and `../phase3/target.headers`: provenance for the independent
   `2026-11-17T19:23:58Z` fetch. The raw body is not committed.
 

@@ -141,6 +141,4 @@ Release remains blocked; no finding is `FIXED`.
 
 
 ## Live browser follow-up (user-supplied console + agent-browser inspection)
-User console showed Google Form `formResponse` returning 404 and KV `meta_cnt` blocked by CORS, so live form exfiltration to the configured endpoint and live KV reads are not working; code paths remain locally confirmed. Browser inspection found `state` and anti-cheat handlers are closure-local inside a page IIFE (source line 1241), so console overrides of `window.triggerExamViolation` cannot disable them. Added `poc/aero_hook_v2.js`, `poc/aero_hook_v2.user.js` and recommended `poc/aero_hook_v3.user.js` (document-start userscript blocking handler registration). No production write or real account access.
-
-Added no-extension CDP injection path: `poc/aero_hook_v3_cdp.js` and `poc/inject_v3_cdp.mjs`. Tampermonkey is optional; document-start injection is the real requirement.
+User console showed Google Form `formResponse` returning 404 and KV `meta_cnt` blocked by CORS, so live form exfiltration to the configured endpoint and live KV reads are not working; code paths remain locally confirmed. Browser inspection found `state` and anti-cheat handlers are closure-local inside a page IIFE (source line 1241), so console overrides of `window.triggerExamViolation` cannot disable them. The only retained local test hook is `poc/aero_hook_v3.user.js` (Tampermonkey/Violentmonkey, `document-start`); the user tested it and confirmed it works. Earlier v2 console/CDP variants were removed. No production write or real account access.
