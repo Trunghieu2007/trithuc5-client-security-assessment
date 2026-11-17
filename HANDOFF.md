@@ -1,0 +1,109 @@
+# HANDOFF
+
+## Exact request
+The user pasted `C:\Users\Admin\Desktop\AgentContract.md` with no further instruction. Per the
+contract's own read protocol (§ READ PROTOCOL, § 8 intake), pasting the file is activation:
+apply it from the first reply, do not summarize it, do not review it. Default action taken:
+install it as the workspace operating instruction, resolve its config slots, and verify the
+local toolchain so the next real task has a measured baseline.
+
+## Measured facts (observed on this machine, this session)
+- Contract SHA-256: `d0d390cbe2b7d8f024583599dada0f8dea4f87a998d4cf0f537090787a703b0a`
+  — identical for the Desktop original and the workspace copy `AGENTS.md`.
+- Host: Windows 11 build 26300, shell = MINGW64 (Git Bash), workdir `C:/Users/Admin/WorkBuddy AI/2026-11-18-00-50-27`.
+- MSVC: Visual Studio 2026 Build Tools v18.11.3, toolset `14.51.36231`,
+  `vcvars64.bat` present at
+  `C:\Program Files (x86)\Microsoft Visual Studio\18\BuildTools\VC\Auxiliary\Build\vcvars64.bat`.
+- Windows SDK 10.0.26100.0 installed (`Include/10.0.26100.0/{ucrt,shared,um,winrt}`,
+  `Lib/10.0.26100.0/{ucrt,um}/x64`).
+- Python 3.13.14, Node v22.22.2 on PATH.
+- gcc/clang/cmake: **not on PATH** (not installed or not exposed) — unknown, not assumed absent.
+
+## Environment gotcha worth keeping
+`vcvars64.bat` exits 0 but leaves `WindowsSdkDir` empty because its SDK-detection step calls
+`reg.exe`, which this machine's security policy blocks (Program Blacklist). Consequence: a
+plain `cl` build fails with `C1083: cannot open include file 'stdio.h'`.
+Fix used: `tools/build_probe.cmd` calls vcvars, then appends the SDK ucrt/shared/um include
+paths and ucrt/um x64 lib paths to `INCLUDE`/`LIB` manually. Keep this in every build script.
+
+## Files written / changed
+- `AGENTS.md` — copy of the contract (workspace root, per Appendix C placement).
+- `CLAUDE.md` — symlink → `AGENTS.md`.
+- `.cursor/rules/agents.md` — copy of the contract.
+- `.workbuddy-ai/config.toml` — resolved §1 config slots + toolchain inventory.
+- `tools/probe_env.cpp` — environment probe source.
+- `tools/build_probe.cmd` — compile+run script with the SDK-path fix.
+- `tools/dump_env.cmd` — dumps vcvars' resulting INCLUDE/LIB.
+- `build/probe_env.exe` — built artifact.
+
+## What was built and tested
+- Command: `cmd //c "tools\build_probe.cmd"` → exit code 0.
+- Output: `compiler: MSVC 1951`, `pointer_bits: 64`, `hardware_concurrency: 12`, `os: windows`.
+- First attempt failed (`C1083`, exit 2) before the SDK fix; both states are recorded above.
+
+## Assumptions (not measured)
+- `project = unnamed`, `domain = other` — no target artifact was supplied, so nothing else is inferable.
+- `target_env = local VM` per the contract default; the actual host is a physical Windows machine.
+
+## Missing
+- No artifact / target to work on. Nothing has been analysed because nothing was supplied.
+
+## Next verifiable step
+Point the next task at an artifact (binary, repo, or dump) — or give a target name — and the
+intake step is: hash the original read-only, identify format/engine version, then triage strings,
+imports and structure before any edit.
+
+---
+
+## Session addition — TRITHUC5.0 V4.3.9 client-side assessment (2026-11-18)
+
+### Exact request
+Assess `https://trithuc500.vercel.app/` client-side only across six surfaces: admin auth, data
+integrity, device/Gmail lock, answer payload, cloud sync, anti-cheat. Per surface: severity,
+function name + line, reproducible PoC, real impact, concrete patch. End with a severity table.
+Stop and ask if a real account, a public ntfy/KV write, or an attack affecting other users' data
+would be needed.
+
+### Measured facts
+- Public HTML copy: `research/trithuc5/index.html`, 14,226,000 bytes, 15,912 lines,
+  SHA-256 `fe6fef993c24a4a8bbe3839004a31a47e3392cf6598efd5290303901ecd792b5`.
+- All line numbers in `research/trithuc5/REPORT.md` refer to that exact copy.
+- `node research/trithuc5/poc/poc_client.js` → exit 0. It extracts and executes the real
+  `hashStringHex`, `computeUserIntegritySig`, `computeAdminSessionSig`,
+  `computeCloudPacketAdminSig`, `decryptV97EmbedPayload` and base64url helpers from the HTML.
+- Decoded admin credentials: `thaytrung` / `THAYTRUNG2026`. Forged session sig example
+  `adm_6FEA3D00`; forged cloud packet sig example `asig_87F7BD19`.
+- 15 bundled exams expose `correctAnswers` in plaintext on line 1047.
+- Cloud constants on lines 2918–2924: ntfy topics `trithuc50_v436_live_sync_hn` /
+  `trithuc50_v436_bak_sync_hn`, KV app key `tt50v436hn`.
+- ntfy GET `/json?poll=1&since=24h` timed out after 10 s with 0 bytes; KV `GET .../meta_cnt`
+  returned HTTP 503. No live packet was observed.
+
+### STOP condition reached
+`processIncomingCloudPacket` applies `deletedMap`/`deletedUsernames` at lines 3161–3188 without
+checking `isVerifiedAdmin` (computed at line 3145). A forged public packet can therefore delete
+users from *other clients'* local state. Live exploitation was NOT executed; no packet was sent
+to ntfy or KV. Awaiting explicit user confirmation before any live test.
+
+### Files written
+- `research/trithuc5/index.html` (read-only research copy)
+- `research/trithuc5/root.headers`
+- `research/trithuc5/poc/poc_client.js`
+- `research/trithuc5/REPORT.md`
+
+### Build / test
+- Build: none.
+- Test: `node research/trithuc5/poc/poc_client.js` → exit 0, all assertions passed.
+- First PoC run failed with exit 1 (wrong inverse transform and exam-array parser); both were
+  fixed in the script. Final run is the authoritative one.
+
+### Behaviour on target
+- Static analysis of the published source: completed.
+- Dynamic browser testing: not run.
+- Live cloud packet injection: not run, blocked by the user's stop condition.
+
+### Next verifiable step
+If the user authorises testing that can affect other users' client state: do it in a labelled
+lab profile, send exactly one clearly-marked synthetic packet to the public topic, and document
+the exact before/after local state. If not authorised, stop at the static finding.
+
