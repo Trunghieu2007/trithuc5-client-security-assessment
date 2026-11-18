@@ -1,4 +1,4 @@
-# Evidence index — TRITHUC5.0 V4.3.9
+# Evidence index — TRITHUC5.0 V4.4 (post-patch build)
 
 All items are local, synthetic, and safe to publish. No real usernames, passwords, session
 tokens, private keys, or production packet contents are stored here.
@@ -9,12 +9,29 @@ tokens, private keys, or production packet contents are stored here.
   - Bytes: 14,226,000
   - Lines: 15,912
   - SHA-256: `fe6fef993c24a4a8bbe3839004a31a47e3392cf6598efd5290303901ecd792b5`
+- **V4.4 build (current live target, Phase 4):**
+  - Bytes: 14,554,401
+  - Lines: 20,224
+  - SHA-256: `33be09d79b1e8089867a7db379a1dc6b9932aed178c9f9dde2e968e74d06b868`
+  - Fetched: 2026-11-18T09:02:20Z, HTTP 200
+  - Headers captured in `phase4-target.headers`. The V4.4 HTML itself is kept local and is
+    **not** committed; `tests/phase4_harness.js` pins its hash and refuses to run if it changes.
 - `current.headers`: HTTP response headers captured with the copy. Contains
   `Access-Control-Allow-Origin: *`, HSTS, and no CSP / X-Frame-Options / X-Content-Type-Options.
 - The test harness refuses to run if the source hash differs. Re-measure line numbers after any
   redeploy.
 
-## Test output
+## Phase 4 test output
+- `phase4-test-results.txt`: run of `tests/phase4_tests.js`, 16 checks, 16 pass, 0 fail.
+  Real V4.4 functions (`computeUserIntegritySig`, `computeTeacherVipApprovalSealV44`,
+  `detectAndBlockStudentVipHackV44`, `verifyRuntimeSecurityIntegrity`,
+  `BackendVipAuthServiceV44`) plus the shipped boot normalizer, executed in an isolated VM.
+- `phase4-payload-validation.txt`: run of `tests/phase4_payload_validation.js`, 14 checks,
+  14 pass, 0 fail. Executes the shipped PoC file `poc/v44_vip_bypass_payload.js` against the
+  real extracted V4.4 functions and confirms the full bypass chain.
+- `phase4-target.headers`: HTTP response headers of the V4.4 build.
+
+## Test output (Phases 1-3, unchanged)
 - `test-results.txt`: final run of `tests/run_all.js`, 40 checks, 40 pass, 0 fail.
 - `phase3-test-results.txt`: Phase 3 run of `tests/phase3_tests.js`, 8 checks, 8 pass, 0 fail.
   It uses real extracted Google Form/logging functions with mock fetch and synthetic users.

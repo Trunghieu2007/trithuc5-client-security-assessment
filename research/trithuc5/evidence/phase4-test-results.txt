@@ -1,0 +1,18 @@
+PASS P4-01  baseline: V4.4 detectAndBlock rejects maxDevices=999 PoC shape
+PASS P4-02  bypass: renaming account avoids the poc_vip/nologin/hack/exploit/cheat blacklist
+PASS P4-03  bypass: _adminVipSeal secret (vaultLockConfig.adminPass) is client-side and forgeable
+PASS P4-04  bypass: forged seal+sig grants verified VIP package access via BackendVipAuthServiceV44
+PASS P4-05  negative control: account without a valid seal is denied VIP access
+PASS P4-06  negative control: post-registration tampering is reverted to vault state
+PASS P4-07  finding: seal binds username/name/class/packages but not the expiry timestamp
+PASS P4-08  finding: detect guard is bypassed entirely by id=gv_test or isAdminTester=true
+PASS P4-09  finding: runtime integrity check skips gv_test / stu_free_12b1 / stu_practice_e
+PASS P4-10  finding: admin preview unlock-all bypasses every VIP package check
+PASS P4-11  bypass: admin session signature is computable offline from the bundled salt
+PASS P4-12  bypass: user integrity sig salt is a bundle literal => _sig forgeable offline
+PASS P4-13  finding: BackendVipAuthServiceV44 vault is an in-client Map rebuilt from client data
+PASS P4-14  bypass: real boot normalizer auto-grants _adminVipSeal to a forged VIP user
+PASS P4-15  negative control: boot normalizer downgrades a user with a bad _sig
+PASS P4-16  bypass end-to-end: renamed synthetic user with forged _sig survives boot as full VIP
+
+TOTAL 16 PASS 16 FAIL 0

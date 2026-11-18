@@ -22,6 +22,12 @@ Evidence levels: `CONFIRMED`, `STATIC_CONFIRMED`, `LIKELY`, `UNVERIFIED`, `FIXED
 | NEW-08 | Password in activity log / Google Form | No | New in Phase 3 | LOCAL_CONFIRMED + STATIC_CONFIRMED; live form UNVERIFIED | High | Remove password from log strings; review form retention; server-side audit log |
 | NEW-09 | Secret mirroring to cookie / window.name | No | New in Phase 3 | LOCAL_CONFIRMED + STATIC_CONFIRMED; cross-origin navigation UNVERIFIED | Medium | Stop mirroring security state; use HttpOnly/Secure cookies where needed |
 | NEW-10 | Admin-tester audit suppression | No | New in Phase 3 | LOCAL_CONFIRMED + STATIC_CONFIRMED | Medium | Authenticate test identities server-side; stop trusting mutable user flags |
+| NEW-11 | V4.4 VIP approval seal uses a client-side secret | No | New in Phase 4 | LOCAL_CONFIRMED (real V4.4 functions, end-to-end) | Critical | Move VIP entitlement to a server-authoritative API; remove seal secrets from the bundle |
+| NEW-12 | Boot normalizer auto-grants the approval seal to forged records | No | New in Phase 4 | LOCAL_CONFIRMED | Critical | Never mint approval artifacts client-side; require a server-issued, server-validated grant |
+| NEW-13 | V4.4 tamper detection is a keyword heuristic | No | New in Phase 4 | LOCAL_CONFIRMED | High | Replace substring heuristics with structural invariants checked against server-advertised state |
+| NEW-14 | Privileged id exemption bypasses detector and runtime integrity check | No | New in Phase 4 | LOCAL_CONFIRMED | High | Remove blanket id exemptions; scope them to a server-verified admin session |
+| NEW-15 | Admin preview "unlock all" bypasses every VIP package gate | No | New in Phase 4 | LOCAL_CONFIRMED | High | Gate preview mode server-side; do not short-circuit entitlement checks from client flags |
+| NEW-16 | Cloud packets now carry `_adminVipSeal` and `_backendVipToken` | No | New in Phase 4 | STATIC_CONFIRMED | High | Strip approval artifacts from cloud serialisation; treat public topics as untrusted |
 
 ## Revalidation changes
 
@@ -41,10 +47,26 @@ Evidence levels: `CONFIRMED`, `STATIC_CONFIRMED`, `LIKELY`, `UNVERIFIED`, `FIXED
   NEW-01 and adds predictable KV key evidence. P3-06/P3-07 are `NOT_REPRODUCIBLE` negative controls.
   Phase 3 uses the states `LOCAL_CONFIRMED`, `STATIC_CONFIRMED`, `UNVERIFIED`, `NOT_REPRODUCIBLE`
   and `DUPLICATE`; earlier labels in this table remain for historical continuity.
+- **Phase 4 (post-patch build, SHA-256 `33be09d7…`).** The owner deployed a new build with a
+  dedicated anti-hack layer (`_adminVipSeal`, `BackendVipAuthServiceV44`,
+  `detectAndBlockStudentVipHackV44`, rewritten boot normalizer). Two V4.3.9 weaknesses were
+  genuinely hardened: the admin session now requires a matching `sig` (line 2758) and unsigned
+  cloud packets are downgraded to `pending`/non-VIP (lines 3637-3653). However the patch is
+  entirely client-side: NEW-11 through NEW-16 show the approval seal is computable from bundled
+  literals, the boot normalizer mints the seal itself, the detector is a keyword heuristic,
+  privileged ids skip all checks, admin preview short-circuits every gate, and the approval
+  artifact is now broadcast in every cloud packet. A complete local VIP bypass was verified
+  end-to-end (`phase4_payload_validation.js`, 14/14). See `PHASE4_BYPASS_ANALYSIS.md`.
+- **F-02 (V4.4).** The "session without `sig` is accepted" path is closed. The session
+  signature salt `TRITHUC50_ADM_SALT_V27` remains a bundle literal, so the signature is still
+  reproducible offline — hardened, not fixed.
 
 ## Status notes
 
-- No finding is `FIXED`; the source hash is unchanged from the previous assessment.
+- No finding is `FIXED`. The source hash changed between phases: the current live build is
+  SHA-256 `33be09d79b1e8089867a7db379a1dc6b9932aed178c9f9dde2e968e74d06b868` (V4.4,
+  14,554,401 bytes), fetched 2026-11-18T09:02:20Z. The Phase 4 harness pins this hash and
+  fails loudly if the build changes again.
 - F-01, F-02, F-03, F-04, F-05 and NEW-07 were reproduced dynamically in the isolated harness.
 - F-06, NEW-04, NEW-05 and NEW-06 are source-established only; no dynamic browser test was run.
 - Live ntfy/KV observation failed (GET timeout, KV HTTP 503), so no real packet content or real
@@ -70,6 +92,12 @@ Evidence levels: `CONFIRMED`, `STATIC_CONFIRMED`, `LIKELY`, `UNVERIFIED`, `FIXED
 | NEW-08 | P3-01 |
 | NEW-09 | P3-02 |
 | NEW-10 | P3-05 |
+| NEW-11 | P4-03, P4-11, P4-12 |
+| NEW-12 | P4-14, P4-16 |
+| NEW-13 | P4-01, P4-02, P4-16 |
+| NEW-14 | P4-08, P4-09 |
+| NEW-15 | P4-10, P4-11 |
+| NEW-16 | source read: `serializeCompactUser` lines 3391-3392 |
 | Harness integrity | H-01 |
 | Post-patch controls | SC-01 … SC-09 |
 | Phase 3 negative controls | P3-06, P3-07 |
