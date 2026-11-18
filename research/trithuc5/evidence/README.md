@@ -34,6 +34,7 @@ tokens, private keys, or production packet contents are stored here.
 - `live-console-observations.md`: user-supplied live browser console evidence (KV CORS block, Google Form 404, extension CSP noise, closure-scope finding).
 - `no-login-vip-screenshots.md`, `no-login-vip-unlock-modal.png`, and `no-login-vip-profile.png`: user-supplied local Chrome screenshots of the synthetic no-login VIP PoC. Hashes, provenance, and boundaries are recorded in the Markdown note.
 - `f02-session-validation.txt`: local harness validation of F-02 session restore. A session with no `sig` is accepted; expired, bad-signature, and logged-out sessions are rejected. No credential or salt literal is stored.
+- `f02-admin-ui-screenshots.md` and six `f02-admin-*.png` files: user-supplied Chrome screenshots of the admin UI after the forged local session. One student identity column was redacted before publication; provenance, hashes, and scope are in the Markdown note.
 - `../poc/aero_hook_v3.user.js` — the only retained local test hook. Install in Tampermonkey/Violentmonkey at `document-start`; user-tested and confirmed working.
 - `../phase3/fetch.info` and `../phase3/target.headers`: provenance for the independent
   `2026-11-17T19:23:58Z` fetch. The raw body is not committed.
