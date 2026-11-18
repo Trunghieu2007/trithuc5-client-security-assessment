@@ -45,8 +45,14 @@ should remain **blocked** as a system that protects accounts, entitlements, or e
 Live-channel content is `UNVERIFIED`; nothing is marked `FIXED`.
 
 Full analysis: [`research/trithuc5/FINDINGS.md`](research/trithuc5/FINDINGS.md).
+Independent execution-based verification (2026-11-19):
+[`research/trithuc5/INDEPENDENT_VERIFICATION.md`](research/trithuc5/INDEPENDENT_VERIFICATION.md).
 Leadership brief: [`research/trithuc5/EXECUTIVE_SUMMARY.md`](research/trithuc5/EXECUTIVE_SUMMARY.md).
 Fix order: [`research/trithuc5/REMEDIATION_PLAN.md`](research/trithuc5/REMEDIATION_PLAN.md).
+
+`FINDINGS.md`, `PHASE4_BYPASS_ANALYSIS.md`, `INDEPENDENT_VERIFICATION.md` and
+`REMEDIATION_PLAN.md` are the canonical V4.4 documents. V4.3.9-era documents were removed
+from the tree (git history retains them); do not reuse their line numbers.
 
 ## One PoC per finding
 
@@ -60,6 +66,8 @@ restore function. The mapping, types, and restore-function names are in the PoC 
 
 - `research/trithuc5/FINDINGS.md` — current finding set with per-finding PoC mapping.
 - `research/trithuc5/PHASE4_BYPASS_ANALYSIS.md` — how the V4.4 anti-hack layer fails.
+- `research/trithuc5/INDEPENDENT_VERIFICATION.md` — independent 35-check execution and exact
+  gate / sensitive-field maps for the four priority areas.
 - `research/trithuc5/EXECUTIVE_SUMMARY.md` — posture, attack chains, release decision.
 - `research/trithuc5/REMEDIATION_PLAN.md` — prioritized fixes and acceptance tests.
 - `research/trithuc5/SOURCE.md` — how to fetch and verify the exact source hash.
@@ -84,6 +92,7 @@ node research/trithuc5/tests/run_all.js               # 40 pass
 node research/trithuc5/tests/phase3_tests.js          # 8 pass
 node research/trithuc5/tests/phase4_tests.js          # 20 pass
 node research/trithuc5/tests/poc_suite_validation.js  # 51 pass
+node research/trithuc5/tests/independent_verification.js  # 35 pass
 node research/trithuc5/tests/secure_controls.js       # 3 pass / 6 expected failures
 ```
 
@@ -94,6 +103,7 @@ TOTAL 40 PASS 40 FAIL 0
 TOTAL 8 PASS 8 FAIL 0
 TOTAL 20 PASS 20 FAIL 0
 TOTAL 51 PASS 51 FAIL 0
+TOTAL 35 PASS 35 FAIL 0
 CURRENT STATE: controls fail as expected before remediation
 ```
 

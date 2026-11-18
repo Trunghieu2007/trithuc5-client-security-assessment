@@ -1,0 +1,46 @@
+=== INDEPENDENT VERIFICATION — V4.4 (SHA 33be09d7) ===
+
+-- Track 1: NEW-11/12 — _sig -> boot seal -> real access gates --
+PASS IV-01  computeUserIntegritySig is reproducible from bundle-literal salt (offline)
+PASS IV-02  boot normalizer mints _adminVipSeal automatically when _sig matches and VIP flags are set
+PASS IV-03  in-client vault registers the attacker-owned record as VIP with a backend token
+PASS IV-04  real runtime integrity check accepts the self-signed, self-sealed record
+PASS IV-05  real hasStudentVipAccess grants k12 package
+PASS IV-06  real hasVerifiedPackageAccess and verifyProtectedVipActionV44 both grant
+PASS IV-07  whole chain uses no server call: no KV write, no form dispatch
+PASS IV-08  control: tampering after sealing invalidates _sig and runtime check rejects
+PASS IV-09  offline recomputation of sig+seal (both bundle secrets) restores all access
+PASS IV-10  control: unsigned VIP record is stripped by boot before any seal is minted
+
+-- Track 2: NEW-14/15 — privileged exemptions and admin preview gate bypasses --
+PASS IV-11-gv_test  detector returns false for privileged id gv_test even when maxDevices=999 and _sig missing
+PASS IV-11-stu_free_12b1  detector returns false for privileged id stu_free_12b1 even when maxDevices=999 and _sig missing
+PASS IV-11-stu_practice_e  detector returns false for privileged id stu_practice_e even when maxDevices=999 and _sig missing
+PASS IV-12  identical tampered record with ordinary id IS detected (true detector, not source-only)
+PASS IV-13  runtime integrity check skips the entire student block for gv_test (returns true with junk fields)
+PASS IV-14  control: same junk fields on ordinary id are locked and force session logout
+PASS IV-15  isAdminTester flag suppresses detector on an otherwise ordinary record
+PASS IV-16  admin preview: hasStudentVipAccess returns true for a pending junk student
+PASS IV-17  admin preview: hasVerifiedPackageAccess returns true independently
+PASS IV-18  admin preview: verifyProtectedVipActionV44 returns true independently
+PASS IV-19  control: same session with preview OFF denies all three gates
+PASS IV-20  admin session signature is reproducible offline; isAdminExamAttempt suppresses audit logging
+
+-- Track 3: NEW-08/09 — exact sensitive field mapping (synthetic sentinel only) --
+PASS IV-21  logStudentActivity with synthetic password carries detail string into the real Google Form payload
+PASS IV-22  Google Form wire pairs are exactly entry.111/222/333/444 plus submit; no real network call made
+PASS IV-23  NEW-08: admin/tester identities suppress the log entirely (no form payload)
+PASS IV-24  NEW-09: safeStorageSet mirrors the password-bearing user table into localStorage, sessionStorage, window.name and cookie
+PASS IV-25  NEW-09: size thresholds are exact — window.name < 3500 chars, cookie < 1800 chars
+PASS IV-26  no real credential literal is stored in this suite (synthetic sentinel only)
+
+-- Track 4: F-01 — tombstone / signature / authorization on V4.4 (synthetic fixtures) --
+PASS IV-27  forged admin claim (bad adminSig) is rejected outright and leaves tombstone untouched
+PASS IV-28  validly signed admin tombstone (offline-computed sig) deletes the user locally
+PASS IV-29  F-01 RESIDUAL: unsigned tombstone still merges with no admin check
+PASS IV-30  tombstone blocks a later restore packet even when that packet is validly signed
+PASS IV-31  unsigned packet with VIP flags is downgraded to pending/non-VIP (V4.4 fix holds)
+PASS IV-32  validly signed admin packet grants active VIP and mints a seal + integrity sig
+PASS IV-33  packet path never writes to ntfy/KV transport in this suite (all mocks local)
+
+TOTAL 35 PASS 35 FAIL 0

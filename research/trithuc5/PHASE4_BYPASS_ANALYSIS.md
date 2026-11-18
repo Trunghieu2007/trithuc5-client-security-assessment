@@ -315,6 +315,27 @@ The patch cannot be fixed by adding more client-side signatures. The seal, the `
 
 ---
 
+## 9b. Independent re-verification (2026-11-19)
+
+A second, independently written suite (`tests/independent_verification.js`, its own SHA pin,
+extraction and VM; 35 checks, 35 pass) executed the full chain again and resolved three
+questions that static reading alone could not:
+
+- `_sig` → boot minted `_adminVipSeal` → vault `bkt44_` token → runtime integrity → all three
+  access gates returned `true` with **zero KV writes** (IV-01…IV-07). Recomputing sig and
+  seal offline after tampering restored access (IV-09).
+- Gate-by-gate: privileged ids skip the detector; the three named ids skip the entire runtime
+  integrity block; admin preview independently returns `true` from all three gates for a
+  pending junk student (IV-11…IV-19). The two `stu_free`/`stu_practice` ids remain forced
+  non-VIP at the protected-action gate — a scope correction to the earlier wording.
+- F-01: forged admin packets are rejected, validly signed tombstones delete, **unsigned
+  tombstones still merge**, and the later signed restore stays blocked (IV-27…IV-30).
+
+Exact sensitive-field mapping for NEW-08/09 and the full result table are in
+[`INDEPENDENT_VERIFICATION.md`](INDEPENDENT_VERIFICATION.md).
+
+---
+
 ## 10. Repository state
 
 | Path | Purpose |
@@ -322,9 +343,12 @@ The patch cannot be fixed by adding more client-side signatures. The seal, the `
 | `research/trithuc5/tests/phase4_harness.js` | Isolated VM harness for V4.4, source hash-pinned |
 | `research/trithuc5/tests/phase4_tests.js` | 20 regression checks (bypass + negative controls) |
 | `research/trithuc5/tests/poc_suite_validation.js` | Executes every per-finding PoC in `poc/` in a mock browser VM |
+| `research/trithuc5/tests/independent_verification.js` | Independent 35-check execution of the four priority areas |
+| `research/trithuc5/INDEPENDENT_VERIFICATION.md` | Detailed results, gate scope and sensitive-field map |
 | `research/trithuc5/poc/poc_f03_vip_entitlement.js` | ACTION PoC for F-03/NEW-11/12/13/14 (supersedes `v44_vip_bypass_payload.js`, removed) |
 | `research/trithuc5/evidence/phase4-test-results.txt` | Suite output |
 | `research/trithuc5/evidence/poc-suite-validation.txt` | PoC validation output |
+| `research/trithuc5/evidence/independent-verification.txt` | Independent verification output |
 | `research/trithuc5/phase4-target.headers` | Response headers of the V4.4 build |
 
 Raw V4.4 HTML is intentionally **not** committed, matching the existing redaction policy.

@@ -63,7 +63,12 @@ The full user list (compact format, passwords included) is broadcast to two publ
 - **Evidence state:** `LOCAL_CONFIRMED`.
 
 ### NEW-14 — Privileged ids skip every check
-`id === 'gv_test' | 'stu_free_12b1' | 'stu_practice_e'` or `isAdminTester === true` bypasses both the detector (line 10704) and `verifyRuntimeSecurityIntegrity` (line 3202) — even with `maxDevices: 999` and no `_sig`.
+`id === 'gv_test' | 'stu_free_12b1' | 'stu_practice_e'` skips both the detector (line 10704)
+and the whole student block of `verifyRuntimeSecurityIntegrity` (line 3202) — even with
+`maxDevices: 999` and no `_sig`; `isAdminTester === true` skips the detector and audit
+logging. Independently executed controls (`INDEPENDENT_VERIFICATION.md`, IV-11…IV-15) show
+the two `stu_free`/`stu_practice` ids are still forced non-VIP at the protected-action gate
+(10513–10521, 10639): they are detector/runtime exemptions, not blanket VIP grants.
 - **PoC:** `poc/poc_new05_new07_new10_misc.js` (DISPLAY — enumerates privileged records)
 - **Evidence state:** `LOCAL_CONFIRMED`.
 
@@ -173,7 +178,14 @@ These are barriers, not fixes: every one is still derived from client-side state
 | `tests/phase3_tests.js` (ported to V4.4) | 8 | 8 pass / 0 fail |
 | `tests/phase4_tests.js` | 20 | 20 pass / 0 fail |
 | `tests/poc_suite_validation.js` | 51 | 51 pass / 0 fail |
+| `tests/independent_verification.js` | 35 | 35 pass / 0 fail |
 | `tests/secure_controls.js` | 9 | 3 pass / 6 expected failures (pass after remediation) |
+
+`tests/independent_verification.js` is a separate, independently pinned re-verification of
+the four highest-priority areas (NEW-11/12 whole chain, NEW-14/15 gate bypasses, NEW-08/09
+field mapping, F-01 tombstone/signature paths) using real extracted V4.4 functions and
+synthetic fixtures only. Detailed results, including the exact Google Form wire fields and
+weak-store size thresholds, are in [`INDEPENDENT_VERIFICATION.md`](INDEPENDENT_VERIFICATION.md).
 
 Run them all:
 
@@ -183,6 +195,7 @@ node research/trithuc5/tests/run_all.js
 node research/trithuc5/tests/phase3_tests.js
 node research/trithuc5/tests/phase4_tests.js
 node research/trithuc5/tests/poc_suite_validation.js
+node research/trithuc5/tests/independent_verification.js
 node research/trithuc5/tests/secure_controls.js   # exits 1 until remediation
 ```
 

@@ -92,7 +92,14 @@ V4.4 bypass analysis: `PHASE4_BYPASS_ANALYSIS.md`.
 | `tests/phase3_tests.js` (ported to V4.4) | 8 | 8 pass / 0 fail |
 | `tests/phase4_tests.js` | 20 | 20 pass / 0 fail |
 | `tests/poc_suite_validation.js` | 51 | 51 pass / 0 fail |
+| `tests/independent_verification.js` | 35 | 35 pass / 0 fail |
 | `tests/secure_controls.js` | 9 | 3 pass / 6 expected failures (must pass after remediation) |
+
+An independently written suite re-executed the four highest-priority areas with its own SHA
+pin and VM: the whole `_sig` → boot seal → access-gate chain works with zero server calls;
+admin preview and privileged ids bypass real gates; the exact Google Form / weak-store field
+map was captured with a synthetic sentinel; and unsigned tombstones still merge. See
+[`INDEPENDENT_VERIFICATION.md`](INDEPENDENT_VERIFICATION.md).
 
 ## Live-channel status
 

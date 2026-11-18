@@ -215,3 +215,43 @@ mapping, V4.4 fix table, PoC index), `EXECUTIVE_SUMMARY.md` rewritten for V4.4,
 priority; stale V4.3.9 line numbers replaced), `evidence/README.md` rewritten. Boundaries
 unchanged: no packet published, no real account touched, no production state modified.
 Live-channel content `UNVERIFIED`; release remains blocked; no finding is `FIXED`.
+
+
+## Independent re-verification of the four priority areas (2026-11-19)
+
+User request: independently verify (1) the full `_sig` → `_adminVipSeal` chain including
+boot normalizer and real permission checks (NEW-11/12, top priority); (2) exactly which
+gates privileged ids and admin preview actually bypass (NEW-14/15), not just source
+conditions; (3) precisely which sensitive fields reach Google Form, cookie and
+`window.name` (NEW-08/09), with no real credential access; (4) tombstone/signature/
+authorization on V4.4 using synthetic fixtures only (F-01). Canonical docs are FINDINGS.md,
+PHASE4_BYPASS_ANALYSIS.md and REMEDIATION_PLAN.md; V4.3.9 docs are history only.
+
+Added `tests/independent_verification.js` — separately written SHA-pinned harness with its
+own extraction and VM, 35 checks, 35 pass, 0 fail (`evidence/independent-verification.txt`)
+— and `INDEPENDENT_VERIFICATION.md` with the detailed results. Key measured outcomes:
+
+- NEW-11/12: executed the whole chain — offline `_sig` → boot mints `_adminVipSeal`
+  (2664–2665) → vault `bkt44_` token → runtime integrity → `hasStudentVipAccess`,
+  `hasVerifiedPackageAccess`, `verifyProtectedVipActionV44` all true with **zero KV writes**.
+  Tampering without recomputing sig/seal is blocked, but recomputing both offline restores
+  all access. Also found the backend ticket literal `SERVER_AUTH_2026` (line 10385).
+- NEW-14/15: privileged ids skip the detector; the three named ids skip the entire runtime
+  integrity block; admin preview returns true from all three gates for a pending junk
+  student. Scope correction: `stu_free_12b1`/`stu_practice_e` remain forced non-VIP at the
+  protected-action gate. Admin session sig is offline-reproducible, and
+  `isAdminExamAttempt` suppresses the audit log.
+- NEW-08/09: exact Google Form wire payload observed with a synthetic password sentinel —
+  `name=[username] name`, `classInfo=class (SBD: stt)`, `score`, `detail=[actionLabel]
+  targetTitle | detail | Lúc: timeStr`, POST pairs `entry.111/222/333/444` + `submit`;
+  password reached `detail`. `safeStorageSet` mirrors the user table into localStorage,
+  sessionStorage, `window.name` (<3500 chars) and a `SameSite=Lax` cookie (<1800 chars).
+- F-01: bad `adminSig` packets rejected; validly signed tombstones delete; **unsigned
+  tombstones still merge**; signed restore stays blocked; unsigned VIP packets downgraded;
+  signed admin packets grant VIP with seal and `_sig`. No KV write in any scenario.
+
+Docs updated: `FINDINGS.md` (suite table, NEW-14 scope correction),
+`PHASE4_BYPASS_ANALYSIS.md` (section 9b + repo table), `REMEDIATION_PLAN.md` (IV acceptance
+criteria, `SERVER_AUTH_2026` rotation, corrected seal/line references), `evidence/README.md`,
+root `README.md` (canonical-doc note, new suite command). No production state changed;
+no real account accessed; no packet published; live-channel content still UNVERIFIED.

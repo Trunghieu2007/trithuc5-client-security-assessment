@@ -23,22 +23,25 @@ secure assertions.
 ## Phase 0 — Contain public exposure (immediate)
 
 1. **Stop publishing and logging passwords.** Remove the password field from
-   `serializeCompactUser` (line ~3391), remove the registration password from the activity
+   `serializeCompactUser` (line 3373), remove the registration password from the activity
    log / captured Google Form payload, and stop writing user-bearing snapshots to public
    ntfy/KV until authentication exists. This covers NEW-01, NEW-08 and the per-user KV path
    (P3-04; the cap skip is not a fix — the data still reaches the public snapshot chunks).
    - Acceptance: `SC-08`, `P3-01` and `P3-04` fail after the change; no password appears in
      serialized users, KV records, activity logs, captured form payloads, or
-     `window.__GFORM_SENT_LOG__`.
+     `window.__GFORM_SENT_LOG__`. `IV-21`/`IV-22` (sentinel in form `detail` and POST pairs)
+     must fail.
 2. **Stop mirroring security state into weak stores.** Remove `window.name` and cookie
    writes from `safeStorageSet` (lines 1562–1594) for session, credential, and device keys;
    use `HttpOnly; Secure; SameSite=Strict` cookies issued by the server for sessions.
-   - Acceptance: `P3-02` fails after the change.
+   - Acceptance: `P3-02` and `IV-24` (user table mirrored to all four stores) fail after the
+     change. Exact observed thresholds: `window.name` < 3500 chars, cookie < 1800 chars.
 3. **Rotate exposed material.** Rotate the admin credential (`THAYTRUNG2026`, line 1786),
    both session/integrity salts (`TRITHUC50_SEC_SALT_2026_V27` line 3170,
    `TRITHUC50_ADM_SALT_V27` line 3183), the cloud packet secret
-   (`THAYTRUNG_SECRET_2026_V436` line 3363), the KV app key, and all user passwords that may
-   have been in a published snapshot. Retire the old ntfy topics.
+   (`THAYTRUNG_SECRET_2026_V436` line 3363), the backend ticket literal (`SERVER_AUTH_2026`,
+   line 10385), the KV app key, and all user passwords that may have been in a published
+   snapshot. Retire the old ntfy topics.
    - Acceptance: old values no longer authenticate or decrypt; new values exist only
      server-side.
 4. **Remove the global cloud bus bridge** from the production bundle (lines 3493–3500).
@@ -51,23 +54,25 @@ secure assertions.
    (`computeTeacherVipApprovalSealV44`, line ~10654) is computed in the browser from
    bundle-literal secrets (`THAY_TRUNG_MASTER_SEAL_2026` line 10654,
    `TRITHUC50_ADM_SALT_V27` line 3183). Anyone can compute a valid seal offline — this is
-   NEW-11/NEW-12 (Critical) and defeats the whole V4.4 layer.
+   NEW-11 (Critical) and defeats the whole V4.4 layer.
    - Fix: seals and entitlements must be issued by a server the attacker cannot run code
      on. Remove the seal function and both secret literals from the bundle.
-   - Acceptance: `P4-03`/`P4-04` (offline seal reproduction and forged-seal access) fail
-     after the change; no seal material exists in the delivered JS.
-6. **Remove the boot auto-seal path (NEW-13).** The boot normalizer (lines 2605–2668,
+   - Acceptance: `P4-03`/`P4-04` and the independent checks `IV-01`, `IV-02`, `IV-09`
+     (offline seal reproduction, boot minting, full chain with zero KV writes) fail after the
+     change; no seal material exists in the delivered JS.
+6. **Remove the boot auto-seal path (NEW-12).** The boot normalizer (lines 2605–2668,
    specifically 2663–2666) mints a seal for any user whose record carries a valid `_sig`
    and VIP flags without a seal. Even with the seal function removed, keep no fallback that
    promotes local state into entitlement.
-   - Acceptance: `P4-14` fails after the change.
+   - Acceptance: `P4-14` and `IV-02` (boot mints a seal) fail after the change.
 7. **Authenticate every cloud packet.** V4.4's admin check (3538–3543) is a start, but the
    signature secret is a bundle literal (P4-20) and unsigned tombstones still merge
    without an admin check (3587–3614, F-01 residual). Replace with server-issued
    signatures over a signed timestamp, nonce/sequence and a bounded replay cache; validate
    schema and reject unknown types.
-   - Acceptance: `F-01-T12`/`P4-19` (unsigned tombstone merge) fail after the change;
-     `SC-01`…`SC-06` pass; `F-01-T03` still passes for a genuinely signed packet.
+   - Acceptance: `F-01-T12`/`P4-19`/`IV-29` (unsigned tombstone merge) fail after the
+     change; `IV-27` (forged admin rejection) and `IV-28` (signed tombstone) become secure
+     assertions; `SC-01`…`SC-06` pass.
 8. **Move ntfy/KV behind an authenticated proxy.** Topic names and app keys are
    identifiers, not secrets. Per-user authorization and write ACLs; no public cross-account
    reads.
@@ -115,12 +120,14 @@ secure assertions.
     short-circuits three access gates (lines 4121, 10566, 10635); any forged admin session
     (see item 10) can unlock all locked content via `toggleAdminPreviewUnlockAll`. If the
     preview feature is kept, the unlock must be a server-issued, scoped, time-limited grant.
-    - Acceptance: the NEW-15 PoC chain fails after the change.
+    - Acceptance: the NEW-15 PoC chain and `IV-16`/`IV-17`/`IV-18` (true from all three
+      gates for a pending junk student) fail after the change.
 18. **Remove the privileged-identity bypass (NEW-14/NEW-10).** `gv_test` / `isAdminTester` ids
     skip the anti-hack detector and the runtime integrity check entirely (P4-08/P4-09), and
     the same mutable flag suppresses audit logging. Tester exemptions must live server-side,
-    not in client id checks.
-    - Acceptance: `P4-08`/`P4-09` fail after the change.
+    not in client id checks. Independent controls also confirmed that `stu_free_12b1` /
+    `stu_practice_e` remain forced non-VIP at the protected-action gate (IV-11…IV-15).
+    - Acceptance: `P4-08`/`P4-09` and `IV-11`/`IV-13` fail after the change.
 19. **Relabel anti-cheat as UX.** Keep `preventDefault`, watermark and blur, but remove
     security claims (F-06). Add server-side timing/submission checks only if exam integrity
     is a product requirement.
@@ -131,7 +138,8 @@ secure assertions.
 
 1. Run, against the current V4.4 source: `tests/run_all.js` (40/40),
    `tests/phase3_tests.js` (8/8), `tests/phase4_tests.js` (20/20),
-   `tests/poc_suite_validation.js` (51/51), `tests/secure_controls.js` (3 pass, 6 expected
+   `tests/poc_suite_validation.js` (51/51),
+   `tests/independent_verification.js` (35/35), `tests/secure_controls.js` (3 pass, 6 expected
    failures). Current logs are in `evidence/`.
 2. Apply a phase, rebuild, rerun: the tests mapped to that phase must fail, proving the old
    behavior is gone.

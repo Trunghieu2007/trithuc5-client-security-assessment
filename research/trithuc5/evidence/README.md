@@ -34,6 +34,12 @@ tokens, private keys, or production packet contents are stored here.
 - `poc-suite-validation.txt`: `tests/poc_suite_validation.js` — 51 checks, 51 pass, 0 fail.
   Executes every PoC in `poc/` in a mock browser VM and asserts the documented behaviour,
   including that no DISPLAY PoC transmits and that ACTION PoCs write nothing to ntfy/KV.
+- `independent-verification.txt`: `tests/independent_verification.js` — 35 checks, 35 pass,
+  0 fail. Independent SHA pin, extraction and VM. Verifies the full `_sig` → boot seal →
+  vault → three access gates chain (NEW-11/12), privileged-id and admin-preview gate
+  bypasses with controls (NEW-14/15), the exact Google Form / cookie / `window.name` field
+  map with a synthetic password sentinel (NEW-08/09), and tombstone/signature behaviour on
+  V4.4 (F-01). Full write-up: `../INDEPENDENT_VERIFICATION.md`.
 - `secure-controls-v44.txt`: `tests/secure_controls.js` on V4.4 — 3 pass, 6 expected
   failures (the two signature controls now pass after the V4.4 patch). All nine must pass
   after remediation.
@@ -77,6 +83,7 @@ node research/trithuc5/tests/run_all.js            # 40 pass
 node research/trithuc5/tests/phase3_tests.js       # 8 pass
 node research/trithuc5/tests/phase4_tests.js       # 20 pass
 node research/trithuc5/tests/poc_suite_validation.js  # 51 pass
+node research/trithuc5/tests/independent_verification.js  # 35 pass
 node research/trithuc5/tests/secure_controls.js    # exits 1 until remediation
 ```
 
@@ -87,6 +94,7 @@ TOTAL 40 PASS 40 FAIL 0
 TOTAL 8 PASS 8 FAIL 0
 TOTAL 20 PASS 20 FAIL 0
 TOTAL 51 PASS 51 FAIL 0
+TOTAL 35 PASS 35 FAIL 0
 CURRENT STATE: controls fail as expected before remediation
 ```
 
