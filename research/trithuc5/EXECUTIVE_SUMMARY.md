@@ -1,87 +1,109 @@
-# Executive summary — TRITHUC5.0 V4.3.9 (revalidated)
+# Executive summary — TRITHUC5.0 V4.4 (post-patch)
 
 ## Overall posture
 
-A fresh cache-busted fetch on `2026-11-17T19:00:09Z` and an independent Phase 3 fetch on
-`2026-11-17T19:23:58Z` both returned HTTP 200 with the same SHA-256 as the previous assessment:
-`fe6fef993c24a4a8bbe3839004a31a47e3392cf6598efd5290303901ecd792b5`.
-No fix has been deployed. All six original findings remain valid. Seven earlier additional issues
-were revalidated (two downgraded), and Phase 3 added three new findings plus two evidence
-strengthenings.
+The owner deployed a new build. Fetch of 2026-11-18T09:02:20Z returned HTTP 200 with
+SHA-256 `33be09d79b1e8089867a7db379a1dc6b9932aed178c9f9dde2e968e74d06b868`
+(14,554,401 bytes, 20,224 lines) — a different build from the previous assessment
+(`fe6fef99…`, 14,226,000 bytes).
 
-The core problem is unchanged: authentication, entitlement, device binding, grading, and cloud
-state synchronization are all decided from data the client can read or modify. There is no
-server-side authorization boundary in the measured bundle.
+The V4.4 patch adds a dedicated anti-hack layer (`_adminVipSeal`, `BackendVipAuthServiceV44`,
+`detectAndBlockStudentVipHackV44`, a rewritten boot normalizer and runtime integrity check).
+It genuinely fixes two V4.3.9 weaknesses, but the entire layer is client-side: every new trust
+decision is derived from secrets that ship in the same public bundle. **A complete local VIP
+bypass was verified end-to-end against the real deployed functions** — one `localStorage`
+write plus a reload.
+
+**Release verdict: blocked.** The defect class is unchanged; only the exploit effort changed.
+
+## What V4.4 fixed (verified)
+
+| V4.3.9 weakness | V4.4 status | Proof |
+|---|---|---|
+| Admin session accepted without a signature | Fixed — signature required (line 2758) | `tests/run_all.js` F-02-T02 |
+| Unsigned cloud packet granted full VIP | Fixed — downgraded to `pending`/non-VIP (lines 3637–3653) | `tests/phase4_tests.js` P4-17 |
+| Forged `fromAdmin` packet accepted | Fixed — rejected outright (lines 3538–3543) | `tests/run_all.js` F-01-T01/T02/T05/T11 |
+| Predictable per-user KV key (`u_<slug>_<idx>`) | Changed — record now exceeds the 450-char cap, so the write is skipped | `tests/phase3_tests.js` P3-04 |
+
+These are barriers, not fixes: the signatures they check are reproducible offline from
+bundle literals.
+
+## Why the new layer does not hold
+
+1. **The seal secret is public.** `computeTeacherVipApprovalSealV44` uses
+   `vaultLockConfig.adminPass` (default literal `THAYTRUNG2026`) plus the literal
+   `THAY_TRUNG_MASTER_SEAL_2026`. → NEW-11 (Critical).
+2. **The app mints the seal itself.** The boot normalizer (lines 2663–2666) grants a valid
+   `_adminVipSeal` to any record with a matching `_sig`, whose salt is also a bundle literal.
+   → NEW-12 (Critical).
+3. **Detection is a substring filter.** Renaming the account defeats it. → NEW-13 (High).
+4. **Privileged ids skip everything.** `gv_test` / `stu_free_12b1` / `stu_practice_e` /
+   `isAdminTester` bypass the detector and the runtime integrity check. → NEW-14 (High).
+5. **Admin preview unlocks all packages** without any server grant. → NEW-15 (High).
+6. **The seal is broadcast.** `serializeCompactUser` puts it in every cloud packet
+   (NEW-16, High), and the password still rides in field `p` (NEW-01).
 
 ## Confirmed vulnerabilities and evidence levels
 
 | Finding | Severity | Evidence |
 |---|---|---|
-| F-01 cloud sync authorization / tombstones | Critical | CONFIRMED local VM; live delivery UNVERIFIED |
-| F-02 admin auth / session | High (downgraded from Critical) | CONFIRMED local; no server admin API STATIC_CONFIRMED |
-| F-03 VIP / integrity | High | CONFIRMED local |
-| F-04 answer exposure | High | CONFIRMED: 15 exams, 330 entries |
-| F-05 device/Gmail lock | Medium | CONFIRMED local |
-| F-06 anti-cheat | Low | STATIC_CONFIRMED |
-| NEW-01 password in public packets | Critical | CONFIRMED source/publication wiring; real packets UNVERIFIED |
-| NEW-02 unauthenticated user injection | Critical | CONFIRMED local; live effect UNVERIFIED |
-| NEW-03 replay / expiry | Medium | CONFIRMED with narrowed claim |
-| NEW-04 global cloud bus | Informational (amplifier) | STATIC_CONFIRMED |
-| NEW-05 Gemini key | Low | STATIC_CONFIRMED; no live key found |
-| NEW-06 security headers | Informational | STATIC_CONFIRMED |
-| NEW-07 cross-tab storage trust | Medium | CONFIRMED local tab/persistence; cloud propagation LIKELY |
-| NEW-08 password in Google Form / activity log | High | LOCAL_CONFIRMED + STATIC_CONFIRMED; live form UNVERIFIED |
-| NEW-09 secret mirroring to cookie / window.name | Medium | LOCAL_CONFIRMED + STATIC_CONFIRMED |
-| NEW-10 admin-tester audit suppression | Medium | LOCAL_CONFIRMED + STATIC_CONFIRMED |
+| NEW-11 seal forgeable from bundled secrets | **Critical** | LOCAL_CONFIRMED (real V4.4 functions) |
+| NEW-12 boot auto-grants the seal | **Critical** | LOCAL_CONFIRMED (boot normalizer, end-to-end) |
+| F-01 cloud sync publishes user table; tombstone merges without admin check | High | LOCAL_CONFIRMED; live channel UNVERIFIED |
+| F-03 VIP entitlement fully client-side | High | LOCAL_CONFIRMED |
+| NEW-13 keyword-heuristic tamper detection | High | LOCAL_CONFIRMED |
+| NEW-14 privileged id exemptions | High | LOCAL_CONFIRMED |
+| NEW-15 admin preview unlock-all | High | LOCAL_CONFIRMED |
+| NEW-16 seal/token broadcast in cloud packets | High | STATIC_CONFIRMED |
+| NEW-08 password reaches a third-party Google Form | High | LOCAL_CONFIRMED; live delivery UNVERIFIED |
+| F-02 admin auth client-side (hardened) | Medium | LOCAL_CONFIRMED |
+| F-05 device/Gmail lock client-owned | Medium | LOCAL_CONFIRMED |
+| NEW-07 cross-tab state replacement | Medium | LOCAL_CONFIRMED |
+| NEW-09 secrets mirrored to cookie/window.name | Medium | LOCAL_CONFIRMED |
+| NEW-10 admin-tester audit suppression | Medium | LOCAL_CONFIRMED |
+| F-04 exam answer exposure | Informational | STATIC + LOCAL_CONFIRMED |
+| NEW-01 password in wire format | Informational | STATIC + LOCAL_CONFIRMED |
+| NEW-02 unsigned packet injection (downgraded by V4.4) | Informational | LOCAL_CONFIRMED |
+| F-06 anti-cheat UX-only | Low | LOCAL_CONFIRMED |
+| NEW-03 signed-stale replay | Low | LOCAL_CONFIRMED |
+| NEW-04 global cloud bus | Informational | STATIC_CONFIRMED |
+| NEW-05 Gemini key readable | Low | STATIC_CONFIRMED |
+| NEW-06 missing security headers | Informational | STATIC_CONFIRMED |
 
-## Most serious attack chains
+## Required remediation direction
 
-1. **Public packet → cross-client mutation.** A signed-as-admin-looking packet with no signature
-   can delete another client's user records and insert an active VIP account. Local VM result is
-   `CONFIRMED`; production delivery was not attempted.
-2. **Public packet → credential exposure.** The serializer places plaintext passwords in a
-   field posted to public ntfy/KV. Code behavior is `CONFIRMED`; presence of real credentials in
-   historical packets is `UNVERIFIED`.
-3. **Forged session → client teacher UI → broadcast.** F-02 alone grants only client-side admin
-   state; combining it with F-01 produces cross-client effects. The chain is `CONFIRMED` locally
-   and `UNVERIFIED` live.
+1. Move VIP entitlement, admin authorization, grading and device registration behind a
+   server-authoritative API (F-01, F-02, F-03, F-04, F-05, NEW-10).
+2. Authenticate every cloud packet before any state mutation, including tombstones
+   (F-01, NEW-02, NEW-03).
+3. Remove answer keys from client payloads and grade server-side (F-04).
+4. Remove the password from serialization, logs and form payloads (NEW-01, NEW-08).
+5. Stop mirroring credentials and session state into cookies and `window.name` (NEW-09, NEW-07).
+6. Remove seal secrets and the admin credential from the bundle; rotate both (NEW-11, F-02).
 
-## Potential user impact
+Full plan: `REMEDIATION_PLAN.md`. Finding detail and the per-finding PoC map: `FINDINGS.md`.
+V4.4 bypass analysis: `PHASE4_BYPASS_ANALYSIS.md`.
 
-- Complete exam answer exposure before submission.
-- Unauthorized VIP access and device-limit bypass in the attacker's own browser.
-- Disruption of other clients' local user lists through forged tombstones.
-- Potential password disclosure if historical public snapshots contain real records.
-- Teacher UI actions cannot be treated as an administrative audit trail.
+## Regression coverage (all green on the current build)
 
-## Release blockers
+| Suite | Checks | Result |
+|---|---|---|
+| `tests/run_all.js` (ported to V4.4) | 40 | 40 pass / 0 fail |
+| `tests/phase3_tests.js` (ported to V4.4) | 8 | 8 pass / 0 fail |
+| `tests/phase4_tests.js` | 20 | 20 pass / 0 fail |
+| `tests/poc_suite_validation.js` | 51 | 51 pass / 0 fail |
+| `tests/secure_controls.js` | 9 | 3 pass / 6 expected failures (must pass after remediation) |
 
-1. Remove passwords from all public serialization, logs, and third-party form payloads (NEW-01, NEW-08).
-2. Authenticate every cloud packet before any state mutation, including tombstones (F-01, NEW-02).
-3. Move admin authentication and privileged operations to a server (F-02).
-4. Remove answer keys from client payloads and grade server-side (F-04).
-5. Make entitlement, device registration, and test-identity flags server-authoritative (F-03, F-05, NEW-10).
-6. Stop mirroring credentials and session state into cookies and `window.name` (NEW-09, NEW-07).
-7. Add signed freshness/nonce handling to cloud packets (NEW-03).
+## Live-channel status
 
-## Recommended remediation order
+Read-only verification (`poc/verify_live_readonly.mjs`) found zero recent lines on both public
+ntfy topics and an incomplete KV chunk set (`s_10`, `s_15` empty), so no snapshot could be
+reconstructed. Real-credential exposure and production cross-client mutation remain
+`UNVERIFIED`. No packet was published during the assessment.
 
-Follow `REMEDIATION_PLAN.md`: contain exposed secrets first, establish server authentication and
-signed fresh packets second, move entitlement/devices/answers/state to the server third, then
-apply headers, provider-key proxying, and honest UX labeling.
+## Boundaries
 
-## Validation performed
-
-- `tests/run_all.js`: **40 checks, 40 pass, 0 fail**, exit 0.
-- `tests/phase3_tests.js`: **8 checks, 8 pass, 0 fail**, exit 0 (`evidence/phase3-test-results.txt`).
-- `tests/secure_controls.js`: **1 pass, 8 expected failures**, exit 1 on the current build; all
-  nine must pass after remediation.
-- No production packet injection, destructive testing, real account access, or third-party data.
-- No live packet content was retrieved; ntfy GET timed out and KV returned HTTP 503.
-- Harness weaknesses and corrected test descriptions are documented in `TEST_QUALITY.md` and
-  `EVIDENCE_AUDIT.md`.
-
-## Decision
-
-The release should **remain blocked** as a system that protects accounts, entitlements, or exam
-results. No finding is `FIXED`, and the post-patch controls currently fail.
+- No production state modified, no real account touched, no packet published.
+- All PoCs are local to the tester's browser; every ACTION PoC ships a restore function.
+- Documents pinned to the superseded V4.3.9 build were removed from the current tree; git
+  history retains them.

@@ -103,7 +103,15 @@ const FN_NAMES = [
     'recordVipHackSecurityAlertV44',
     'detectAndBlockStudentVipHackV44',
     'isStudentVipExpired',
-    'verifyRuntimeSecurityIntegrity'
+    'verifyRuntimeSecurityIntegrity',
+    'computeCloudPacketAdminSig',
+    'serializeCompactUser',
+    'deserializeCompactUser',
+    'isUserDeletedByTombstone',
+    'processIncomingCloudPacket',
+    'isValidStudentGmail',
+    'decryptV97EmbedPayload',
+    'sanitizePlainInput'
 ];
 
 function createEnv(options) {
@@ -176,6 +184,9 @@ function createEnv(options) {
     vm.createContext(sandbox);
 
     const pieces = [
+        // Storage keys are needed by the cloud packet path.
+        extractDeclaration(src.lines, 'const STORAGE_KEYS = {').code,
+        'const LEGACY_SAMPLE_BANNED = new Set();',
         // BackendVipAuthServiceV44 is an IIFE assigned to a const — extract as declaration.
         extractDeclaration(src.lines, 'const BackendVipAuthServiceV44 = (function() {').code,
         ...FN_NAMES.map(n => extractFunction(src.lines, n).code),
@@ -184,7 +195,15 @@ function createEnv(options) {
         'function bootNormalizeUsersV44() {\n' +
         extractLineRange(src.lines, 2605, 2668).code + '\n}',
         'globalThis.BackendVipAuthServiceV44 = BackendVipAuthServiceV44;',
-        'globalThis.bootNormalizeUsersV44 = bootNormalizeUsersV44;'
+        'globalThis.bootNormalizeUsersV44 = bootNormalizeUsersV44;',
+        // Expose the cloud-packet helpers used by NEW-02 / F-01 tests.
+        'globalThis.processIncomingCloudPacket = processIncomingCloudPacket;',
+        'globalThis.serializeCompactUser = serializeCompactUser;',
+        'globalThis.deserializeCompactUser = deserializeCompactUser;',
+        'globalThis.computeCloudPacketAdminSig = computeCloudPacketAdminSig;',
+        // The tombstone registry is a module-level Set in the shipped source.
+        'const deletedUsernamesRegistry = new Set();',
+        'globalThis.deletedUsernamesRegistry = deletedUsernamesRegistry;'
     ];
     vm.runInContext(pieces.join('\n'), sandbox, { filename: 'extracted-trithuc5-v44.js' });
     return Object.assign(sandbox, { __meta: { sha: src.sha, source: SOURCE, now, calls } });

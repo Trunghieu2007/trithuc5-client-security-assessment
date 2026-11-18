@@ -167,3 +167,51 @@ The owner deployed a new build: SHA-256 `33be09d79b1e8089867a7db379a1dc6b9932aed
 Two V4.3.9 weaknesses were genuinely hardened: the admin session now requires a matching `sig` (line 2758) and unsigned cloud packets are downgraded to pending/non-VIP (lines 3637-3653). The patch nevertheless fails because every new trust decision is client-side. Findings NEW-11 (seal secret `vaultLockConfig.adminPass` default `THAYTRUNG2026` plus literal `THAY_TRUNG_MASTER_SEAL_2026`, both in the bundle — Critical), NEW-12 (boot normalizer auto-grants `_adminVipSeal` to any record with a matching `_sig` — Critical), NEW-13 (detector is a keyword heuristic on poc_vip/nologin/hack/exploit/bypass/cheat — High), NEW-14 (`gv_test`/`stu_free_12b1`/`stu_practice_e`/`isAdminTester` skip both the detector and the runtime integrity check — High), NEW-15 (admin preview unlock-all short-circuits every VIP gate — High), NEW-16 (`seal` and `bkt` are now serialised into every cloud packet — High).
 
 Added `research/trithuc5/tests/phase4_harness.js` (source hash-pinned), `research/trithuc5/tests/phase4_tests.js` (16 checks, 16 pass, 0 fail) and `research/trithuc5/tests/phase4_payload_validation.js` (14 checks, 14 pass, 0 fail — runs the shipped PoC against the real extracted V4.4 functions). Added `research/trithuc5/poc/v44_vip_bypass_payload.js` (local-only Chrome Console payload) and `research/trithuc5/PHASE4_BYPASS_ANALYSIS.md`. Evidence: `evidence/phase4-test-results.txt`, `evidence/phase4-payload-validation.txt`, `phase4-target.headers`. The V4.4 HTML is kept local and not committed, matching the existing redaction policy. No packet was published, no real account touched, no production state modified.
+
+## Consolidation — per-finding PoCs, ported suites, stale-doc cleanup (2026-11-18)
+
+User request: audit the project, delete outdated PoCs/bypasses/docs, and write one PoC per
+finding — DISPLAY type (show the exposed data) for data-exposure findings, ACTION type
+(change the mechanism, run the action chain, then restore) for mechanisms like local admin
+login.
+
+Per-finding PoC set (`research/trithuc5/poc/`, each self-contained with a restore function):
+
+| File | Finding(s) | Type |
+|---|---|---|
+| `poc_f01_student_data.js` | F-01, NEW-01, NEW-16 | DISPLAY |
+| `poc_f02_admin_login.js` | F-02 | ACTION (forge session + 5-step action chain) |
+| `poc_f03_vip_entitlement.js` | F-03, NEW-11, NEW-12, NEW-13, NEW-14 | ACTION |
+| `poc_f04_exam_answers.js` | F-04 | DISPLAY |
+| `poc_f05_device_lock.js` | F-05 | DISPLAY / opt-in ACTION |
+| `poc_f06_anticheat.js` | F-06 | ACTION (console neutraliser + userscript variant) |
+| `poc_new02_packet_injection.js` | NEW-02, F-01 tombstone, NEW-04 | ACTION (local) |
+| `poc_new05_new07_new10_misc.js` | NEW-05, NEW-07, NEW-10, NEW-14 | DISPLAY / opt-in probe |
+| `poc_new08_new09_leakage.js` | NEW-08, NEW-09 | DISPLAY |
+| `poc_new15_admin_preview.js` | NEW-15 | ACTION |
+| `verify_live_readonly.mjs` | live channel check (Node) | DISPLAY |
+
+Removed as outdated (git history retains them): PoCs `poc_client.js`,
+`no_login_vip_payload.js`, `f02_admin_session_payload.js`, `v44_vip_bypass_payload.js`,
+`new02_chrome_payload.js`, `aero_hook_v3.user.js`, `last_run.log`, plus the superseded
+validator `tests/phase4_payload_validation.js` and its evidence log; documents `REPORT.md`,
+`INVESTIGATION.md`, `EVIDENCE_AUDIT.md`, `REVALIDATION.md`, `ADDITIONAL_FINDINGS.md`,
+`DEEP_INVESTIGATION.md`, `NEW_FINDINGS.md`, `ATTACK_SURFACE_MAP.md`,
+`UNVERIFIED_HYPOTHESES.md`, `TEST_QUALITY.md`, `FINDINGS_MATRIX.md`.
+
+Suites ported to the V4.4 source (hash `33be09d7…`): `tests/harness.js`,
+`tests/run_all.js` (40/40 — ten V4.3.9 vulnerability assertions rewritten as V4.4
+fix-verification assertions), `tests/phase3_tests.js` (8/8 — P3-03/P3-04 rewritten for the
+V4.4 behaviour), `tests/phase4_tests.js` (20/20), and new `tests/poc_suite_validation.js`
+(51/51) which executes every PoC in a mock browser VM. `tests/secure_controls.js`: 3 pass /
+6 expected failures on V4.4. Current logs: `evidence/test-results.txt`,
+`evidence/phase3-test-results.txt`, `evidence/phase4-test-results.txt`,
+`evidence/poc-suite-validation.txt`, `evidence/secure-controls-v44.txt`;
+`current.headers` refreshed from the V4.4 fetch.
+
+Documents: new consolidated `FINDINGS.md` (severity table, per-finding sections with PoC
+mapping, V4.4 fix table, PoC index), `EXECUTIVE_SUMMARY.md` rewritten for V4.4,
+`REMEDIATION_PLAN.md` rewritten for V4.4 (retires the client-minted seal as the top
+priority; stale V4.3.9 line numbers replaced), `evidence/README.md` rewritten. Boundaries
+unchanged: no packet published, no real account touched, no production state modified.
+Live-channel content `UNVERIFIED`; release remains blocked; no finding is `FIXED`.

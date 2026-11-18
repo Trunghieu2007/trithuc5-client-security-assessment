@@ -10,7 +10,7 @@ const vm = require('vm');
 const crypto = require('crypto');
 
 const SOURCE = process.env.TRITHUC_SOURCE || path.join(__dirname, '..', 'current.html');
-const EXPECTED_SHA = 'fe6fef993c24a4a8bbe3839004a31a47e3392cf6598efd5290303901ecd792b5';
+const EXPECTED_SHA = '33be09d79b1e8089867a7db379a1dc6b9932aed178c9f9dde2e968e74d06b868';
 
 function readSource() {
     const text = fs.readFileSync(SOURCE, 'utf8');
@@ -103,6 +103,8 @@ const FN_NAMES = [
     'readWindowNameStore', 'writeWindowNameStore', 'safeStorageGet', 'safeStorageSet', 'safeStorageRemove',
     'hashStringHex', 'sanitizePlainInput', 'toBase64UrlSafe', 'fromBase64UrlSafe',
     'computeCloudPacketAdminSig', 'computeUserIntegritySig', 'computeAdminSessionSig',
+    'computeTeacherVipApprovalSealV44', 'detectAndBlockStudentVipHackV44',
+    'recordVipHackSecurityAlertV44',
     'verifyRuntimeSecurityIntegrity', 'isStudentVipExpired',
     'serializeCompactUser', 'deserializeCompactUser', 'isUserDeletedByTombstone',
     'processIncomingCloudPacket', 'decodeCloudMessageString', 'buildTeacherSnapshotPacket',
@@ -232,15 +234,19 @@ function createEnv(options) {
     const pieces = [
         extractDeclaration(src.lines, 'const STORAGE_KEYS = {').code,
         extractDeclaration(src.lines, 'const setupCrossTabUserSync =').code,
-        extractLineRange(src.lines, 2918, 2926).code,
+        extractFunction(src.lines, 'getCanvasAndWebGLHardwareSig').code,
+        // Cloud sync constants (V4.4: lines 3300-3306) are lexical, not functions.
+        extractLineRange(src.lines, 3300, 3306).code,
         ...FN_NAMES.map(n => extractFunction(src.lines, n).code),
-        // Session restore block exactly as shipped (lines 2387-2411).
-        'function checkRememberedAdminSessionFromSource() {\n' + extractLineRange(src.lines, 2385, 2411).code + '\n}',
+        // Admin session restore block exactly as shipped (V4.4: lines 2752-2764).
+        'function checkRememberedAdminSessionFromSource() {\n' + extractLineRange(src.lines, 2752, 2764).code + '\n}',
         // Expose lexical constants/functions as context properties for assertions.
         'globalThis.STORAGE_KEYS = STORAGE_KEYS;',
         'globalThis.CLOUD_SYNC_TOPIC = CLOUD_SYNC_TOPIC;',
         'globalThis.CLOUD_KV_APP_KEY = CLOUD_KV_APP_KEY;',
         'globalThis.setupCrossTabUserSync = setupCrossTabUserSync;',
+        extractDeclaration(src.lines, 'const BackendVipAuthServiceV44 = (function() {').code,
+        'globalThis.BackendVipAuthServiceV44 = BackendVipAuthServiceV44;',
         // Expose a wrapped tombstone deletion request path without calling network code.
         'function forceAdminFlagFromSource() { state.isAdminLoggedIn = true; }'
     ];

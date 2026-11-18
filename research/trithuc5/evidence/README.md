@@ -4,68 +4,80 @@ All items are local, synthetic, and safe to publish. No real usernames, password
 tokens, private keys, or production packet contents are stored here.
 
 ## Source identity
-- `current.html` is fetched locally via `SOURCE.md`; it is **not** committed. The former
-  `research/trithuc5/index.html` exists only in historical commit `4675ab1`.
-  - Bytes: 14,226,000
-  - Lines: 15,912
-  - SHA-256: `fe6fef993c24a4a8bbe3839004a31a47e3392cf6598efd5290303901ecd792b5`
 - **V4.4 build (current live target, Phase 4):**
   - Bytes: 14,554,401
   - Lines: 20,224
   - SHA-256: `33be09d79b1e8089867a7db379a1dc6b9932aed178c9f9dde2e968e74d06b868`
   - Fetched: 2026-11-18T09:02:20Z, HTTP 200
   - Headers captured in `phase4-target.headers`. The V4.4 HTML itself is kept local and is
-    **not** committed; `tests/phase4_harness.js` pins its hash and refuses to run if it changes.
-- `current.headers`: HTTP response headers captured with the copy. Contains
+    **not** committed; every harness pins its hash (`EXPECTED_SHA`) and refuses to run if it
+    changes.
+- `current.html` (the V4.3.9 copy) is fetched locally via `SOURCE.md`; it is **not**
+  committed. The former `research/trithuc5/index.html` exists only in historical commit
+  `4675ab1`.
+- `current.headers`: refreshed HTTP response headers of the V4.4 build. Contains
   `Access-Control-Allow-Origin: *`, HSTS, and no CSP / X-Frame-Options / X-Content-Type-Options.
-- The test harness refuses to run if the source hash differs. Re-measure line numbers after any
-  redeploy.
+- Re-measure line numbers after any redeploy.
 
-## Phase 4 test output
-- `phase4-test-results.txt`: run of `tests/phase4_tests.js`, 16 checks, 16 pass, 0 fail.
-  Real V4.4 functions (`computeUserIntegritySig`, `computeTeacherVipApprovalSealV44`,
+## Test output (current build, 2026-11-18)
+- `test-results.txt`: `tests/run_all.js` ported to V4.4 — 40 checks, 40 pass, 0 fail. Ten
+  former V4.3.9 vulnerability assertions were rewritten as V4.4 fix-verification assertions
+  (e.g. `F-01-T01` now asserts forged admin packets are rejected).
+- `phase3-test-results.txt`: `tests/phase3_tests.js` ported to V4.4 — 8 checks, 8 pass,
+  0 fail. `P3-03` now proves unsigned stale admin packets are rejected while a *validly*
+  signed stale packet still applies (NEW-03); `P3-04` proves the per-user KV write is
+  skipped by the 450-char cap while the password still reaches the public snapshot chunks.
+- `phase4-test-results.txt`: `tests/phase4_tests.js` — 20 checks, 20 pass, 0 fail. Real
+  V4.4 functions (`computeUserIntegritySig`, `computeTeacherVipApprovalSealV44`,
   `detectAndBlockStudentVipHackV44`, `verifyRuntimeSecurityIntegrity`,
   `BackendVipAuthServiceV44`) plus the shipped boot normalizer, executed in an isolated VM.
-- `phase4-payload-validation.txt`: run of `tests/phase4_payload_validation.js`, 14 checks,
-  14 pass, 0 fail. Executes the shipped PoC file `poc/v44_vip_bypass_payload.js` against the
-  real extracted V4.4 functions and confirms the full bypass chain.
-- `phase4-target.headers`: HTTP response headers of the V4.4 build.
-
-## Test output (Phases 1-3, unchanged)
-- `test-results.txt`: final run of `tests/run_all.js`, 40 checks, 40 pass, 0 fail.
-- `phase3-test-results.txt`: Phase 3 run of `tests/phase3_tests.js`, 8 checks, 8 pass, 0 fail.
-  It uses real extracted Google Form/logging functions with mock fetch and synthetic users.
-- `secure-controls-before-patch.txt` and `secure-controls-phase3.txt`: runs of
-  `tests/secure_controls.js`, 1 pass and 8 expected failures on the current build. All nine must
-  pass after remediation.
-- The suite runs real functions extracted from `current.html` in a Node VM with mock
+- `poc-suite-validation.txt`: `tests/poc_suite_validation.js` — 51 checks, 51 pass, 0 fail.
+  Executes every PoC in `poc/` in a mock browser VM and asserts the documented behaviour,
+  including that no DISPLAY PoC transmits and that ACTION PoCs write nothing to ntfy/KV.
+- `secure-controls-v44.txt`: `tests/secure_controls.js` on V4.4 — 3 pass, 6 expected
+  failures (the two signature controls now pass after the V4.4 patch). All nine must pass
+  after remediation.
+- The suites run real functions extracted from the V4.4 source in a Node VM with mock
   localStorage/sessionStorage/cookie/window.name, a mock ntfy/KV transport, and synthetic
-  users. It makes no production requests.
+  users. They make no production requests.
 
 ## Sanitized fixtures
 - `packet-fixtures.json`: synthetic packet shapes used by the tests. Values such as
   `synthetic_password` are invented and are not credentials. Signing material and real
   identifiers are intentionally absent.
-- `source-refs.txt`: exact function names and line ranges used by the original tests.
-- `source-refs-phase3.txt`: line ranges used by NEW-08/09/10 and Phase 3 negative controls.
-- `live-console-observations.md`: user-supplied live browser console evidence (KV CORS block, Google Form 404, extension CSP noise, closure-scope finding).
-- `no-login-vip-screenshots.md`, `no-login-vip-unlock-modal.png`, and `no-login-vip-profile.png`: user-supplied local Chrome screenshots of the synthetic no-login VIP PoC. Hashes, provenance, and boundaries are recorded in the Markdown note.
-- `f02-session-validation.txt`: local harness validation of F-02 session restore. A session with no `sig` is accepted; expired, bad-signature, and logged-out sessions are rejected. No credential or salt literal is stored.
-- `f02-admin-ui-screenshots.md` and six `f02-admin-*.png` files: user-supplied Chrome screenshots of the admin UI after the forged local session. One student identity column was redacted before publication; provenance, hashes, and scope are in the Markdown note.
-- `f02-admin-vip-matrix-redacted.md` and `f02-admin-vip-matrix-redacted.png`: additional user-supplied admin VIP-permission screenshot. Student identity column redacted before publication; original source not committed.
-- `../poc/aero_hook_v3.user.js` — the only retained local test hook. Install in Tampermonkey/Violentmonkey at `document-start`; user-tested and confirmed working.
+- `source-refs.txt` / `source-refs-phase3.txt`: function names and line ranges used by the
+  tests (V4.3.9-era references retained for history; current harnesses resolve functions by
+  name).
+- `live-console-observations.md`: user-supplied live browser console evidence (KV CORS block,
+  Google Form 404, extension CSP noise, closure-scope finding).
+- `no-login-vip-screenshots.md`, `no-login-vip-unlock-modal.png`, `no-login-vip-profile.png`,
+  `f02-session-validation.txt`, `f02-admin-ui-screenshots.md` and the `f02-admin-*.png`
+  files, `f02-admin-vip-matrix-redacted.md` / `.png`: user-supplied V4.3.9-era evidence,
+  retained as history (identity columns redacted before publication).
 - `../phase3/fetch.info` and `../phase3/target.headers`: provenance for the independent
   `2026-11-17T19:23:58Z` fetch. The raw body is not committed.
+
+## Removed artifacts
+The old V4.3.9-era PoCs (`poc_client.js`, `no_login_vip_payload.js`,
+`f02_admin_session_payload.js`, `v44_vip_bypass_payload.js`, `new02_chrome_payload.js`,
+`aero_hook_v3.user.js`, `last_run.log`) and the superseded analysis documents
+(`REPORT.md`, `INVESTIGATION.md`, `EVIDENCE_AUDIT.md`, `REVALIDATION.md`,
+`ADDITIONAL_FINDINGS.md`, `DEEP_INVESTIGATION.md`, `NEW_FINDINGS.md`,
+`ATTACK_SURFACE_MAP.md`, `UNVERIFIED_HYPOTHESES.md`, `TEST_QUALITY.md`,
+`FINDINGS_MATRIX.md`) were removed from the current tree; git history retains them. The
+current finding set and per-finding PoC mapping live in `../FINDINGS.md`.
 
 ## Reproduction
 From the repository root:
 
 ```bash
-# current.html must be fetched locally per SOURCE.md and passed explicitly.
-export TRITHUC_SOURCE=/absolute/path/to/current.html
-node research/trithuc5/tests/run_all.js
-node research/trithuc5/tests/phase3_tests.js
-node research/trithuc5/tests/secure_controls.js
+# the V4.4 source must be fetched locally and passed explicitly
+export TRITHUC_SOURCE=/absolute/path/to/V4.4/target.html
+node research/trithuc5/tests/run_all.js            # 40 pass
+node research/trithuc5/tests/phase3_tests.js       # 8 pass
+node research/trithuc5/tests/phase4_tests.js       # 20 pass
+node research/trithuc5/tests/poc_suite_validation.js  # 51 pass
+node research/trithuc5/tests/secure_controls.js    # exits 1 until remediation
 ```
 
 Expected on the current build:
@@ -73,11 +85,13 @@ Expected on the current build:
 ```
 TOTAL 40 PASS 40 FAIL 0
 TOTAL 8 PASS 8 FAIL 0
+TOTAL 20 PASS 20 FAIL 0
+TOTAL 51 PASS 51 FAIL 0
 CURRENT STATE: controls fail as expected before remediation
 ```
 
-`run_all.js` and `phase3_tests.js` exit 0. `secure_controls.js` exits 1 until remediation is
-complete; after a correct patch it must exit 0 with all nine controls passing.
+`secure_controls.js` exits 1 until remediation is complete; after a correct patch it must
+exit 0 with all nine controls passing.
 
 ## Boundaries
 - No packet was sent to production ntfy topics or Cloud KV.

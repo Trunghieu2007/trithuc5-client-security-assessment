@@ -236,7 +236,9 @@ Both are recorded as *hardened but still client-side*, and the underlying class 
 11. hasVerifiedPackageAccess() → true for k12 / k11 / k10 / luyende
 ```
 
-Validation artefact: `research/trithuc5/tests/phase4_payload_validation.js` — **14/14 checks pass**, running the actual shipped payload file against the actual extracted V4.4 functions.
+Validation artefact: `research/trithuc5/tests/poc_suite_validation.js` — executes every PoC
+in `poc/` (including `poc/poc_f03_vip_entitlement.js`, which supersedes the original
+`v44_vip_bypass_payload.js`) in a mock browser VM against the documented behaviour.
 
 ---
 
@@ -318,11 +320,11 @@ The patch cannot be fixed by adding more client-side signatures. The seal, the `
 | Path | Purpose |
 |---|---|
 | `research/trithuc5/tests/phase4_harness.js` | Isolated VM harness for V4.4, source hash-pinned |
-| `research/trithuc5/tests/phase4_tests.js` | 16 regression checks (bypass + negative controls) |
-| `research/trithuc5/tests/phase4_payload_validation.js` | Executes the shipped PoC against real V4.4 functions |
-| `research/trithuc5/poc/v44_vip_bypass_payload.js` | Local-only Chrome Console payload |
+| `research/trithuc5/tests/phase4_tests.js` | 20 regression checks (bypass + negative controls) |
+| `research/trithuc5/tests/poc_suite_validation.js` | Executes every per-finding PoC in `poc/` in a mock browser VM |
+| `research/trithuc5/poc/poc_f03_vip_entitlement.js` | ACTION PoC for F-03/NEW-11/12/13/14 (supersedes `v44_vip_bypass_payload.js`, removed) |
 | `research/trithuc5/evidence/phase4-test-results.txt` | Suite output |
-| `research/trithuc5/evidence/phase4-payload-validation.txt` | Payload validation output |
+| `research/trithuc5/evidence/poc-suite-validation.txt` | PoC validation output |
 | `research/trithuc5/phase4-target.headers` | Response headers of the V4.4 build |
 
 Raw V4.4 HTML is intentionally **not** committed, matching the existing redaction policy.

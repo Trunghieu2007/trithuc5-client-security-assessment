@@ -1,0 +1,254 @@
+# tests/poc_suite_validation.js — executes every PoC in poc/ in a mock browser VM (2026-11-18)
+┌───────────────┬───────────────────────────────────┐
+│ (index)       │ Values                            │
+├───────────────┼───────────────────────────────────┤
+│ username      │ 'nguyenvan000000'                 │
+│ name          │ 'Nguyen Van 000000'               │
+│ maxDevices    │ 2                                 │
+│ vipPackages   │ 'k12,k11,k10,luyende'             │
+│ vipPlan       │ 'lifetime'                        │
+│ _sig          │ 'v27_6f11d59a2b6fd009'            │
+│ _adminVipSeal │ 'vseal44_8A45C26B'                │
+│ scope         │ 'LOCAL ONLY — no ntfy/KV publish' │
+└───────────────┴───────────────────────────────────┘
+=== [F-03] VIP entitlement verification ===
+┌───────────────┬────────────┐
+│ (index)       │ Values     │
+├───────────────┼────────────┤
+│ recordPresent │ true       │
+│ status        │ 'active'   │
+│ isVip         │ true       │
+│ vipPlan       │ 'lifetime' │
+│ sealPresent   │ true       │
+│ sigValid      │ true       │
+│ sealValid     │ true       │
+└───────────────┴────────────┘
+┌────────────────────┬───────────────────┐
+│ (index)            │ Values            │
+├────────────────────┼───────────────────┤
+│ recordPresent      │ true              │
+│ status             │ 'active'          │
+│ isVip              │ true              │
+│ vipPlan            │ 'lifetime'        │
+│ sealPresent        │ true              │
+│ sigValid           │ true              │
+│ sealValid          │ true              │
+│ loggedInAs         │ 'nguyenvan000000' │
+│ sessionMatch       │ true              │
+│ vipBadgeVisible    │ true              │
+│ lockedModalVisible │ false             │
+└────────────────────┴───────────────────┘
+[F-03] F-03 CONFIRMED: forged account holds full VIP entitlement locally
+[F-03] synthetic VIP account written. Press F5 — verification runs automatically.
+Restore: __AERO_F03_RESTORE__() then F5
+PASS F-03 payload executes without error
+PASS F-03 payload reports a synthetic username
+PASS F-03 payload persisted the synthetic account
+PASS F-03 account has all four VIP packages
+PASS F-03 account carries a forged _sig
+PASS F-03 account carries a forged seal
+PASS F-03 account maxDevices is within 1..3
+PASS F-03 account avoids the keyword blocklist
+PASS F-03 account id is not one of the exempt ids
+PASS F-03 payload wrote a login marker
+PASS F-03 payload did NOT publish to ntfy/KV
+┌────────────┬────────────────────────────────────────────────────┐
+│ (index)    │ Values                                             │
+├────────────┼────────────────────────────────────────────────────┤
+│ storageKey │ 'TRITHUC50_REMEMBER_ADMIN_SESSION_V26'             │
+│ loggedIn   │ true                                               │
+│ username   │ 'admin'                                            │
+│ sig        │ 'adm_4363C8B1'                                     │
+│ note       │ 'signature computed offline from the bundled salt' │
+└────────────┴────────────────────────────────────────────────────┘
+=== [F-02] admin action chain ===
+  [fail] 1. open admin portal — Cannot read properties of undefined (reading 'openAdminPortal')
+[F-02] admin tabs visible: []
+  [ok] 2. list admin tabs
+[F-02] user rows rendered in the admin UI: 0
+┌─────────┐
+│ (index) │
+├─────────┤
+└─────────┘
+  [ok] 3. read the user table from the admin UI
+[F-02] no visible VIP-matrix button found
+  [ok] 4. open the VIP-permission matrix
+[F-02] anti-hack banner: none
+  [ok] 5. read the anti-hack alert list
+[F-02] impersonation skipped (ALLOW_IMPERSONATE = false).
+=== chain complete ===
+[F-02] forged admin session written. Press F5 — the action chain runs automatically after reload.
+Restore: __AERO_F02_RESTORE__() then F5
+PASS F-02 payload executes without error
+PASS F-02 payload returns a chain
+PASS F-02 wrote an admin session
+PASS F-02 session carries a signature
+PASS F-02 session signature matches the real computeAdminSessionSig
+PASS F-02 payload did NOT publish
+PASS F-02 payload did not impersonate by default
+=== NEW-15 admin preview unlock-all (ACTION, LOCAL ONLY) ===
+[NEW-15] admin session written. Press F5 — the chain runs automatically.
+Restore: __AERO_NEW15_RESTORE__() then F5
+┌───────────────────────┬─────────────────────────────────────────────────────────────┐
+│ (index)               │ Values                                                      │
+├───────────────────────┼─────────────────────────────────────────────────────────────┤
+│ toggleCalled          │ false                                                       │
+│ toggleError           │ 'window.TRITHUC.toggleAdminPreviewUnlockAll is unavailable' │
+│ previewBannerVisible  │ false                                                       │
+│ viewingAsStudentLabel │ false                                                       │
+│ clicked               │ '(no visible locked-content control found)'                 │
+│ lockModalStillShown   │ false                                                       │
+│ vipBadgeShown         │ true                                                        │
+└───────────────────────┴─────────────────────────────────────────────────────────────┘
+[NEW-15] NEW-15 partially observed — inspect the table
+PASS NEW-15 payload executes without error
+PASS NEW-15 admin session signature is valid
+PASS NEW-15 payload did NOT publish
+=== NEW-02 unsigned packet injection (LOCAL ONLY) ===
+┌───────────────┬────────────────────┐
+│ (index)       │ Values             │
+├───────────────┼────────────────────┤
+│ packetType    │ 'LOCAL_POC_NEW02'  │
+│ fromAdmin     │ false              │
+│ hasAdminSig   │ false              │
+│ injectedUser  │ 'sinhvien000000'   │
+│ claimedStatus │ 'active'           │
+│ claimedVp     │ '1111'             │
+│ scope         │ 'local apply only' │
+└───────────────┴────────────────────┘
+[NEW-02] processIncomingCloudPacket returned: true
+┌──────────────────┬───────────────────────┐
+│ (index)          │ Values                │
+├──────────────────┼───────────────────────┤
+│ packetAccepted   │ true                  │
+│ userPersisted    │ true                  │
+│ resultingStatus  │ 'active'              │
+│ resultingIsVip   │ false                 │
+│ resultingVipPlan │ 'lifetime'            │
+│ resultingVp      │ 'k12,k11,k10,luyende' │
+└──────────────────┴───────────────────────┘
+[NEW-02] unsigned tombstone packet accepted: true (no admin signature required for deletedMap merge)
+[NEW-02] live publish helper is present but NOT called. Use __AERO_NEW02_PUBLISH__(explicitUrl, packet) against a staging topic only.
+Cleanup: __AERO_NEW02_CLEANUP__() then F5
+PASS NEW-02 payload executes without error
+PASS NEW-02 reports the tombstone merge result
+PASS NEW-02 payload did NOT publish automatically
+=== F-04 Exam answer exposure (READ-ONLY) ===
+exams in __INITIAL_EXAMS_DATA__: 0
+exams with PLAINTEXT correctAnswers: 0
+DOM script blocks with answer data: 0
+answer payloads recovered from DOM: 0
+PASS poc_f04_exam_answers.js executes without error
+PASS poc_f04_exam_answers.js performs no network write
+=== F-01 / NEW-01 / NEW-16 student data exposure (READ-ONLY) ===
+
+[local] TRITHUC50_USERS_V436_CLEAN: 1 record(s)
+┌─────────┬───────────┬────────────┬────────┬────────────────────┬──────────┬───────┬────────────┬────────────┬───────────────┬─────────────┬────────────┐
+│ (index) │ username  │ name       │ class  │ gmail              │ status   │ isVip │ vipPlan    │ maxDevices │ passwordField │ sealPresent │ bktPresent │
+├─────────┼───────────┼────────────┼────────┼────────────────────┼──────────┼───────┼────────────┼────────────┼───────────────┼─────────────┼────────────┤
+│ 0       │ 'nguyena' │ 'Nguyen A' │ '12A1' │ 'a@example.edu.vn' │ 'active' │ false │ 'lifetime' │ 2          │ true          │ false       │ false      │
+└─────────┴───────────┴────────────┴────────┴────────────────────┴──────────┴───────┴────────────┴────────────┴───────────────┴─────────────┴────────────┘
+[ntfy] trithuc50_v436_live_sync_hn: HTTP 0, lines=0, decoded=0
+[ntfy] trithuc50_v436_bak_sync_hn: HTTP 0, lines=0, decoded=0
+[kv] meta_cnt raw= count=NaN
+
+[cloud] packets decoded: 0
+[cloud] user records in cloud: 0
+[cloud] no user records observed in the public channels right now.
+PASS poc_f01_student_data.js executes without error
+PASS poc_f01_student_data.js performs no network write
+PASS poc_f01_student_data.js reports the cloud verdicts
+=== NEW-08 / NEW-09 leakage surfaces (DISPLAY ONLY) ===
+[NEW-09] window.name keys: 0
+[NEW-09] document.cookie entries: 0
+┌─────────┬───────────────────┬───────┬───────────────┐
+│ (index) │ layer             │ count │ sensitiveKeys │
+├─────────┼───────────────────┼───────┼───────────────┤
+│ 0       │ 'localStorage'    │ 2     │ 1             │
+│ 1       │ 'sessionStorage'  │ 0     │ 0             │
+│ 2       │ 'window.name'     │ 0     │ 0             │
+│ 3       │ 'document.cookie' │ 0     │ 0             │
+└─────────┴───────────────────┴───────┴───────────────┘
+[NEW-09] user table in localStorage: 1 record(s), password field present: true
+[NEW-09] user table mirrored into window.name: 0 record(s), password field present: false
+[NEW-09] user table present in document.cookie: false
+
+[NEW-08] activity log entries stored locally: 0
+[NEW-08] entries whose text matches a password-like pattern: 0
+[NEW-08] configured Google Form endpoint: (not configured on this client)
+PASS poc_new08_new09_leakage.js executes without error
+PASS poc_new08_new09_leakage.js performs no network write
+=== NEW-05 / NEW-07 / NEW-10 (DISPLAY + LOCAL PROBE) ===
+[NEW-05] TRUNG_GEMINI_OCR_KEY present: false
+[NEW-05] the key is read in the browser and used directly against the
+         Gemini API, so it is exposed to any script on the origin and
+         to anyone with access to this browser profile.
+
+[NEW-10] records with a privileged identity (gv_test / isAdminTester): 0
+
+[NEW-07] the storage-event handler replaces state.users and
+         state.activityLogs wholesale, without validating the payload.
+[NEW-07] probe disabled (RUN_CROSSTAB_PROBE = false).
+PASS poc_new05_new07_new10_misc.js executes without error
+PASS poc_new05_new07_new10_misc.js performs no network write
+PASS poc_new05_new07_new10_misc.js reports NEW-05 key presence
+PASS poc_new05_new07_new10_misc.js reports NEW-10 privileged count
+=== F-05 device / Gmail binding (read-only unless APPLY_UNLOCK) ===
+┌──────────┬─────────────────────────────────────────────┐
+│ (index)  │ Values                                      │
+├──────────┼─────────────────────────────────────────────┤
+│ deviceId │ '(install token not found in localStorage)' │
+│ os       │ 'Windows PC'                                │
+│ browser  │ 'Chrome'                                    │
+│ screen   │ '1920x1080'                                 │
+│ cores    │ 4                                           │
+│ timezone │ 'Asia/Bangkok'                              │
+└──────────┴─────────────────────────────────────────────┘
+┌─────────┬───────────┬──────────┬────────────────────┬────────────┬──────────────┬───────────────────────┬──────────────────┬─────────────┬────────────────────┐
+│ (index) │ username  │ status   │ gmail              │ maxDevices │ boundDevices │ deviceShareViolations │ blockedDeviceLog │ lockReason  │ currentDeviceBound │
+├─────────┼───────────┼──────────┼────────────────────┼────────────┼──────────────┼───────────────────────┼──────────────────┼─────────────┼────────────────────┤
+│ 0       │ 'nguyena' │ 'locked' │ 'a@example.edu.vn' │ 2          │ 0            │ 3                     │ 0                │ 'auto lock' │ false              │
+└─────────┴───────────┴──────────┴────────────────────┴────────────┴──────────────┴───────────────────────┴──────────────────┴─────────────┴────────────────────┘
+[F-05] Enforcement reads only these client-owned fields:
+       u.trustedDevices (bound device list)
+       u.maxDevices     (the limit, clamped 1..3)
+       u.gmail          (Gmail identity binding)
+       u.status         ("locked" after auto-lock)
+       → clearing trustedDevices + status, and raising maxDevices to 3,
+         makes verifyAndBindStudentDeviceOnLogin bind this device instead of blocking.
+
+[F-05] APPLY_UNLOCK = false → nothing was changed.
+       Set APPLY_UNLOCK = true and re-run to clear the local device lock.
+PASS F-05 payload executes without error
+PASS F-05 defaults to display only
+PASS F-05 made no change in display mode
+=== F-06 anti-cheat UX neutralisation (console variant) ===
+[F-06] actions: (none)
+[F-06] overlays removed: 0
+┌────────────────────┬─────────────────────────────────────────────────────────────────────────────────┐
+│ (index)            │ Values                                                                          │
+├────────────────────┼─────────────────────────────────────────────────────────────────────────────────┤
+│ overlayPresent     │ false                                                                           │
+│ watermarkPresent   │ false                                                                           │
+│ copyHandlerBlocked │ 'n/a'                                                                           │
+│ trithucApiPresent  │ false                                                                           │
+│ note               │ 'listeners already bound to document/window cannot be removed from the console' │
+└────────────────────┴─────────────────────────────────────────────────────────────────────────────────┘
+[F-06] The console variant only hides UI artefacts. Use the USERSCRIPT variant
+       below for a complete bypass (it blocks listener registration).
+Stop: __AERO_F06_STOP__()
+PASS F-06 payload executes without error
+PASS F-06 reports the console variant
+PASS F-06 states the residual risk
+PASS syntax poc_f01_student_data.js
+PASS syntax poc_f02_admin_login.js
+PASS syntax poc_f03_vip_entitlement.js
+PASS syntax poc_f04_exam_answers.js
+PASS syntax poc_f05_device_lock.js
+PASS syntax poc_f06_anticheat.js
+PASS syntax poc_new02_packet_injection.js
+PASS syntax poc_new05_new07_new10_misc.js
+PASS syntax poc_new08_new09_leakage.js
+PASS syntax poc_new15_admin_preview.js
+
+TOTAL 51 PASS 51 FAIL 0

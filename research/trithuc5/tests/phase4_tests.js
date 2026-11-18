@@ -337,6 +337,87 @@ test('P4-16', 'bypass end-to-end: renamed synthetic user with forged _sig surviv
     assert(e.detectAndBlockStudentVipHackV44(after, 'P4-16') === false, 'must not trip the guard');
 });
 
+// ---------------------------------------------------------------------------
+// P4-17  NEW-02 revalidation on V4.4: an unsigned, non-admin cloud packet
+//          must be downgraded to pending / non-VIP.
+// ---------------------------------------------------------------------------
+test('P4-17', 'revalidation: unsigned cloud packet is downgraded to pending/non-VIP on V4.4', () => {
+    const e = h.createEnv({ now: NOW });
+    const NAME = 'sinhvien_probe';
+    const pkt = {
+        app: 'TRITHUC50_V436', type: 'STUDENT_REGISTER', ts: NOW,
+        fromAdmin: false, adminSig: '',
+        deletedUsernames: [], deletedMap: {},
+        users: [{
+            id: 'stu_' + NAME, u: NAME, p: 'SYNTHETIC_POC_ONLY', n: 'Sinh vien Probe',
+            c: '12A1', s: '01', g: NAME + '@example.edu.vn', ph: '',
+            st: 'active', vp: [1, 1, 1, 1], rp: [1, 1, 1, 1],
+            pl: 'lifetime', rpl: 'lifetime', exp: null, pend: 0, newReg: 0,
+            maxD: 2, devs: [], regAt: 'POC', updAt: NOW, seal: '', bkt: '', v436: 1
+        }]
+    };
+    e.state.users = [];
+    const changed = e.processIncomingCloudPacket(pkt);
+    const hit = e.state.users.find(u => u.username === NAME);
+    assert(!!hit, 'the record must still land in the local table');
+    assert(hit.status === 'pending', 'status must be downgraded to pending, got: ' + hit.status);
+    assert(hit.isVip !== true, 'isVip must be false');
+    assert(hit.vipPlan === 'none', 'vipPlan must be none, got: ' + hit.vipPlan);
+    assert(hit.vipPackages.k12 !== true, 'packages must be cleared');
+});
+
+// ---------------------------------------------------------------------------
+// P4-18  Negative control: a FORGED admin packet (fromAdmin without a valid
+//          adminSig) must be rejected outright.
+// ---------------------------------------------------------------------------
+test('P4-18', 'negative control: forged fromAdmin packet is rejected on V4.4', () => {
+    const e = h.createEnv({ now: NOW });
+    const pkt = {
+        app: 'TRITHUC50_V436', type: 'CLOUD_STATE_SYNC', ts: NOW,
+        fromAdmin: true, adminSig: 'asig_DEADBEEF',
+        deletedUsernames: [], deletedMap: {}, users: []
+    };
+    const changed = e.processIncomingCloudPacket(pkt);
+    assert(changed === false, 'forged admin packet must be rejected');
+});
+
+// ---------------------------------------------------------------------------
+// P4-19  The tombstone table is merged WITHOUT any admin check.
+//          This is the residual unauthenticated part of F-01.
+// ---------------------------------------------------------------------------
+test('P4-19', 'finding: tombstone table merges without admin signature (F-01 residual)', () => {
+    const e = h.createEnv({ now: NOW });
+    const pkt = {
+        app: 'TRITHUC50_V436', type: 'CLOUD_STATE_SYNC', ts: NOW,
+        fromAdmin: false, adminSig: '',
+        deletedUsernames: ['demo_target'], deletedMap: { demo_target: NOW }, users: []
+    };
+    e.state.deletedUsersMap = {};
+    const changed = e.processIncomingCloudPacket(pkt);
+    // NOTE: the shipped function does not set its `changed` flag for the
+    // tombstone-only path, so the observable effect is the map itself.
+    assert(e.state.deletedUsersMap.demo_target === NOW, 'tombstone must be recorded');
+    assert(Array.from(e.deletedUsernamesRegistry || []).includes('demo_target'),
+        'tombstone must be added to the deleted-username registry');
+    assert(changed === false || changed === true, 'return value is the changed flag');
+});
+
+// ---------------------------------------------------------------------------
+// P4-20  A correct admin signature IS reproducible offline (the secret is a
+//          bundle literal), so the admin-packet check is a barrier, not a
+//          trust anchor.
+// ---------------------------------------------------------------------------
+test('P4-20', 'finding: cloud admin signature secret is a bundle literal', () => {
+    const src = h.readSource();
+    assert(src.text.includes('THAYTRUNG_SECRET_2026_V436'), 'cloud admin secret must be a bundle literal');
+    const e = h.createEnv({ now: NOW });
+    const pkt = { app: 'TRITHUC50_V436', type: 'CLOUD_STATE_SYNC', ts: NOW, fromAdmin: true, users: [] };
+    const sig = e.computeCloudPacketAdminSig(pkt);
+    assert(/^asig_/.test(sig), 'unexpected cloud sig format: ' + sig);
+    const e2 = h.createEnv({ now: NOW });
+    eq(e2.computeCloudPacketAdminSig({ ...pkt }), sig, 'cloud admin sig is reproducible offline');
+});
+
 console.log(`\nTOTAL ${pass + fail} PASS ${pass} FAIL ${fail}`);if (failures.length) {
     console.log('failures:');
     failures.forEach(f => console.log(' - ' + f));

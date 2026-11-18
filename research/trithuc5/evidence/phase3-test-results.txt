@@ -1,7 +1,7 @@
 PASS P3-01 registration password reaches Google Form payload and localStorage activity log
 PASS P3-02 safeStorageSet mirrors sensitive values into cookie and window.name
-PASS P3-03 24h ntfy poll automatically applies a stale privileged packet
-PASS P3-04 per-user KV key is predictable and carries the serialized password
+PASS P3-03 V4.4: unsigned stale admin packet is rejected by the 24h poll; a VALIDLY signed stale packet still applies
+PASS P3-04 V4.4: per-user KV record exceeds the 450-char cap and is skipped; the password still lands in the public snapshot chunks
 PASS P3-05 client-controlled admin-tester flag suppresses logging and GForm sync
 PASS P3-06 negative control: object-valued __proto__ tombstone does not pollute the tombstone map
 PASS P3-07 negative control: no cross-environment mutation without explicit packet transfer

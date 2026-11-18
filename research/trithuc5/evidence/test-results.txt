@@ -1,28 +1,28 @@
 PASS H-01 extracted functions are syntactically complete and correctly named
-PASS F-01-T01 missing adminSig is accepted as admin and merges privileged fields
-PASS F-01-T02 invalid signature still applies tombstone and injects active VIP user
+PASS F-01-T01 V4.4 FIX: packet claiming fromAdmin without a valid adminSig is rejected outright
+PASS F-01-T02 V4.4 FIX: invalid adminSig rejects the whole packet (tombstone and injection)
 PASS F-01-T03 valid signature applies the same privileged merge
-PASS F-01-T04 missing fromAdmin still injects active VIP user when type is not STUDENT_REGISTER
-PASS F-01-T05 forged fromAdmin without signature is indistinguishable from a real admin packet
+PASS F-01-T04 V4.4 FIX: unsigned packet inserts the user but downgrades it to pending/non-VIP
+PASS F-01-T05 V4.4 FIX: forged fromAdmin without signature is rejected and leaves state untouched
 PASS F-01-T06 replayed packet has no replay guard and is merely idempotent for equal timestamps
 PASS F-01-T07 expired packet is still applied
 PASS F-01-T08 duplicate users in one packet are collapsed by username
 PASS F-01-T09 malformed tombstone values do not crash but malformed user entries are skipped
 PASS F-01-T10 unauthorized deletion request from non-admin packet is applied
-PASS F-01-T11 two isolated VM environments accept the same packet (NOT proof of live ntfy delivery)
-PASS F-01-T12 forged tombstone persists and blocks later legitimate restore
+PASS F-01-T11 V4.4 FIX: forged admin packet does not mutate a second isolated environment
+PASS F-01-T12 V4.4: forged ADMIN tombstone is rejected, but an UNSIGNED tombstone still applies (F-01 residual)
 PASS F-01-T13 student passwords are serialized into public cloud packets
 PASS F-01-T14 global cloud bus exposes direct packet application (static)
 PASS F-01-T15 stale privileged packet can override a newer local downgrade
-PASS F-01-T16 replay after a legitimate deletion remains blocked by tombstone
+PASS F-01-T16 V4.4: replay after a deletion stays blocked by the tombstone (unsigned tombstone path)
 PASS F-01-T17 unsigned stale packet does not override a newer non-pending user
 PASS F-02-T01 session forged with client-side salt is accepted
-PASS F-02-T02 session with missing signature is accepted
+PASS F-02-T02 V4.4 FIX: session with a missing signature is rejected
 PASS F-02-T03 invalid signature is rejected and session storage is removed
 PASS F-02-T04 expired session with otherwise valid signature is rejected
 PASS F-02-T05 no same-origin backend authorization endpoint exists (static)
-PASS F-03-T01 recomputed _sig makes tampered VIP entitlement pass runtime check
-PASS F-03-T02 stale _sig is detected and VIP is stripped
+PASS F-03-T01 V4.4: recomputed _sig alone is NOT enough (runtime check also requires a valid seal)
+PASS F-03-T02 V4.4: stale _sig is detected, VIP stripped, session force-logged-out
 PASS F-03-T03 lifetime and future expiry pass, past expiry fails
 PASS F-04-T01 15 bundled exams expose 330 plain answer entries before submission
 PASS F-04-T02 XOR answer payload is reversible with public key material

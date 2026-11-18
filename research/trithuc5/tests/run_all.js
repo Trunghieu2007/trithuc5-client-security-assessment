@@ -78,7 +78,7 @@ test('H-01', 'extracted functions are syntactically complete and correctly named
 
 console.log('--- F-01 cloud sync / ntfy / KV ---');
 
-test('F-01-T01', 'missing adminSig is accepted as admin and merges privileged fields', () => {
+test('F-01-T01', 'V4.4 FIX: packet claiming fromAdmin without a valid adminSig is rejected outright', () => {
     const e = h.createEnv({ now: NOW, state: { users: [h.compactUser({ username: 'victim', status: 'pending', vipPlan: 'none', updatedAt: NOW - 1000 })] } });
     const p = packet(e, {
         fromAdmin: true,
@@ -88,13 +88,13 @@ test('F-01-T01', 'missing adminSig is accepted as admin and merges privileged fi
     });
     assert.strictEqual(typeof p.adminSig, 'undefined');
     e.processIncomingCloudPacket(p);
-    assert.strictEqual(e.state.hideAuthorInfo, true, 'hideAuthorInfo should have been changed');
+    assert.strictEqual(e.state.hideAuthorInfo, false, 'V4.4 must not apply admin flags from an unsigned packet');
     const v = e.state.users.find(u => u.username === 'victim');
-    assert.strictEqual(v.status, 'active');
-    assert.strictEqual(v.vipPlan, 'lifetime');
+    assert.strictEqual(v.status, 'pending', 'V4.4 must not upgrade the victim');
+    assert.strictEqual(v.vipPlan, 'none', 'V4.4 must not grant VIP');
 });
 
-test('F-01-T02', 'invalid signature still applies tombstone and injects active VIP user', () => {
+test('F-01-T02', 'V4.4 FIX: invalid adminSig rejects the whole packet (tombstone and injection)', () => {
     const e = h.createEnv({ now: NOW, state: { users: [h.compactUser({ username: 'synthetic_student', updatedAt: NOW - 10 })] } });
     const p = packet(e, {
         fromAdmin: true,
@@ -103,11 +103,8 @@ test('F-01-T02', 'invalid signature still applies tombstone and injects active V
         users: [compact(e, allVip({ username: 'injected_user', id: 'stu_injected' }))]
     });
     e.processIncomingCloudPacket(p);
-    assert.strictEqual(e.state.users.some(u => u.username === 'synthetic_student'), false, 'tombstone should have removed user');
-    const injected = e.state.users.find(u => u.username === 'injected_user');
-    assert.ok(injected, 'injected user should exist');
-    assert.strictEqual(injected.status, 'active');
-    assert.strictEqual(injected.vipPlan, 'lifetime');
+    assert.strictEqual(e.state.users.some(u => u.username === 'synthetic_student'), true, 'V4.4 must not apply the forged tombstone');
+    assert.strictEqual(e.state.users.some(u => u.username === 'injected_user'), false, 'V4.4 must not inject the user');
 });
 
 test('F-01-T03', 'valid signature applies the same privileged merge', () => {
@@ -121,7 +118,7 @@ test('F-01-T03', 'valid signature applies the same privileged merge', () => {
     assert.strictEqual(v.vipPlan, '1y');
 });
 
-test('F-01-T04', 'missing fromAdmin still injects active VIP user when type is not STUDENT_REGISTER', () => {
+test('F-01-T04', 'V4.4 FIX: unsigned packet inserts the user but downgrades it to pending/non-VIP', () => {
     const e = h.createEnv({ now: NOW });
     const p = packet(e, { type: 'ANY_OTHER_EVENT', users: [compact(e, allVip({ username: 'ghost_user' }))] });
     delete p.fromAdmin;
@@ -129,15 +126,17 @@ test('F-01-T04', 'missing fromAdmin still injects active VIP user when type is n
     assert.strictEqual(typeof p.adminSig, 'undefined');
     e.processIncomingCloudPacket(p);
     const g = e.state.users.find(u => u.username === 'ghost_user');
-    assert.ok(g);
-    assert.strictEqual(g.status, 'active');
-    assert.strictEqual(g.isVip, true);
+    assert.ok(g, 'V4.4 still inserts the record (residual: unauthenticated table growth)');
+    assert.strictEqual(g.status, 'pending', 'V4.4 downgrades status to pending');
+    assert.strictEqual(g.isVip, false, 'V4.4 clears isVip');
+    assert.strictEqual(g.vipPlan, 'none', 'V4.4 resets vipPlan');
+    assert.strictEqual(g.vipPackages.k12, false, 'V4.4 clears packages');
 });
 
-test('F-01-T05', 'forged fromAdmin without signature is indistinguishable from a real admin packet', () => {
+test('F-01-T05', 'V4.4 FIX: forged fromAdmin without signature is rejected and leaves state untouched', () => {
     const e = h.createEnv({ now: NOW });
     e.processIncomingCloudPacket(packet(e, { fromAdmin: true, hideAuthorInfo: true, hideAuthorTs: NOW + 1 }));
-    assert.strictEqual(e.state.hideAuthorInfo, true);
+    assert.strictEqual(e.state.hideAuthorInfo, false, 'V4.4 rejects the forged admin claim');
 });
 
 test('F-01-T06', 'replayed packet has no replay guard and is merely idempotent for equal timestamps', () => {
@@ -186,7 +185,7 @@ test('F-01-T10', 'unauthorized deletion request from non-admin packet is applied
     assert.strictEqual(e.state.users.some(u => u.username === 'delete_me'), false);
 });
 
-test('F-01-T11', 'two isolated VM environments accept the same packet (NOT proof of live ntfy delivery)', () => {
+test('F-01-T11', 'V4.4 FIX: forged admin packet does not mutate a second isolated environment', () => {
     const envA = h.createEnv({ now: NOW });
     const envB = h.createEnv({ now: NOW, state: { users: [h.compactUser({ username: 'cross_victim', status: 'active', updatedAt: NOW - 5 })] } });
     const p = packet(envA, {
@@ -197,15 +196,21 @@ test('F-01-T11', 'two isolated VM environments accept the same packet (NOT proof
     const decoded = envB.decodeCloudMessageString(encoded);
     envB.processIncomingCloudPacket(decoded);
     const v = envB.state.users.find(u => u.username === 'cross_victim');
-    assert.strictEqual(v.status, 'locked', 'second isolated VM accepted the same packet');
+    assert.strictEqual(v.status, 'active', 'V4.4 must reject the forged admin claim in the second VM');
+    assert.strictEqual(v.isVip, undefined, 'V4.4 must not grant VIP from the forged packet');
 });
 
-test('F-01-T12', 'forged tombstone persists and blocks later legitimate restore', () => {
+test('F-01-T12', 'V4.4: forged ADMIN tombstone is rejected, but an UNSIGNED tombstone still applies (F-01 residual)', () => {
     const e = h.createEnv({ now: NOW, state: { users: [h.compactUser({ username: 'restore_me', updatedAt: NOW - 100 })] } });
+    // A packet claiming fromAdmin without a valid signature must be rejected.
     e.processIncomingCloudPacket(packet(e, { fromAdmin: true, deletedMap: { restore_me: NOW + 100000 } }));
-    assert.strictEqual(e.state.users.some(u => u.username === 'restore_me'), false);
+    assert.strictEqual(e.state.users.some(u => u.username === 'restore_me'), true, 'V4.4 rejects the forged admin tombstone');
+    // An unsigned tombstone, however, still merges (no admin check on that path).
+    e.processIncomingCloudPacket(packet(e, { fromAdmin: false, deletedMap: { restore_me: NOW + 100000 } }));
+    assert.strictEqual(e.state.users.some(u => u.username === 'restore_me'), false, 'unsigned tombstone still deletes locally');
+    // And a later legitimate signed restore stays blocked by the tombstone.
     e.processIncomingCloudPacket(signed(e, { users: [compact(e, { username: 'restore_me', updatedAt: NOW })] }));
-    assert.strictEqual(e.state.users.some(u => u.username === 'restore_me'), false, 'tombstone should still block restore');
+    assert.strictEqual(e.state.users.some(u => u.username === 'restore_me'), false, 'tombstone still blocks restore');
 });
 
 test('F-01-T13', 'student passwords are serialized into public cloud packets', () => {
@@ -236,10 +241,16 @@ test('F-01-T15', 'stale privileged packet can override a newer local downgrade',
     assert.strictEqual(v.vipPlan, 'lifetime');
 });
 
-test('F-01-T16', 'replay after a legitimate deletion remains blocked by tombstone', () => {
+test('F-01-T16', 'V4.4: replay after a deletion stays blocked by the tombstone (unsigned tombstone path)', () => {
     const e = h.createEnv({ now: NOW });
     e.state.users = [h.compactUser({ username: 'gone', updatedAt: NOW })];
+    // V4.4 rejects an ADMIN-claiming tombstone without a valid signature...
     e.processIncomingCloudPacket(packet(e, { fromAdmin: true, deletedMap: { gone: NOW + 1000 } }));
+    assert.strictEqual(e.state.users.some(u => u.username === 'gone'), true, 'forged admin tombstone rejected');
+    // ...but an unsigned tombstone still merges (F-01 residual, see F-01-T12).
+    e.processIncomingCloudPacket(packet(e, { fromAdmin: false, deletedMap: { gone: NOW + 1000 } }));
+    assert.strictEqual(e.state.users.some(u => u.username === 'gone'), false, 'unsigned tombstone deletes locally');
+    // And a later replayed restore stays blocked by the tombstone.
     e.processIncomingCloudPacket(signed(e, { users: [compact(e, { username: 'gone', updatedAt: 1 })] }));
     assert.strictEqual(e.state.users.some(u => u.username === 'gone'), false);
 });
@@ -267,11 +278,11 @@ test('F-02-T01', 'session forged with client-side salt is accepted', () => {
     assert.strictEqual(e.state.isAdminLoggedIn, true);
 });
 
-test('F-02-T02', 'session with missing signature is accepted', () => {
+test('F-02-T02', 'V4.4 FIX: session with a missing signature is rejected', () => {
     const e = h.createEnv({ now: NOW });
     e.safeStorageSet(e.STORAGE_KEYS.REMEMBERED_ADMIN_SESSION, JSON.stringify({ loggedIn: true, username: 'anyone', ts: NOW }));
     e.checkRememberedAdminSessionFromSource();
-    assert.strictEqual(e.state.isAdminLoggedIn, true);
+    assert.strictEqual(e.state.isAdminLoggedIn, false, 'V4.4 requires a session signature');
 });
 
 test('F-02-T03', 'invalid signature is rejected and session storage is removed', () => {
@@ -301,16 +312,21 @@ test('F-02-T05', 'no same-origin backend authorization endpoint exists (static)'
 
 console.log('--- F-03 VIP / integrity ---');
 
-test('F-03-T01', 'recomputed _sig makes tampered VIP entitlement pass runtime check', () => {
+test('F-03-T01', 'V4.4: recomputed _sig alone is NOT enough (runtime check also requires a valid seal)', () => {
     const e = h.createEnv({ now: NOW });
-    const u = h.compactUser({ vipPackages: { k12: true, k11: true, k10: true, luyende: true }, vipPlan: 'lifetime', maxDevices: 999 });
+    const u = h.compactUser({ vipPackages: { k12: true, k11: true, k10: true, luyende: true }, vipPlan: 'lifetime', maxDevices: 2 });
     u._sig = e.computeUserIntegritySig(u);
     e.state.loggedInStudent = u;
-    assert.strictEqual(e.verifyRuntimeSecurityIntegrity(), true);
-    assert.strictEqual(e.state.loggedInStudent.maxDevices, 999);
+    assert.strictEqual(e.verifyRuntimeSecurityIntegrity(), false, 'missing seal must fail the runtime check');
+    // But forging BOTH (both secrets are bundle literals) passes: see P4-04/P4-16.
+    const u2 = h.compactUser({ vipPackages: { k12: true, k11: true, k10: true, luyende: true }, vipPlan: 'lifetime', maxDevices: 2 });
+    u2._sig = e.computeUserIntegritySig(u2);
+    u2._adminVipSeal = e.computeTeacherVipApprovalSealV44(u2);
+    e.state.loggedInStudent = u2;
+    assert.strictEqual(e.verifyRuntimeSecurityIntegrity(), true, 'forged sig + forged seal pass');
 });
 
-test('F-03-T02', 'stale _sig is detected and VIP is stripped', () => {
+test('F-03-T02', 'V4.4: stale _sig is detected, VIP stripped, session force-logged-out', () => {
     const e = h.createEnv({ now: NOW });
     const clean = h.compactUser();
     clean._sig = e.computeUserIntegritySig(clean);
@@ -319,7 +335,9 @@ test('F-03-T02', 'stale _sig is detected and VIP is stripped', () => {
     tampered.vipPlan = 'lifetime';
     e.state.loggedInStudent = tampered;
     assert.strictEqual(e.verifyRuntimeSecurityIntegrity(), false);
-    assert.strictEqual(e.state.loggedInStudent.vipPlan, 'none');
+    assert.strictEqual(e.state.loggedInStudent, null, 'V4.4 force-logs out the tampered session');
+    assert.strictEqual(tampered.vipPlan, 'none', 'VIP stripped on the tampered object');
+    assert.strictEqual(tampered.status, 'locked', 'V4.4 locks the account locally');
 });
 
 test('F-03-T03', 'lifetime and future expiry pass, past expiry fails', () => {
@@ -420,7 +438,7 @@ console.log('--- F-06 anti-cheat / DOM ---');
 
 test('F-06-T01', 'protections are preventDefault / DOM / CSS only (static)', () => {
     const lines = h.readSource().lines;
-    const anti = lines.slice(3783, 3945).join('\n');
+    const anti = lines.slice(4271, 4460).join('\n');
     assert.ok(anti.includes("e.preventDefault()"));
     assert.ok(anti.includes("'contextmenu', 'copy', 'cut', 'dragstart', 'selectstart'"));
     assert.ok(lines.some(l => l.includes('blur(22px)')), 'idle blur CSS must exist');
@@ -454,7 +472,7 @@ test('A-03-T01', 'response headers lack CSP and frame/content-type protections (
 
 test('A-04-T01', 'cross-tab storage event replaces state.users from writable localStorage (static)', () => {
     const lines = h.readSource().lines;
-    const block = lines.slice(15860, 15878).join('\n');
+    const block = lines.slice(20165, 20192).join('\n');
     assert.ok(block.includes("window.addEventListener('storage'"));
     assert.ok(block.includes('state.users = parsedU'));
     assert.ok(!/origin|isTrusted|signature/i.test(block));
