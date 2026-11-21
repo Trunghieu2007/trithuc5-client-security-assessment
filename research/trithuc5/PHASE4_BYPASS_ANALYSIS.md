@@ -5,6 +5,12 @@
 **Date of analysis:** 2026-11-18
 **Scope:** client-side only, read-only against production. No account creation, no packet publication, no production writes.
 
+> **Historical document.** This analyses the V4.4 build (`33be09d7…`) only. The current live
+> build is V4.5 / V4.6.3 (`eff11902…`, fetched 2026-11-21). Its measured delta, the fixed
+> boot auto-seal path and the still-exploitable seal secret are documented in
+> [`PHASE5_UPDATE.md`](PHASE5_UPDATE.md); the canonical current catalogue is
+> [`FINDINGS.md`](FINDINGS.md). Do not reuse V4.4 line numbers below for the current build.
+
 ---
 
 ## 1. Evidence refresh

@@ -1,8 +1,10 @@
-=== INDEPENDENT VERIFICATION — V4.4 (SHA 33be09d7) ===
+# tests/independent_verification.js — independently pinned V4.5 harness (2026-11-21)
+=== INDEPENDENT VERIFICATION — V4.5 (SHA eff11902) ===
 
 -- Track 1: NEW-11/12 — _sig -> boot seal -> real access gates --
 PASS IV-01  computeUserIntegritySig is reproducible from bundle-literal salt (offline)
-PASS IV-02  boot normalizer mints _adminVipSeal automatically when _sig matches and VIP flags are set
+PASS IV-02  V4.5 FIX: boot no longer mints a seal from _sig; an unsealed VIP record is stripped
+PASS IV-02b  offline-forged sig + seal restore the attacker-owned VIP record after V4.5 boot stripping
 PASS IV-03  in-client vault registers the attacker-owned record as VIP with a backend token
 PASS IV-04  real runtime integrity check accepts the self-signed, self-sealed record
 PASS IV-05  real hasStudentVipAccess grants k12 package
@@ -34,13 +36,13 @@ PASS IV-24  NEW-09: safeStorageSet mirrors the password-bearing user table into 
 PASS IV-25  NEW-09: size thresholds are exact — window.name < 3500 chars, cookie < 1800 chars
 PASS IV-26  no real credential literal is stored in this suite (synthetic sentinel only)
 
--- Track 4: F-01 — tombstone / signature / authorization on V4.4 (synthetic fixtures) --
+-- Track 4: F-01 — tombstone / signature / authorization on V4.5 (synthetic fixtures) --
 PASS IV-27  forged admin claim (bad adminSig) is rejected outright and leaves tombstone untouched
 PASS IV-28  validly signed admin tombstone (offline-computed sig) deletes the user locally
 PASS IV-29  F-01 RESIDUAL: unsigned tombstone still merges with no admin check
 PASS IV-30  tombstone blocks a later restore packet even when that packet is validly signed
-PASS IV-31  unsigned packet with VIP flags is downgraded to pending/non-VIP (V4.4 fix holds)
+PASS IV-31  unsigned packet with VIP flags is downgraded to pending/non-VIP (V4.5 fix holds)
 PASS IV-32  validly signed admin packet grants active VIP and mints a seal + integrity sig
 PASS IV-33  packet path never writes to ntfy/KV transport in this suite (all mocks local)
 
-TOTAL 35 PASS 35 FAIL 0
+TOTAL 36 PASS 36 FAIL 0

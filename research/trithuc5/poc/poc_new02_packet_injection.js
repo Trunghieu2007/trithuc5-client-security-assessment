@@ -5,7 +5,7 @@
 // Target:  https://trithuc500.vercel.app/
 // Findings:
 //   NEW-02 — `processIncomingCloudPacket` accepts a packet with no
-//            `fromAdmin` and no `adminSig`. The V4.4 build (lines 3637-3653)
+//            `fromAdmin` and no `adminSig`. The V4.5 build (lines 3637-3653)
 //            downgrades such packets to `pending` / non-VIP for *new* users —
 //            a genuine hardening — but the packet still reaches the merge
 //            path, and the tombstone table (`deletedMap` /
@@ -88,7 +88,7 @@
     });
 
     // ---- 2. Apply it through the real ingestion path. --------------------
-    const bus = window.__TRITHUC50_CLOUD_BUS__;
+    const bus = (window.__INTERNAL_CLOUD_BUS_V45__ || window.__TRITHUC50_CLOUD_BUS__);
     if (!bus || typeof bus.applyIncomingPacket !== 'function') {
         return console.error('[NEW-02] cloud bus not available on this build');
     }
@@ -113,11 +113,11 @@
     console.table(result);
 
     if (result.userPersisted && result.resultingStatus === 'pending' && !result.resultingIsVip) {
-        console.log('[NEW-02] V4.4 HARDENING OBSERVED: the unsigned packet was downgraded to');
+        console.log('[NEW-02] V4.5 HARDENING OBSERVED: the unsigned packet was downgraded to');
         console.log('         pending / non-VIP. The user record still landed in the local');
         console.log('         table, which is the residual issue (an unauthenticated peer can');
         console.log('         insert records into every client\'s local list).');
-        console.log('[NEW-02] NEW-02 severity reduced for the VIP-grant path on V4.4.');
+        console.log('[NEW-02] NEW-02 severity reduced for the VIP-grant path on V4.5.');
     } else if (result.resultingIsVip) {
         console.warn('[NEW-02] unsigned packet still grants VIP on this build.');
     }

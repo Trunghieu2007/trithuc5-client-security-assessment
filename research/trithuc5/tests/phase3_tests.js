@@ -52,7 +52,7 @@ function pkt(overrides) {
 }
 
 (async () => {
-    console.log('=== TRITHUC5.0 V4.3.9 Phase 3 controlled validation ===');
+    console.log('=== TRITHUC5.0 V4.5 Phase 3 controlled validation ===');
     console.log('source sha256: ' + h.readSource().sha);
 
     await check('P3-01', 'registration password reaches Google Form payload and localStorage activity log', () => {
@@ -91,7 +91,7 @@ function pkt(overrides) {
         assert.ok(!/Secure/i.test(cookieLine), 'Secure absent');
     });
 
-    await check('P3-03', 'V4.4: unsigned stale admin packet is rejected by the 24h poll; a VALIDLY signed stale packet still applies', async () => {
+    await check('P3-03', 'V4.5: unsigned stale admin packet is rejected by the 24h poll; a VALIDLY signed stale packet still applies', async () => {
         const e = h.createEnv({ now: NOW });
         const stale = pkt({
             ts: 1,
@@ -100,12 +100,12 @@ function pkt(overrides) {
             hideAuthorTs: 2,
             users: [e.serializeCompactUser(h.compactUser({ username: 'stale_auto_user', updatedAt: 1 }))]
         });
-        // Unsigned: V4.4 rejects the admin claim outright.
+        // Unsigned: V4.5 rejects the admin claim outright.
         e.__meta.bus.sse = ['TT50V436:' + e.toBase64UrlSafe(JSON.stringify(stale))];
         await e.pullCloudSyncMessages(false);
-        assert.strictEqual(e.state.hideAuthorInfo, false, 'V4.4 must not apply an unsigned admin packet');
+        assert.strictEqual(e.state.hideAuthorInfo, false, 'V4.5 must not apply an unsigned admin packet');
         assert.strictEqual(e.state.users.some(u => u.username === 'stale_auto_user'), false,
-            'V4.4 must not inject from an unsigned admin packet');
+            'V4.5 must not inject from an unsigned admin packet');
 
         // Signed (signature is reproducible offline): the stale packet still applies.
         const staleSigned = Object.assign({}, stale, { adminSig: e.computeCloudPacketAdminSig(stale) });
@@ -120,27 +120,27 @@ function pkt(overrides) {
         assert.ok(src.includes("/sse?since=24h"), '24h SSE window in source');
     });
 
-    await check('P3-04', 'V4.4: per-user KV record exceeds the 450-char cap and is skipped; the password still lands in the public snapshot chunks', async () => {
+    await check('P3-04', 'V4.5: per-user KV record exceeds the 450-char cap and is skipped; the password still lands in the public snapshot chunks', async () => {
         const e = p3.createDeepEnv({ now: NOW });
         await e.pushCloudSyncPacket('STUDENT_REGISTER', { username: 'S.User', password: 'spw' }, []);
 
-        // V4.4 added `seal`/`bkt` to serializeCompactUser, pushing a typical
+        // V4.5 added `seal`/`bkt` to serializeCompactUser, pushing a typical
         // per-user record past the `singleStr.length <= 450` gate (line ~3812),
         // so the predictable u_<slug>_<idx> key is no longer written.
         const perUser = e.__captures.filter(c => c.url.includes('u_suser_'));
-        assert.strictEqual(perUser.length, 0, 'V4.4 skips the per-user KV write for a typical record');
+        assert.strictEqual(perUser.length, 0, 'V4.5 skips the per-user KV write for a typical record');
         const cu = e.serializeCompactUser({ username: 'S.User', password: 'spw' });
         const probe = e.toBase64UrlSafe(JSON.stringify({ app: 'TRITHUC50_V436', type: 'STUDENT_REGISTER', ts: NOW, fromAdmin: false, adminSig: '', user: cu }));
         assert.ok(probe.length > 450, 'per-user payload measures ' + probe.length + ' chars (> 450 cap)');
 
         // The registration record itself no longer enters the snapshot through
-        // this path on V4.4 (the snapshot serialises state.users, and a fresh
+        // this path on V4.5 (the snapshot serialises state.users, and a fresh
         // registration is not in state.users yet).
         const chunkCalls = e.__captures.filter(c => c.url.includes('/s_'));
         assert.ok(chunkCalls.length > 0, 'snapshot chunks are still published');
         const joined = chunkCalls.map(c => c.url.split('/').pop()).join('');
         const decoded = e.fromBase64UrlSafe(joined);
-        assert.ok(!decoded.includes('spw'), 'V4.4: registration password absent from this snapshot path');
+        assert.ok(!decoded.includes('spw'), 'V4.5: registration password absent from this snapshot path');
 
         // NEW-01 still holds at the serializer level: any user stored in
         // state.users keeps its password in every published packet.
@@ -178,17 +178,19 @@ function pkt(overrides) {
         assert.strictEqual(b.state.users.length, 0, 'other VM unchanged');
     });
 
-    await check('P3-08', 'remembered credentials are stored as plaintext and autofilled', () => {
+    await check('P3-08', 'V4.5: student remember-me still stores plaintext; admin remember-me no longer does', () => {
         const e = h.createEnv({ now: NOW });
         e.safeStorageSet(e.STORAGE_KEYS.REMEMBERED_STUDENT_CREDS, JSON.stringify({
             username: 'synthetic_user', password: 'synthetic_password', remember: true
         }));
         const raw = e.safeStorageGet(e.STORAGE_KEYS.REMEMBERED_STUDENT_CREDS);
-        assert.ok(raw.includes('synthetic_password'));
+        assert.ok(raw.includes('synthetic_password'), 'student password still survives in storage');
         const lines = h.readSource().lines;
         assert.ok(lines.some(l => l.includes('REMEMBERED_STUDENT_CREDS, JSON.stringify(state.savedStudentCreds)')));
         assert.ok(lines.some(l => l.includes('pInp.value = state.savedStudentCreds.password')));
-        assert.ok(lines.some(l => l.includes('REMEMBERED_ADMIN_CREDS, JSON.stringify(state.savedAdminCreds)')));
+        // V4.5 fix: admin credentials/remember-me write only username + remember.
+        assert.ok(lines.some(l => l.includes('REMEMBERED_ADMIN_CREDS, JSON.stringify({ username: uVal, remember: true })')));
+        assert.ok(!lines.some(l => l.includes('REMEMBERED_ADMIN_CREDS, JSON.stringify(state.savedAdminCreds)')));
     });
 
     const outDir = path.join(__dirname, '..', 'evidence');

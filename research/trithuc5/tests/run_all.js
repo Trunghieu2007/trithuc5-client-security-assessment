@@ -1,10 +1,11 @@
-// run_all.js — deterministic local regression tests for TRITHUC5.0 V4.3.9.
+// run_all.js — deterministic local regression tests for TRITHUC5.0 V4.5.
 // Uses only the isolated harness; never contacts the target, ntfy.sh, or Cloud KV.
 // Usage: node research/trithuc5/tests/run_all.js
 
 'use strict';
 const assert = require('assert');
 const fs = require('fs');
+const zlib = require('zlib');
 const path = require('path');
 const vm = require('vm');
 const h = require('./harness.js');
@@ -59,7 +60,7 @@ function allVip(overrides) {
     }, overrides || {});
 }
 
-console.log('=== TRITHUC5.0 V4.3.9 isolated regression suite ===');
+console.log('=== TRITHUC5.0 V4.5 isolated regression suite ===');
 console.log('source sha256: ' + h.readSource().sha);
 console.log('now (fixed): ' + NOW);
 
@@ -78,7 +79,7 @@ test('H-01', 'extracted functions are syntactically complete and correctly named
 
 console.log('--- F-01 cloud sync / ntfy / KV ---');
 
-test('F-01-T01', 'V4.4 FIX: packet claiming fromAdmin without a valid adminSig is rejected outright', () => {
+test('F-01-T01', 'V4.5 FIX: packet claiming fromAdmin without a valid adminSig is rejected outright', () => {
     const e = h.createEnv({ now: NOW, state: { users: [h.compactUser({ username: 'victim', status: 'pending', vipPlan: 'none', updatedAt: NOW - 1000 })] } });
     const p = packet(e, {
         fromAdmin: true,
@@ -88,13 +89,13 @@ test('F-01-T01', 'V4.4 FIX: packet claiming fromAdmin without a valid adminSig i
     });
     assert.strictEqual(typeof p.adminSig, 'undefined');
     e.processIncomingCloudPacket(p);
-    assert.strictEqual(e.state.hideAuthorInfo, false, 'V4.4 must not apply admin flags from an unsigned packet');
+    assert.strictEqual(e.state.hideAuthorInfo, false, 'V4.5 must not apply admin flags from an unsigned packet');
     const v = e.state.users.find(u => u.username === 'victim');
-    assert.strictEqual(v.status, 'pending', 'V4.4 must not upgrade the victim');
-    assert.strictEqual(v.vipPlan, 'none', 'V4.4 must not grant VIP');
+    assert.strictEqual(v.status, 'pending', 'V4.5 must not upgrade the victim');
+    assert.strictEqual(v.vipPlan, 'none', 'V4.5 must not grant VIP');
 });
 
-test('F-01-T02', 'V4.4 FIX: invalid adminSig rejects the whole packet (tombstone and injection)', () => {
+test('F-01-T02', 'V4.5 FIX: invalid adminSig rejects the whole packet (tombstone and injection)', () => {
     const e = h.createEnv({ now: NOW, state: { users: [h.compactUser({ username: 'synthetic_student', updatedAt: NOW - 10 })] } });
     const p = packet(e, {
         fromAdmin: true,
@@ -103,8 +104,8 @@ test('F-01-T02', 'V4.4 FIX: invalid adminSig rejects the whole packet (tombstone
         users: [compact(e, allVip({ username: 'injected_user', id: 'stu_injected' }))]
     });
     e.processIncomingCloudPacket(p);
-    assert.strictEqual(e.state.users.some(u => u.username === 'synthetic_student'), true, 'V4.4 must not apply the forged tombstone');
-    assert.strictEqual(e.state.users.some(u => u.username === 'injected_user'), false, 'V4.4 must not inject the user');
+    assert.strictEqual(e.state.users.some(u => u.username === 'synthetic_student'), true, 'V4.5 must not apply the forged tombstone');
+    assert.strictEqual(e.state.users.some(u => u.username === 'injected_user'), false, 'V4.5 must not inject the user');
 });
 
 test('F-01-T03', 'valid signature applies the same privileged merge', () => {
@@ -118,7 +119,7 @@ test('F-01-T03', 'valid signature applies the same privileged merge', () => {
     assert.strictEqual(v.vipPlan, '1y');
 });
 
-test('F-01-T04', 'V4.4 FIX: unsigned packet inserts the user but downgrades it to pending/non-VIP', () => {
+test('F-01-T04', 'V4.5 FIX: unsigned packet inserts the user but downgrades it to pending/non-VIP', () => {
     const e = h.createEnv({ now: NOW });
     const p = packet(e, { type: 'ANY_OTHER_EVENT', users: [compact(e, allVip({ username: 'ghost_user' }))] });
     delete p.fromAdmin;
@@ -126,17 +127,17 @@ test('F-01-T04', 'V4.4 FIX: unsigned packet inserts the user but downgrades it t
     assert.strictEqual(typeof p.adminSig, 'undefined');
     e.processIncomingCloudPacket(p);
     const g = e.state.users.find(u => u.username === 'ghost_user');
-    assert.ok(g, 'V4.4 still inserts the record (residual: unauthenticated table growth)');
-    assert.strictEqual(g.status, 'pending', 'V4.4 downgrades status to pending');
-    assert.strictEqual(g.isVip, false, 'V4.4 clears isVip');
-    assert.strictEqual(g.vipPlan, 'none', 'V4.4 resets vipPlan');
-    assert.strictEqual(g.vipPackages.k12, false, 'V4.4 clears packages');
+    assert.ok(g, 'V4.5 still inserts the record (residual: unauthenticated table growth)');
+    assert.strictEqual(g.status, 'pending', 'V4.5 downgrades status to pending');
+    assert.strictEqual(g.isVip, false, 'V4.5 clears isVip');
+    assert.strictEqual(g.vipPlan, 'none', 'V4.5 resets vipPlan');
+    assert.strictEqual(g.vipPackages.k12, false, 'V4.5 clears packages');
 });
 
-test('F-01-T05', 'V4.4 FIX: forged fromAdmin without signature is rejected and leaves state untouched', () => {
+test('F-01-T05', 'V4.5 FIX: forged fromAdmin without signature is rejected and leaves state untouched', () => {
     const e = h.createEnv({ now: NOW });
     e.processIncomingCloudPacket(packet(e, { fromAdmin: true, hideAuthorInfo: true, hideAuthorTs: NOW + 1 }));
-    assert.strictEqual(e.state.hideAuthorInfo, false, 'V4.4 rejects the forged admin claim');
+    assert.strictEqual(e.state.hideAuthorInfo, false, 'V4.5 rejects the forged admin claim');
 });
 
 test('F-01-T06', 'replayed packet has no replay guard and is merely idempotent for equal timestamps', () => {
@@ -185,7 +186,7 @@ test('F-01-T10', 'unauthorized deletion request from non-admin packet is applied
     assert.strictEqual(e.state.users.some(u => u.username === 'delete_me'), false);
 });
 
-test('F-01-T11', 'V4.4 FIX: forged admin packet does not mutate a second isolated environment', () => {
+test('F-01-T11', 'V4.5 FIX: forged admin packet does not mutate a second isolated environment', () => {
     const envA = h.createEnv({ now: NOW });
     const envB = h.createEnv({ now: NOW, state: { users: [h.compactUser({ username: 'cross_victim', status: 'active', updatedAt: NOW - 5 })] } });
     const p = packet(envA, {
@@ -196,15 +197,15 @@ test('F-01-T11', 'V4.4 FIX: forged admin packet does not mutate a second isolate
     const decoded = envB.decodeCloudMessageString(encoded);
     envB.processIncomingCloudPacket(decoded);
     const v = envB.state.users.find(u => u.username === 'cross_victim');
-    assert.strictEqual(v.status, 'active', 'V4.4 must reject the forged admin claim in the second VM');
-    assert.strictEqual(v.isVip, undefined, 'V4.4 must not grant VIP from the forged packet');
+    assert.strictEqual(v.status, 'active', 'V4.5 must reject the forged admin claim in the second VM');
+    assert.strictEqual(v.isVip, undefined, 'V4.5 must not grant VIP from the forged packet');
 });
 
-test('F-01-T12', 'V4.4: forged ADMIN tombstone is rejected, but an UNSIGNED tombstone still applies (F-01 residual)', () => {
+test('F-01-T12', 'V4.5: forged ADMIN tombstone is rejected, but an UNSIGNED tombstone still applies (F-01 residual)', () => {
     const e = h.createEnv({ now: NOW, state: { users: [h.compactUser({ username: 'restore_me', updatedAt: NOW - 100 })] } });
     // A packet claiming fromAdmin without a valid signature must be rejected.
     e.processIncomingCloudPacket(packet(e, { fromAdmin: true, deletedMap: { restore_me: NOW + 100000 } }));
-    assert.strictEqual(e.state.users.some(u => u.username === 'restore_me'), true, 'V4.4 rejects the forged admin tombstone');
+    assert.strictEqual(e.state.users.some(u => u.username === 'restore_me'), true, 'V4.5 rejects the forged admin tombstone');
     // An unsigned tombstone, however, still merges (no admin check on that path).
     e.processIncomingCloudPacket(packet(e, { fromAdmin: false, deletedMap: { restore_me: NOW + 100000 } }));
     assert.strictEqual(e.state.users.some(u => u.username === 'restore_me'), false, 'unsigned tombstone still deletes locally');
@@ -225,10 +226,13 @@ test('F-01-T13', 'student passwords are serialized into public cloud packets', (
     assert.ok(decoded.includes('synthetic_password'));
 });
 
-test('F-01-T14', 'global cloud bus exposes direct packet application (static)', () => {
+test('F-01-T14', 'cloud bus exposes direct packet application (V4.5 renamed to internal bus)', () => {
     const src = h.readSource().text;
-    assert.ok(src.includes('window.__TRITHUC50_CLOUD_BUS__'));
+    assert.ok(src.includes('__INTERNAL_CLOUD_BUS_V45__'), 'V4.5 internal bus literal must be present');
     assert.ok(src.includes('applyIncomingPacket(packetObj)'));
+    // V4.5 no longer publishes the bus on window.__TRITHUC50_CLOUD_BUS__; the
+    // original PoC entry point is retained only as an anti-cheat trap string.
+    assert.ok(!src.includes('window.__TRITHUC50_CLOUD_BUS__ ='));
 });
 
 test('F-01-T15', 'stale privileged packet can override a newer local downgrade', () => {
@@ -241,10 +245,10 @@ test('F-01-T15', 'stale privileged packet can override a newer local downgrade',
     assert.strictEqual(v.vipPlan, 'lifetime');
 });
 
-test('F-01-T16', 'V4.4: replay after a deletion stays blocked by the tombstone (unsigned tombstone path)', () => {
+test('F-01-T16', 'V4.5: replay after a deletion stays blocked by the tombstone (unsigned tombstone path)', () => {
     const e = h.createEnv({ now: NOW });
     e.state.users = [h.compactUser({ username: 'gone', updatedAt: NOW })];
-    // V4.4 rejects an ADMIN-claiming tombstone without a valid signature...
+    // V4.5 rejects an ADMIN-claiming tombstone without a valid signature...
     e.processIncomingCloudPacket(packet(e, { fromAdmin: true, deletedMap: { gone: NOW + 1000 } }));
     assert.strictEqual(e.state.users.some(u => u.username === 'gone'), true, 'forged admin tombstone rejected');
     // ...but an unsigned tombstone still merges (F-01 residual, see F-01-T12).
@@ -278,11 +282,11 @@ test('F-02-T01', 'session forged with client-side salt is accepted', () => {
     assert.strictEqual(e.state.isAdminLoggedIn, true);
 });
 
-test('F-02-T02', 'V4.4 FIX: session with a missing signature is rejected', () => {
+test('F-02-T02', 'V4.5 FIX: session with a missing signature is rejected', () => {
     const e = h.createEnv({ now: NOW });
     e.safeStorageSet(e.STORAGE_KEYS.REMEMBERED_ADMIN_SESSION, JSON.stringify({ loggedIn: true, username: 'anyone', ts: NOW }));
     e.checkRememberedAdminSessionFromSource();
-    assert.strictEqual(e.state.isAdminLoggedIn, false, 'V4.4 requires a session signature');
+    assert.strictEqual(e.state.isAdminLoggedIn, false, 'V4.5 requires a session signature');
 });
 
 test('F-02-T03', 'invalid signature is rejected and session storage is removed', () => {
@@ -312,7 +316,7 @@ test('F-02-T05', 'no same-origin backend authorization endpoint exists (static)'
 
 console.log('--- F-03 VIP / integrity ---');
 
-test('F-03-T01', 'V4.4: recomputed _sig alone is NOT enough (runtime check also requires a valid seal)', () => {
+test('F-03-T01', 'V4.5: recomputed _sig alone is NOT enough (runtime check also requires a valid seal)', () => {
     const e = h.createEnv({ now: NOW });
     const u = h.compactUser({ vipPackages: { k12: true, k11: true, k10: true, luyende: true }, vipPlan: 'lifetime', maxDevices: 2 });
     u._sig = e.computeUserIntegritySig(u);
@@ -326,7 +330,7 @@ test('F-03-T01', 'V4.4: recomputed _sig alone is NOT enough (runtime check also 
     assert.strictEqual(e.verifyRuntimeSecurityIntegrity(), true, 'forged sig + forged seal pass');
 });
 
-test('F-03-T02', 'V4.4: stale _sig is detected, VIP stripped, session force-logged-out', () => {
+test('F-03-T02', 'V4.5: stale _sig is detected, VIP stripped, session force-logged-out', () => {
     const e = h.createEnv({ now: NOW });
     const clean = h.compactUser();
     clean._sig = e.computeUserIntegritySig(clean);
@@ -335,9 +339,9 @@ test('F-03-T02', 'V4.4: stale _sig is detected, VIP stripped, session force-logg
     tampered.vipPlan = 'lifetime';
     e.state.loggedInStudent = tampered;
     assert.strictEqual(e.verifyRuntimeSecurityIntegrity(), false);
-    assert.strictEqual(e.state.loggedInStudent, null, 'V4.4 force-logs out the tampered session');
+    assert.strictEqual(e.state.loggedInStudent, null, 'V4.5 force-logs out the tampered session');
     assert.strictEqual(tampered.vipPlan, 'none', 'VIP stripped on the tampered object');
-    assert.strictEqual(tampered.status, 'locked', 'V4.4 locks the account locally');
+    assert.strictEqual(tampered.status, 'locked', 'V4.5 locks the account locally');
 });
 
 test('F-03-T03', 'lifetime and future expiry pass, past expiry fails', () => {
@@ -349,12 +353,29 @@ test('F-03-T03', 'lifetime and future expiry pass, past expiry fails', () => {
 
 console.log('--- F-04 answer exposure ---');
 
-test('F-04-T01', '15 bundled exams expose 330 plain answer entries before submission', () => {
+test('F-04-T01', 'V4.5 gzip vault still yields 15 exams / 330 answers offline (bundle-seed XOR + gzip)', () => {
     const lines = h.readSource().lines;
-    const idx = lines.findIndex(l => l.startsWith('window.__INITIAL_EXAMS_DATA__'));
-    assert.ok(idx >= 0);
-    const raw = lines[idx].replace(/^window\.__INITIAL_EXAMS_DATA__\s*=\s*/, '');
-    const exams = JSON.parse(raw.slice(0, raw.lastIndexOf('];') + 1));
+    const idx = lines.findIndex(l => l.includes('var __ENC_GZ = '));
+    assert.ok(idx >= 0, 'V4.5 must embed the gzip vault blob');
+    const line = lines[idx];
+    const from = line.indexOf('var __ENC_GZ = ') + 'var __ENC_GZ = '.length;
+    const to = line.indexOf(';', from);
+    const enc = JSON.parse(line.slice(from, to));
+    assert.ok(Array.isArray(enc.exams) && enc.exams.length > 0);
+    // Reproduce the shipped __decGzChunks PRNG-XOR + gzip path locally.
+    const parts = enc.exams.map((chunk, ci) => {
+        const bin = Buffer.from(chunk, 'base64').toString('binary');
+        const buf = Buffer.alloc(bin.length);
+        let s = ((0x4F81E3A7 ^ Math.imul(ci + 1, 0x9E3779B1)) >>> 0) || 0x9E3779B9;
+        const ks = new Uint8Array(4096);
+        for (let k = 0; k < 4096; k++) {
+            s ^= (s << 13) >>> 0; s ^= (s >>> 17); s ^= (s << 5) >>> 0;
+            ks[k] = (s ^ ((k * 31) & 0xFF)) & 0xFF;
+        }
+        for (let i = 0; i < bin.length; i++) buf[i] = bin.charCodeAt(i) ^ ks[i & 4095];
+        return buf;
+    });
+    const exams = JSON.parse(zlib.gunzipSync(Buffer.concat(parts)).toString('utf8'));
     let count = 0;
     exams.forEach(x => ['p1', 'p2', 'p3'].forEach(p => { count += Object.keys((x.correctAnswers || {})[p] || {}).length; }));
     assert.strictEqual(exams.length, 15);
@@ -438,7 +459,9 @@ console.log('--- F-06 anti-cheat / DOM ---');
 
 test('F-06-T01', 'protections are preventDefault / DOM / CSS only (static)', () => {
     const lines = h.readSource().lines;
-    const anti = lines.slice(4271, 4460).join('\n');
+    // V4.5 moved the anti-cheat listener block; search the pinned source instead
+    // of depending on a build-specific line range.
+    const anti = lines.join('\n');
     assert.ok(anti.includes("e.preventDefault()"));
     assert.ok(anti.includes("'contextmenu', 'copy', 'cut', 'dragstart', 'selectstart'"));
     assert.ok(lines.some(l => l.includes('blur(22px)')), 'idle blur CSS must exist');
@@ -472,7 +495,7 @@ test('A-03-T01', 'response headers lack CSP and frame/content-type protections (
 
 test('A-04-T01', 'cross-tab storage event replaces state.users from writable localStorage (static)', () => {
     const lines = h.readSource().lines;
-    const block = lines.slice(20165, 20192).join('\n');
+    const block = h.extractDeclaration(lines, 'const setupCrossTabUserSync =').code;
     assert.ok(block.includes("window.addEventListener('storage'"));
     assert.ok(block.includes('state.users = parsedU'));
     assert.ok(!/origin|isTrusted|signature/i.test(block));

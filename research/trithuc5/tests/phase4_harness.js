@@ -1,5 +1,5 @@
-// phase4_harness.js — isolated execution environment for TRITHUC5.0 V4.4 (post-patch).
-// Extracts REAL V4.4 functions from the freshly fetched public HTML and runs them in a
+// phase4_harness.js — isolated execution environment for TRITHUC5.0 V4.5 (post-patch).
+// Extracts REAL V4.5 functions from the freshly fetched public HTML and runs them in a
 // Node VM with synthetic storage and mocked cloud backends. No production writes.
 //
 // Usage: require('./phase4_harness.js')
@@ -11,8 +11,8 @@ const vm = require('vm');
 const crypto = require('crypto');
 
 const SOURCE = process.env.TRITHUC_SOURCE ||
-    path.join(__dirname, '..', '..', '..', '..', 'research', 'trithuc5', 'phase4', 'target.html');
-const EXPECTED_SHA = '33be09d79b1e8089867a7db379a1dc6b9932aed178c9f9dde2e968e74d06b868';
+    path.join(__dirname, '..', '..', '..', '..', 'research', 'trithuc5', 'phase5', 'target.html');
+const EXPECTED_SHA = 'eff119024864bb4cfcc96ba2eeac44257e0c73c79456616091b6202535ab965f';
 
 function readSource() {
     const text = fs.readFileSync(SOURCE, 'utf8');
@@ -80,7 +80,7 @@ function makeState(overrides) {
         isAdminLoggedIn: false,
         adminPreviewUnlockAll: false,
         adminCreds: { username: 'synthetic_admin', password: 'synthetic_password' },
-        vaultLockConfig: { isLocked: true, adminPass: 'THAYTRUNG2026', unlockedAt: 0 },
+        vaultLockConfig: { isLocked: true, adminPassHash: 'h45_44e3396f901a954c_24f662274f7844f4', unlockedAt: 0 },
         blacklistedDeviceIds: {},
         vipHackAlerts: [],
         activeGrade: '12',
@@ -94,7 +94,7 @@ function makeState(overrides) {
     }, overrides || {});
 }
 
-// Real V4.4 functions under test.
+// Real V4.5 functions under test.
 const FN_NAMES = [
     'hashStringHex',
     'computeUserIntegritySig',
@@ -189,12 +189,17 @@ function createEnv(options) {
         'const LEGACY_SAMPLE_BANNED = new Set();',
         // BackendVipAuthServiceV44 is an IIFE assigned to a const — extract as declaration.
         extractDeclaration(src.lines, 'const BackendVipAuthServiceV44 = (function() {').code,
+        // V4.5 lesson vault is referenced by isFreeLesson / protected-action gates.
+        extractDeclaration(src.lines, 'const LessonVipVaultV44 = (function() {').code,
         ...FN_NAMES.map(n => extractFunction(src.lines, n).code),
-        // Real boot-time user normalization block (V4.4): lines 2605-2668.
+        // V4.5 replaced the plaintext vault password with bundle hash literals (line 2030-2054).
+        extractLineRange(src.lines, 2030, 2054).code,
+        // Real boot-time user normalization block (V4.5): lines 3553-3621.
         'const bundledUsers = [];\n' +
         'function bootNormalizeUsersV44() {\n' +
-        extractLineRange(src.lines, 2605, 2668).code + '\n}',
+        extractLineRange(src.lines, 3553, 3621).code + '\n}',
         'globalThis.BackendVipAuthServiceV44 = BackendVipAuthServiceV44;',
+        'globalThis.LessonVipVaultV44 = LessonVipVaultV44;',
         'globalThis.bootNormalizeUsersV44 = bootNormalizeUsersV44;',
         // Expose the cloud-packet helpers used by NEW-02 / F-01 tests.
         'globalThis.processIncomingCloudPacket = processIncomingCloudPacket;',

@@ -1,4 +1,4 @@
-# tests/poc_suite_validation.js — executes every PoC in poc/ in a mock browser VM (2026-11-18)
+# tests/poc_suite_validation.js — every PoC in poc/ in a mock browser VM (2026-11-21)
 ┌───────────────┬───────────────────────────────────┐
 │ (index)       │ Values                            │
 ├───────────────┼───────────────────────────────────┤
@@ -8,7 +8,7 @@
 │ vipPackages   │ 'k12,k11,k10,luyende'             │
 │ vipPlan       │ 'lifetime'                        │
 │ _sig          │ 'v27_6f11d59a2b6fd009'            │
-│ _adminVipSeal │ 'vseal44_8A45C26B'                │
+│ _adminVipSeal │ 'vseal44_62E083AA'                │
 │ scope         │ 'LOCAL ONLY — no ntfy/KV publish' │
 └───────────────┴───────────────────────────────────┘
 === [F-03] VIP entitlement verification ===
@@ -134,10 +134,8 @@ PASS NEW-02 payload executes without error
 PASS NEW-02 reports the tombstone merge result
 PASS NEW-02 payload did NOT publish automatically
 === F-04 Exam answer exposure (READ-ONLY) ===
-exams in __INITIAL_EXAMS_DATA__: 0
-exams with PLAINTEXT correctAnswers: 0
-DOM script blocks with answer data: 0
-answer payloads recovered from DOM: 0
+exams recovered: 0
+correct-answer entries: 0
 PASS poc_f04_exam_answers.js executes without error
 PASS poc_f04_exam_answers.js performs no network write
 === F-01 / NEW-01 / NEW-16 student data exposure (READ-ONLY) ===

@@ -6,7 +6,7 @@
 //           client-side, from fields the client owns:
 //             - `u.trustedDevices`   (array of bound devices)
 //             - `u.maxDevices`       (the limit itself, capped at 3 by the
-//                                    V4.4 normalizer)
+//                                    V4.5 normalizer)
 //             - `u.gmail`            (the identity binding)
 //             - `u.status`           ('locked' when auto-locked)
 //           The enforcement path is `verifyAndBindStudentDeviceOnLogin`

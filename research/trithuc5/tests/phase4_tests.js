@@ -1,5 +1,5 @@
-// phase4_tests.js — Phase 4 regression tests against TRITHUC5.0 V4.4 (post-patch source).
-// Goal: prove which of the V4.4 anti-hack guards still hold and which can be bypassed.
+// phase4_tests.js — Phase 4 regression tests against TRITHUC5.0 V4.5 (post-patch source).
+// Goal: prove which of the V4.5 anti-hack guards still hold and which can be bypassed.
 // All tests run locally against extracted real functions. No production traffic.
 //
 // Usage: node phase4_tests.js
@@ -35,9 +35,9 @@ const E = env;
 const svc = E.BackendVipAuthServiceV44;
 
 // ---------------------------------------------------------------------------
-// P4-01  Baseline: the V4.4 guard DOES detect the original PoC shape.
+// P4-01  Baseline: the V4.5 guard DOES detect the original PoC shape.
 // ---------------------------------------------------------------------------
-test('P4-01', 'baseline: V4.4 detectAndBlock rejects maxDevices=999 PoC shape', () => {
+test('P4-01', 'baseline: V4.5 detectAndBlock rejects maxDevices=999 PoC shape', () => {
     const e = h.createEnv({ now: NOW });
     const u = h.syntheticStudent({ maxDevices: 999, vipPackages: { k12: true, k11: true, k10: true, luyende: true }, isVip: true });
     const blocked = e.detectAndBlockStudentVipHackV44(u, 'test');
@@ -83,7 +83,7 @@ test('P4-03', 'bypass: _adminVipSeal secret (vaultLockConfig.adminPass) is clien
 
 // ---------------------------------------------------------------------------
 // P4-04  FULL CHAIN: forge seal + sig -> BackendVipAuthService grants VIP access.
-//          This is the core bypass of the V4.4 patch.
+//          This is the core bypass of the V4.5 patch.
 // ---------------------------------------------------------------------------
 test('P4-04', 'bypass: forged seal+sig grants verified VIP package access via BackendVipAuthServiceV44', () => {
     const e = h.createEnv({ now: NOW });
@@ -236,7 +236,7 @@ test('P4-12', 'bypass: user integrity sig salt is a bundle literal => _sig forge
 });
 
 // ---------------------------------------------------------------------------
-// P4-13  The V4.4 "backend" vault is a closure Map in the client.
+// P4-13  The V4.5 "backend" vault is a closure Map in the client.
 //          It is rebuilt from client-supplied records at boot, so it is not a
 //          trust anchor — it only enforces consistency of client state.
 // ---------------------------------------------------------------------------
@@ -269,25 +269,24 @@ test('P4-13', 'finding: BackendVipAuthServiceV44 vault is an in-client Map rebui
 //          localStorage with a forged _sig is auto-granted a valid
 //          _adminVipSeal by the app itself, then registered into the vault.
 // ---------------------------------------------------------------------------
-test('P4-14', 'bypass: real boot normalizer auto-grants _adminVipSeal to a forged VIP user', () => {
+test('P4-14', 'V4.5 FIX: boot normalizer strips VIP when _sig is valid but _adminVipSeal is absent', () => {
     const e = h.createEnv({ now: NOW });
     const u = h.syntheticStudent({
         vipPackages: { k12: true, k11: true, k10: true, luyende: true },
         vipPlan: 'lifetime', vipExpiresAt: null, vipExpiredAt: null,
         isVip: true, maxDevices: 2
     });
-    // Attacker writes VIP flags + a forged (offline-computable) _sig, no seal.
     u._sig = e.computeUserIntegritySig(u);
     assert(!u._adminVipSeal, 'precondition: no seal before boot');
     e.state.users = [u];
     e.bootNormalizeUsersV44();
     const after = e.state.users[0];
-    assert(after._adminVipSeal, 'boot must have granted a seal automatically');
-    eq(after._adminVipSeal, e.computeTeacherVipApprovalSealV44(after), 'granted seal must be the expected one');
-    assert(after.isVip === true, 'isVip must remain true after boot');
-    eq(after.status, 'active', 'status must remain active');
+    assert(!after._adminVipSeal, 'V4.5 must NOT mint a seal from _sig alone');
+    eq(after.isVip, false, 'VIP must be revoked');
+    eq(after.vipPlan, 'none', 'vipPlan must be reset');
+    eq(after.vipPackages.k12, false, 'all VIP flags must be cleared');
     const ok = e.BackendVipAuthServiceV44.hasVerifiedPackageAccess(after, '12', 'P4-14');
-    assert(ok === true, 'forged VIP user must reach full package access after boot');
+    assert(ok === false, 'unsealed user must be denied');
 });
 
 // ---------------------------------------------------------------------------
@@ -310,9 +309,9 @@ test('P4-15', 'negative control: boot normalizer downgrades a user with a bad _s
 
 // ---------------------------------------------------------------------------
 // P4-16  BOOT CHAIN: the rename + sane-field payload survives boot intact.
-//          This is the full end-to-end bypass of the V4.4 patch.
+//          This is the full end-to-end bypass of the V4.5 patch.
 // ---------------------------------------------------------------------------
-test('P4-16', 'bypass end-to-end: renamed synthetic user with forged _sig survives boot as full VIP', () => {
+test('P4-16', 'V4.5 end-to-end: renamed user with BOTH offline-forged _sig and _adminVipSeal survives boot', () => {
     const e = h.createEnv({ now: NOW });
     const u = h.syntheticStudent({
         id: 'stu_real_looking_01',
@@ -324,6 +323,9 @@ test('P4-16', 'bypass end-to-end: renamed synthetic user with forged _sig surviv
         vipPlan: 'lifetime', vipExpiresAt: null, vipExpiredAt: null,
         isVip: true, maxDevices: 2
     });
+    // V4.5 removed boot auto-sealing, but the seal secret is still a bundle
+    // literal, so both artifacts remain reproducible offline together.
+    u._adminVipSeal = e.computeTeacherVipApprovalSealV44(u);
     u._sig = e.computeUserIntegritySig(u);
     e.state.users = [u];
     e.bootNormalizeUsersV44();
@@ -338,10 +340,10 @@ test('P4-16', 'bypass end-to-end: renamed synthetic user with forged _sig surviv
 });
 
 // ---------------------------------------------------------------------------
-// P4-17  NEW-02 revalidation on V4.4: an unsigned, non-admin cloud packet
+// P4-17  NEW-02 revalidation on V4.5: an unsigned, non-admin cloud packet
 //          must be downgraded to pending / non-VIP.
 // ---------------------------------------------------------------------------
-test('P4-17', 'revalidation: unsigned cloud packet is downgraded to pending/non-VIP on V4.4', () => {
+test('P4-17', 'revalidation: unsigned cloud packet is downgraded to pending/non-VIP on V4.5', () => {
     const e = h.createEnv({ now: NOW });
     const NAME = 'sinhvien_probe';
     const pkt = {
@@ -370,7 +372,7 @@ test('P4-17', 'revalidation: unsigned cloud packet is downgraded to pending/non-
 // P4-18  Negative control: a FORGED admin packet (fromAdmin without a valid
 //          adminSig) must be rejected outright.
 // ---------------------------------------------------------------------------
-test('P4-18', 'negative control: forged fromAdmin packet is rejected on V4.4', () => {
+test('P4-18', 'negative control: forged fromAdmin packet is rejected on V4.5', () => {
     const e = h.createEnv({ now: NOW });
     const pkt = {
         app: 'TRITHUC50_V436', type: 'CLOUD_STATE_SYNC', ts: NOW,

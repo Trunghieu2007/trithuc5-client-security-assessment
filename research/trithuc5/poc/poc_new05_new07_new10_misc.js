@@ -62,7 +62,7 @@
         })));
         console.warn('[NEW-10] these identities are excluded from the activity log by');
         console.warn('         isAdminExamAttempt(), and NEW-14 shows they also skip the');
-        console.warn('         V4.4 tamper detector and the runtime integrity check.');
+        console.warn('         V4.5 tamper detector and the runtime integrity check.');
     }
 
     // ---- 3. NEW-07: cross-tab state replacement --------------------------
@@ -103,7 +103,7 @@
     await new Promise(r => setTimeout(r, 600));
 
     const after = (() => { try { return JSON.parse(localStorage.getItem(K_USERS) || '[]').length; } catch (e) { return 0; } })();
-    const bus = window.__TRITHUC50_CLOUD_BUS__;
+    const bus = (window.__INTERNAL_CLOUD_BUS_V45__ || window.__TRITHUC50_CLOUD_BUS__);
     let busUsers = null;
     try {
         const snap = bus?.exportSnapshotPacket?.();

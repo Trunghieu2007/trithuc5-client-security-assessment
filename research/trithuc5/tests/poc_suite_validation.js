@@ -1,5 +1,5 @@
 // poc_suite_validation.js — runs every shipped PoC file in a mock browser
-// environment and asserts the documented behaviour. Real V4.4 functions are
+// environment and asserts the documented behaviour. Real V4.5 functions are
 // used where the PoC depends on them.
 //
 // Usage: node poc_suite_validation.js

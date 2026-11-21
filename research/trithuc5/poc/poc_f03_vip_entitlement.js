@@ -4,7 +4,7 @@
 // Target:  https://trithuc500.vercel.app/
 // Findings:
 //   F-03    — VIP entitlement is decided entirely from client-owned fields.
-//   NEW-11  — the V4.4 "teacher approval" seal is computed from secrets that
+//   NEW-11  — the V4.5 "teacher approval" seal is computed from secrets that
 //             are literals in the same public bundle, so it is forgeable offline.
 //   NEW-12  — the shipped boot normalizer (lines 2663-2666) AUTO-GRANTS a
 //             valid `_adminVipSeal` to any record whose `_sig` matches.
@@ -49,7 +49,8 @@
 
     const INTEGRITY_SALT = 'TRITHUC50_SEC_SALT_2026_V27';   // bundle literal
     const SEAL_MASTER = 'THAY_TRUNG_MASTER_SEAL_2026';       // bundle literal
-    const VAULT_ADMIN_PASS = 'THAYTRUNG2026';                // vaultLockConfig default
+    // V4.5 replaced the plaintext vault password with this bundle-literal hash.
+    const VAULT_ADMIN_PASS = 'h45_44e3396f901a954c_24f662274f7844f4'; // DEFAULT_VAULT_PASS_HASH_V45
 
     function computeUserIntegritySig(u) {
         if (!u) return '';
@@ -74,7 +75,7 @@
         return 'vseal44_' + hashStringHex(raw);
     }
 
-    // ---- 2. Build a synthetic account that passes the V4.4 heuristics. -----
+    // ---- 2. Build a synthetic account that passes the V4.5 heuristics. -----
     // NEW-13: avoid the keyword blacklist.
     // NEW-14: do NOT use the exempt ids, so the guard genuinely runs.
     const stamp = String(Date.now()).slice(-6);

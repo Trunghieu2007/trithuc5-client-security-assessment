@@ -3,16 +3,16 @@ HTTP/1.1 200 Connection Established
 HTTP/1.1 200 OK
 Accept-Ranges: bytes
 Access-Control-Allow-Origin: *
-Age: 7887
+Age: 21511
 Cache-Control: public, max-age=0, must-revalidate
 Content-Disposition: inline
-Content-Length: 14554401
+Content-Length: 9015050
 Content-Type: text/html; charset=utf-8
-Date: Wed, 18 Nov 2026 16:02:20 GMT
-Etag: "3a9ad426f475a67075042ef46cfaabb1"
-Last-Modified: Wed, 18 Nov 2026 13:50:52 GMT
+Date: Sat, 21 Nov 2026 14:32:35 GMT
+Etag: "a97f770bc9be607ed115f55c0af6509f"
+Last-Modified: Sat, 21 Nov 2026 08:34:03 GMT
 Server: Vercel
 Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
 X-Vercel-Cache: HIT
-X-Vercel-Id: hkg1::vzjn6-1795017739949-bf6e9de969ce
+X-Vercel-Id: hkg1::hntlc-1795271555540-fa6317cd03f3
 

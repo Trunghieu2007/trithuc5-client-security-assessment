@@ -6,7 +6,7 @@
 //   F-01    — cloud sync publishes the full user table to a public ntfy topic
 //             and a public KV namespace.
 //   NEW-01  — the compact wire format carries the password in field `p`.
-//   NEW-16  — the V4.4 wire format additionally carries `_adminVipSeal` and
+//   NEW-16  — the V4.5 wire format additionally carries `_adminVipSeal` and
 //             `_backendVipToken` (the "teacher approval" artifacts).
 // Type:     DISPLAY ONLY. Reads local state and performs READ-ONLY GETs against
 //           the public ntfy/KV endpoints. Never POSTs, never writes state.

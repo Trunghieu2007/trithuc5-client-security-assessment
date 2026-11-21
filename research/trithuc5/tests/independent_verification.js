@@ -1,9 +1,9 @@
-// independent_verification.js — INDEPENDENT execution-based verification of the V4.4 build.
+// independent_verification.js — INDEPENDENT execution-based verification of the V4.5 build.
 // Written separately from phase4_tests.js: its own SHA pin, extraction, VM environment and
 // assertions. Exercises the REAL functions extracted from the public HTML with synthetic data.
 // No production requests, no real credentials, no ntfy/KV writes.
 //
-// Usage: TRITHUC_SOURCE=/path/to/V4.4/target.html node tests/independent_verification.js
+// Usage: TRITHUC_SOURCE=/path/to/V4.5/target.html node tests/independent_verification.js
 
 'use strict';
 const fs = require('fs');
@@ -13,8 +13,8 @@ const crypto = require('crypto');
 const assert = require('assert');
 
 const SOURCE = process.env.TRITHUC_SOURCE || path.join(
-    __dirname, '..', '..', '..', '..', 'research', 'trithuc5', 'phase4', 'target.html');
-const EXPECTED_SHA = '33be09d79b1e8089867a7db379a1dc6b9932aed178c9f9dde2e968e74d06b868';
+    __dirname, '..', '..', '..', '..', 'research', 'trithuc5', 'phase5', 'target.html');
+const EXPECTED_SHA = 'eff119024864bb4cfcc96ba2eeac44257e0c73c79456616091b6202535ab965f';
 const NOW = 1795000000000;
 
 function source() {
@@ -127,18 +127,20 @@ function makeEnv(overrides) {
     vm.createContext(sandbox);
     const pieces = [
         byDecl(lines, 'const STORAGE_KEYS = {'),
-        lines[1528], // const __MEMORY_STORE__ = {};
+        lines[2193], // V4.5: const __MEMORY_STORE__ = {}; (line 2194)
+        lines.slice(2029, 2054).join('\n'), // hash64V45 / saltedAuthHashV45 / V4.5 hash literals
         'const LEGACY_SAMPLE_BANNED = new Set();',
         'const deletedUsernamesRegistry = new Set();',
         byDecl(lines, 'const BackendVipAuthServiceV44 = (function() {'),
+        byDecl(lines, 'const LessonVipVaultV44 = (function() {'),
         ...FN.map(n => byName(lines, n)),
         'function bootNormalizeUsersV44() {\n' +
-        lines.slice(2604, 2668).join('\n') + '\n}',
+        lines.slice(3552, 3621).join('\n') + '\n}',
         'const bundledUsers = [];',
         ...['BackendVipAuthServiceV44', 'bootNormalizeUsersV44', 'processIncomingCloudPacket',
             'computeCloudPacketAdminSig', 'serializeCompactUser', 'deserializeCompactUser',
             'deletedUsernamesRegistry', 'hasStudentVipAccess', 'verifyProtectedVipActionV44',
-            'verifyRuntimeSecurityIntegrity', 'hasVerifiedPackageAccessProbe',
+            'verifyRuntimeSecurityIntegrity',             'hasVerifiedPackageAccessProbe', 'LessonVipVaultV44',
             'computeUserIntegritySig', 'computeTeacherVipApprovalSealV44', 'detectAndBlockStudentVipHackV44'
         ].map(n => n === 'hasVerifiedPackageAccessProbe'
             ? 'globalThis.hasVerifiedPackageAccessProbe = (u,k,c) => BackendVipAuthServiceV44.hasVerifiedPackageAccess(u,k,c);'
@@ -165,7 +167,7 @@ function check(id, label, fn) {
 }
 function compact(u) { return { u: u.username, p: u.password, n: u.name, c: u.class, s: u.stt, vp: [1, 1, 1, 1], st: 'active', pl: '1y', maxD: 2, updAt: NOW, v436: 1 }; }
 
-console.log('=== INDEPENDENT VERIFICATION — V4.4 (SHA ' + EXPECTED_SHA.slice(0, 8) + ') ===');
+console.log('=== INDEPENDENT VERIFICATION — V4.5 (SHA ' + EXPECTED_SHA.slice(0, 8) + ') ===');
 
 // ---------------------------------------------------------------- TRACK 1: NEW-11/12
 console.log('\n-- Track 1: NEW-11/12 — _sig -> boot seal -> real access gates --');
@@ -179,10 +181,21 @@ check('IV-01', 'computeUserIntegritySig is reproducible from bundle-literal salt
     assert.ok(sig1.startsWith('v27_'));
 });
 t1.bootNormalizeUsersV44();
-check('IV-02', 'boot normalizer mints _adminVipSeal automatically when _sig matches and VIP flags are set', () => {
+check('IV-02', 'V4.5 FIX: boot no longer mints a seal from _sig; an unsealed VIP record is stripped', () => {
     const u = t1.state.users[0];
-    assert.ok(u._adminVipSeal && u._adminVipSeal.startsWith('vseal44_'));
-    assert.strictEqual(u._adminVipSeal, t1.computeTeacherVipApprovalSealV44(u));
+    assert.ok(!u._adminVipSeal, 'no seal may be minted from _sig alone');
+    assert.strictEqual(u.isVip, false);
+    assert.strictEqual(u.vipPackages.k12, false);
+});
+// V4.5 still bundles the seal secret, so both artifacts remain reproducible offline.
+t1u.vipPackages = { k12: true, k11: true, k10: true, luyende: true };
+t1u.vipPlan = '1y'; t1u.isVip = true; t1u.status = 'active';
+t1u._adminVipSeal = t1.computeTeacherVipApprovalSealV44(t1u);
+t1u._sig = t1.computeUserIntegritySig(t1u);
+t1.BackendVipAuthServiceV44.registerVerifiedUserRecord(t1u);
+check('IV-02b', 'offline-forged sig + seal restore the attacker-owned VIP record after V4.5 boot stripping', () => {
+    assert.ok(t1u._adminVipSeal.startsWith('vseal44_'));
+    assert.strictEqual(t1u._sig, t1.computeUserIntegritySig(t1u));
 });
 check('IV-03', 'in-client vault registers the attacker-owned record as VIP with a backend token', () => {
     const u = t1.state.users[0];
@@ -361,7 +374,7 @@ check('IV-26', 'no real credential literal is stored in this suite (synthetic se
 });
 
 // ---------------------------------------------------------------- TRACK 4: F-01
-console.log('\n-- Track 4: F-01 — tombstone / signature / authorization on V4.4 (synthetic fixtures) --');
+console.log('\n-- Track 4: F-01 — tombstone / signature / authorization on V4.5 (synthetic fixtures) --');
 const victim = ordinaryUser({ id: 'stu_victim', username: 'victimuser', name: 'Victim User' });
 const t4 = makeEnv({ state: { users: [victim] } });
 check('IV-27', 'forged admin claim (bad adminSig) is rejected outright and leaves tombstone untouched', () => {
@@ -392,7 +405,7 @@ check('IV-30', 'tombstone blocks a later restore packet even when that packet is
     assert.strictEqual(t4b.state.users.length, 0);
 });
 const t4c = makeEnv();
-check('IV-31', 'unsigned packet with VIP flags is downgraded to pending/non-VIP (V4.4 fix holds)', () => {
+check('IV-31', 'unsigned packet with VIP flags is downgraded to pending/non-VIP (V4.5 fix holds)', () => {
     const pkt = { app: 'TRITHUC50_V436', ts: NOW, user: compact(ordinaryUser({ username: 'unsignedvip', id: 'stu_unsigned' })) };
     assert.strictEqual(t4c.processIncomingCloudPacket(pkt), true);
     const u = t4c.state.users[0];

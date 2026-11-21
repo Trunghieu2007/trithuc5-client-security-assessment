@@ -1,6 +1,6 @@
-# tests/secure_controls.js against the V4.4 build (2026-11-18)
+# tests/secure_controls.js against the V4.5 build (2026-11-21)
 === POST-PATCH SECURE CONTROLS (expected to fail before remediation) ===
-source sha256: 33be09d79b1e8089867a7db379a1dc6b9932aed178c9f9dde2e968e74d06b868
+source sha256: eff119024864bb4cfcc96ba2eeac44257e0c73c79456616091b6202535ab965f
 PASS SC-01 positive: valid signed admin packet is applied
 PASS SC-02 unsigned fromAdmin packet is rejected
 PASS SC-03 invalid signature packet causes no tombstone or user mutation

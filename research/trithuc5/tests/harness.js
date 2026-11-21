@@ -1,4 +1,4 @@
-// harness.js — isolated execution environment for TRITHUC5.0 V4.3.9 client code.
+// harness.js — isolated execution environment for TRITHUC5.0 V4.5 client code.
 // Extracts REAL functions from the downloaded public HTML and runs them in a Node VM
 // with synthetic storage, mock ntfy/KV, and no network access to production.
 // Usage: require('./harness.js') from any test in this directory.
@@ -9,8 +9,9 @@ const path = require('path');
 const vm = require('vm');
 const crypto = require('crypto');
 
-const SOURCE = process.env.TRITHUC_SOURCE || path.join(__dirname, '..', 'current.html');
-const EXPECTED_SHA = '33be09d79b1e8089867a7db379a1dc6b9932aed178c9f9dde2e968e74d06b868';
+const SOURCE = process.env.TRITHUC_SOURCE || path.join(
+    __dirname, '..', '..', '..', '..', 'research', 'trithuc5', 'phase5', 'target.html');
+const EXPECTED_SHA = 'eff119024864bb4cfcc96ba2eeac44257e0c73c79456616091b6202535ab965f';
 
 function readSource() {
     const text = fs.readFileSync(SOURCE, 'utf8');
@@ -77,6 +78,7 @@ function makeState(overrides) {
         hideAuthorInfo: false,
         isAdminLoggedIn: false,
         adminCreds: { username: 'synthetic_admin', password: 'synthetic_password' },
+        vaultLockConfig: { isLocked: true, adminPassHash: 'h45_44e3396f901a954c_24f662274f7844f4' },
         savedAdminCreds: { username: '', password: '', remember: false },
         adminRememberMe: false,
         adminLoginLockUntil: 0,
@@ -110,6 +112,7 @@ const FN_NAMES = [
     'processIncomingCloudPacket', 'decodeCloudMessageString', 'buildTeacherSnapshotPacket',
     'pushCloudSyncPacket', 'pullCloudSyncMessages',
     'getCanvasAndWebGLHardwareSig', 'getHardwareDeviceProfile', 'isValidStudentGmail',
+    'buildCompactCustomMockSpecs',
     'verifyAndBindStudentDeviceOnLogin', 'decryptV97EmbedPayload',
     'saveUsersState', 'broadcastTeacherUsersToCloud'
 ];
@@ -235,18 +238,28 @@ function createEnv(options) {
         extractDeclaration(src.lines, 'const STORAGE_KEYS = {').code,
         extractDeclaration(src.lines, 'const setupCrossTabUserSync =').code,
         extractFunction(src.lines, 'getCanvasAndWebGLHardwareSig').code,
-        // Cloud sync constants (V4.4: lines 3300-3306) are lexical, not functions.
-        extractLineRange(src.lines, 3300, 3306).code,
+        // Cloud sync constants (V4.5: lines 4262-4268) are lexical, not functions.
+        extractLineRange(src.lines, 4262, 4268).code,
+        // V4.6.3 closure-vault variables referenced by buildCompactCustomMockSpecs (line 1993-2005).
+        extractLineRange(src.lines, 1993, 2005).code,
+        // V4.5 replaced the plaintext vault password with bundle hash literals (line 2030-2054).
+        extractLineRange(src.lines, 2030, 2054).code,
         ...FN_NAMES.map(n => extractFunction(src.lines, n).code),
-        // Admin session restore block exactly as shipped (V4.4: lines 2752-2764).
-        'function checkRememberedAdminSessionFromSource() {\n' + extractLineRange(src.lines, 2752, 2764).code + '\n}',
+        // Admin session restore block exactly as shipped (V4.5: lines 3718-3730).
+        'function checkRememberedAdminSessionFromSource() {\n' + extractLineRange(src.lines, 3718, 3730).code + '\n}',
         // Expose lexical constants/functions as context properties for assertions.
         'globalThis.STORAGE_KEYS = STORAGE_KEYS;',
         'globalThis.CLOUD_SYNC_TOPIC = CLOUD_SYNC_TOPIC;',
         'globalThis.CLOUD_KV_APP_KEY = CLOUD_KV_APP_KEY;',
+        'globalThis.DEFAULT_VAULT_PASS_HASH_V45 = DEFAULT_VAULT_PASS_HASH_V45;',
+        'globalThis.DEFAULT_ADMIN_USER_HASHES_V45 = DEFAULT_ADMIN_USER_HASHES_V45;',
+        'globalThis.DEFAULT_ADMIN_PASS_HASH_V45 = DEFAULT_ADMIN_PASS_HASH_V45;',
         'globalThis.setupCrossTabUserSync = setupCrossTabUserSync;',
         extractDeclaration(src.lines, 'const BackendVipAuthServiceV44 = (function() {').code,
         'globalThis.BackendVipAuthServiceV44 = BackendVipAuthServiceV44;',
+        // V4.5 lesson vault is referenced by buildTeacherSnapshotPacket and isFreeLesson.
+        extractDeclaration(src.lines, 'const LessonVipVaultV44 = (function() {').code,
+        'globalThis.LessonVipVaultV44 = LessonVipVaultV44;',
         // Expose a wrapped tombstone deletion request path without calling network code.
         'function forceAdminFlagFromSource() { state.isAdminLoggedIn = true; }'
     ];
