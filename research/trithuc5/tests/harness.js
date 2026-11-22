@@ -11,7 +11,7 @@ const crypto = require('crypto');
 
 const SOURCE = process.env.TRITHUC_SOURCE || path.join(
     __dirname, '..', '..', '..', '..', 'research', 'trithuc5', 'phase5', 'target.html');
-const EXPECTED_SHA = 'be27a5bc429dec25ec31031cf9128680bcc116b6eaa48c75bdb0e37896234028';
+const EXPECTED_SHA = 'ffe94aea9b327853b0b8836bf0d52e1f509fcc68c007bead7b8a888604389185';
 
 function readSource() {
     const text = fs.readFileSync(SOURCE, 'utf8');
@@ -238,18 +238,18 @@ function createEnv(options) {
         extractDeclaration(src.lines, 'const STORAGE_KEYS = {').code,
         extractDeclaration(src.lines, 'const setupCrossTabUserSync =').code,
         extractFunction(src.lines, 'getCanvasAndWebGLHardwareSig').code,
-        // Cloud sync constants (V4.8.0: lines 4298-4304) are lexical, not functions.
-        extractLineRange(src.lines, 4298, 4304).code,
+        // Cloud sync constants (V4.8.6: lines 4295-4299) are lexical, not functions.
+        extractLineRange(src.lines, 4295, 4299).code,
         // V4.6.3 closure-vault variables referenced by buildCompactCustomMockSpecs (line 1993-2005 — unchanged in V4.8.0).
         extractLineRange(src.lines, 1993, 2005).code,
-        // V4.8.0 still uses bundle hash literals (line 2030-2054).
-        extractLineRange(src.lines, 2030, 2054).code,
-        // V4.8.0 lexical constants referenced by safeStorageSet / packet verifier.
-        extractLineRange(src.lines, 2227, 2227).code,
-        extractLineRange(src.lines, 5713, 5713).code,
+        // V4.8.6 keeps the hash functions but empties the admin/vault literals (lines 2030-2055).
+        extractLineRange(src.lines, 2030, 2055).code,
+        // V4.8.6 lexical constants referenced by safeStorageSet / packet verifier.
+        extractLineRange(src.lines, 2228, 2228).code,
+        extractLineRange(src.lines, 5768, 5768).code,
         ...FN_NAMES.map(n => extractFunction(src.lines, n).code),
-        // Admin session restore block exactly as shipped (V4.8.0: lines 3739-3751).
-        'function checkRememberedAdminSessionFromSource() {\n' + extractLineRange(src.lines, 3739, 3751).code + '\n}',
+        // Admin session restore block exactly as shipped (V4.8.6: lines 3740-3752).
+        'function checkRememberedAdminSessionFromSource() {\n' + extractLineRange(src.lines, 3740, 3752).code + '\n}',
         // Expose lexical constants/functions as context properties for assertions.
         'globalThis.STORAGE_KEYS = STORAGE_KEYS;',
         'globalThis.CLOUD_SYNC_TOPIC = CLOUD_SYNC_TOPIC;',

@@ -1,6 +1,6 @@
 # Sanitized evidence — docs/audit
 
-**Build:** V4.8.0 / SHA-256 `be27a5bc429dec25ec31031cf9128680bcc116b6eaa48c75bdb0e37896234028`  
+**Build:** V4.8.6 / SHA-256 `ffe94aea9b327853b0b8836bf0d52e1f509fcc68c007bead7b8a888604389185`  
 **Source pin:** `source-pin.txt`.  
 **Collection:** local isolated VM, captured headers and read-only channel checks only.
 
@@ -10,10 +10,10 @@
 |---|---|
 | `source-pin.txt` | Exact build identity and fetch provenance. |
 | `response-headers.txt` | HSTS, XFO, nosniff, Referrer-Policy, Permissions-Policy, wildcard CORS, absent CSP. |
-| `test-results.txt` | Main suite: 40/40 on V4.8.0, including fixed and residual assertions. |
+| `test-results.txt` | Main suite: 41/41 on V4.8.6, including fixed and residual assertions. |
 | `phase3-test-results.txt` | 8/8; weak-store mirroring, stale packets and blank wire fields. |
 | `phase4-test-results.txt` | 20/20; VIP seal chain, detector exemptions and tombstone behavior. |
-| `poc-suite-validation.txt` | 51/51; all canonical PoCs execute safely in a mock browser. |
+| `poc-suite-validation.txt` | 60/60; all canonical PoCs execute safely in a mock browser. |
 | `independent-verification.txt` | 36/36; independent pin, extraction and VM for priority findings. |
 | `secure-controls-v44.txt` | 7 pass / 2 expected failures before remediation. |
 | `live-readonly-check.txt` | Read-only channel check; no usable live snapshot. |
@@ -32,7 +32,7 @@
 ## Reproduction
 
 ```bash
-export TRITHUC_SOURCE=/absolute/path/to/V4.8.0/target.html
+export TRITHUC_SOURCE=/absolute/path/to/V4.8.6/target.html
 node research/trithuc5/tests/run_all.js
 node research/trithuc5/tests/phase3_tests.js
 node research/trithuc5/tests/phase4_tests.js

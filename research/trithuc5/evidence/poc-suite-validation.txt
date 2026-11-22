@@ -1,4 +1,3 @@
-=== V4.8.0 poc_suite_validation.js — SHA be27a5bc429dec25ec31031cf9128680bcc116b6eaa48c75bdb0e37896234028 ===
 ┌───────────────┬───────────────────────────────────┐
 │ (index)       │ Values                            │
 ├───────────────┼───────────────────────────────────┤
@@ -52,58 +51,50 @@ PASS F-03 account avoids the keyword blocklist
 PASS F-03 account id is not one of the exempt ids
 PASS F-03 payload wrote a login marker
 PASS F-03 payload did NOT publish to ntfy/KV
-┌────────────┬────────────────────────────────────────────────────┐
-│ (index)    │ Values                                             │
-├────────────┼────────────────────────────────────────────────────┤
-│ storageKey │ 'TRITHUC50_REMEMBER_ADMIN_SESSION_V26'             │
-│ loggedIn   │ true                                               │
-│ username   │ 'admin'                                            │
-│ sig        │ 'adm_4363C8B1'                                     │
-│ note       │ 'signature computed offline from the bundled salt' │
-└────────────┴────────────────────────────────────────────────────┘
-=== [F-02] admin action chain ===
-  [fail] 1. open admin portal — Cannot read properties of undefined (reading 'openAdminPortal')
-[F-02] admin tabs visible: []
-  [ok] 2. list admin tabs
-[F-02] user rows rendered in the admin UI: 0
-┌─────────┐
-│ (index) │
-├─────────┤
-└─────────┘
-  [ok] 3. read the user table from the admin UI
-[F-02] no visible VIP-matrix button found
-  [ok] 4. open the VIP-permission matrix
-[F-02] anti-hack banner: none
-  [ok] 5. read the anti-hack alert list
-[F-02] impersonation skipped (ALLOW_IMPERSONATE = false).
-=== chain complete ===
-[F-02] forged admin session written. Press F5 — the action chain runs automatically after reload.
-Restore: __AERO_F02_RESTORE__() then F5
+┌────────────────────────┬───────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ (index)                │ Values                                                                                                │
+├────────────────────────┼───────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ serverSession          │ 'unavailable'                                                                                         │
+│ rememberedAdminSession │ 'absent'                                                                                              │
+│ findingStatus          │ 'FIXED-V4.8.5'                                                                                        │
+│ verdict                │ 'F-02 fixed: admin authentication is server-side; no offline session forgery path remains in V4.8.6.' │
+└────────────────────────┴───────────────────────────────────────────────────────────────────────────────────────────────────────┘
 PASS F-02 payload executes without error
-PASS F-02 payload returns a chain
-PASS F-02 wrote an admin session
-PASS F-02 session carries a signature
-PASS F-02 session signature matches the real computeAdminSessionSig
-PASS F-02 payload did NOT publish
-PASS F-02 payload did not impersonate by default
-=== NEW-15 admin preview unlock-all (ACTION, LOCAL ONLY) ===
-[NEW-15] admin session written. Press F5 — the chain runs automatically.
-Restore: __AERO_NEW15_RESTORE__() then F5
-┌───────────────────────┬─────────────────────────────────────────────────────────────┐
-│ (index)               │ Values                                                      │
-├───────────────────────┼─────────────────────────────────────────────────────────────┤
-│ toggleCalled          │ false                                                       │
-│ toggleError           │ 'window.TRITHUC.toggleAdminPreviewUnlockAll is unavailable' │
-│ previewBannerVisible  │ false                                                       │
-│ viewingAsStudentLabel │ false                                                       │
-│ clicked               │ '(no visible locked-content control found)'                 │
-│ lockModalStillShown   │ false                                                       │
-│ vipBadgeShown         │ true                                                        │
-└───────────────────────┴─────────────────────────────────────────────────────────────┘
-[NEW-15] NEW-15 partially observed — inspect the table
+PASS F-02 is classified DISPLAY
+PASS F-02 reports FIXED-V4.8.5
+PASS F-02 wrote no remembered admin session
+PASS F-02 sent no POST
+PASS F-02 source has server login API
+PASS F-02 source no longer has admin password hash
+PASS F-02 source uses ephemeral admin salt
+┌──────────────────────┬──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ (index)              │ Values                                                                                                                   │
+├──────────────────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ serverSession        │ 'unavailable'                                                                                                            │
+│ previewBannerVisible │ false                                                                                                                    │
+│ findingStatus        │ 'FIXED-V4.8.5'                                                                                                           │
+│ verdict              │ 'NEW-15 fixed: preview unlock requires a server-verified admin session; offline session forgery is no longer available.' │
+└──────────────────────┴──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 PASS NEW-15 payload executes without error
-PASS NEW-15 admin session signature is valid
-PASS NEW-15 payload did NOT publish
+PASS NEW-15 is classified DISPLAY
+PASS NEW-15 reports FIXED-V4.8.5
+PASS NEW-15 sent no POST
+PASS NEW-15 wrote no admin session
+┌─────────────┬────────────────────────────────────────────────┐
+│ (index)     │ Values                                         │
+├─────────────┼────────────────────────────────────────────────┤
+│ endpoint    │ '/api/results'                                 │
+│ method      │ 'GET'                                          │
+│ httpStatus  │ 0                                              │
+│ recordCount │ null                                           │
+│ recordKeys  │ '(none)'                                       │
+│ note        │ 'Read-only GET; values intentionally omitted.' │
+└─────────────┴────────────────────────────────────────────────┘
+PASS NEW-17 payload executes without error
+PASS NEW-17 is classified DISPLAY
+PASS NEW-17 reports the results endpoint
+PASS NEW-17 uses GET only
+PASS NEW-17 sent no POST/write
 === NEW-02 unsigned packet injection (LOCAL ONLY) ===
 ┌───────────────┬────────────────────┐
 │ (index)       │ Values             │
@@ -248,5 +239,6 @@ PASS syntax poc_new02_packet_injection.js
 PASS syntax poc_new05_new07_new10_misc.js
 PASS syntax poc_new08_new09_leakage.js
 PASS syntax poc_new15_admin_preview.js
+PASS syntax poc_new17_results_api.js
 
-TOTAL 51 PASS 51 FAIL 0
+TOTAL 60 PASS 60 FAIL 0

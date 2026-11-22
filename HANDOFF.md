@@ -341,3 +341,42 @@ PHASE5_UPDATE, INDEPENDENT_VERIFICATION, REMEDIATION_PLAN.
 Boundaries unchanged: local isolated synthetic fixtures only; no packet published, no real
 account touched, no production state modified. Live-channel content remains UNVERIFIED;
 release remains blocked.
+
+## V4.8.6 redeploy — re-pin, new finding, canonical docs updated (2026-11-22)
+
+Live fetch returned HTTP 200 with SHA-256
+`ffe94aea9b327853b0b8836bf0d52e1f509fcc68c007bead7b8a888604389185`, 9,120,257 bytes,
+34,677 lines, titled TRITHUC5.0 V4.8.6. The V4.8.0 pin is now historical.
+
+Security-relevant changes:
+
+- Admin authentication moved to `/api/admin/login` with a server-verified flag
+  (`__TT50_SERVER_ADMIN_VERIFIED_V485__`); admin/vault password hashes were removed from the
+  bundle; the session salt is per-window (`__TT50_EPH_ADM_SALT_V485__`); remembered admin
+  sessions are removed at boot. **F-02 is Fixed.**
+- Admin preview no longer bypasses VIP gates without a server-verified session. **NEW-15 is Fixed.**
+- `CLOUD_KV_DISABLED_V485 = true` disables public keyvalue.immanuel.co writes; public ntfy
+  user sync remains.
+- New `POST /api/results` and `GET /api/results`. One unauthenticated read-only GET returned
+  HTTP 200 with two result records and student-identifying field names; no values were
+  retained. **NEW-17 is a new High finding.** POST authorization remains UNVERIFIED.
+- VIP approval seal still uses a master-seal literal; integrity salt, cloud admin secret,
+  backend ticket, exam seed/token and 15 exams / 330 answers remain client-derivable.
+
+Re-pinned all harnesses to the V4.8.6 hash and line ranges: hash literals 2030–2055,
+closure vault 1993–2005, sensitive regex 2228, boot normalizer 3575–3643, remembered admin
+session 3740–3752, cloud constants 4295–4299, nonce registry 5768. Tests that previously
+documented F-02/NEW-15 were inverted to FIX assertions. PoCs `poc_f02_admin_login.js` and
+`poc_new15_admin_preview.js` became DISPLAY fix verifications; `poc_new17_results_api.js`
+was added as a read-only DISPLAY probe.
+
+Final suite state: `run_all.js` 41/41, `phase3_tests.js` 8/8, `phase4_tests.js` 20/20,
+`poc_suite_validation.js` 60/60, `independent_verification.js` 36/36,
+`secure_controls.js` 7 pass / 2 expected failures. All logs and `docs/audit/` were regenerated.
+Canonical V4.8.6 docs: `FINDINGS.md`, `PHASE5_UPDATE.md`, `EXECUTIVE_SUMMARY.md`,
+`REMEDIATION_PLAN.md`, `INDEPENDENT_VERIFICATION.md`, `SOURCE.md`, `evidence/README.md`, root
+`README.md` and the full `docs/audit/` package.
+
+Boundaries: no production write, no packet publish, no real account access. The only new
+production request was the unauthenticated GET to `/api/results`; values were not retained.
+Live ntfy content remains UNVERIFIED; release remains blocked.

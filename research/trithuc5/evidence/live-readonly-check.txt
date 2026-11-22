@@ -19,4 +19,12 @@ errors: [
   'KV s_15: empty',
   'KV chunk set incomplete; snapshot skipped'
 ]
+=== V4.8.6 ADDITION: GET /api/results (read-only metadata probe) ===
+Request: GET https://trithuc500.vercel.app/api/results
+Headers: HTTP/2 200, Content-Type application/json, Cache-Control no-store
+Response metadata: ok=true, configured=(not inspected), count=2, records=list(2)
+Record keys (values intentionally omitted): aiSuspicionCount, class, detail, endTime,
+examId, examTitle, id, name, school, score, startTime, stt, tabSwitches, username
+No auth header was sent by curl. No POST/write was performed.
+Interpretation: NEW-17 CONFIRMED as an unauthenticated read surface.
 === END READ-ONLY VERIFICATION ===

@@ -1,11 +1,10 @@
-PoC: F-02 — Admin authentication and session signing are client-side
-Build: V4.8.0 / SHA-256 be27a5bc429dec25ec31031cf9128680bcc116b6eaa48c75bdb0e37896234028
-Type: ACTION
+PoC: F-02 — Admin authentication is delegated to a server session
+Build: V4.8.6 / SHA-256 ffe94aea9b327853b0b8836bf0d52e1f509fcc68c007bead7b8a888604389185
+Type: DISPLAY
 
 EXPECTED:
 Admin login must require a server-authenticated credential and a server-issued session that the client cannot mint.
 
 Prerequisites:
-- Pinned V4.8.0 source.
-- Own browser origin and synthetic admin fixture.
-- No real credential is used or stored in this report.
+- Pinned V4.8.6 source.
+- No real admin credential is used or stored in this report.

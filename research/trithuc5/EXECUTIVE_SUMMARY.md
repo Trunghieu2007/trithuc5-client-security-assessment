@@ -1,134 +1,64 @@
-# Executive summary — TRITHUC5.0 V4.8.0 (current live build)
+# Executive summary — TRITHUC5.0 V4.8.6 (current live build)
 
-## Overall posture
+**Target:** `https://trithuc500.vercel.app/`  
+**Owner authorization:** client-side-only assessment; no production write.  
+**Assessment period:** 2026-11-18 → 2026-11-22; final source re-pin 2026-11-22.  
+**Build under test:** V4.8.6, SHA-256 `ffe94aea9b327853b0b8836bf0d52e1f509fcc68c007bead7b8a888604389185` (9,120,257 bytes, 34,677 lines), fetched 2026-11-22T10:36:26Z.  
+**Overall risk:** High. Release remains blocked for any use case that depends on account identity, entitlement, exam integrity, or result privacy.
 
-The owner redeployed again. Fetch of 2026-11-22T04:48:27Z returned HTTP 200 with
-SHA-256 `be27a5bc429dec25ec31031cf9128680bcc116b6eaa48c75bdb0e37896234028`
-(9,115,471 bytes, 34,599 lines), a V4.8.0 patch on the previous V4.6.7 live build
-(`8ec45ea6…`, 9,051,706 bytes, 33,519 lines).
+## Scope
 
-V4.8.0 fixes a real set of issues: password, seal and backend token are no longer written to
-public packets; password-like log details are masked; sensitive keys are no longer mirrored
-to cookies / `window.name` / `sessionStorage`; unsigned tombstones are rejected; nonce replay
-and 26-hour stale packets are rejected when a nonce is present; the internal cloud bus is
-gone; the Gemini key moved to `sessionStorage`; and `X-Frame-Options` plus
-`X-Content-Type-Options` headers were added.
+The assessment covered the public single-file client application, its response headers, the client-side functions implementing admin login, VIP entitlement, cloud synchronization, device binding, activity logging and exam vault access, and one read-only GET to the new same-origin results endpoint. Vercel internals, ntfy.sh, keyvalue.immanuel.co, Google Forms, Gemini and server-side implementation details were not actively tested. Live ntfy content remains UNVERIFIED.
 
-**The trust boundary did not move.** The VIP approval seal, admin credential hashes, admin
-session salt and exam-vault seed are still bundle literals. The complete local VIP bypass is
-still reproducible end-to-end when both `_sig` and the seal are forged offline — executed
-against the real extracted V4.8.0 functions.
+## Verified fixes in V4.8.5 / V4.8.6
 
-**Release verdict: blocked.** The patch reduced exposure and closed several paths, but a
-client cannot be the authority for its own entitlement or admin identity.
-
-## What V4.8.0 fixed (verified)
-
-| Earlier weakness | V4.8.0 status | Proof |
+| Earlier weakness | Current status | Proof |
 |---|---|---|
-| Password in compact wire format | Fixed — `p: ''` (5546) | `P3-04`, F-01-T13, SC-08 |
-| Seal / backend token broadcast | Fixed — `seal: ''`, `bkt: ''`; deserializer ignores inbound values | F-01-T13, `P3-04` |
-| Password-like detail reaches Google Form | Fixed for the tested sentinel — mask in `logStudentActivity` (7364) | IV-21/IV-22 |
-| Sensitive keys mirrored to cookie / `window.name` / `sessionStorage` | Fixed — sensitive-key filter (2227), `SameSite=Strict` | `P3-02`, IV-24 |
-| Unsigned tombstone merge | Fixed — `isVerifiedAdmin` required | `P4-19`, IV-29, F-01-T12/T16 |
-| Replay / 26-hour stale packets | Partly fixed — nonce registry (5713) and age check; nonce optional | F-01-T06/T07, `P3-03`, SC-05 |
-| Internal cloud bus | Fixed — removed from production | F-01-T14 |
-| V4.5 boot auto-seal | Fixed — unsealed VIP records stripped at boot | `P4-14`, IV-10 |
-| Plaintext admin remember-me | Fixed — username + `remember` only | `P3-08` |
-| `isAdminTester` detector exemption | Fixed — guard now fires | `P4-08`, IV-15 |
+| F-02 client-side admin auth / offline session forgery | **Fixed** — `/api/admin/login` server session, per-window ephemeral salt, no admin/vault hash literals, remembered session cleared at boot | `F-02-T01/T05`, `P4-11`, `IV-20` |
+| NEW-15 offline admin-preview bypass | **Fixed** — orphan preview flag cleared; gates require a server-verified admin session | `P4-10`, `IV-16`…`IV-19` |
+| Public keyvalue.immanuel.co user sync | **Disabled** — `CLOUD_KV_DISABLED_V485 = true` | `P3-04`, static assertion |
+| Password, seal and backend token in public wire format | **Fixed** — blank fields | F-01-T13, `P3-04`, SC-08 |
+| Unsigned tombstone merge | **Fixed** — verified admin signature required | `P4-19`, IV-29, F-01-T12/T16 |
+| Weak-store mirroring, internal cloud bus, boot auto-seal | **Fixed** | `P3-02`, F-01-T14, `P4-14`, IV-10 |
 
-These are barriers, not a trust boundary: every remaining signature is reproducible offline
-from bundle literals.
+These fixes were executed as inverted regression assertions, not accepted from code review alone.
 
-## Why the new layer still does not hold
+## New in V4.8.6
 
-1. **The seal secret is still public.** `computeTeacherVipApprovalSealV44` (15816) uses
-   `DEFAULT_VAULT_PASS_HASH_V45` (2054) plus `THAY_TRUNG_MASTER_SEAL_2026`. → NEW-11 (Critical).
-2. **Boot no longer seals, but the seal is still forgeable.** Forging both artifacts offline
-   restores `hasStudentVipAccess`, `hasVerifiedPackageAccess`,
-   `verifyProtectedVipActionV44` and the in-client `bkt44_` token (IV-02b–IV-09, P4-16).
-3. **Detection now checks structure, but trusts client-side secrets.** The renamed-account
-   keyword bypass is closed; recomputing `_sig` + seal offline reopens it. → NEW-13 residual.
-4. **Privileged ids are only partly closed.** `isAdminTester` no longer skips the detector and
-   guest VIP flags are detected, but `gv_test` still skips and the runtime block still exempts
-   all three ids. → NEW-14 residual.
-5. **Admin preview still unlocks all packages** once an offline-forged admin session sets
-   `isAdminLoggedIn`. → NEW-15 residual (F-02 chain).
-6. **The exam vault is unchanged.** The claim token and XOR seed are literals; 15 exams / 330
-   answers were recovered offline. → F-04.
-7. **Public identity data still leaves the client.** Password, seal and token are gone, but
-   the compact user list still publishes names, classes, Gmail and status. → F-01 residual.
+**NEW-17 — unauthenticated results API (High).** The new `GET /api/results` endpoint returned HTTP 200 to a request with no cookie and no Authorization header. The response contained two records with student-identifying fields (`username`, `name`, `class`, `school`, `score`, `examTitle`, timestamps and anti-cheat counters). Values were not printed, stored or replicated. The corresponding `POST` path was not tested because it would write to production; its authorization model is UNVERIFIED.
 
-## Confirmed vulnerabilities and evidence levels
+## Active findings at a glance
 
-| Finding | Severity | Evidence |
-|---|---|---|
-| NEW-11 seal forgeable from bundled secrets | **Critical** | LOCAL_CONFIRMED (real V4.8.0 functions) |
-| F-01 cloud sync publishes user records; signed tombstone still forgeable | High | LOCAL_CONFIRMED; live channel UNVERIFIED |
-| F-03 VIP entitlement fully client-side | High | LOCAL_CONFIRMED |
-| NEW-13 structural detector trusts bundle secrets | High | LOCAL_CONFIRMED (partial fix) |
-| NEW-14 privileged id exemptions | High | LOCAL_CONFIRMED (partial fix) |
-| NEW-15 admin preview unlock-all | High | LOCAL_CONFIRMED (partial fix) |
-| F-02 admin auth client-side (hashed literals) | Medium | LOCAL_CONFIRMED |
-| F-05 device/Gmail lock client-owned | Medium | LOCAL_CONFIRMED (test API gated) |
-| NEW-07 cross-tab state replacement | Medium | LOCAL_CONFIRMED (VIP stripped, other fields still copied) |
-| NEW-10 admin-tester audit suppression | Medium | LOCAL_CONFIRMED (public guests now logged) |
-| NEW-08 activity logs still leave the site via third-party form | Medium | LOCAL_CONFIRMED for masking fix; live delivery UNVERIFIED |
-| F-04 exam answers behind gzip/XOR vault, still client-readable | Informational | LOCAL_CONFIRMED (15 exams / 330 answers recovered) |
-| NEW-02 unsigned packet injection (downgraded; local BC path) | Low | LOCAL_CONFIRMED |
-| F-06 anti-cheat UX-only | Low | LOCAL_CONFIRMED |
-| NEW-03 optional nonce / age guard | Low | LOCAL_CONFIRMED (partial fix) |
-| NEW-05 Gemini key in sessionStorage | Low | STATIC_CONFIRMED (partial fix) |
-| NEW-06 security headers | Informational | STATIC_CONFIRMED (partial fix) |
-| NEW-01 / NEW-04 / NEW-09 / NEW-12 / NEW-16 | **Fixed** | see table above |
+| Severity | Count | Representative finding |
+|---|---:|---|
+| Critical | 1 | NEW-11 — client-computable VIP approval seal |
+| High | 5 | F-01, F-03, NEW-13, NEW-14, NEW-17 |
+| Medium | 4 | F-05, NEW-07, NEW-08, NEW-10 |
+| Low | 5 | F-04, NEW-02, NEW-03, NEW-05, F-06 |
+| Informational | 1 | NEW-06 — partial header hardening |
 
-Full detail and the per-finding PoC map: `FINDINGS.md`. Measured build delta:
-`PHASE5_UPDATE.md`. Historical V4.4 analysis: `PHASE4_BYPASS_ANALYSIS.md`.
+Total active/residual findings: **16**. Full catalogue: [`FINDINGS.md`](FINDINGS.md).
 
-## Required remediation direction
+## Key risks
 
-1. Move VIP entitlement, admin authorization, grading and device registration behind a
-   server-authoritative API (F-01, F-02, F-03, F-04, F-05, NEW-10).
-2. Authenticate every cloud packet before any state mutation; require a server-issued identity
-   for admin claims, not a reproducible client hash (F-01, NEW-02, NEW-03).
-3. Remove answer keys and the vault boot token from client payloads; grade server-side (F-04).
-4. Remove identity fields from public wire formats and stop copying activity logs to a
-   third-party form (NEW-01 residual, NEW-08 residual).
-5. Stop mirroring session state into cookies and `window.name` for any sensitive identity
-   (NEW-07, NEW-09 residual).
-6. Remove all bundle secrets (`DEFAULT_VAULT_PASS_HASH_V45`, admin hashes, master seal,
-   `SERVER_AUTH_2026`, cloud admin secret, integrity/admin salts) and rotate them.
+1. The teacher approval seal, integrity signature and exam vault seed remain derived from data shipped to the browser. The full VIP chain was executed offline against real extracted functions with zero server calls (`IV-01`…`IV-10`, `P4-16`).
+2. `GET /api/results` exposes student result records to anonymous readers (NEW-17).
+3. Public ntfy topics still carry compact identity records; the public KV path is now disabled, but the admin packet signature is still a bundle literal (F-01).
+4. Exam answers are recoverable from the shipped gzip/XOR vault: 15 exams and 330 answer entries were decoded locally (F-04).
 
-Full plan: `REMEDIATION_PLAN.md`.
+## Business impact
 
-## Regression coverage (all green on the current build)
+Any user able to run script in the app origin can grant themselves VIP entitlements in their own browser and obtain answer keys without a server-side audit trail. Student result records are readable without authentication. Public sync channels still carry identity fields. The app should not be treated as protecting paid access, privileged roles, exam integrity, or result privacy.
 
-| Suite | Checks | Result |
-|---|---|---|
-| `tests/run_all.js` (ported to V4.8.0) | 40 | 40 pass / 0 fail |
-| `tests/phase3_tests.js` (ported to V4.8.0) | 8 | 8 pass / 0 fail |
-| `tests/phase4_tests.js` (ported to V4.8.0) | 20 | 20 pass / 0 fail |
-| `tests/poc_suite_validation.js` | 51 | 51 pass / 0 fail |
-| `tests/independent_verification.js` | 36 | 36 pass / 0 fail |
-| `tests/secure_controls.js` | 9 | 7 pass / 2 expected failures (must pass after remediation) |
+## Recommended priorities
 
-An independently written suite re-executed the four highest-priority areas with its own SHA
-pin and VM: forging both artifacts restores every access gate with zero server calls; admin
-preview and the remaining privileged paths bypass real gates; the exact Google Form /
-sensitive-storage field map was checked with a synthetic sentinel; and unsigned tombstones
-are now rejected. See [`INDEPENDENT_VERIFICATION.md`](INDEPENDENT_VERIFICATION.md).
+- **P0 / immediate:** authenticate `/api/results` with row-level scoping; stop publishing identity records to public topics; stop third-party form logging; rotate bundle-literal secrets and retire old topics.
+- **P1 / urgent:** remove client-minted approval seals and authenticate every cloud packet with a server-held key.
+- **P2 / planned:** move entitlement, device registration and grading to a server-authoritative API; keep the now-fixed admin login contract covered by regressions.
+- **P3 / hygiene:** add CSP, narrow CORS, proxy provider keys and relabel anti-cheat as UX.
 
-## Live-channel status
+Full ownership, dependencies and verification methods: [`REMEDIATION_PLAN.md`](REMEDIATION_PLAN.md).
 
-Read-only verification (`poc/verify_live_readonly.mjs`) previously found zero recent lines on
-both public ntfy topics and an incomplete KV chunk set (`s_10`, `s_15` empty), so no snapshot
-could be reconstructed. Live content for this build remains `UNVERIFIED`. Real-credential
-exposure and production cross-client mutation remain `UNVERIFIED`. No packet was published
-during the assessment.
+## Confidence and limitations
 
-## Boundaries
-
-- No production state modified, no real account touched, no packet published.
-- All PoCs are local to the tester's browser; every ACTION PoC ships a restore function.
-- Documents pinned to the superseded V4.3.9/V4.4/V4.5 builds were removed from the current tree; git
-  history retains them.
+All release-blocking findings are Confirmed by executed local evidence, a read-only endpoint probe, or measured headers. No production account was used, no packet was published, and no live cross-client effect was attempted. The only new server-side request was one unauthenticated GET to `/api/results`; no write was sent. Server-side credential verification, cookie flags and POST authorization were not directly tested. CVSS v4.0 scores are intentionally not assigned; see `03-methodology.md` in the formal audit package.

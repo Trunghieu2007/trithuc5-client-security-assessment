@@ -1,12 +1,12 @@
-PoC: NEW-15 — Admin preview unlock-all still short-circuits every VIP gate after a forged session
-Build: V4.8.0 / SHA-256 be27a5bc429dec25ec31031cf9128680bcc116b6eaa48c75bdb0e37896234028
-Evidence state: LOCAL_CONFIRMED (partial fix + residual)
+PoC: NEW-15 — Admin preview unlock-all is gated by a server-verified admin session
+Build: V4.8.6 / SHA-256 ffe94aea9b327853b0b8836bf0d52e1f509fcc68c007bead7b8a888604389185
+Evidence state: FIXED-V4.8.5 / VERIFIED-V4.8.6
 
 OBSERVED:
-The forged session plus preview flag makes every measured gate return true for a non-VIP, unsigned synthetic user.
+The orphan flag is cleared and all three gates deny without a server-verified session. With one, the unlock is an intended admin capability, not a bypass.
 
 Evidence references:
-- `IV-16`…`IV-18` show all three gates returning true for a pending, unsigned, non-VIP junk student.
-- `IV-19` shows all three gates deny when preview is off.
-- `IV-20` reproduces the admin session signature from bundle data.
-- `P4-10` verifies the same production gate behavior.
+- `IV-16`-`IV-18` now show an orphan preview flag being cleared and all three gates denying.
+- `IV-19` confirms that a server-verified admin session still unlocks by design.
+- `P4-10` inverts the old residual assertion into a fix assertion.
+- `F-02-T01` and `F-02-T05` confirm the remembered-session and server-login paths.

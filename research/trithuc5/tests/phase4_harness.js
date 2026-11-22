@@ -12,7 +12,7 @@ const crypto = require('crypto');
 
 const SOURCE = process.env.TRITHUC_SOURCE ||
     path.join(__dirname, '..', '..', '..', '..', 'research', 'trithuc5', 'phase5', 'target.html');
-const EXPECTED_SHA = 'be27a5bc429dec25ec31031cf9128680bcc116b6eaa48c75bdb0e37896234028';
+const EXPECTED_SHA = 'ffe94aea9b327853b0b8836bf0d52e1f509fcc68c007bead7b8a888604389185';
 
 function readSource() {
     const text = fs.readFileSync(SOURCE, 'utf8');
@@ -192,15 +192,15 @@ function createEnv(options) {
         // V4.5 lesson vault is referenced by isFreeLesson / protected-action gates.
         extractDeclaration(src.lines, 'const LessonVipVaultV44 = (function() {').code,
         ...FN_NAMES.map(n => extractFunction(src.lines, n).code),
-        // V4.8.0 still uses bundle hash literals (line 2030-2054).
-        extractLineRange(src.lines, 2030, 2054).code,
-        // V4.8.0 lexical constants referenced by safeStorageSet / packet verifier.
-        extractLineRange(src.lines, 2227, 2227).code,
-        extractLineRange(src.lines, 5713, 5713).code,
-        // Real boot-time user normalization block (V4.8.0): lines 3574-3642.
+        // V4.8.6 keeps the hash functions but empties the admin/vault literals (lines 2030-2055).
+        extractLineRange(src.lines, 2030, 2055).code,
+        // V4.8.6 lexical constants referenced by safeStorageSet / packet verifier.
+        extractLineRange(src.lines, 2228, 2228).code,
+        extractLineRange(src.lines, 5768, 5768).code,
+        // Real boot-time user normalization block (V4.8.6): lines 3575-3643.
         'const bundledUsers = [];\n' +
         'function bootNormalizeUsersV44() {\n' +
-        extractLineRange(src.lines, 3574, 3642).code + '\n}',
+        extractLineRange(src.lines, 3575, 3643).code + '\n}',
         'globalThis.BackendVipAuthServiceV44 = BackendVipAuthServiceV44;',
         'globalThis.LessonVipVaultV44 = LessonVipVaultV44;',
         'globalThis.bootNormalizeUsersV44 = bootNormalizeUsersV44;',

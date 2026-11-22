@@ -5,7 +5,7 @@
 This assessment is **client-side only** against an owner-authorized target. The objective was to identify and verify security boundaries that the shipped browser application claims to enforce, without touching production state or third-party accounts.
 
 **Target:** `https://trithuc500.vercel.app/`
-**Pinned build:** SHA-256 `be27a5bc429dec25ec31031cf9128680bcc116b6eaa48c75bdb0e37896234028` (V4.8.0), 9,115,471 bytes / 34,599 lines.
+**Pinned build:** SHA-256 `ffe94aea9b327853b0b8836bf0d52e1f509fcc68c007bead7b8a888604389185` (V4.8.6), 9,120,257 bytes / 34,677 lines.
 **Assessment period:** 2026-11-18 → 2026-11-22, with the final re-pin on 2026-11-22.
 
 ## 2. Evidence rules
@@ -29,7 +29,7 @@ This assessment is **client-side only** against an owner-authorized target. The 
 | 6 — Severity | Qualitative severity from measured exploitability and impact; CVSS not scored | Per-finding reports |
 | 7 — Documentation | This `docs/audit` tree | All files |
 | 8 — Roadmap | Root-cause remediation ordered P0–P3 | `05-remediation-roadmap.md` |
-| 9 — Retest | Re-ran all suites on V4.8.0 after re-pin | `06-retest-results.md` |
+| 9 — Retest | Re-ran all suites on V4.8.6 after re-pin | `06-retest-results.md` |
 
 ## 4. Isolated execution environment
 
@@ -68,7 +68,7 @@ The dominant context is: the application makes entitlement, admin and grading de
 
 ## 8. Limitations
 
-- Server-side behavior cannot be verified because no same-origin backend was observed in scope.
+- Server-side implementation details cannot be verified from the client. The client contracts of `/api/admin/login` and `/api/results` were observed; one read-only GET to `/api/results` was performed and no server write was sent.
 - Live cross-client exploitation was deliberately not executed.
 - TLS chain/ciphers, HTTP→HTTPS redirect and directory listing were not tested.
 - Some findings rely on static source evidence plus local execution; they are labelled accordingly.

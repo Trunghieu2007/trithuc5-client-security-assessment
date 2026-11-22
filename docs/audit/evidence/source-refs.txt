@@ -1,41 +1,57 @@
-Source: current.html, SHA-256 fe6fef993c24a4a8bbe3839004a31a47e3392cf6598efd5290303901ecd792b5
-All ranges are 1-indexed line numbers from that exact file.
+Source: research/trithuc5/phase5/target.html, SHA-256 ffe94aea9b327853b0b8836bf0d52e1f509fcc68c007bead7b8a888604389185
+Build: TRITHUC5.0 V4.8.6, fetched 2026-11-22T10:36:26Z, 9,120,257 bytes / 34,677 lines.
+All ranges are 1-indexed lines from that exact file. No credential values are stored here.
 
-1284-1306   STORAGE_KEYS
-1323-1372   readWindowNameStore / writeWindowNameStore / safeStorageGet / safeStorageSet / safeStorageRemove
-1505-1508   state.adminCreds (credential values redacted from all published reports)
-2385-2411   remembered admin session restore block
-2548-2559   hashStringHex
-2591-2655   getHardwareDeviceProfile
-2657-2661   isValidStudentGmail
-2683-2803   verifyAndBindStudentDeviceOnLogin
-2806-2819   computeUserIntegritySig
-2821-2824   computeAdminSessionSig
-2826-2846   verifyRuntimeSecurityIntegrity
-2859-2866   isStudentVipExpired
-2918-2926   CLOUD_SYNC_* / CLOUD_KV_* constants / LEGACY_SAMPLE_BANNED / deletedUsernamesRegistry
-2936-2942   sanitizePlainInput
-2975-2983   computeCloudPacketAdminSig
-2985-3011   serializeCompactUser  (password field 'p')
-3013-3047   deserializeCompactUser
-3049-3063   isUserDeletedByTombstone
-3088-3109   window.__TRITHUC50_CLOUD_BUS__ / buildTeacherSnapshotPacket
-3115-3140   buildTeacherSnapshotPacket
-3142-3268   processIncomingCloudPacket
-3270-3280   decodeCloudMessageString
-3282-3367   pushCloudSyncPacket
-3369-3395   setupRealtimeCloudStream
-3397-3469   pullCloudSyncMessages
-3696-3725   scanAndBlockAIExtensions
-3784-3923   setupAntiCheatListeners
-3925-3945   triggerExamViolation
-9053-9054   watermarkLayer DOM
-15861-15877 setupCrossTabUserSync
-15892-15895 BroadcastChannel onmessage -> processIncomingCloudPacket
-4346-4370   decryptV97EmbedPayload
-1047        window.__INITIAL_EXAMS_DATA__ (15 exams, 330 answer entries)
-1098,1267   correctAnswers construction
+3893-3904      hashStringHex
+5536-5543      sanitizePlainInput
+4151-4164      computeUserIntegritySig
+4166-4170      computeAdminSessionSig
+4172-4223      verifyRuntimeSecurityIntegrity
+4236-4243      isStudentVipExpired
+5589-5599      computeCloudPacketAdminSig
+5601-5631      serializeCompactUser
+5633-5671      deserializeCompactUser
+5673-5685      isUserDeletedByTombstone
+5769-5986      processIncomingCloudPacket
+5988-5998      decodeCloudMessageString
+5731-5766      buildTeacherSnapshotPacket
+6000-6131      pushCloudSyncPacket
+6133-6160      setupRealtimeCloudStream
+6162-6315      pullCloudSyncMessages
+4028-4148      verifyAndBindStudentDeviceOnLogin
+4002-4006      isValidStudentGmail
+3936-4000      getHardwareDeviceProfile
+7647-7671      decryptV97EmbedPayload
+6449-6457      saveActivityLogsState
+6915-6944      hasStudentVipAccess
+15856-15869    verifyProtectedVipActionV44
+14020-14033    isAdminExamAttempt
+3202-3321      calculateAttemptScore
+15871-15878    computeTeacherVipApprovalSealV44
+15924-15978    detectAndBlockStudentVipHackV44
+7419-7465      logStudentActivity
+7394-7417      syncActivityLogToGoogleForm
+2170-2192      STORAGE_KEYS
+15592-15853    BackendVipAuthServiceV44
+6530-6629      LessonVipVaultV44
+4295-4305      public ntfy topics / KV key
+2282-2673      state
+31907-31959    loginAdmin (server API)
+2228           sensitive-storage regex
+5768           cloud nonce registry
+31922          server admin login call
+4692           server results API call
+4301           public KV path disabled
+2030-2055      hash64V45 / saltedAuthHashV45 / emptied admin+vault literals
+2228-2253      safeStorageGet / safeStorageSet / safeStorageRemove
+3575-3643      boot-time user normalization (verbatim harness range)
+3740-3752      remembered admin session restore (verbatim harness range)
+4295-4299      public ntfy topic / KV app key constants
+5768           __SEEN_CLOUD_NONCES_V480__
+31922-31927    admin login POST body
+4692-4698      result POST body
+4814-4819      unauthenticated result GET
 
-Test assertions reference functions by name, not by line number, except the session block,
-which is extracted verbatim from lines 2385-2411. If the source hash changes, the harness stops
-before running any test.
+Harnesses additionally extract: cloud constants, closure-vault variables, hash functions,
+sensitive-storage regex, nonce registry, boot normalizer and remembered-session block.
+If the measured hash changes, every harness refuses to run until line pins are re-measured.

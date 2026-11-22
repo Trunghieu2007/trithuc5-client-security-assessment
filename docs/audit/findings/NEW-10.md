@@ -5,11 +5,11 @@
 **Confidence:** Confirmed  
 **Status:** Partially Fixed  
 **Evidence state:** LOCAL_CONFIRMED (partial fix)  
-**Build pin:** V4.8.0, SHA-256 `be27a5bc429dec25ec31031cf9128680bcc116b6eaa48c75bdb0e37896234028`
+**Build pin:** V4.8.6, SHA-256 `ffe94aea9b327853b0b8836bf0d52e1f509fcc68c007bead7b8a888604389185`
 
 ## 1. Overview
 
-This finding was verified against the source-hash-pinned V4.8.0 client build. Evidence comes from captured headers, static source review, or real extracted functions executed in an isolated Node VM with synthetic fixtures. No production state was modified.
+This finding was verified against the source-hash-pinned V4.8.6 client build. Evidence comes from captured headers, static source review, or real extracted functions executed in an isolated Node VM with synthetic fixtures. No production state was modified.
 
 ## 2. Severity
 
@@ -28,7 +28,7 @@ Confirmed — Partially Fixed. Evidence state: LOCAL_CONFIRMED (partial fix).
 
 ## 4. Affected components
 
-- `isAdminExamAttempt` (line 13965)
+- `isAdminExamAttempt` (line 14020)
 - `logStudentActivity` (7364)
 - `syncActivityLogToGoogleForm` (7339)
 
@@ -38,7 +38,7 @@ Audit logging must record actions regardless of identity. Test identities should
 
 ## 6. Root cause
 
-The helper still returns true for `isAdminTester` and `gv_test`, causing `logStudentActivity` to return null for those identities. V4.8.0 changed the public guest ID to be logged.
+The helper still returns true for `isAdminTester` and `gv_test`, causing `logStudentActivity` to return null for those identities. V4.8.6 changed the public guest ID to be logged.
 
 ## 7. Evidence
 

@@ -5,11 +5,11 @@
 **Confidence:** Confirmed  
 **Status:** Partially Fixed  
 **Evidence state:** LOCAL_CONFIRMED (partial fix + residual)  
-**Build pin:** V4.8.0, SHA-256 `be27a5bc429dec25ec31031cf9128680bcc116b6eaa48c75bdb0e37896234028`
+**Build pin:** V4.8.6, SHA-256 `ffe94aea9b327853b0b8836bf0d52e1f509fcc68c007bead7b8a888604389185`
 
 ## 1. Overview
 
-This finding was verified against the source-hash-pinned V4.8.0 client build. Evidence comes from captured headers, static source review, or real extracted functions executed in an isolated Node VM with synthetic fixtures. No production state was modified.
+This finding was verified against the source-hash-pinned V4.8.6 client build. Evidence comes from captured headers, static source review, or real extracted functions executed in an isolated Node VM with synthetic fixtures. No production state was modified.
 
 ## 2. Severity
 
@@ -38,7 +38,7 @@ Tester or guest identities must not be trusted merely because their ID matches a
 
 ## 6. Root cause
 
-V4.8.0 removed the `isAdminTester` detector exemption and now detects VIP flags on guest IDs, but `gv_test` still skips the detector and the runtime integrity block still exempts three named IDs.
+V4.8.6 removed the `isAdminTester` detector exemption and now detects VIP flags on guest IDs, but `gv_test` still skips the detector and the runtime integrity block still exempts three named IDs.
 
 ## 7. Evidence
 
@@ -51,7 +51,7 @@ All evidence files are sanitized and indexed in `../evidence/README.md`. No real
 ## 8. Reproduction prerequisites
 
 - Synthetic fixtures for the privileged IDs and an ordinary control ID.
-- Pinned V4.8.0 source.
+- Pinned V4.8.6 source.
 
 ## 9. Reproduction steps
 

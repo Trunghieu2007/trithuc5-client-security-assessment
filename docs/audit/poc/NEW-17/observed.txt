@@ -1,0 +1,11 @@
+PoC: NEW-17 — Unauthenticated results API exposes student result records
+Build: V4.8.6 / SHA-256 ffe94aea9b327853b0b8836bf0d52e1f509fcc68c007bead7b8a888604389185
+Evidence state: LOCAL_CONFIRMED + READ-ONLY LIVE PROBE
+
+OBSERVED:
+An anonymous GET returned 200 with two records. Field names include username, name, class, school, score, examTitle, startTime, endTime, tabSwitches and aiSuspicionCount.
+
+Evidence references:
+- `evidence/live-readonly-check.txt` records HTTP 200, `Cache-Control: no-store`, `ok=true`, `records=list(2)`, and the exact field names without values.
+- `A-05-T01` statically confirms the client sends no auth header on results calls.
+- `poc_new17_results_api.js` is validated by `poc-suite-validation.txt` as a DISPLAY PoC that sends one GET and no POST.

@@ -1,4 +1,11 @@
-=== F-02 admin session trust — local validation ===
+=== SUPERSEDED — HISTORICAL V4.5 EVIDENCE ===
+Do not use this file to describe the current build. V4.8.5 removed the client-side
+admin password hash, made the session salt ephemeral, cleared remembered sessions at
+boot, and delegated authentication to /api/admin/login. Current verification is in
+evidence/test-results.txt, evidence/phase4-test-results.txt and
+evidence/independent-verification.txt for V4.8.6 (SHA-256 ffe94aea...).
+
+=== F-02 admin session trust — local validation (historical) ===
 Source: hash-pinned current.html, SHA-256 fe6fef993c24a4a8bbe3839004a31a47e3392cf6598efd5290303901ecd792b5
 Functions used from harness: computeAdminSessionSig, safeStorageSet, safeStorageGet
 

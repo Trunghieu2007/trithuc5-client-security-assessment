@@ -5,11 +5,11 @@
 **Confidence:** Confirmed  
 **Status:** Open  
 **Evidence state:** LOCAL_CONFIRMED (downgrade verified; tombstone path fixed)  
-**Build pin:** V4.8.0, SHA-256 `be27a5bc429dec25ec31031cf9128680bcc116b6eaa48c75bdb0e37896234028`
+**Build pin:** V4.8.6, SHA-256 `ffe94aea9b327853b0b8836bf0d52e1f509fcc68c007bead7b8a888604389185`
 
 ## 1. Overview
 
-This finding was verified against the source-hash-pinned V4.8.0 client build. Evidence comes from captured headers, static source review, or real extracted functions executed in an isolated Node VM with synthetic fixtures. No production state was modified.
+This finding was verified against the source-hash-pinned V4.8.6 client build. Evidence comes from captured headers, static source review, or real extracted functions executed in an isolated Node VM with synthetic fixtures. No production state was modified.
 
 ## 2. Severity
 
@@ -33,7 +33,7 @@ Confirmed — Open. Evidence state: LOCAL_CONFIRMED (downgrade verified; tombsto
 
 ## 5. Security boundary
 
-Local inter-tab messages must not be treated as authenticated cloud state. V4.8.0 removed the internal bus bridge but kept the local BroadcastChannel handler.
+Local inter-tab messages must not be treated as authenticated cloud state. V4.8.6 removed the internal bus bridge but kept the local BroadcastChannel handler.
 
 ## 6. Root cause
 

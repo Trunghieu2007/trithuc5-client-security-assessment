@@ -1,5 +1,4 @@
-=== V4.8.0 independent_verification.js — SHA be27a5bc429dec25ec31031cf9128680bcc116b6eaa48c75bdb0e37896234028 ===
-=== INDEPENDENT VERIFICATION — V4.5 (SHA be27a5bc) ===
+=== INDEPENDENT VERIFICATION — V4.5 (SHA ffe94aea) ===
 
 -- Track 1: NEW-11/12 — _sig -> boot seal -> real access gates --
 PASS IV-01  computeUserIntegritySig is reproducible from bundle-literal salt (offline)
@@ -22,11 +21,11 @@ PASS IV-12  identical tampered record with ordinary id IS detected (true detecto
 PASS IV-13  runtime integrity check skips the entire student block for gv_test (returns true with junk fields)
 PASS IV-14  control: same junk fields on ordinary id are locked and force session logout
 PASS IV-15  V4.8.0 FIX: isAdminTester no longer suppresses the detector
-PASS IV-16  admin preview: hasStudentVipAccess returns true for a pending junk student
-PASS IV-17  admin preview: hasVerifiedPackageAccess returns true independently
-PASS IV-18  admin preview: verifyProtectedVipActionV44 returns true independently
-PASS IV-19  control: same session with preview OFF denies all three gates
-PASS IV-20  admin session signature is reproducible offline; isAdminExamAttempt suppresses audit logging
+PASS IV-16  V4.8.5 FIX: orphan preview flag is cleared and hasStudentVipAccess denies
+PASS IV-17  V4.8.5 FIX: hasVerifiedPackageAccess denies without an admin session
+PASS IV-18  V4.8.5 FIX: verifyProtectedVipActionV44 denies without an admin session
+PASS IV-19  control: a server-verified admin session still unlocks by design
+PASS IV-20  V4.8.5 FIX: admin session sig is ephemeral; isAdminExamAttempt still suppresses logging
 
 -- Track 3: NEW-08/09 — exact sensitive field mapping (synthetic sentinel only) --
 PASS IV-21  V4.8.0 FIX: password-like detail is masked before log + Google Form sync

@@ -3,7 +3,7 @@
 **Target:** `https://trithuc500.vercel.app/`  
 **Owner authorization:** client-side-only assessment; no production write.  
 **Assessment period:** 2026-11-18 → 2026-11-22; final source re-pin 2026-11-22.  
-**Build under test:** V4.8.0, SHA-256 `be27a5bc429dec25ec31031cf9128680bcc116b6eaa48c75bdb0e37896234028`, 9,115,471 bytes / 34,599 lines, fetched 2026-11-22T04:48:27Z.  
+**Build under test:** V4.8.6, SHA-256 `ffe94aea9b327853b0b8836bf0d52e1f509fcc68c007bead7b8a888604389185`, 9,120,257 bytes / 34,677 lines, fetched 2026-11-22T10:36:26Z.  
 **Overall risk:** High. Release remains blocked for any use case that depends on account identity, entitlement or exam results.
 
 ## Scope
@@ -15,18 +15,18 @@ The assessment covered the public single-file client application, its response h
 | Severity | Count | Representative finding |
 |---|---:|---|
 | Critical | 1 | NEW-11 — client-computable VIP approval seal |
-| High | 5 | F-01, F-03, NEW-13, NEW-14, NEW-15 |
-| Medium | 5 | F-02, F-05, NEW-07, NEW-08, NEW-10 |
+| High | 5 | F-01, F-03, NEW-13, NEW-14, NEW-17 |
+| Medium | 4 | F-05, NEW-07, NEW-08, NEW-10 |
 | Low | 5 | F-04, NEW-02, NEW-03, NEW-05, F-06 |
 | Informational | 1 | NEW-06 — partial header hardening |
 
-Total active/residual findings: **17**. Five earlier issues are verified fixed in V4.8.0 and are preserved as regression assertions; see `04-findings-summary.md`.
+Total active/residual findings: **16**. Seven earlier issues are verified fixed or disabled and are preserved as regression assertions; see `04-findings-summary.md`.
 
 ## Key risks
 
-1. The teacher approval seal, integrity signature, admin session signature and exam vault seed are all derived from data shipped to the browser. The full VIP chain was executed offline against real extracted functions with zero server calls (`IV-01`…`IV-10`, `P4-16`).
-2. V4.8.0 fixed genuine exposure paths — password, seal and backend token are blanked in public packets; sensitive keys no longer mirror to weak stores; unsigned tombstones are rejected — but identity records still leave the client through public channels.
-3. Admin preview plus a client-minted session re-enables every VIP gate, providing a second independent entitlement bypass (NEW-15).
+1. The teacher approval seal, integrity signature and exam vault seed are still derived from data shipped to the browser. The full VIP chain was executed offline against real extracted functions with zero server calls (`IV-01`…`IV-10`, `P4-16`). The V4.8.5 admin session salt is now per-window and the old admin hashes are gone.
+2. V4.8.5/V4.8.6 fixed genuine exposure paths — public KV writes are disabled, password/seal/token are blanked in remaining packets, admin login is server-side, and unsigned tombstones are rejected — but identity records still leave the client through public ntfy channels and a new server results API.
+3. A new unauthenticated `GET /api/results` returned student result records in a read-only probe (NEW-17). This is a server-side exposure, not merely a client-side trust issue.
 4. Exam answers are recoverable from the shipped gzip/XOR vault: 15 exams and 330 answer entries were decoded locally (F-04).
 
 ## Business impact
@@ -35,13 +35,13 @@ Any user can grant themselves VIP entitlements in their own browser, obtain answ
 
 ## Recommended priorities
 
-- **P0 / immediate:** stop publishing identity records, stop third-party form logging, rotate bundle-literal secrets and retire old topics.
+- **P0 / immediate:** authenticate `/api/results`, stop publishing identity records to public topics, stop third-party form logging, rotate bundle-literal secrets and retire old topics.
 - **P1 / urgent:** remove client-minted approval seals and authenticate every cloud packet with a server-held key.
-- **P2 / planned:** move admin authentication, entitlement, device registration and grading to a server-authoritative API.
+- **P2 / planned:** move entitlement, device registration and grading to a server-authoritative API; keep the new admin login contract covered by regressions.
 - **P3 / hygiene:** add CSP, narrow CORS, proxy provider keys and relabel anti-cheat as UX.
 
 Full owner responsibilities, dependencies and verification methods are in `05-remediation-roadmap.md`.
 
 ## Confidence and limitations
 
-All release-blocking findings are Confirmed by executed local evidence or measured headers. No production account was used, no packet was published, and no live cross-client effect was attempted. Server-side enforcement could not be confirmed because no same-origin backend was observed. CVSS v4.0 scores are intentionally not assigned; see `03-methodology.md`.
+All release-blocking findings are Confirmed by executed local evidence, a read-only endpoint probe, or measured headers. No production account was used, no packet was published, and no live cross-client effect was attempted. The only new server-side request was one unauthenticated GET to `/api/results`; no write was sent. CVSS v4.0 scores are intentionally not assigned; see `03-methodology.md`.

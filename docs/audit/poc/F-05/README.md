@@ -1,7 +1,7 @@
 # PoC — F-05: Device lock and Gmail binding are enforced from client-owned fields
 
 **Type:** DISPLAY  
-**Build:** V4.8.0 / SHA-256 `be27a5bc429dec25ec31031cf9128680bcc116b6eaa48c75bdb0e37896234028`  
+**Build:** V4.8.6 / SHA-256 `ffe94aea9b327853b0b8836bf0d52e1f509fcc68c007bead7b8a888604389185`  
 **Canonical script:** [`research/trithuc5/poc/poc_f05_device_lock.js`](../../../../research/trithuc5/poc/poc_f05_device_lock.js)  
 **Cleanup:** `__AERO_F05_RESTORE__()`
 

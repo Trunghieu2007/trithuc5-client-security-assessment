@@ -5,11 +5,11 @@
 **Confidence:** Confirmed  
 **Status:** Partially Fixed  
 **Evidence state:** LOCAL_CONFIRMED for masking fix; live delivery UNVERIFIED  
-**Build pin:** V4.8.0, SHA-256 `be27a5bc429dec25ec31031cf9128680bcc116b6eaa48c75bdb0e37896234028`
+**Build pin:** V4.8.6, SHA-256 `ffe94aea9b327853b0b8836bf0d52e1f509fcc68c007bead7b8a888604389185`
 
 ## 1. Overview
 
-This finding was verified against the source-hash-pinned V4.8.0 client build. Evidence comes from captured headers, static source review, or real extracted functions executed in an isolated Node VM with synthetic fixtures. No production state was modified.
+This finding was verified against the source-hash-pinned V4.8.6 client build. Evidence comes from captured headers, static source review, or real extracted functions executed in an isolated Node VM with synthetic fixtures. No production state was modified.
 
 ## 2. Severity
 
@@ -28,7 +28,7 @@ Confirmed — Partially Fixed. Evidence state: LOCAL_CONFIRMED for masking fix; 
 
 ## 4. Affected components
 
-- `logStudentActivity` (line 7364)
+- `logStudentActivity` (line 7419)
 - `syncActivityLogToGoogleForm` (7339)
 - Google Form `entry.111`…`entry.444` fields
 
@@ -38,7 +38,7 @@ Activity telemetry must not disclose student identity to an unrelated third part
 
 ## 6. Root cause
 
-The form sync path remains. V4.8.0 masks password-like `detail` values, but name, class, score and detail still leave the client.
+The form sync path remains. V4.8.6 masks password-like `detail` values, but name, class, score and detail still leave the client.
 
 ## 7. Evidence
 

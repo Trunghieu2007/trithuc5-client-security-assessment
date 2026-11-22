@@ -120,7 +120,7 @@ function pkt(overrides) {
         assert.ok(src.includes("/sse?since=24h"), '24h SSE window in source');
     });
 
-    await check('P3-04', 'V4.8.0 FIX: passwords, seal and backend token are absent from all public cloud writes', async () => {
+    await check('P3-04', 'V4.8.5 FIX: public KV writes disabled; passwords, seal and token absent from remaining writes', async () => {
         const e = p3.createDeepEnv({ now: NOW });
         await e.pushCloudSyncPacket('STUDENT_REGISTER', { username: 'S.User', password: 'spw' }, []);
 
@@ -131,11 +131,12 @@ function pkt(overrides) {
         assert.strictEqual(cu.seal, '', 'seal field blanked');
         assert.strictEqual(cu.bkt, '', 'backend token field blanked');
 
-        const chunkCalls = e.__captures.filter(c => c.url.includes('/s_'));
-        assert.ok(chunkCalls.length > 0, 'snapshot chunks are still published');
-        const joined = chunkCalls.map(c => c.url.split('/').pop()).join('');
-        const decoded = e.fromBase64UrlSafe(joined);
-        assert.ok(!decoded.includes('spw'), 'password absent from snapshot chunks');
+        // V4.8.5 disabled the public keyvalue.immanuel.co path entirely.
+        const kvCalls = e.__captures.filter(c =>
+            c.url.includes('keyvalue.immanuel.co') || c.url.includes('/s_') || c.url.includes('u_suser_'));
+        assert.strictEqual(kvCalls.length, 0, 'no public KV snapshot/per-user write remains');
+        assert.ok(h.readSource().text.includes('const CLOUD_KV_DISABLED_V485 = true;'), 'KV path disabled in source');
+        assert.ok(e.__captures.every(c => !String(c.body).includes('spw')), 'password absent from every captured write');
 
         const cuFinal = e.serializeCompactUser({ username: 'stored_user', password: 'spw' });
         assert.strictEqual(cuFinal.p, '', 'password never serialised, even for a stored user');

@@ -14,7 +14,7 @@ const assert = require('assert');
 
 const SOURCE = process.env.TRITHUC_SOURCE || path.join(
     __dirname, '..', '..', '..', '..', 'research', 'trithuc5', 'phase5', 'target.html');
-const EXPECTED_SHA = 'be27a5bc429dec25ec31031cf9128680bcc116b6eaa48c75bdb0e37896234028';
+const EXPECTED_SHA = 'ffe94aea9b327853b0b8836bf0d52e1f509fcc68c007bead7b8a888604389185';
 const NOW = 1795000000000;
 
 function source() {
@@ -101,7 +101,7 @@ function makeEnv(overrides) {
         navigator: { userAgent: 'IndependentVerificationHarness/1.0' },
         screen: { width: 1920, height: 1080 },
         AbortController: class { constructor() { this.signal = {}; } abort() {} },
-        window: { name: '', TRITHUC: {} },
+        window: { name: '', TRITHUC: {}, __TT50_SERVER_ADMIN_VERIFIED_V485__: false },
         fetch: async (url, init) => {
             rec.kv.push({ url: String(url), body: init && init.body });
             return { ok: false, text: async () => '' };
@@ -127,17 +127,17 @@ function makeEnv(overrides) {
     vm.createContext(sandbox);
     const pieces = [
         byDecl(lines, 'const STORAGE_KEYS = {'),
-        lines[2193], // V4.5: const __MEMORY_STORE__ = {}; (line 2194)
-        lines.slice(2029, 2054).join('\n'), // hash64V45 / saltedAuthHashV45 / V4.8.0 hash literals
-        lines[2226], // V4.8.0: __SENSITIVE_STORAGE_RE_V480__ (line 2227)
-        lines[5712], // V4.8.0: __SEEN_CLOUD_NONCES_V480__ (line 5713)
+        lines[2194], // V4.8.6: const __MEMORY_STORE__ = {}; (line 2195)
+        lines.slice(2029, 2055).join('\n'), // hash64V45 / saltedAuthHashV45 / V4.8.6 emptied hash literals
+        lines[2227], // V4.8.6: __SENSITIVE_STORAGE_RE_V480__ (line 2228)
+        lines[5767], // V4.8.6: __SEEN_CLOUD_NONCES_V480__ (line 5768)
         'const LEGACY_SAMPLE_BANNED = new Set();',
         'const deletedUsernamesRegistry = new Set();',
         byDecl(lines, 'const BackendVipAuthServiceV44 = (function() {'),
         byDecl(lines, 'const LessonVipVaultV44 = (function() {'),
         ...FN.map(n => byName(lines, n)),
         'function bootNormalizeUsersV44() {\n' +
-        lines.slice(3573, 3642).join('\n') + '\n}',
+        lines.slice(3574, 3643).join('\n') + '\n}',
         'const bundledUsers = [];',
         ...['BackendVipAuthServiceV44', 'bootNormalizeUsersV44', 'processIncomingCloudPacket',
             'computeCloudPacketAdminSig', 'serializeCompactUser', 'deserializeCompactUser',
@@ -286,30 +286,42 @@ check('IV-15', 'V4.8.0 FIX: isAdminTester no longer suppresses the detector', ()
     const u = ordinaryUser({ isAdminTester: true, maxDevices: 999, name: '' });
     assert.strictEqual(t2priv.detectAndBlockStudentVipHackV44(u, 'IV-15'), true);
 });
-const t2prev = makeEnv({ state: { isAdminLoggedIn: true, adminPreviewUnlockAll: true } });
+const t2prev = makeEnv({ state: { isAdminLoggedIn: false, adminPreviewUnlockAll: true } });
 const junk = ordinaryUser({ id: 'stu_junk', status: 'pending', vipPackages: { k12: false, k11: false, k10: false, luyende: false }, isVip: false, _sig: 'bad' });
 t2prev.state.loggedInStudent = junk;
-check('IV-16', 'admin preview: hasStudentVipAccess returns true for a pending junk student', () => {
-    assert.strictEqual(t2prev.hasStudentVipAccess('k12'), true);
+check('IV-16', 'V4.8.5 FIX: orphan preview flag is cleared and hasStudentVipAccess denies', () => {
+    t2prev.verifyRuntimeSecurityIntegrity(); // junk student may still fail the student block
+    assert.strictEqual(t2prev.state.adminPreviewUnlockAll, false);
+    assert.strictEqual(t2prev.hasStudentVipAccess('k12'), false);
 });
-check('IV-17', 'admin preview: hasVerifiedPackageAccess returns true independently', () => {
-    assert.strictEqual(t2prev.hasVerifiedPackageAccessProbe(junk, 'k12', 'IV-17'), true);
+check('IV-17', 'V4.8.5 FIX: hasVerifiedPackageAccess denies without an admin session', () => {
+    assert.strictEqual(t2prev.hasVerifiedPackageAccessProbe(junk, 'k12', 'IV-17'), false);
 });
-check('IV-18', 'admin preview: verifyProtectedVipActionV44 returns true independently', () => {
-    assert.strictEqual(t2prev.verifyProtectedVipActionV44('openLesson', 'k12', 'locked_lesson'), true);
+check('IV-18', 'V4.8.5 FIX: verifyProtectedVipActionV44 denies without an admin session', () => {
+    assert.strictEqual(t2prev.verifyProtectedVipActionV44('openLesson', 'k12', 'locked_lesson'), false);
 });
-const t2prevOff = makeEnv({ state: { isAdminLoggedIn: true, adminPreviewUnlockAll: false } });
-t2prevOff.state.loggedInStudent = ordinaryUser({ status: 'pending', _sig: 'bad' });
-check('IV-19', 'control: same session with preview OFF denies all three gates', () => {
-    assert.strictEqual(t2prevOff.hasStudentVipAccess('k12'), false);
-    assert.strictEqual(t2prevOff.hasVerifiedPackageAccessProbe(t2prevOff.state.loggedInStudent, 'k12', 'IV-19'), false);
-    assert.strictEqual(t2prevOff.verifyProtectedVipActionV44('openLesson', 'k12', 'locked_lesson'), false);
+const t2prevAuth = makeEnv({ state: { isAdminLoggedIn: true, adminPreviewUnlockAll: true } });
+t2prevAuth.window.__TT50_SERVER_ADMIN_VERIFIED_V485__ = true;
+const authStudent = ordinaryUser({
+    status: 'active',
+    isVip: false,
+    vipPackages: { k12: false, k11: false, k10: false, luyende: false }
 });
-check('IV-20', 'admin session signature is reproducible offline; isAdminExamAttempt suppresses audit logging', () => {
-    const ts = NOW;
-    const sig = t2prevOff.computeAdminSessionSig('synthetic_admin', ts);
-    assert.ok(sig.startsWith('adm_'));
-    assert.strictEqual(t2prevOff.isAdminExamAttempt(ordinaryUser({ isAdminTester: true })), true);
+authStudent._sig = t2prevAuth.computeUserIntegritySig(authStudent);
+t2prevAuth.state.loggedInStudent = authStudent;
+check('IV-19', 'control: a server-verified admin session still unlocks by design', () => {
+    assert.strictEqual(t2prevAuth.verifyRuntimeSecurityIntegrity(), true);
+    assert.strictEqual(t2prevAuth.hasStudentVipAccess('k12'), true);
+    assert.strictEqual(t2prevAuth.hasVerifiedPackageAccessProbe(t2prevAuth.state.loggedInStudent, 'k12', 'IV-19'), true);
+    assert.strictEqual(t2prevAuth.verifyProtectedVipActionV44('openLesson', 'k12', 'locked_lesson'), true);
+});
+check('IV-20', 'V4.8.5 FIX: admin session sig is ephemeral; isAdminExamAttempt still suppresses logging', () => {
+    const other = makeEnv();
+    const a = t2prev.computeAdminSessionSig('synthetic_admin', NOW);
+    const b = other.computeAdminSessionSig('synthetic_admin', NOW);
+    assert.ok(a.startsWith('adm_'));
+    assert.notStrictEqual(a, b, 'per-window salt must prevent offline replay');
+    assert.strictEqual(t2prev.isAdminExamAttempt(ordinaryUser({ isAdminTester: true })), true);
 });
 
 // ---------------------------------------------------------------- TRACK 3: NEW-08/09

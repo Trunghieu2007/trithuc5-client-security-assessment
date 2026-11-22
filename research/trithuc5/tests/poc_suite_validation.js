@@ -164,37 +164,51 @@ async function main() {
 }
 
 // ---------------------------------------------------------------------------
-// 2. F-02 admin login — forge + action chain.
+// 2. F-02 admin auth — now DISPLAY verification of the V4.8.5 fix.
 // ---------------------------------------------------------------------------
 {
     const { result, error, env } = await runPoc('poc_f02_admin_login.js');
     check('F-02 payload executes without error', !error, error && error.message);
     if (!error) {
-        check('F-02 payload returns a chain', Array.isArray(result?.chain) && result.chain.length >= 3);
-        const sess = JSON.parse(env.store.get('TRITHUC50_REMEMBER_ADMIN_SESSION_V26') || 'null');
-        check('F-02 wrote an admin session', sess && sess.loggedIn === true);
-        check('F-02 session carries a signature', /^adm_[0-9A-F]{8}$/.test(sess?.sig || ''), sess?.sig);
-        // Verify the signature against the real bundle function.
-        const e = h.createEnv({ now: NOW });
-        check('F-02 session signature matches the real computeAdminSessionSig',
-            sess?.sig === e.computeAdminSessionSig(sess?.username, sess?.ts));
-        check('F-02 payload did NOT publish', env.calls.fetch.length === 0);
-        check('F-02 payload did not impersonate by default', result?.chain !== undefined);
+        check('F-02 is classified DISPLAY', result?.type === 'DISPLAY');
+        check('F-02 reports FIXED-V4.8.5', result?.status === 'FIXED-V4.8.5');
+        check('F-02 wrote no remembered admin session',
+            !env.store.get('TRITHUC50_REMEMBER_ADMIN_SESSION_V26'));
+        check('F-02 sent no POST', env.calls.fetch.every(c => (c.init && c.init.method || 'GET') !== 'POST'));
+        const src = h.readSource().text;
+        check('F-02 source has server login API', src.includes("fetch('/api/admin/login', {"));
+        check('F-02 source no longer has admin password hash', /const DEFAULT_ADMIN_PASS_HASH_V45 = '';/.test(src));
+        check('F-02 source uses ephemeral admin salt',
+            src.includes('__TT50_EPH_ADM_SALT_V485__') && !src.includes('TRITHUC50_ADM_SALT_V27'));
     }
 }
 
 // ---------------------------------------------------------------------------
-// 3. NEW-15 admin preview.
+// 3. NEW-15 admin preview — now DISPLAY verification of the V4.8.5 fix.
 // ---------------------------------------------------------------------------
 {
     const { result, error, env } = await runPoc('poc_new15_admin_preview.js');
     check('NEW-15 payload executes without error', !error, error && error.message);
     if (!error) {
-        const sess = JSON.parse(env.store.get('TRITHUC50_REMEMBER_ADMIN_SESSION_V26') || 'null');
-        const e = h.createEnv({ now: NOW });
-        check('NEW-15 admin session signature is valid',
-            sess?.sig === e.computeAdminSessionSig(sess?.username, sess?.ts));
-        check('NEW-15 payload did NOT publish', env.calls.fetch.length === 0);
+        check('NEW-15 is classified DISPLAY', result?.type === 'DISPLAY');
+        check('NEW-15 reports FIXED-V4.8.5', result?.status === 'FIXED-V4.8.5');
+        check('NEW-15 sent no POST', env.calls.fetch.every(c => (c.init && c.init.method || 'GET') !== 'POST'));
+        check('NEW-15 wrote no admin session',
+            !env.store.get('TRITHUC50_REMEMBER_ADMIN_SESSION_V26'));
+    }
+}
+
+// ---------------------------------------------------------------------------
+// 3b. NEW-17 results API — read-only GET, metadata only.
+// ---------------------------------------------------------------------------
+{
+    const { result, error, env } = await runPoc('poc_new17_results_api.js');
+    check('NEW-17 payload executes without error', !error, error && error.message);
+    if (!error) {
+        check('NEW-17 is classified DISPLAY', result?.type === 'DISPLAY');
+        check('NEW-17 reports the results endpoint', result?.finding === 'NEW-17');
+        check('NEW-17 uses GET only', env.calls.fetch.every(c => (c.init && c.init.method || 'GET') === 'GET'));
+        check('NEW-17 sent no POST/write', env.calls.fetch.every(c => (c.init && c.init.method || 'GET') !== 'POST'));
     }
 }
 

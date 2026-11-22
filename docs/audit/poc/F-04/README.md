@@ -1,7 +1,7 @@
 # PoC — F-04: Exam answers are recoverable from a bundle-seeded client vault
 
 **Type:** DISPLAY  
-**Build:** V4.8.0 / SHA-256 `be27a5bc429dec25ec31031cf9128680bcc116b6eaa48c75bdb0e37896234028`  
+**Build:** V4.8.6 / SHA-256 `ffe94aea9b327853b0b8836bf0d52e1f509fcc68c007bead7b8a888604389185`  
 **Canonical script:** [`research/trithuc5/poc/poc_f04_exam_answers.js`](../../../../research/trithuc5/poc/poc_f04_exam_answers.js)  
 **Cleanup:** `n/a (read-only)`
 
@@ -11,7 +11,7 @@ Demonstrate the measured F-04 behavior using only synthetic data: the vault's cl
 
 ## Prerequisites
 
-- Pinned V4.8.0 source.
+- Pinned V4.8.6 source.
 - Local Node decoder; no live exam attempt.
 
 ## Environment and test data

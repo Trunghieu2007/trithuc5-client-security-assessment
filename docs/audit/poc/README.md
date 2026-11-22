@@ -9,8 +9,8 @@ One folder per active/residual finding. Each folder contains a README plus expec
 | F-03 | ACTION | `poc/F-03/` | `research/trithuc5/poc/poc_f03_vip_entitlement.js` |
 | NEW-13 | ACTION | `poc/NEW-13/` | `research/trithuc5/poc/poc_f03_vip_entitlement.js` |
 | NEW-14 | DISPLAY | `poc/NEW-14/` | `research/trithuc5/poc/poc_new05_new07_new10_misc.js` |
-| NEW-15 | ACTION | `poc/NEW-15/` | `research/trithuc5/poc/poc_new15_admin_preview.js` |
-| F-02 | ACTION | `poc/F-02/` | `research/trithuc5/poc/poc_f02_admin_login.js` |
+| NEW-15 | DISPLAY | `poc/NEW-15/` | `research/trithuc5/poc/poc_new15_admin_preview.js` |
+| F-02 | DISPLAY | `poc/F-02/` | `research/trithuc5/poc/poc_f02_admin_login.js` |
 | F-05 | DISPLAY | `poc/F-05/` | `research/trithuc5/poc/poc_f05_device_lock.js` |
 | NEW-07 | DISPLAY | `poc/NEW-07/` | `research/trithuc5/poc/poc_new05_new07_new10_misc.js` |
 | NEW-10 | DISPLAY | `poc/NEW-10/` | `research/trithuc5/poc/poc_new05_new07_new10_misc.js` |
@@ -21,5 +21,6 @@ One folder per active/residual finding. Each folder contains a README plus expec
 | NEW-03 | DISPLAY | `poc/NEW-03/` | `research/trithuc5/tests/phase3_tests.js` |
 | NEW-05 | DISPLAY | `poc/NEW-05/` | `research/trithuc5/poc/poc_new05_new07_new10_misc.js` |
 | NEW-06 | DISPLAY | `poc/NEW-06/` | `research/trithuc5/tests/run_all.js` |
+| NEW-17 | DISPLAY | `poc/NEW-17/` | `research/trithuc5/poc/poc_new17_results_api.js` |
 
 All PoCs use synthetic data. DISPLAY PoCs transmit nothing. ACTION PoCs change only local mechanism state and ship a restore function. No script writes to production ntfy/KV.

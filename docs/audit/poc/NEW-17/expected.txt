@@ -1,0 +1,10 @@
+PoC: NEW-17 — Unauthenticated results API exposes student result records
+Build: V4.8.6 / SHA-256 ffe94aea9b327853b0b8836bf0d52e1f509fcc68c007bead7b8a888604389185
+Type: DISPLAY
+
+EXPECTED:
+An anonymous request should receive 401/403 or a strictly scoped empty result. Student-identifying fields should require an authenticated relationship to the record.
+
+Prerequisites:
+- Target reachable over HTTPS.
+- Owner-authorized read-only probe; no login, no write, no bulk collection.

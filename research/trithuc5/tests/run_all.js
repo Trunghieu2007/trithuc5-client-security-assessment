@@ -274,14 +274,18 @@ test('F-01-T17', 'unsigned stale packet does not override a newer non-pending us
 
 console.log('--- F-02 admin auth / session ---');
 
-test('F-02-T01', 'session forged with client-side salt is accepted', () => {
+test('F-02-T01', 'V4.8.5 FIX: a locally forged remembered session is cleared without server verification', () => {
     const e = h.createEnv({ now: NOW });
     const username = 'synthetic_admin';
     e.safeStorageSet(e.STORAGE_KEYS.REMEMBERED_ADMIN_SESSION, JSON.stringify({
         loggedIn: true, username, ts: NOW, sig: e.computeAdminSessionSig(username, NOW)
     }));
     e.checkRememberedAdminSessionFromSource();
-    assert.strictEqual(e.state.isAdminLoggedIn, true);
+    assert.strictEqual(e.state.isAdminLoggedIn, true, 'restore still accepts an in-window signature');
+    // The shipped integrity gate requires the HttpOnly-cookie login flag.
+    assert.strictEqual(e.verifyRuntimeSecurityIntegrity(), false);
+    assert.strictEqual(e.state.isAdminLoggedIn, false, 'forged session must not survive the runtime gate');
+    assert.strictEqual(e.safeStorageGet(e.STORAGE_KEYS.REMEMBERED_ADMIN_SESSION), null);
 });
 
 test('F-02-T02', 'V4.5 FIX: session with a missing signature is rejected', () => {
@@ -309,11 +313,16 @@ test('F-02-T04', 'expired session with otherwise valid signature is rejected', (
     assert.strictEqual(e.state.isAdminLoggedIn, false);
 });
 
-test('F-02-T05', 'no same-origin backend authorization endpoint exists (static)', () => {
+test('F-02-T05', 'V4.8.5 FIX: admin authentication is delegated to /api/admin/login', () => {
     const src = h.readSource().text;
-    const fetches = (src.match(/fetch\([^\n]{0,200}/g) || []).join('\n');
-    assert.ok(!/fetch\(['"`]\/(?:api|auth|admin|v1)\//i.test(fetches), 'no app-origin auth API call');
-    assert.ok(!/https:\/\/trithuc500\.vercel\.app\/(api|auth)/i.test(src));
+    assert.ok(src.includes("fetch('/api/admin/login', {"), 'login API call present');
+    assert.ok(src.includes("method: 'DELETE'"), 'logout clears the server session');
+    assert.ok(src.includes("method: 'GET'"), 'server session is restored on boot');
+    assert.ok(src.includes('__TT50_SERVER_ADMIN_VERIFIED_V485__'), 'client trusts server-verified flag');
+    assert.ok(!src.includes('TRITHUC50_ADM_SALT_V27'), 'old bundle salt removed');
+    assert.ok(/const DEFAULT_ADMIN_PASS_HASH_V45 = '';/.test(src), 'admin password hash removed');
+    assert.ok(/const DEFAULT_VAULT_PASS_HASH_V45 = '';/.test(src), 'vault password hash removed');
+    assert.ok(/const DEFAULT_ADMIN_USER_HASHES_V45 = \[\];/.test(src), 'admin user hashes removed');
 });
 
 console.log('--- F-03 VIP / integrity ---');
@@ -474,10 +483,19 @@ test('F-06-T01', 'protections are preventDefault / DOM / CSS only (static)', () 
 
 console.log('--- A additional surface ---');
 
-test('A-01-T01', 'no server-side entitlement or admin boundary in shipped client (static)', () => {
+test('A-01-T01', 'V4.8.6: admin boundary is server-side; entitlement and grading remain client-side (static)', () => {
     const src = h.readSource().text;
-    assert.ok(!/fetch\(['"`]https:\/\/trithuc500\.vercel\.app/i.test(src));
-    assert.ok(!/Authorization:\s*Bearer/i.test(src));
+    assert.ok(src.includes('/api/admin/login'), 'server admin boundary present');
+    assert.ok(!/Authorization:\s*Bearer/i.test(src), 'no explicit bearer token in client calls');
+    assert.ok(!/\/api\/(entitlement|vip|grade|grading)\b/i.test(src), 'no server entitlement/grading boundary');
+    assert.ok(src.includes('function hasStudentVipAccess('), 'VIP decision still in client');
+    assert.ok(src.includes('function calculateAttemptScore('), 'grading still in client');
+});
+
+test('A-05-T01', 'NEW-17: /api/results is called without an auth header (static)', () => {
+    const src = h.readSource().text;
+    assert.ok(src.includes("fetch('/api/results', {"), 'results API read path present');
+    assert.ok(!/api\/results[\s\S]{0,400}Authorization/i.test(src), 'no auth header on results calls');
 });
 
 test('A-02-T01', 'Gemini API key is read from localStorage and sent client-side (static)', () => {

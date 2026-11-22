@@ -1,8 +1,8 @@
 # 04 — Findings summary
 
-**Build:** V4.8.0 / SHA-256 `be27a5bc429dec25ec31031cf9128680bcc116b6eaa48c75bdb0e37896234028`  
+**Build:** V4.8.6 / SHA-256 `ffe94aea9b327853b0b8836bf0d52e1f509fcc68c007bead7b8a888604389185`  
 **Assessment period:** 2026-11-18 → 2026-11-22, final re-pin 2026-11-22.  
-**Active/residual findings:** 17.  
+**Active/residual findings:** 16.  
 **Release decision:** blocked. The measured trust boundary remains in the browser.
 
 ## Findings by severity
@@ -11,7 +11,7 @@
 |---|---:|
 | Critical | 1 |
 | High | 5 |
-| Medium | 5 |
+| Medium | 4 |
 | Low | 5 |
 | Informational | 1 |
 
@@ -24,8 +24,6 @@
 | F-03 | VIP entitlement is decided entirely in client-side JavaScript | High | Confirmed | Open |
 | NEW-13 | Tamper detector adds a structural invariant but still trusts bundle secrets | High | Confirmed | Partially Fixed |
 | NEW-14 | Privileged-id exemptions remain after a partial detector fix | High | Confirmed | Partially Fixed |
-| NEW-15 | Admin preview unlock-all still short-circuits every VIP gate after a forged session | High | Confirmed | Partially Fixed |
-| F-02 | Admin authentication and session signing are client-side | Medium | Confirmed | Open |
 | F-05 | Device lock and Gmail binding are enforced from client-owned fields | Medium | Confirmed | Partially Fixed |
 | NEW-07 | Cross-tab state replacement still copies non-VIP fields from writable storage | Medium | Confirmed | Partially Fixed |
 | NEW-10 | Admin-tester identities still suppress audit logging | Medium | Confirmed | Partially Fixed |
@@ -36,10 +34,11 @@
 | NEW-03 | Replay and age guards are present but the packet nonce is optional | Low | Confirmed | Partially Fixed |
 | NEW-05 | Gemini OCR key moved to sessionStorage but remains same-origin readable | Low | Confirmed | Partially Fixed |
 | NEW-06 | Response headers are partially hardened; CSP and narrow CORS remain absent | Informational | Confirmed | Partially Fixed |
+| NEW-17 | Unauthenticated results API exposes student result records | High | Confirmed | Open |
 
 Confidence uses the taxonomy in `03-methodology.md`: **Confirmed** means directly reproduced or measured. No Likely or False Positive item is used for a release-blocking claim here.
 
-## Fixed and verified in V4.8.0
+## Fixed and verified in V4.8.6
 
 | Earlier issue | Measured status | Regression proof |
 |---|---|---|
@@ -49,6 +48,9 @@ Confidence uses the taxonomy in `03-methodology.md`: **Confirmed** means directl
 | NEW-12 boot auto-seal | Fixed — unsealed VIP records stripped at boot | `P4-14`, `IV-10` |
 | NEW-16 seal / backend token broadcast | Fixed — blanked on write and ignored on read | `F-01-T13`, `P3-04` |
 | Unsigned F-01 tombstone merge | Fixed — admin signature required | `P4-19`, `IV-29`, `F-01-T12/T16` |
+| F-02 client admin session forgery | Fixed in V4.8.5 — server login, ephemeral salt, remembered session cleared | `F-02-T01/T05`, `P4-11`, `IV-20` |
+| NEW-15 offline admin-preview bypass | Fixed in V4.8.5 — preview flag cleared without server-verified session | `P4-10`, `IV-16`-`IV-19` |
+| Public keyvalue.immanuel.co user sync | Disabled in V4.8.5 — `CLOUD_KV_DISABLED_V485 = true` | `P3-04`, static source assertion |
 
 These are preserved as regression assertions in the current suites. They are barriers, not a complete trust boundary.
 
@@ -56,10 +58,10 @@ These are preserved as regression assertions in the current suites. They are bar
 
 | Suite | Checks | Result |
 |---|---:|---|
-| `tests/run_all.js` | 40 | 40 pass / 0 fail |
+| `tests/run_all.js` | 41 | 41 pass / 0 fail |
 | `tests/phase3_tests.js` | 8 | 8 pass / 0 fail |
 | `tests/phase4_tests.js` | 20 | 20 pass / 0 fail |
-| `tests/poc_suite_validation.js` | 51 | 51 pass / 0 fail |
+| `tests/poc_suite_validation.js` | 60 | 60 pass / 0 fail |
 | `tests/independent_verification.js` | 36 | 36 pass / 0 fail |
 | `tests/secure_controls.js` | 9 | 7 pass / 2 expected failures before remediation |
 

@@ -5,11 +5,11 @@
 **Confidence:** Confirmed  
 **Status:** Partially Fixed  
 **Evidence state:** LOCAL_CONFIRMED (partial fix + residual)  
-**Build pin:** V4.8.0, SHA-256 `be27a5bc429dec25ec31031cf9128680bcc116b6eaa48c75bdb0e37896234028`
+**Build pin:** V4.8.6, SHA-256 `ffe94aea9b327853b0b8836bf0d52e1f509fcc68c007bead7b8a888604389185`
 
 ## 1. Overview
 
-This finding was verified against the source-hash-pinned V4.8.0 client build. Evidence comes from captured headers, static source review, or real extracted functions executed in an isolated Node VM with synthetic fixtures. No production state was modified.
+This finding was verified against the source-hash-pinned V4.8.6 client build. Evidence comes from captured headers, static source review, or real extracted functions executed in an isolated Node VM with synthetic fixtures. No production state was modified.
 
 ## 2. Severity
 
@@ -28,9 +28,9 @@ Confirmed — Partially Fixed. Evidence state: LOCAL_CONFIRMED (partial fix + re
 
 ## 4. Affected components
 
-- `detectAndBlockStudentVipHackV44` (line 15869)
+- `detectAndBlockStudentVipHackV44` (line 15924)
 - `computeUserIntegritySig`
-- boot normalizer (3574–3642)
+- boot normalizer (3575–3643)
 
 ## 5. Security boundary
 
@@ -38,7 +38,7 @@ A tamper detector must rely on a secret the attacker cannot reproduce. Structura
 
 ## 6. Root cause
 
-V4.8.0 correctly rejects unsigned or malformed VIP records. However, the signature and approval seal are derived from bundle literals, so an attacker can satisfy the new structural invariant offline.
+V4.8.6 correctly rejects unsigned or malformed VIP records. However, the signature and approval seal are derived from bundle literals, so an attacker can satisfy the new structural invariant offline.
 
 ## 7. Evidence
 
@@ -51,7 +51,7 @@ All evidence files are sanitized and indexed in `../evidence/README.md`. No real
 ## 8. Reproduction prerequisites
 
 - Synthetic renamed account fixture.
-- Pinned V4.8.0 source and local VM or browser console.
+- Pinned V4.8.6 source and local VM or browser console.
 
 ## 9. Reproduction steps
 

@@ -5,11 +5,11 @@
 **Confidence:** Confirmed  
 **Status:** Partially Fixed  
 **Evidence state:** STATIC_CONFIRMED (partial fix)  
-**Build pin:** V4.8.0, SHA-256 `be27a5bc429dec25ec31031cf9128680bcc116b6eaa48c75bdb0e37896234028`
+**Build pin:** V4.8.6, SHA-256 `ffe94aea9b327853b0b8836bf0d52e1f509fcc68c007bead7b8a888604389185`
 
 ## 1. Overview
 
-This finding was verified against the source-hash-pinned V4.8.0 client build. Evidence comes from captured headers, static source review, or real extracted functions executed in an isolated Node VM with synthetic fixtures. No production state was modified.
+This finding was verified against the source-hash-pinned V4.8.6 client build. Evidence comes from captured headers, static source review, or real extracted functions executed in an isolated Node VM with synthetic fixtures. No production state was modified.
 
 ## 2. Severity
 
@@ -28,7 +28,7 @@ Confirmed — Partially Fixed. Evidence state: STATIC_CONFIRMED (partial fix).
 
 ## 4. Affected components
 
-- Gemini key read path (line 25287)
+- Gemini key read path (line 25342)
 - `safeStorageSet` sensitive-key filter (2227)
 
 ## 5. Security boundary
@@ -37,7 +37,7 @@ Provider keys should never be stored in browser-readable state. Calls should be 
 
 ## 6. Root cause
 
-V4.8.0 removes the key from localStorage and reads it from sessionStorage. Any same-origin script can still read a key the user entered. No build-time key was found.
+V4.8.6 removes the key from localStorage and reads it from sessionStorage. Any same-origin script can still read a key the user entered. No build-time key was found.
 
 ## 7. Evidence
 

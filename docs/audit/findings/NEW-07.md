@@ -5,11 +5,11 @@
 **Confidence:** Confirmed  
 **Status:** Partially Fixed  
 **Evidence state:** LOCAL_CONFIRMED (partial fix)  
-**Build pin:** V4.8.0, SHA-256 `be27a5bc429dec25ec31031cf9128680bcc116b6eaa48c75bdb0e37896234028`
+**Build pin:** V4.8.6, SHA-256 `ffe94aea9b327853b0b8836bf0d52e1f509fcc68c007bead7b8a888604389185`
 
 ## 1. Overview
 
-This finding was verified against the source-hash-pinned V4.8.0 client build. Evidence comes from captured headers, static source review, or real extracted functions executed in an isolated Node VM with synthetic fixtures. No production state was modified.
+This finding was verified against the source-hash-pinned V4.8.6 client build. Evidence comes from captured headers, static source review, or real extracted functions executed in an isolated Node VM with synthetic fixtures. No production state was modified.
 
 ## 2. Severity
 
@@ -28,7 +28,7 @@ Confirmed — Partially Fixed. Evidence state: LOCAL_CONFIRMED (partial fix).
 
 ## 4. Affected components
 
-- `setupCrossTabUserSync` (line 34455)
+- `setupCrossTabUserSync` (line 34517)
 - `safeStorageSet` (2228)
 - `localStorage` user table
 
@@ -38,7 +38,7 @@ State synchronization must not treat writable localStorage as an authoritative s
 
 ## 6. Root cause
 
-V4.8.0 strips VIP flags from records whose artifacts do not verify, but the handler still replaces user and activity-log arrays wholesale from localStorage.
+V4.8.6 strips VIP flags from records whose artifacts do not verify, but the handler still replaces user and activity-log arrays wholesale from localStorage.
 
 ## 7. Evidence
 
@@ -85,7 +85,7 @@ A user edits a name or status field in localStorage and sees the change appear i
 
 1. Replace wholesale state replacement with a server-verified diff.
 2. Treat localStorage as cache only; validate on read.
-3. Keep the V4.8.0 VIP stripping as defense in depth.
+3. Keep the V4.8.6 VIP stripping as defense in depth.
 
 ## 16. References
 

@@ -199,32 +199,40 @@ test('P4-09', 'finding: runtime integrity check skips gv_test / stu_free_12b1 / 
 // P4-10  The admin-preview path unlocks EVERYTHING when isAdminLoggedIn
 //          and adminPreviewUnlockAll are set, bypassing all VIP checks.
 // ---------------------------------------------------------------------------
-test('P4-10', 'finding: admin preview unlock-all bypasses every VIP package check', () => {
+test('P4-10', 'V4.8.5 FIX: preview flag without a server-verified admin session no longer unlocks VIP', () => {
     const e = h.createEnv({ now: NOW });
     const u = h.syntheticStudent({ maxDevices: 2 });
     u._sig = e.computeUserIntegritySig(u);
     e.state.loggedInStudent = u;
-    e.state.isAdminLoggedIn = true;
+    e.state.isAdminLoggedIn = false;
     e.state.adminPreviewUnlockAll = true;
+    e.verifyRuntimeSecurityIntegrity();
+    eq(e.state.adminPreviewUnlockAll, false, 'integrity gate clears an orphan preview flag');
     const s = e.BackendVipAuthServiceV44;
     s.registerVerifiedUserRecord(u);
-    // Even a completely non-VIP student gets full access.
-    const ok = s.hasVerifiedPackageAccess(u, 'luyende', 'P4-10');
-    assert(ok === true, 'admin preview mode must unlock all packages');
+    eq(s.hasVerifiedPackageAccess(u, 'luyende', 'P4-10'), false, 'non-VIP student stays locked');
+
+    // An actually authenticated admin session still unlocks by design.
+    e.window.__TT50_SERVER_ADMIN_VERIFIED_V485__ = true;
+    e.state.isAdminLoggedIn = true;
+    e.state.adminPreviewUnlockAll = true;
+    eq(e.verifyRuntimeSecurityIntegrity(), true, 'server-verified session survives the gate');
+    eq(s.hasVerifiedPackageAccess(u, 'luyende', 'P4-10-auth'), true, 'authenticated preview unlocks');
 });
 
 // ---------------------------------------------------------------------------
 // P4-11  Admin session signature is reproducible offline (salt is in the bundle).
 // ---------------------------------------------------------------------------
-test('P4-11', 'bypass: admin session signature is computable offline from the bundled salt', () => {
+test('P4-11', 'V4.8.5 FIX: admin session sig uses a per-window salt and is not offline-reproducible', () => {
     const e = h.createEnv({ now: NOW });
     const sig = e.computeAdminSessionSig('admin', NOW);
     assert(/^adm_/.test(sig), 'unexpected admin sig format');
     const e2 = h.createEnv({ now: NOW });
-    eq(e2.computeAdminSessionSig('admin', NOW), sig, 'admin sig reproducible');
-    // The literal salt is present in the shipped bundle.
-    const src = h.readSource();
-    assert(src.text.includes('TRITHUC50_ADM_SALT_V27'), 'admin salt must be a bundle literal');
+    assert(e2.computeAdminSessionSig('admin', NOW) !== sig, 'salted signature differs across windows');
+    const src = h.readSource().text;
+    assert(!src.includes('TRITHUC50_ADM_SALT_V27'), 'old bundle salt removed');
+    assert(src.includes('__TT50_EPH_ADM_SALT_V485__'), 'ephemeral salt present');
+    assert(src.includes("safeStorageRemove(STORAGE_KEYS.REMEMBERED_ADMIN_SESSION)"), 'remembered session cleared on boot');
 });
 
 // ---------------------------------------------------------------------------

@@ -1,149 +1,83 @@
-# Remediation plan — TRITHUC5.0 V4.8.0 (current live build)
+# Remediation plan — TRITHUC5.0 V4.8.6 (current live build)
 
-Priority is ordered by security impact and implementation dependency. Items in Phase 0 are
-containment actions; items later in the plan assume the earlier trust boundary exists.
-No production code was changed during the assessment.
+Priority is ordered by security impact and implementation dependency. Phase 0 contains public exposure; later phases assume the earlier trust boundary exists. No production code was changed during the assessment.
 
-Build identity: SHA-256 `be27a5bc429dec25ec31031cf9128680bcc116b6eaa48c75bdb0e37896234028`,
-9,115,471 bytes, 34,599 lines. All line numbers below refer to that build; re-measure after
-any redeploy. The test harnesses pin the hash and refuse to run on a changed source.
+Build identity: SHA-256 `ffe94aea9b327853b0b8836bf0d52e1f509fcc68c007bead7b8a888604389185`, 9,120,257 bytes, 34,677 lines. All line numbers below refer to that build; re-measure after any redeploy. Harnesses pin the hash and refuse to run on a changed source.
 
-What V4.8.0 already fixed (verified by the ported suites): password / seal / backend token
-blanked in `serializeCompactUser` (5546) and inbound seal/token ignored (5578); password-like
-log detail masked (7364); sensitive storage keys excluded from `window.name` / cookie /
-`sessionStorage` (2227) with `SameSite=Strict`; unsigned tombstone rejected (5714+); nonce
-replay and 26-hour stale packets rejected (5713, 5714+); internal bus removed (5674); Gemini
-key moved to `sessionStorage` (25287); `X-Frame-Options: DENY` and
-`X-Content-Type-Options: nosniff` added; `isAdminTester` detector exemption removed (15869).
-Those fixes must be preserved; the plan below closes what remains.
+## Already fixed / disabled (keep as regressions)
 
-Post-patch acceptance is defined by `tests/secure_controls.js`. On V4.8.0 it reports 7 passes
-and 2 expected failures (SC-07 unsigned user insertion, SC-09 cross-account signed packet).
-After remediation all nine must pass and the command must exit 0. The vulnerability-mapping
-assertions in `run_all.js`, `phase3_tests.js` and `phase4_tests.js` are already split into
-FIX and residual assertions; residual cases must be inverted to secure assertions.
+- Admin login is server-side via `/api/admin/login` (31907–31959); client hash literals are empty (2052–2055); session salt is per-window (4166–4170); remembered session cleared at boot (34604–34618). **F-02 fixed.**
+- Admin preview no longer bypasses gates without a server-verified session (4185–4195). **NEW-15 fixed.**
+- Public keyvalue.immanuel.co writes are disabled (4301).
+- Password, seal and backend token are blank in compact wire format (5601); unsigned tombstones rejected (5769+); nonce/age guards present (5768); internal cloud bus removed; weak-store mirroring fixed; boot auto-seal fixed; password-like log detail masked.
+
+Preserve `F-02-T01/T05`, `P4-11`, `P4-10`, `IV-16`…`IV-20`, `P3-02`, `P3-04`, `F-01-T12/T13/T16`, `P4-14`, `P4-19`, `IV-10`, `IV-24/IV-29` as green secure assertions.
+
+Post-patch acceptance is defined by `tests/secure_controls.js`. On V4.8.6 it reports 7 passes and 2 expected failures (SC-07 unsigned user insertion, SC-09 cross-account signed packet). After remediation all nine must pass and the command must exit 0.
 
 ## Phase 0 — Contain public exposure (immediate)
 
-1. **Stop publishing identity records.** Public ntfy/KV still carry compact user records
-   (names, classes, Gmail, status) even though `p`, `seal` and `bkt` are blank. Authenticate
-   ntfy/KV before publishing any user-derived snapshot. Preserve the verified blank-field
-   behavior (`F-01-T13`, `P3-04`, `SC-08`).
-2. **Stop copying activity logs to a third party.** `syncActivityLogToGoogleForm` (7339)
-   still POSTs name, class, score and detail. The password sentinel is masked (IV-21/IV-22)
-   but the channel remains. Remove the form sync or redact identity fields.
-3. **Rotate exposed material.** Rotate bundle literals: admin user/password hashes
-   (2052–2053), vault hash (2054), integrity salt `TRITHUC50_SEC_SALT_2026_V27` (4153), admin
-   session salt `TRITHUC50_ADM_SALT_V27` (4166), cloud admin secret
-   `THAYTRUNG_SECRET_2026_V436` (5542), backend ticket `SERVER_AUTH_2026` (15544), master seal
-   `THAY_TRUNG_MASTER_SEAL_2026` (15821), vault boot token `TT50_V45_INTERNAL_BOOT_SEAL`
-   (1968), exam chunk seeds (1496), KV app key, and user passwords that may have been in a
-   published snapshot. Retire the old ntfy topics.
-   - Acceptance: old values no longer authenticate or decrypt; new values exist only
-     server-side.
-4. **Make nonce mandatory.** The replay registry (5713) only runs when `data.nonce` is
-   present; reject packets without a nonce and require a signed sequence number.
-   - Acceptance: a nonce-less replay no longer passes `F-01-T06` residual assertion.
+1. **Authenticate `GET /api/results` (NEW-17).** The endpoint (4814–4819) currently returns records without an auth header. Require authentication and row-level authorization; return only the caller's own records or an admin-scoped aggregate with a separate role. Remove direct identifiers from list responses and bound response size.
+   - Acceptance: anonymous GET returns 401/403 or zero records; a student sees only their own records; no response includes another student's name, class, school or score.
+   - Separately authorize-test `POST /api/results` (4692–4698) in a staging deployment; its trust model is UNVERIFIED here because no write was sent.
+2. **Stop publishing identity records to public ntfy topics.** `broadcastTeacherUsersToCloud` and related publishers still emit names, classes, Gmail and status. Authenticate the channel and minimize snapshots to opaque IDs.
+   - Acceptance: a new snapshot test asserts no name/class/Gmail/status on the wire; `F-01-T13`, `P3-04`, `SC-08` stay green.
+3. **Stop copying activity logs to a third party.** `syncActivityLogToGoogleForm` (7394) still POSTs name, class, score and detail. Remove the form sync or replace with a first-party authenticated endpoint; preserve masking (`IV-21/IV-22`).
+4. **Rotate exposed material still in the bundle.** Integrity salt `TRITHUC50_SEC_SALT_2026_V27` (4151), cloud admin secret `THAYTRUNG_SECRET_2026_V436` (5589), backend ticket `SERVER_AUTH_2026` (~15592), master seal `THAY_TRUNG_MASTER_SEAL_2026` (15876), vault boot token `TT50_V45_INTERNAL_BOOT_SEAL` (1967), exam chunk seeds (1496), KV app key, ntfy topic names and any password that may have appeared in an older snapshot. Old admin password hashes are already gone; do not reintroduce them.
+   - Acceptance: old values no longer authenticate or decrypt; new secrets exist only server-side.
+5. **Make the packet nonce mandatory.** The replay registry (5768) only runs when `data.nonce` is present; require a signed nonce/sequence and reject nonce-less packets.
+   - Acceptance: a nonce-less replay no longer passes the residual assertion behind `F-01-T06/T07`.
 
-## Phase 1 — Retire the client-minted VIP seal (NEW-11) and authenticate every packet
+## Phase 1 — Retire client-minted entitlement and authenticate packets
 
-5. **Never mint approval artifacts client-side.** `computeTeacherVipApprovalSealV44` (15816)
-   uses `DEFAULT_VAULT_PASS_HASH_V45` (2054) and `THAY_TRUNG_MASTER_SEAL_2026` (15821).
-   Forging offline defeats the whole anti-hack layer. The same applies to the `bkt44_` token
-   inside `BackendVipAuthServiceV44` (15537).
-   - Fix: seals, tokens and entitlements must be issued by a server the attacker cannot run
-     code on. Remove the seal/token functions and all secret literals from the bundle.
-   - Acceptance: `P4-03`/`P4-04`, `P4-16`, IV-01, IV-02b and IV-09 (offline reproduction and
-     full chain with zero KV writes) fail after the change.
-6. **Keep the boot fix.** The normalizer (3574–3642) strips VIP when a signed record has no
-   seal. Verify no later path reintroduces a fallback that promotes local state into
-   entitlement (signed-packet re-seal paths in `processIncomingCloudPacket`, 5714+).
-   - Acceptance: `P4-14` and IV-10 remain green as secure assertions.
-7. **Authenticate every cloud packet with a server-held key.** The current admin signature
-   secret is a bundle literal (P4-20); a validly signed tombstone still deletes locally.
-   Replace with server-issued signatures over a signed timestamp, mandatory nonce/sequence
-   and a bounded replay cache; validate schema and reject unknown types.
-   - Acceptance: `P4-19`, IV-29 and the signed-tombstone path become secure assertions;
-     `SC-01`…`SC-06` and `SC-09` pass.
-8. **Move ntfy/KV behind an authenticated proxy.** Topic names and app keys are identifiers,
-   not secrets. Per-user authorization and write ACLs; no public cross-account reads.
+6. **Never mint approval artifacts client-side.** `computeTeacherVipApprovalSealV44` (15871) still uses a master-seal literal; `BackendVipAuthServiceV44` (15592) still mints `bkt44_` tokens. Seals, tokens and entitlements must be issued by a server the applicant cannot execute code on.
+   - Acceptance: `P4-04`, `P4-16`, `IV-02b` and `IV-09` are inverted to secure assertions.
+7. **Keep the boot fix.** The normalizer (3575–3643) strips VIP when a signed record has no seal. Verify no later path reintroduces a fallback that promotes local state into entitlement.
+   - Acceptance: `P4-14` and `IV-10` remain green.
+8. **Authenticate every cloud packet with a server-held key.** The admin signature still uses a bundle literal; a locally signed tombstone still deletes. Replace with server-issued signatures over signed timestamps, mandatory nonce/sequence and a bounded replay cache; validate schema and reject unknown types.
+   - Acceptance: `P4-19`, `IV-29`, `IV-32` and `SC-09` become secure assertions; `SC-01`…`SC-06` pass.
+9. **Move ntfy behind an authenticated proxy.** Topic names are identifiers, not secrets. Per-user read/write ACLs; no public cross-account reads.
    - Acceptance: `SC-09` passes; a packet for one account cannot mutate another.
 
 ## Phase 2 — Establish a real authorization boundary
 
-9. **Introduce a server that owns identity and state.** Authentication, entitlement,
-   device registration, user deletion and exam grading must be server decisions. The shipped
-   client contains no same-origin API calls for any of these.
-   - Acceptance: `F-02-T05` and `A-01-T01` can be inverted to assert the new API exists and
-     rejects unsigned/self-asserted calls.
-10. **Replace client-side admin auth.** `loginAdmin()` (31852) compares client-side hashes
-    (2052–2053) and writes a session signature from a literal (4166). Replace with
-    Argon2id/bcrypt hashes, constant-time checks, server-issued short-lived sessions in
-    `HttpOnly; Secure; SameSite=Strict` cookies, server-side rate limiting and audit log.
-    - Acceptance: `F-02-T01/T04` and `P4-11` (offline session-sig reproduction) fail after
-      the change.
-11. **Server-authoritative entitlement.** Remove `computeUserIntegritySig` as a security
-    control; fetch VIP status and `maxDevices` from the authenticated server.
-    - Acceptance: `F-03-T01/T02`, the F-03 PoC and the NEW-13 residual assertion fail after
-      the change.
-12. **Server-authoritative device registry.** Atomic device registration, out-of-band
-    verification for new devices, server-held lock state. `setSimulatedDeviceSlot` (31202)
-    is now gated by `requireAdminAuth`, but that gate is still client-side.
-    - Acceptance: `F-05-T01/T02/T03/T04/T05` fail after the change.
-13. **Remove answer keys from client payloads.** Delete `__ENC_GZ.exams` (1464), its PRNG-XOR
-    seeds (1496) and the claim token (1968); grade on the server.
-    - Acceptance: `F-04-T01` fails after the change (it currently decodes 15 exams / 330
-      answers).
-14. **Stop trusting storage events.** `setupCrossTabUserSync` (34455) now strips invalid VIP
-    records but still replaces all other user fields from writable localStorage.
-    - Acceptance: `A-04-T01` and `A-04-T02` fail after the change.
+10. **Server-authoritative entitlement.** Remove `computeUserIntegritySig` as a security control; fetch VIP/package status from the authenticated server on every sensitive action and treat any client cache as untrusted.
+    - Acceptance: `F-03-T01/T02`, the F-03 PoC, `P4-16` and `IV-05/IV-06/IV-09` are inverted.
+11. **Server-authoritative device registry.** Atomic registration, out-of-band verification for new devices, server-held lock state. `setSimulatedDeviceSlot` (31257) is client-gated only.
+    - Acceptance: `F-05-T01`…`T05` are inverted.
+12. **Remove answer keys from client payloads.** Delete `__ENC_GZ.exams` (1464), its PRNG-XOR seeds (1496) and the claim token (1967); grade on the server.
+    - Acceptance: `F-04-T01` can no longer decode 15 exams / 330 answers.
+13. **Stop trusting storage events.** `setupCrossTabUserSync` (34517) strips invalid VIP records but replaces all other user fields from writable localStorage.
+    - Acceptance: `A-04-T01/T02` are inverted while VIP stripping remains.
+14. **Remove privileged-identity exemptions (NEW-14/NEW-10).** `gv_test` still skips the detector (15924); the runtime block exempts three ids (4172); `isAdminExamAttempt` (14020) still suppresses audit logging for `isAdminTester` / `gv_test`.
+    - Acceptance: `P4-08/P4-09`, `IV-11`, `IV-13`, `IV-15`, `IV-23` are inverted.
 
 ## Phase 3 — Hardening and correct classification
 
-15. **Finish response headers.** CSP and narrow CORS are still missing; preserve the new
-    `X-Frame-Options: DENY` and `X-Content-Type-Options: nosniff`.
-    - Acceptance: `A-03-T01` fails after the change.
+15. **Finish response headers.** Add a nonce/hash-based CSP and replace wildcard CORS with an explicit allowlist; preserve XFO, nosniff, Referrer-Policy and Permissions-Policy.
+    - Acceptance: `A-03-T01` is inverted.
 16. **Proxy Gemini calls server-side** so provider keys are never in browser storage.
-    - Acceptance: `A-02-T01` fails after the change.
-17. **Close the admin-preview unlock-all backdoor (NEW-15 residual).** The flag is cleared
-    without a session (4184–4187), but a forged session re-enables all three gates
-    (`hasStudentVipAccess` 6860, `hasVerifiedPackageAccess` 6870,
-    `verifyProtectedVipActionV44` 15801). Make the unlock a server-issued, scoped, time-limited
-    grant.
-    - Acceptance: the NEW-15 PoC chain and IV-16…IV-18 fail after the change.
-18. **Remove the remaining privileged-identity bypasses (NEW-14/NEW-10).** `gv_test` still
-    skips the detector (15869) and the runtime block still exempts the three privileged ids
-    (4170); `isAdminExamAttempt` (13965) still suppresses audit logging for `isAdminTester` /
-    `gv_test`. Tester exemptions must live server-side.
-    - Acceptance: `P4-08`/`P4-09` residual assertions and IV-11/IV-13 fail after the change.
-19. **Relabel anti-cheat as UX.** Keep `preventDefault`, watermark and blur, but remove
-    security claims (F-06).
+    - Acceptance: `A-02-T01` is inverted.
+17. **Close nonce-less packet injection (NEW-02).** Ignore unsigned local `BroadcastChannel` packets or require server verification before mutation.
+    - Acceptance: the NEW-02 PoC can no longer insert a pending user.
+18. **Relabel anti-cheat as UX.** Keep `preventDefault`, watermark and blur, but enforce attempt/time/grading server-side (F-06).
 
 ## Verification sequence
 
-1. Run, against the current V4.8.0 source: `tests/run_all.js` (40/40), `tests/phase3_tests.js`
-   (8/8), `tests/phase4_tests.js` (20/20), `tests/poc_suite_validation.js` (51/51),
-   `tests/independent_verification.js` (36/36), `tests/secure_controls.js` (7 pass, 2 expected
-   failures). Current logs are in `evidence/`.
-2. Apply a phase, rebuild, rerun: the tests mapped to that phase must fail, proving the old
-   behavior is gone.
+1. Run against the current V4.8.6 source: `tests/run_all.js` (41/41), `tests/phase3_tests.js` (8/8), `tests/phase4_tests.js` (20/20), `tests/poc_suite_validation.js` (60/60), `tests/independent_verification.js` (36/36), `tests/secure_controls.js` (7 pass, 2 expected failures). Current logs are in `evidence/`.
+2. Apply a phase, rebuild, rerun: the tests mapped to that phase must fail, proving the old behavior is gone.
 3. Update each test to assert the new secure behavior, then rerun to green.
-4. Re-measure the source hash and line references after every deploy; the harness will
-   refuse to run on a changed source until `EXPECTED_SHA` is deliberately updated.
-5. Repeat the full suite in a dedicated staging deployment owned by the project before
-   production rollout. No test in this repository contacts production.
+4. Re-measure the source hash and line references after every deploy; harnesses refuse to run until `EXPECTED_SHA` is deliberately updated.
+5. Repeat the full suite in a dedicated staging deployment before production rollout. No test in this repository writes to production.
 
 ## Dependency summary
 
 ```
-Phase 0 (contain identity exposure + rotate literals)
+Phase 0: /api/results auth -> public channel containment -> third-party logging removal -> secret rotation
         |
-        v
-Phase 1 (retire client-minted seals + server-authenticated packets)
+Phase 1: server-issued entitlement/packet signatures -> authenticated cloud proxy
         |
-        v
-Phase 2 (server identity / entitlement / devices / answers / storage)
+Phase 2: server-authoritative identity/device/grading/storage-event validation
         |
-        v
-Phase 3 (headers, key proxy, NEW-15/NEW-14 closures, honest anti-cheat labeling)
+Phase 3: CSP/CORS/proxy keys/UX-only anti-cheat
 ```

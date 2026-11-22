@@ -5,11 +5,11 @@
 **Confidence:** Confirmed  
 **Status:** Open  
 **Evidence state:** LOCAL_CONFIRMED  
-**Build pin:** V4.8.0, SHA-256 `be27a5bc429dec25ec31031cf9128680bcc116b6eaa48c75bdb0e37896234028`
+**Build pin:** V4.8.6, SHA-256 `ffe94aea9b327853b0b8836bf0d52e1f509fcc68c007bead7b8a888604389185`
 
 ## 1. Overview
 
-This finding was verified against the source-hash-pinned V4.8.0 client build. Evidence comes from captured headers, static source review, or real extracted functions executed in an isolated Node VM with synthetic fixtures. No production state was modified.
+This finding was verified against the source-hash-pinned V4.8.6 client build. Evidence comes from captured headers, static source review, or real extracted functions executed in an isolated Node VM with synthetic fixtures. No production state was modified.
 
 ## 2. Severity
 
@@ -28,9 +28,9 @@ Confirmed — Open. Evidence state: LOCAL_CONFIRMED.
 
 ## 4. Affected components
 
-- `computeTeacherVipApprovalSealV44` (pinned line 15816)
-- `computeUserIntegritySig` and the integrity salt literal (line 4153)
-- `BackendVipAuthServiceV44` (line 15537)
+- `computeTeacherVipApprovalSealV44` (pinned line 15871)
+- `computeUserIntegritySig` and the integrity salt literal (line 4151)
+- `BackendVipAuthServiceV44` (line 15592)
 - VIP gates `hasStudentVipAccess` (6860), `hasVerifiedPackageAccess` (6870), `verifyProtectedVipActionV44` (15801)
 
 ## 5. Security boundary
@@ -43,7 +43,7 @@ The master-seal value and vault hash are literals in the shipped bundle. Every o
 
 ## 7. Evidence
 
-- Independent suite `IV-01`…`IV-10` executes the real V4.8.0 functions with synthetic records.
+- Independent suite `IV-01`…`IV-10` executes the real V4.8.6 functions with synthetic records.
 - `P4-16` reproduces the complete `_sig` → seal → vault → gate chain with zero KV writes.
 - `poc-suite-validation.txt` confirms the ACTION PoC changes only local mechanism state and writes nothing to ntfy/KV.
 
@@ -51,7 +51,7 @@ All evidence files are sanitized and indexed in `../evidence/README.md`. No real
 
 ## 8. Reproduction prerequisites
 
-- Pinned V4.8.0 source available for inspection.
+- Pinned V4.8.6 source available for inspection.
 - Own browser origin and DevTools Console; no account, no server access.
 - Synthetic user fixture only.
 
