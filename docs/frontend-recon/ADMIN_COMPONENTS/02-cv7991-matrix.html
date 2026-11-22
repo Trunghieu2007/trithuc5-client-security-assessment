@@ -1,0 +1,1612 @@
+
+            <div class="v511-admin-shell">
+                <header class="v511-admin-topbar">
+                    <div class="max-w-[1680px] mx-auto flex items-center justify-between gap-2 flex-wrap">
+                        <div class="flex items-center gap-2 flex-wrap min-w-0">
+                            <button type="button" onclick="window.TRITHUC.toggleAdminHeaderCollapsedV44()" title="Thu gọn thanh điều hướng để mở rộng không gian làm việc" class="hidden lg:inline-flex v5-nav-btn-secondary px-2.5 py-1.5 text-xs items-center gap-1">
+                                <span>◧ Thu gọn</span>
+                            </button>
+                            <div class="w-7 h-7 rounded-lg bg-blue-700 text-white flex items-center justify-center font-black text-xs shrink-0">🎓</div>
+                            <span class="text-xs sm:text-sm font-extrabold text-slate-900 tracking-tight">QUẢN TRỊ GV</span>
+                            <span class="v5-version-pill">V5.1.4</span>
+                            <span class="hidden xl:inline text-xs font-semibold text-slate-500">› 📐 1B. Ma Trận CV 7991 &amp; Tự Sinh Đề</span>
+                            <select onchange="window.TRITHUC.switchAdminTab(this.value)" aria-label="Chọn mục quản trị" class="lg:hidden px-2.5 py-1 rounded-lg bg-slate-100 border border-slate-200 text-slate-800 font-bold text-xs outline-none cursor-pointer">
+                                <option value="matrix_builder">🧭 1. Làm Đề &amp; Ma Trận (Từ Phần E)</option><option value="cv7991_matrix" selected="">📐 1B. Ma Trận CV 7991 &amp; Tự Sinh Đề</option><option value="sync_mock_to_e">🔍 2. Bóc Tách Dạng Mới → Phần E</option><option value="exams">📋 Kho Đề &amp; Bài Học (241)</option><option value="lessons">✏️ Quản Lý &amp; Sửa Bài Học</option><option value="users">👥 Tài Khoản &amp; Duyệt VIP (0)</option><option value="create">➕ Tạo / Nạp Đề (Chuẩn V9.6 PRO)</option><option value="results">📊 Phổ Điểm &amp; Excel (5)</option><option value="gsites">🔐 Mã Hóa Kho Đề &amp; Bảo Mật (Mục 5)</option>
+                            </select>
+                        </div>
+                        <div class="flex items-center gap-1.5 flex-wrap">
+                            <div class="v5-theme-switcher v5-theme-switcher-compact" role="radiogroup" aria-label="Chọn chế độ giao diện"><button type="button" role="radio" data-v5-theme-btn="light" aria-checked="false" tabindex="-1" title="Chế độ Sáng (Light)" onclick="window.TRITHUC_THEME.setMode('light')" onkeydown="window.TRITHUC_THEME.onKeyDown(event,'light')" class="v5-theme-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg></button><button type="button" role="radio" data-v5-theme-btn="dark" aria-checked="false" tabindex="-1" title="Chế độ Tối (Dark)" onclick="window.TRITHUC_THEME.setMode('dark')" onkeydown="window.TRITHUC_THEME.onKeyDown(event,'dark')" class="v5-theme-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg></button><button type="button" role="radio" data-v5-theme-btn="system" aria-checked="true" tabindex="0" title="Tự động theo hệ điều hành (System)" onclick="window.TRITHUC_THEME.setMode('system')" onkeydown="window.TRITHUC_THEME.onKeyDown(event,'system')" class="v5-theme-btn v5-theme-btn-active"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="14" x="2" y="3" rx="2"></rect><line x1="8" x2="16" y1="21" y2="21"></line><line x1="12" x2="12" y1="17" y2="21"></line></svg></button></div>
+                            <button type="button" onclick="window.TRITHUC.openVaultSecurityModal()" title="Mã hóa Kho đề thi &amp; Dữ liệu bài học" class="v5-nav-btn-secondary px-2.5 py-1.5 text-[11px] flex items-center gap-1">
+                                <span>🔐</span>
+                                <span class="hidden sm:inline">Khóa Admin</span>
+                            </button>
+                            <button type="button" onclick="window.TRITHUC.toggleHideAuthorInfo()" class="v5-nav-btn-secondary px-2.5 py-1.5 text-[11px] flex items-center gap-1">
+                                <span>👁️ Hiện tác giả</span>
+                            </button>
+                            <button type="button" onclick="window.TRITHUC.openShareVipLinkModal()" class="v5-nav-btn-secondary px-2.5 py-1.5 text-[11px] flex items-center gap-1">
+                                <span>🔗</span>
+                                <span class="hidden md:inline">Link ĐK VIP</span>
+                            </button>
+                            <button type="button" onclick="window.TRITHUC.goStudentHome()" class="v5-nav-btn-primary px-2.5 py-1.5 text-[11px] flex items-center gap-1">
+                                <span>👁️ Trang HS</span>
+                            </button>
+                            <button type="button" onclick="window.TRITHUC.logoutAdmin()" class="px-2.5 py-1.5 rounded-lg bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 text-[11px] font-bold transition">
+                                🔒 Thoát
+                            </button>
+                        </div>
+                    </div>
+                </header>
+
+                <!-- Thanh tab cuộn ngang cho Mobile / Tablet (< 1024px) -->
+                <div class="v511-admin-mobile-tabs">
+                    
+                        <button type="button" onclick="window.TRITHUC.switchAdminTab('matrix_builder')" class="v511-mobile-pill ">
+                            🧭 1. Làm Đề &amp; Ma Trận (Từ Phần E)
+                        </button>
+                    
+                        <button type="button" onclick="window.TRITHUC.switchAdminTab('cv7991_matrix')" class="v511-mobile-pill v511-active">
+                            📐 1B. Ma Trận CV 7991 &amp; Tự Sinh Đề
+                        </button>
+                    
+                        <button type="button" onclick="window.TRITHUC.switchAdminTab('sync_mock_to_e')" class="v511-mobile-pill ">
+                            🔍 2. Bóc Tách Dạng Mới → Phần E
+                        </button>
+                    
+                        <button type="button" onclick="window.TRITHUC.switchAdminTab('exams')" class="v511-mobile-pill ">
+                            📋 Kho Đề &amp; Bài Học (241)
+                        </button>
+                    
+                        <button type="button" onclick="window.TRITHUC.switchAdminTab('lessons')" class="v511-mobile-pill ">
+                            ✏️ Quản Lý &amp; Sửa Bài Học
+                        </button>
+                    
+                        <button type="button" onclick="window.TRITHUC.switchAdminTab('users')" class="v511-mobile-pill ">
+                            👥 Tài Khoản &amp; Duyệt VIP (0)
+                        </button>
+                    
+                        <button type="button" onclick="window.TRITHUC.switchAdminTab('create')" class="v511-mobile-pill ">
+                            ➕ Tạo / Nạp Đề (Chuẩn V9.6 PRO)
+                        </button>
+                    
+                        <button type="button" onclick="window.TRITHUC.switchAdminTab('results')" class="v511-mobile-pill ">
+                            📊 Phổ Điểm &amp; Excel (5)
+                        </button>
+                    
+                        <button type="button" onclick="window.TRITHUC.switchAdminTab('gsites')" class="v511-mobile-pill ">
+                            🔐 Mã Hóa Kho Đề &amp; Bảo Mật (Mục 5)
+                        </button>
+                    
+                </div>
+
+                <div class="v511-admin-body">
+                    <!-- Thanh Sidebar trái phân nhóm 3 cụm nghiệp vụ cho Desktop -->
+                    <aside class="v511-admin-sidebar custom-scrollbar " aria-label="Điều hướng Quản trị Giáo viên">
+                        
+                            <div class="space-y-1">
+                                <div class="v511-nav-group-label">Soạn Đề &amp; Ma Trận</div>
+                                
+                                    <button type="button" onclick="window.TRITHUC.switchAdminTab('matrix_builder')" class="v511-sidebar-item ">
+                                        <span class="flex items-center gap-2 min-w-0">
+                                            <span class="shrink-0">🧭</span>
+                                            <span class="truncate">1. Làm Đề &amp; Ma Trận (E)</span>
+                                        </span>
+                                        
+                                    </button>
+                                
+                                    <button type="button" onclick="window.TRITHUC.switchAdminTab('cv7991_matrix')" class="v511-sidebar-item v511-active">
+                                        <span class="flex items-center gap-2 min-w-0">
+                                            <span class="shrink-0">📐</span>
+                                            <span class="truncate">1B. Ma Trận CV 7991</span>
+                                        </span>
+                                        <span class="v511-sidebar-badge">BGD</span>
+                                    </button>
+                                
+                                    <button type="button" onclick="window.TRITHUC.switchAdminTab('sync_mock_to_e')" class="v511-sidebar-item ">
+                                        <span class="flex items-center gap-2 min-w-0">
+                                            <span class="shrink-0">🔍</span>
+                                            <span class="truncate">2. Bóc Tách Dạng → E</span>
+                                        </span>
+                                        
+                                    </button>
+                                
+                            </div>
+                        
+                            <div class="space-y-1">
+                                <div class="v511-nav-group-label">Học Liệu &amp; Kho Đề</div>
+                                
+                                    <button type="button" onclick="window.TRITHUC.switchAdminTab('exams')" class="v511-sidebar-item ">
+                                        <span class="flex items-center gap-2 min-w-0">
+                                            <span class="shrink-0">📋</span>
+                                            <span class="truncate">Kho Đề &amp; Bài Học</span>
+                                        </span>
+                                        <span class="v511-sidebar-badge">241</span>
+                                    </button>
+                                
+                                    <button type="button" onclick="window.TRITHUC.switchAdminTab('lessons')" class="v511-sidebar-item ">
+                                        <span class="flex items-center gap-2 min-w-0">
+                                            <span class="shrink-0">✏️</span>
+                                            <span class="truncate">Quản Lý &amp; Sửa Bài Học</span>
+                                        </span>
+                                        
+                                    </button>
+                                
+                                    <button type="button" onclick="window.TRITHUC.switchAdminTab('create')" class="v511-sidebar-item ">
+                                        <span class="flex items-center gap-2 min-w-0">
+                                            <span class="shrink-0">➕</span>
+                                            <span class="truncate">Tạo / Nạp Đề V9.6</span>
+                                        </span>
+                                        
+                                    </button>
+                                
+                            </div>
+                        
+                            <div class="space-y-1">
+                                <div class="v511-nav-group-label">Học Sinh &amp; Hệ Thống</div>
+                                
+                                    <button type="button" onclick="window.TRITHUC.switchAdminTab('users')" class="v511-sidebar-item ">
+                                        <span class="flex items-center gap-2 min-w-0">
+                                            <span class="shrink-0">👥</span>
+                                            <span class="truncate">Tài Khoản &amp; Duyệt VIP</span>
+                                        </span>
+                                        <span class="v511-sidebar-badge">0</span>
+                                    </button>
+                                
+                                    <button type="button" onclick="window.TRITHUC.switchAdminTab('results')" class="v511-sidebar-item ">
+                                        <span class="flex items-center gap-2 min-w-0">
+                                            <span class="shrink-0">📊</span>
+                                            <span class="truncate">Phổ Điểm &amp; Excel</span>
+                                        </span>
+                                        <span class="v511-sidebar-badge">5</span>
+                                    </button>
+                                
+                                    <button type="button" onclick="window.TRITHUC.switchAdminTab('gsites')" class="v511-sidebar-item ">
+                                        <span class="flex items-center gap-2 min-w-0">
+                                            <span class="shrink-0">🔐</span>
+                                            <span class="truncate">Mã Hóa &amp; Bảo Mật</span>
+                                        </span>
+                                        
+                                    </button>
+                                
+                            </div>
+                        
+                        
+                    </aside>
+
+                    <main class="v511-admin-main">
+                        
+                        
+                        
+            <div class="space-y-4">
+                <!-- HEADER PHÁP LÝ CHUẨN BỘ GDĐT — V5.1.4 -->
+                <div class="v511-admin-hero flex-col items-stretch space-y-3">
+                    <div class="flex flex-wrap items-start justify-between gap-3">
+                        <div class="space-y-1 min-w-0">
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <span class="v5-version-pill">CV 7991/BGDĐT-GDTrH • 17/12/2024</span>
+                                <span class="v5-stat-chip">TT 22/2021 • CV 6569</span>
+                            </div>
+                            <h2 class="text-sm sm:text-base font-extrabold text-slate-900 m-0 tracking-tight">📐 Thiết Kế Ma Trận &amp; Bản Đặc Tả CV 7991 → Tự Động Sinh Đề</h2>
+                            <p class="text-xs text-slate-500 m-0">
+                                Phân bổ <b>% Chương</b> theo số tiết chuẩn <b>40% Biết – 30% Hiểu – 30% Vận dụng</b>, hoặc <b>Nhập ma trận Excel/Word</b> để tự động sinh đề &amp; xuất bộ nhiều mã đề.
+                            </p>
+                        </div>
+                        <div class="flex flex-wrap items-center gap-1.5 shrink-0">
+                            <button type="button" onclick="window.TRITHUC.printOrDownloadCv7991DocV457(true)" class="v5-nav-btn-secondary px-3 py-1.5 text-[11.5px]">
+                                🖨️ In Ma Trận + Đặc Tả
+                            </button>
+                            <button type="button" onclick="window.TRITHUC.exportCv7991ExcelV457()" class="v5-nav-btn-secondary px-3 py-1.5 text-[11.5px]">
+                                📊 Xuất Excel (.xlsx)
+                            </button>
+                            <button type="button" onclick="window.TRITHUC.generateExamFromCv7991MatrixV457('pdf')" class="v5-nav-btn-primary px-3.5 py-1.5 text-[11.5px]">
+                                ⚡ Tự Sinh Đề Từ Ma Trận
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- THANH CHỌN KHỐI – KỲ THI – CẤU TRÚC ĐIỂM CV 7991 -->
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-2.5 bg-white/10 p-3 rounded-2xl border border-white/15 text-xs">
+                        <div class="md:col-span-3 space-y-1">
+                            <label class="block text-[10px] font-black text-blue-200 uppercase">1. Chọn Khối Lớp</label>
+                            <div class="grid grid-cols-3 gap-1">
+                                
+                                    <button type="button" onclick="window.TRITHUC.setCv7991ConfigV457('grade', '12')" class="py-1.5 rounded-xl font-black text-xs transition bg-amber-400 text-slate-950 shadow-2xs">
+                                        Toán 12
+                                    </button>
+                                
+                                    <button type="button" onclick="window.TRITHUC.setCv7991ConfigV457('grade', '11')" class="py-1.5 rounded-xl font-black text-xs transition bg-white/10 text-white hover:bg-white/20">
+                                        Toán 11
+                                    </button>
+                                
+                                    <button type="button" onclick="window.TRITHUC.setCv7991ConfigV457('grade', '10')" class="py-1.5 rounded-xl font-black text-xs transition bg-white/10 text-white hover:bg-white/20">
+                                        Toán 10
+                                    </button>
+                                
+                            </div>
+                        </div>
+                        <div class="md:col-span-4 space-y-1">
+                            <label class="block text-[10px] font-black text-blue-200 uppercase">2. Kỳ Thi Định Kì (Tự chia % Chương chuẩn)</label>
+                            <select onchange="window.TRITHUC.setCv7991ConfigV457('examPreset', this.value)" class="w-full px-3 py-1.5 rounded-xl bg-white text-slate-900 font-extrabold text-xs outline-none">
+                                <option value="gk1">📌 Giữa học kì I (Nửa đầu HK1 theo số tiết)</option>
+                                <option value="ck1" selected="">🎯 Cuối học kì I (Trước GK 30% + Sau GK 70%)</option>
+                                <option value="gk2">📌 Giữa học kì II (Nửa đầu HK2 theo số tiết)</option>
+                                <option value="ck2">🎯 Cuối học kì II (Trước GK 30% + Sau GK 70%)</option>
+                                <option value="tnthpt">🏆 Thi thử TN THPT 2026 (Cả năm 6 chương)</option>
+                                <option value="custom">✏️ Tự chọn chương tùy ý</option>
+                            </select>
+                        </div>
+                        <div class="md:col-span-5 space-y-1">
+                            <label class="block text-[10px] font-black text-blue-200 uppercase">3. Cấu Trúc Tỉ Lệ Điểm (Công văn 7991)</label>
+                            <select onchange="window.TRITHUC.setCv7991ConfigV457('formatMode', this.value)" class="w-full px-3 py-1.5 rounded-xl bg-white text-slate-900 font-extrabold text-xs outline-none">
+                                <option value="cv7991_standard" selected="">📋 Chuẩn Phụ lục CV 7991: 30% TN (3đ) + 20% Đ-S (2đ) + 20% TLN (2đ) + 30% TL (3đ)</option>
+                                <option value="tnkq_100">⚡ 100% TNKQ (Chuẩn TN THPT): 30% TN (3đ) + 40% Đ-S (4đ) + 30% TLN (3đ) + 0% TL</option>
+                                <option value="cv7991_no_sa">📑 CV 7991 (Ghi chú 3): 30% TN (3đ) + 40% Đ-S (4đ) + 0% TLN + 30% TL (3đ)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- CHẾ ĐỘ CON & KIỂM TOÁN 40-30-30 -->
+                    <div class="flex flex-wrap items-center justify-between gap-2">
+                        <div class="flex items-center gap-1.5 flex-wrap">
+                            
+                                <button type="button" onclick="window.TRITHUC.setCv7991SubTabV457('matrix')" class="px-3 py-1.5 rounded-xl text-xs font-black transition bg-white text-indigo-950 shadow-sm">
+                                    📊 1. Set % Chương &amp; Ma Trận (Phụ lục 1)
+                                </button>
+                            
+                                <button type="button" onclick="window.TRITHUC.setCv7991SubTabV457('spec')" class="px-3 py-1.5 rounded-xl text-xs font-black transition bg-white/10 text-blue-100 hover:bg-white/20">
+                                    📑 2. Bản Đặc Tả &amp; Năng Lực (Phụ lục 2)
+                                </button>
+                            
+                                <button type="button" onclick="window.TRITHUC.setCv7991SubTabV457('import')" class="px-3 py-1.5 rounded-xl text-xs font-black transition bg-white/10 text-blue-100 hover:bg-white/20">
+                                    📥 3. Nhập Ma Trận Có Sẵn (Excel / Word / Dán bảng)
+                                </button>
+                            
+                        </div>
+                        <div class="flex items-center gap-2 text-[11px] font-black flex-wrap">
+                            <span class="px-2.5 py-1 rounded-xl bg-emerald-500/25 text-emerald-200 border border-emerald-400/50">
+                                ✅ ĐẠT CHUẨN CV 7991 (10,0đ • 40–30–30)
+                            </span>
+                            <span class="px-2.5 py-1 rounded-xl bg-white/10">Biết 40% • Hiểu 30% • VD 30%</span>
+                        </div>
+                    </div>
+                </div>
+
+                
+
+                
+                    <!-- PHẦN A: TƯ DUY SET % CHƯƠNG THEO KỲ THI & PHÂN PHỐI SỐ TIẾT -->
+                    <div class="bg-white rounded-3xl border border-slate-200 shadow-xs p-4 space-y-3">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <div>
+                                <h3 class="text-sm font-black text-slate-900 uppercase m-0">⚖️ Bước 1: Thiết Lập Tỉ Trọng % Điểm Từng Chương (ĐỀ KIỂM TRA CUỐI HỌC KÌ I – TOÁN 12)</h3>
+                                <p class="text-[11px] font-semibold text-slate-500 m-0 mt-0.5">
+                                    Đề Cuối kì chuẩn CV 7991 &amp; CV 6569: Kiến thức <b>Trước Giữa kì (30%)</b> + Kiến thức <b>Sau Giữa kì (70%)</b>, chia tỉ lệ thuận theo số tiết từng chương.
+                                </p>
+                            </div>
+                            <div class="flex flex-wrap items-center gap-2">
+                                
+                                    <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-indigo-50 border border-indigo-200 text-xs font-extrabold text-indigo-950">
+                                        <span>Trước GK: <b>30%</b></span>
+                                        <input type="range" min="20" max="40" step="5" value="30" oninput="window.TRITHUC.setCv7991PreMidPctV457(this.value)" class="w-20 accent-indigo-600 cursor-pointer" style="">
+                                        <span>Sau GK: <b>70%</b></span>
+                                    </div>
+                                
+                                <span class="px-2.5 py-1 rounded-xl text-xs font-black bg-emerald-100 text-emerald-800 border border-emerald-300">
+                                    Tổng % set: 100%
+                                </span>
+                                <button type="button" onclick="window.TRITHUC.autoDistributeCv7991PctV457()" class="px-3 py-1.5 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-800 border border-blue-200 font-extrabold text-xs transition">
+                                    ⚖️ Chia % theo số tiết
+                                </button>
+                                <button type="button" onclick="window.TRITHUC.autoRebalanceCv7991MatrixV457()" class="px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-black text-xs shadow-2xs transition">
+                                    🎯 Tự phân bổ Ma trận 40–30–30
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
+                            
+                                <div class="p-3 rounded-2xl border-2 transition border-blue-300 bg-blue-50/35 space-y-2">
+                                    <div class="flex items-start justify-between gap-2">
+                                        <label class="flex items-start gap-2 cursor-pointer flex-1 min-w-0">
+                                            <input type="checkbox" checked="" onchange="window.TRITHUC.toggleCv7991RowEnabledV457('cvrow_12-c1', this.checked)" class="w-4 h-4 mt-0.5 accent-blue-600 rounded cursor-pointer shrink-0" style="">
+                                            <div class="min-w-0">
+                                                <div class="text-xs font-black text-slate-900 leading-snug">Chương I: Ứng dụng đạo hàm để khảo sát và vẽ đồ thị hàm số</div>
+                                                <div class="flex items-center gap-1.5 mt-1 flex-wrap text-[10px] font-bold text-slate-500">
+                                                    <span class="px-1.5 py-0.5 rounded bg-slate-200/80 text-slate-700">HK1</span>
+                                                    <span class="px-1.5 py-0.5 rounded bg-sky-100 text-sky-800 text-[9.5px] font-black">Trước GK</span>
+                                                    <span>⏱ 22 tiết</span>
+                                                    <span>• Kho: 127 TN / 62 ĐS / 80 TLN</span>
+                                                </div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                    
+                                        <div class="flex items-center justify-between gap-2 pt-1 border-t border-blue-200/60 text-xs">
+                                            <div class="flex items-center gap-1.5">
+                                                <span class="text-[11px] font-bold text-slate-600">% mục tiêu:</span>
+                                                <input type="number" min="0" max="100" step="5" value="30" onchange="window.TRITHUC.setCv7991RowPctV457('cvrow_12-c1', this.value)" class="w-14 px-1.5 py-0.5 rounded-lg border border-blue-300 bg-white font-black text-center text-blue-900 outline-none" style="">
+                                                <span class="font-black text-blue-800">%</span>
+                                            </div>
+                                            <div class="text-[11px] font-extrabold text-emerald-800">
+                                                Thực tế: <b>3,00đ (30.0%)</b>
+                                            </div>
+                                        </div>
+                                    
+                                </div>
+                                <div class="p-3 rounded-2xl border-2 transition border-blue-300 bg-blue-50/35 space-y-2">
+                                    <div class="flex items-start justify-between gap-2">
+                                        <label class="flex items-start gap-2 cursor-pointer flex-1 min-w-0">
+                                            <input type="checkbox" checked="" onchange="window.TRITHUC.toggleCv7991RowEnabledV457('cvrow_12-c2', this.checked)" class="w-4 h-4 mt-0.5 accent-blue-600 rounded cursor-pointer shrink-0" style="">
+                                            <div class="min-w-0">
+                                                <div class="text-xs font-black text-slate-900 leading-snug">Chương II: Vectơ và Hệ trục tọa độ trong không gian</div>
+                                                <div class="flex items-center gap-1.5 mt-1 flex-wrap text-[10px] font-bold text-slate-500">
+                                                    <span class="px-1.5 py-0.5 rounded bg-slate-200/80 text-slate-700">HK1</span>
+                                                    <span class="px-1.5 py-0.5 rounded bg-purple-100 text-purple-800 text-[9.5px] font-black">Sau GK</span>
+                                                    <span>⏱ 18 tiết</span>
+                                                    <span>• Kho: 107 TN / 35 ĐS / 44 TLN</span>
+                                                </div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                    
+                                        <div class="flex items-center justify-between gap-2 pt-1 border-t border-blue-200/60 text-xs">
+                                            <div class="flex items-center gap-1.5">
+                                                <span class="text-[11px] font-bold text-slate-600">% mục tiêu:</span>
+                                                <input type="number" min="0" max="100" step="5" value="45" onchange="window.TRITHUC.setCv7991RowPctV457('cvrow_12-c2', this.value)" class="w-14 px-1.5 py-0.5 rounded-lg border border-blue-300 bg-white font-black text-center text-blue-900 outline-none" style="">
+                                                <span class="font-black text-blue-800">%</span>
+                                            </div>
+                                            <div class="text-[11px] font-extrabold text-emerald-800">
+                                                Thực tế: <b>4,50đ (45.0%)</b>
+                                            </div>
+                                        </div>
+                                    
+                                </div>
+                                <div class="p-3 rounded-2xl border-2 transition border-blue-300 bg-blue-50/35 space-y-2">
+                                    <div class="flex items-start justify-between gap-2">
+                                        <label class="flex items-start gap-2 cursor-pointer flex-1 min-w-0">
+                                            <input type="checkbox" checked="" onchange="window.TRITHUC.toggleCv7991RowEnabledV457('cvrow_12-c3', this.checked)" class="w-4 h-4 mt-0.5 accent-blue-600 rounded cursor-pointer shrink-0" style="">
+                                            <div class="min-w-0">
+                                                <div class="text-xs font-black text-slate-900 leading-snug">Chương III: Các số đặc trưng đo độ phân tán của mẫu số liệu ghép nhóm</div>
+                                                <div class="flex items-center gap-1.5 mt-1 flex-wrap text-[10px] font-bold text-slate-500">
+                                                    <span class="px-1.5 py-0.5 rounded bg-slate-200/80 text-slate-700">HK1</span>
+                                                    <span class="px-1.5 py-0.5 rounded bg-purple-100 text-purple-800 text-[9.5px] font-black">Sau GK</span>
+                                                    <span>⏱ 10 tiết</span>
+                                                    <span>• Kho: 46 TN / 17 ĐS / 23 TLN</span>
+                                                </div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                    
+                                        <div class="flex items-center justify-between gap-2 pt-1 border-t border-blue-200/60 text-xs">
+                                            <div class="flex items-center gap-1.5">
+                                                <span class="text-[11px] font-bold text-slate-600">% mục tiêu:</span>
+                                                <input type="number" min="0" max="100" step="5" value="25" onchange="window.TRITHUC.setCv7991RowPctV457('cvrow_12-c3', this.value)" class="w-14 px-1.5 py-0.5 rounded-lg border border-blue-300 bg-white font-black text-center text-blue-900 outline-none" style="">
+                                                <span class="font-black text-blue-800">%</span>
+                                            </div>
+                                            <div class="text-[11px] font-extrabold text-emerald-800">
+                                                Thực tế: <b>2,50đ (25.0%)</b>
+                                            </div>
+                                        </div>
+                                    
+                                </div>
+                                <div class="p-3 rounded-2xl border-2 transition border-slate-200 bg-slate-50/70 opacity-65 space-y-2">
+                                    <div class="flex items-start justify-between gap-2">
+                                        <label class="flex items-start gap-2 cursor-pointer flex-1 min-w-0">
+                                            <input type="checkbox" onchange="window.TRITHUC.toggleCv7991RowEnabledV457('cvrow_12-c4', this.checked)" class="w-4 h-4 mt-0.5 accent-blue-600 rounded cursor-pointer shrink-0" style="">
+                                            <div class="min-w-0">
+                                                <div class="text-xs font-black text-slate-900 leading-snug">Chương IV: Nguyên hàm và Tích phân</div>
+                                                <div class="flex items-center gap-1.5 mt-1 flex-wrap text-[10px] font-bold text-slate-500">
+                                                    <span class="px-1.5 py-0.5 rounded bg-slate-200/80 text-slate-700">HK2</span>
+                                                    <span class="px-1.5 py-0.5 rounded bg-sky-100 text-sky-800 text-[9.5px] font-black">Trước GK</span>
+                                                    <span>⏱ 18 tiết</span>
+                                                    <span>• Kho: 116 TN / 43 ĐS / 68 TLN</span>
+                                                </div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                    
+                                </div>
+                                <div class="p-3 rounded-2xl border-2 transition border-slate-200 bg-slate-50/70 opacity-65 space-y-2">
+                                    <div class="flex items-start justify-between gap-2">
+                                        <label class="flex items-start gap-2 cursor-pointer flex-1 min-w-0">
+                                            <input type="checkbox" onchange="window.TRITHUC.toggleCv7991RowEnabledV457('cvrow_12-c5', this.checked)" class="w-4 h-4 mt-0.5 accent-blue-600 rounded cursor-pointer shrink-0" style="">
+                                            <div class="min-w-0">
+                                                <div class="text-xs font-black text-slate-900 leading-snug">Chương V: Phương pháp tọa độ trong không gian</div>
+                                                <div class="flex items-center gap-1.5 mt-1 flex-wrap text-[10px] font-bold text-slate-500">
+                                                    <span class="px-1.5 py-0.5 rounded bg-slate-200/80 text-slate-700">HK2</span>
+                                                    <span class="px-1.5 py-0.5 rounded bg-purple-100 text-purple-800 text-[9.5px] font-black">Sau GK</span>
+                                                    <span>⏱ 20 tiết</span>
+                                                    <span>• Kho: 99 TN / 27 ĐS / 77 TLN</span>
+                                                </div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                    
+                                </div>
+                                <div class="p-3 rounded-2xl border-2 transition border-slate-200 bg-slate-50/70 opacity-65 space-y-2">
+                                    <div class="flex items-start justify-between gap-2">
+                                        <label class="flex items-start gap-2 cursor-pointer flex-1 min-w-0">
+                                            <input type="checkbox" onchange="window.TRITHUC.toggleCv7991RowEnabledV457('cvrow_12-c6', this.checked)" class="w-4 h-4 mt-0.5 accent-blue-600 rounded cursor-pointer shrink-0" style="">
+                                            <div class="min-w-0">
+                                                <div class="text-xs font-black text-slate-900 leading-snug">Chương VI: Xác suất có điều kiện</div>
+                                                <div class="flex items-center gap-1.5 mt-1 flex-wrap text-[10px] font-bold text-slate-500">
+                                                    <span class="px-1.5 py-0.5 rounded bg-slate-200/80 text-slate-700">HK2</span>
+                                                    <span class="px-1.5 py-0.5 rounded bg-purple-100 text-purple-800 text-[9.5px] font-black">Sau GK</span>
+                                                    <span>⏱ 10 tiết</span>
+                                                    <span>• Kho: 50 TN / 23 ĐS / 50 TLN</span>
+                                                </div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                    
+                                </div>
+                        </div>
+                    </div>
+
+                    <!-- PHẦN B: BẢNG MA TRẬN CHUẨN PHỤ LỤC 1 CV 7991 (CHỈNH TRỰC TIẾP TỪNG Ô) -->
+                    <div class="bg-white rounded-3xl border-2 border-indigo-200 shadow-xs overflow-hidden">
+                        <div class="px-4 py-3 bg-indigo-50/80 border-b border-indigo-200 flex flex-wrap items-center justify-between gap-2">
+                            <div>
+                                <h3 class="text-sm font-black text-indigo-950 uppercase m-0">📋 Bước 2: Bảng Ma Trận Đề Kiểm Tra Định Kì (Phụ Lục 1 – CV 7991/BGDĐT-GDTrH)</h3>
+                                <p class="text-[11px] font-semibold text-indigo-800/80 m-0 mt-0.5">
+                                    Sửa trực tiếp số câu ở từng ô. Riêng cột <b>Đúng – Sai</b> nhập <b>số ý (0,25đ/ý; cứ 4 ý = 1 câu hoàn chỉnh)</b> để chia linh hoạt Biết / Hiểu / Vận dụng chuẩn Công văn 7991.
+                                </p>
+                            </div>
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <button type="button" onclick="window.TRITHUC.toggleAllCv7991LessonsV461(true)" class="px-2.5 py-1 rounded-xl bg-white hover:bg-indigo-100 border border-indigo-200 text-[11px] font-extrabold text-indigo-800 transition">
+                                    📂 Hiện rõ tất cả bài
+                                </button>
+                                <button type="button" onclick="window.TRITHUC.toggleAllCv7991LessonsV461(false)" class="px-2.5 py-1 rounded-xl bg-white hover:bg-slate-100 border border-slate-200 text-[11px] font-extrabold text-slate-600 transition">
+                                    📁 Thu gọn theo chương
+                                </button>
+                                <span class="px-3 py-1 rounded-full bg-white border border-indigo-200 text-xs font-black text-indigo-900">
+                                    3 chương • 12 TN + 2 Đ-S (8 ý) + 4 TLN + 3 TL = 10,0đ
+                                </span>
+                            </div>
+                        </div>
+                        <div class="overflow-x-auto custom-scrollbar">
+                            <table class="w-full text-center border-collapse text-xs min-w-[1020px]">
+                                <thead>
+                                    <tr class="bg-slate-100 border-b border-slate-300 text-slate-800 font-black">
+                                        <th rowspan="3" class="p-2 border-r border-slate-300 w-9">TT</th>
+                                        <th rowspan="3" class="p-2 border-r border-slate-300 text-left w-56">Chủ đề / Chương</th>
+                                        <th colspan="9" class="py-1.5 border-r border-slate-300 bg-blue-50 text-blue-950">TNKQ (7,0đ • 70%)</th>
+                                        <th colspan="3" class="py-1.5 border-r border-slate-300 bg-amber-50 text-amber-950">Tự luận (3,0đ • 30%)</th>
+                                        <th colspan="3" class="py-1.5 border-r border-slate-300 bg-emerald-50 text-emerald-950">Tổng câu/ý</th>
+                                        <th rowspan="3" class="p-2 bg-slate-100 w-20">Tỉ lệ % điểm</th>
+                                    </tr>
+                                    <tr class="bg-slate-50 border-b border-slate-300 text-[11px] font-extrabold text-slate-700">
+                                        <th colspan="3" class="py-1 border-r border-slate-300 bg-sky-50">Nhiều lựa chọn (0,25đ)</th>
+                                        <th colspan="3" class="py-1 border-r border-slate-300 bg-purple-50">Đúng – Sai (ý • 0,25đ)</th>
+                                        <th colspan="3" class="py-1 border-r border-slate-300 bg-teal-50">Trả lời ngắn (0,5đ)</th>
+                                        <th colspan="3" class="py-1 border-r border-slate-300 bg-amber-50/70">Tự luận (1,0đ)</th>
+                                        <th rowspan="2" class="px-1.5 border-r border-slate-200 bg-emerald-50/60">Biết</th>
+                                        <th rowspan="2" class="px-1.5 border-r border-slate-200 bg-emerald-50/60">Hiểu</th>
+                                        <th rowspan="2" class="px-1.5 border-r border-slate-300 bg-emerald-50/60">VD</th>
+                                    </tr>
+                                    <tr class="bg-slate-50 border-b-2 border-slate-300 text-[10.5px] font-bold text-slate-600">
+                                        <th class="py-1 border-r border-slate-200">Biết</th><th class="py-1 border-r border-slate-200">Hiểu</th><th class="py-1 border-r border-slate-300">VD</th>
+                                        <th class="py-1 border-r border-slate-200">Biết</th><th class="py-1 border-r border-slate-200">Hiểu</th><th class="py-1 border-r border-slate-300">VD</th>
+                                        <th class="py-1 border-r border-slate-200">Biết</th><th class="py-1 border-r border-slate-200">Hiểu</th><th class="py-1 border-r border-slate-300">VD</th>
+                                        <th class="py-1 border-r border-slate-200">Biết</th><th class="py-1 border-r border-slate-200">Hiểu</th><th class="py-1 border-r border-slate-300">VD</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-200">
+                                    
+                                        <tr class="bg-indigo-50/55 hover:bg-indigo-50/80 border-t-2 border-indigo-200/80">
+                                            <td class="p-2 border-r border-slate-200 font-black text-indigo-900">1</td>
+                                            <td class="p-2 border-r border-slate-200 text-left">
+                                                <div class="flex items-start justify-between gap-1.5">
+                                                    <div class="font-black text-slate-900 leading-snug">Chương I: Ứng dụng đạo hàm để khảo sát và vẽ đồ thị hàm số</div>
+                                                    
+                                                        <button type="button" onclick="window.TRITHUC.toggleCv7991ChapterLessonsV461('cvrow_12-c1')" class="shrink-0 px-1.5 py-0.5 rounded-md bg-white hover:bg-indigo-100 border border-indigo-200 text-[10px] font-black text-indigo-800 transition">
+                                                            ▾ Ẩn 6 bài
+                                                        </button>
+                                                    
+                                                </div>
+                                                <div class="text-[10px] text-indigo-700/80 font-bold mt-0.5">Kho E chương: 127 TN • 62 Đ-S • 80 TLN</div>
+                                            </td>
+                                            
+                <td class="p-1 border-r border-slate-200 bg-sky-50/45">
+                    <input type="number" min="0" max="20" value="3" onchange="window.TRITHUC.setCv7991RowCellV457('cvrow_12-c1', 'tnB', this.value)" class="w-10 text-center font-black text-xs rounded-md py-1 border border-indigo-200 bg-white focus:border-blue-600 outline-none text-blue-900" style="">
+                </td>
+                                            
+                <td class="p-1 border-r border-slate-200 bg-sky-50/45">
+                    <input type="number" min="0" max="20" value="1" onchange="window.TRITHUC.setCv7991RowCellV457('cvrow_12-c1', 'tnH', this.value)" class="w-10 text-center font-black text-xs rounded-md py-1 border border-indigo-200 bg-white focus:border-blue-600 outline-none text-blue-900" style="">
+                </td>
+                                            
+                <td class="p-1 border-r border-slate-200 bg-sky-50/45 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991RowCellV457('cvrow_12-c1', 'tnV', this.value)" class="w-10 text-center font-black text-xs rounded-md py-1 border border-indigo-200 bg-white focus:border-blue-600 outline-none text-slate-300" style="">
+                </td>
+                                            
+                <td class="p-1 border-r border-slate-200 bg-purple-50/45">
+                    <input type="number" min="0" max="20" value="1" onchange="window.TRITHUC.setCv7991RowCellV457('cvrow_12-c1', 'dsB', this.value)" class="w-10 text-center font-black text-xs rounded-md py-1 border border-indigo-200 bg-white focus:border-blue-600 outline-none text-blue-900" style="">
+                </td>
+                                            
+                <td class="p-1 border-r border-slate-200 bg-purple-50/45">
+                    <input type="number" min="0" max="20" value="1" onchange="window.TRITHUC.setCv7991RowCellV457('cvrow_12-c1', 'dsH', this.value)" class="w-10 text-center font-black text-xs rounded-md py-1 border border-indigo-200 bg-white focus:border-blue-600 outline-none text-blue-900" style="">
+                </td>
+                                            
+                <td class="p-1 border-r border-slate-200 bg-purple-50/45 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991RowCellV457('cvrow_12-c1', 'dsV', this.value)" class="w-10 text-center font-black text-xs rounded-md py-1 border border-indigo-200 bg-white focus:border-blue-600 outline-none text-slate-300" style="">
+                </td>
+                                            
+                <td class="p-1 border-r border-slate-200 bg-teal-50/45">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991RowCellV457('cvrow_12-c1', 'saB', this.value)" class="w-10 text-center font-black text-xs rounded-md py-1 border border-indigo-200 bg-white focus:border-blue-600 outline-none text-slate-300" style="">
+                </td>
+                                            
+                <td class="p-1 border-r border-slate-200 bg-teal-50/45">
+                    <input type="number" min="0" max="20" value="1" onchange="window.TRITHUC.setCv7991RowCellV457('cvrow_12-c1', 'saH', this.value)" class="w-10 text-center font-black text-xs rounded-md py-1 border border-indigo-200 bg-white focus:border-blue-600 outline-none text-blue-900" style="">
+                </td>
+                                            
+                <td class="p-1 border-r border-slate-200 bg-teal-50/45 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991RowCellV457('cvrow_12-c1', 'saV', this.value)" class="w-10 text-center font-black text-xs rounded-md py-1 border border-indigo-200 bg-white focus:border-blue-600 outline-none text-slate-300" style="">
+                </td>
+                                            
+                <td class="p-1 border-r border-slate-200 bg-amber-50/45">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991RowCellV457('cvrow_12-c1', 'tlB', this.value)" class="w-10 text-center font-black text-xs rounded-md py-1 border border-indigo-200 bg-white focus:border-blue-600 outline-none text-slate-300" style="">
+                </td>
+                                            
+                <td class="p-1 border-r border-slate-200 bg-amber-50/45">
+                    <input type="number" min="0" max="20" value="1" onchange="window.TRITHUC.setCv7991RowCellV457('cvrow_12-c1', 'tlH', this.value)" class="w-10 text-center font-black text-xs rounded-md py-1 border border-indigo-200 bg-white focus:border-blue-600 outline-none text-blue-900" style="">
+                </td>
+                                            
+                <td class="p-1 border-r border-slate-200 bg-amber-50/45 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991RowCellV457('cvrow_12-c1', 'tlV', this.value)" class="w-10 text-center font-black text-xs rounded-md py-1 border border-indigo-200 bg-white focus:border-blue-600 outline-none text-slate-300" style="">
+                </td>
+                                            <td class="p-1.5 border-r border-slate-200 font-black text-sky-900 bg-emerald-50/40">4</td>
+                                            <td class="p-1.5 border-r border-slate-200 font-black text-amber-900 bg-emerald-50/40">4</td>
+                                            <td class="p-1.5 border-r border-slate-300 font-black text-rose-900 bg-emerald-50/40">0</td>
+                                            <td class="p-1.5 font-black text-indigo-900">30.0%<div class="text-[10px] font-bold text-slate-600">(3,00đ)</div></td>
+                                        </tr>
+                                        
+                                            <tr class="bg-white hover:bg-blue-50/35">
+                                                <td class="p-1.5 border-r border-slate-200 text-[10.5px] font-bold text-slate-400">1.1</td>
+                                                <td class="py-1.5 pl-4 pr-2 border-r border-slate-200 text-left">
+                                                    <div class="text-[11.5px] font-bold text-slate-900 leading-snug">
+                                                        <span class="text-indigo-700 font-black">Bài 1:</span> Tính đơn điệu và cực trị của hàm số
+                                                    </div>
+                                                    <div class="text-[9.5px] text-slate-400 font-semibold mt-0.5">
+                                                        Kho E: <span class="text-sky-700 font-bold">40 TN</span> • <span class="text-purple-700 font-bold">10 Đ-S</span> • <span class="text-teal-700 font-bold">11 TLN</span>
+                                                    </div>
+                                                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-sky-50/15">
+                    <input type="number" min="0" max="20" value="1" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-b1', 'tnB', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-indigo-800 border-indigo-300 bg-indigo-50/40" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-sky-50/15">
+                    <input type="number" min="0" max="20" value="1" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-b1', 'tnH', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-indigo-800 border-indigo-300 bg-indigo-50/40" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-sky-50/15 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-b1', 'tnV', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-purple-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-b1', 'dsB', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-purple-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-b1', 'dsH', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-purple-50/15 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-b1', 'dsV', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-teal-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-b1', 'saB', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-teal-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-b1', 'saH', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-teal-50/15 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-b1', 'saV', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-amber-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-b1', 'tlB', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-amber-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-b1', 'tlH', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-amber-50/15 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-b1', 'tlV', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                <td class="p-1 border-r border-slate-200 text-[11px] font-bold text-sky-800">1</td>
+                                                <td class="p-1 border-r border-slate-200 text-[11px] font-bold text-amber-800">1</td>
+                                                <td class="p-1 border-r border-slate-300 text-[11px] font-bold text-slate-300">0</td>
+                                                <td class="p-1 text-[10.5px] font-bold text-slate-700">0,50đ</td>
+                                            </tr>
+                                            <tr class="bg-slate-50/50 hover:bg-blue-50/35">
+                                                <td class="p-1.5 border-r border-slate-200 text-[10.5px] font-bold text-slate-400">1.2</td>
+                                                <td class="py-1.5 pl-4 pr-2 border-r border-slate-200 text-left">
+                                                    <div class="text-[11.5px] font-semibold text-slate-500 leading-snug">
+                                                        <span class="text-indigo-700 font-black">Bài 2:</span> Giá trị lớn nhất và giá trị nhỏ nhất của hàm số
+                                                    </div>
+                                                    <div class="text-[9.5px] text-slate-400 font-semibold mt-0.5">
+                                                        Kho E: <span class="text-sky-700 font-bold">18 TN</span> • <span class="text-purple-700 font-bold">7 Đ-S</span> • <span class="text-teal-700 font-bold">14 TLN</span>
+                                                    </div>
+                                                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-sky-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-b2', 'tnB', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-sky-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-b2', 'tnH', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-sky-50/15 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-b2', 'tnV', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-purple-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-b2', 'dsB', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-purple-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-b2', 'dsH', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-purple-50/15 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-b2', 'dsV', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-teal-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-b2', 'saB', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-teal-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-b2', 'saH', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-teal-50/15 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-b2', 'saV', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-amber-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-b2', 'tlB', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-amber-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-b2', 'tlH', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-amber-50/15 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-b2', 'tlV', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                <td class="p-1 border-r border-slate-200 text-[11px] font-bold text-slate-300">0</td>
+                                                <td class="p-1 border-r border-slate-200 text-[11px] font-bold text-slate-300">0</td>
+                                                <td class="p-1 border-r border-slate-300 text-[11px] font-bold text-slate-300">0</td>
+                                                <td class="p-1 text-[10.5px] font-bold text-slate-300">0,00đ</td>
+                                            </tr>
+                                            <tr class="bg-white hover:bg-blue-50/35">
+                                                <td class="p-1.5 border-r border-slate-200 text-[10.5px] font-bold text-slate-400">1.3</td>
+                                                <td class="py-1.5 pl-4 pr-2 border-r border-slate-200 text-left">
+                                                    <div class="text-[11.5px] font-bold text-slate-900 leading-snug">
+                                                        <span class="text-indigo-700 font-black">Bài 3:</span> Đường tiệm cận của đồ thị hàm số
+                                                    </div>
+                                                    <div class="text-[9.5px] text-slate-400 font-semibold mt-0.5">
+                                                        Kho E: <span class="text-sky-700 font-bold">25 TN</span> • <span class="text-purple-700 font-bold">8 Đ-S</span> • <span class="text-teal-700 font-bold">6 TLN</span>
+                                                    </div>
+                                                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-sky-50/15">
+                    <input type="number" min="0" max="20" value="1" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-b3', 'tnB', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-indigo-800 border-indigo-300 bg-indigo-50/40" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-sky-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-b3', 'tnH', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-sky-50/15 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-b3', 'tnV', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-purple-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-b3', 'dsB', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-purple-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-b3', 'dsH', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-purple-50/15 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-b3', 'dsV', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-teal-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-b3', 'saB', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-teal-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-b3', 'saH', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-teal-50/15 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-b3', 'saV', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-amber-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-b3', 'tlB', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-amber-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-b3', 'tlH', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-amber-50/15 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-b3', 'tlV', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                <td class="p-1 border-r border-slate-200 text-[11px] font-bold text-sky-800">1</td>
+                                                <td class="p-1 border-r border-slate-200 text-[11px] font-bold text-slate-300">0</td>
+                                                <td class="p-1 border-r border-slate-300 text-[11px] font-bold text-slate-300">0</td>
+                                                <td class="p-1 text-[10.5px] font-bold text-slate-700">0,25đ</td>
+                                            </tr>
+                                            <tr class="bg-white hover:bg-blue-50/35">
+                                                <td class="p-1.5 border-r border-slate-200 text-[10.5px] font-bold text-slate-400">1.4</td>
+                                                <td class="py-1.5 pl-4 pr-2 border-r border-slate-200 text-left">
+                                                    <div class="text-[11.5px] font-bold text-slate-900 leading-snug">
+                                                        <span class="text-indigo-700 font-black">Bài 4:</span> Khảo sát sự biến thiên và vẽ đồ thị của hàm số
+                                                    </div>
+                                                    <div class="text-[9.5px] text-slate-400 font-semibold mt-0.5">
+                                                        Kho E: <span class="text-sky-700 font-bold">28 TN</span> • <span class="text-purple-700 font-bold">9 Đ-S</span> • <span class="text-teal-700 font-bold">9 TLN</span>
+                                                    </div>
+                                                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-sky-50/15">
+                    <input type="number" min="0" max="20" value="1" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-b4', 'tnB', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-indigo-800 border-indigo-300 bg-indigo-50/40" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-sky-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-b4', 'tnH', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-sky-50/15 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-b4', 'tnV', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-purple-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-b4', 'dsB', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-purple-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-b4', 'dsH', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-purple-50/15 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-b4', 'dsV', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-teal-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-b4', 'saB', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-teal-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-b4', 'saH', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-teal-50/15 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-b4', 'saV', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-amber-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-b4', 'tlB', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-amber-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-b4', 'tlH', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-amber-50/15 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-b4', 'tlV', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                <td class="p-1 border-r border-slate-200 text-[11px] font-bold text-sky-800">1</td>
+                                                <td class="p-1 border-r border-slate-200 text-[11px] font-bold text-slate-300">0</td>
+                                                <td class="p-1 border-r border-slate-300 text-[11px] font-bold text-slate-300">0</td>
+                                                <td class="p-1 text-[10.5px] font-bold text-slate-700">0,25đ</td>
+                                            </tr>
+                                            <tr class="bg-white hover:bg-blue-50/35">
+                                                <td class="p-1.5 border-r border-slate-200 text-[10.5px] font-bold text-slate-400">1.5</td>
+                                                <td class="py-1.5 pl-4 pr-2 border-r border-slate-200 text-left">
+                                                    <div class="text-[11.5px] font-bold text-slate-900 leading-snug">
+                                                        <span class="text-indigo-700 font-black">Bài 5:</span> Ứng dụng đạo hàm để giải quyết một số vấn đề liên quan đến thực tiễn
+                                                    </div>
+                                                    <div class="text-[9.5px] text-slate-400 font-semibold mt-0.5">
+                                                        Kho E: <span class="text-sky-700 font-bold">4 TN</span> • <span class="text-purple-700 font-bold">16 Đ-S</span> • <span class="text-teal-700 font-bold">35 TLN</span>
+                                                    </div>
+                                                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-sky-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-b5', 'tnB', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-sky-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-b5', 'tnH', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-sky-50/15 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-b5', 'tnV', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-purple-50/15">
+                    <input type="number" min="0" max="20" value="1" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-b5', 'dsB', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-indigo-800 border-indigo-300 bg-indigo-50/40" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-purple-50/15">
+                    <input type="number" min="0" max="20" value="1" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-b5', 'dsH', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-indigo-800 border-indigo-300 bg-indigo-50/40" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-purple-50/15 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-b5', 'dsV', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-teal-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-b5', 'saB', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-teal-50/15">
+                    <input type="number" min="0" max="20" value="1" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-b5', 'saH', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-indigo-800 border-indigo-300 bg-indigo-50/40" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-teal-50/15 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-b5', 'saV', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-amber-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-b5', 'tlB', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-amber-50/15">
+                    <input type="number" min="0" max="20" value="1" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-b5', 'tlH', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-indigo-800 border-indigo-300 bg-indigo-50/40" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-amber-50/15 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-b5', 'tlV', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                <td class="p-1 border-r border-slate-200 text-[11px] font-bold text-sky-800">1</td>
+                                                <td class="p-1 border-r border-slate-200 text-[11px] font-bold text-amber-800">3</td>
+                                                <td class="p-1 border-r border-slate-300 text-[11px] font-bold text-slate-300">0</td>
+                                                <td class="p-1 text-[10.5px] font-bold text-slate-700">2,00đ</td>
+                                            </tr>
+                                            <tr class="bg-slate-50/50 hover:bg-blue-50/35">
+                                                <td class="p-1.5 border-r border-slate-200 text-[10.5px] font-bold text-slate-400">1.6</td>
+                                                <td class="py-1.5 pl-4 pr-2 border-r border-slate-200 text-left">
+                                                    <div class="text-[11.5px] font-semibold text-slate-500 leading-snug">
+                                                        <span class="text-indigo-700 font-black">Ôn tập C1:</span> Bài tập cuối chương I &amp; Kiểm tra thường xuyên Chương I
+                                                    </div>
+                                                    <div class="text-[9.5px] text-slate-400 font-semibold mt-0.5">
+                                                        Kho E: <span class="text-sky-700 font-bold">12 TN</span> • <span class="text-purple-700 font-bold">12 Đ-S</span> • <span class="text-teal-700 font-bold">5 TLN</span>
+                                                    </div>
+                                                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-sky-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-c1-rev', 'tnB', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-sky-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-c1-rev', 'tnH', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-sky-50/15 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-c1-rev', 'tnV', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-purple-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-c1-rev', 'dsB', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-purple-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-c1-rev', 'dsH', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-purple-50/15 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-c1-rev', 'dsV', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-teal-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-c1-rev', 'saB', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-teal-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-c1-rev', 'saH', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-teal-50/15 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-c1-rev', 'saV', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-amber-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-c1-rev', 'tlB', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-amber-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-c1-rev', 'tlH', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-amber-50/15 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c1', '12-c1-rev', 'tlV', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                <td class="p-1 border-r border-slate-200 text-[11px] font-bold text-slate-300">0</td>
+                                                <td class="p-1 border-r border-slate-200 text-[11px] font-bold text-slate-300">0</td>
+                                                <td class="p-1 border-r border-slate-300 text-[11px] font-bold text-slate-300">0</td>
+                                                <td class="p-1 text-[10.5px] font-bold text-slate-300">0,00đ</td>
+                                            </tr>
+                                        <tr class="bg-indigo-50/55 hover:bg-indigo-50/80 border-t-2 border-indigo-200/80">
+                                            <td class="p-2 border-r border-slate-200 font-black text-indigo-900">2</td>
+                                            <td class="p-2 border-r border-slate-200 text-left">
+                                                <div class="flex items-start justify-between gap-1.5">
+                                                    <div class="font-black text-slate-900 leading-snug">Chương II: Vectơ và Hệ trục tọa độ trong không gian</div>
+                                                    
+                                                        <button type="button" onclick="window.TRITHUC.toggleCv7991ChapterLessonsV461('cvrow_12-c2')" class="shrink-0 px-1.5 py-0.5 rounded-md bg-white hover:bg-indigo-100 border border-indigo-200 text-[10px] font-black text-indigo-800 transition">
+                                                            ▾ Ẩn 4 bài
+                                                        </button>
+                                                    
+                                                </div>
+                                                <div class="text-[10px] text-indigo-700/80 font-bold mt-0.5">Kho E chương: 107 TN • 35 Đ-S • 44 TLN</div>
+                                            </td>
+                                            
+                <td class="p-1 border-r border-slate-200 bg-sky-50/45">
+                    <input type="number" min="0" max="20" value="3" onchange="window.TRITHUC.setCv7991RowCellV457('cvrow_12-c2', 'tnB', this.value)" class="w-10 text-center font-black text-xs rounded-md py-1 border border-indigo-200 bg-white focus:border-blue-600 outline-none text-blue-900" style="">
+                </td>
+                                            
+                <td class="p-1 border-r border-slate-200 bg-sky-50/45">
+                    <input type="number" min="0" max="20" value="1" onchange="window.TRITHUC.setCv7991RowCellV457('cvrow_12-c2', 'tnH', this.value)" class="w-10 text-center font-black text-xs rounded-md py-1 border border-indigo-200 bg-white focus:border-blue-600 outline-none text-blue-900" style="">
+                </td>
+                                            
+                <td class="p-1 border-r border-slate-200 bg-sky-50/45 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991RowCellV457('cvrow_12-c2', 'tnV', this.value)" class="w-10 text-center font-black text-xs rounded-md py-1 border border-indigo-200 bg-white focus:border-blue-600 outline-none text-slate-300" style="">
+                </td>
+                                            
+                <td class="p-1 border-r border-slate-200 bg-purple-50/45">
+                    <input type="number" min="0" max="20" value="1" onchange="window.TRITHUC.setCv7991RowCellV457('cvrow_12-c2', 'dsB', this.value)" class="w-10 text-center font-black text-xs rounded-md py-1 border border-indigo-200 bg-white focus:border-blue-600 outline-none text-blue-900" style="">
+                </td>
+                                            
+                <td class="p-1 border-r border-slate-200 bg-purple-50/45">
+                    <input type="number" min="0" max="20" value="1" onchange="window.TRITHUC.setCv7991RowCellV457('cvrow_12-c2', 'dsH', this.value)" class="w-10 text-center font-black text-xs rounded-md py-1 border border-indigo-200 bg-white focus:border-blue-600 outline-none text-blue-900" style="">
+                </td>
+                                            
+                <td class="p-1 border-r border-slate-200 bg-purple-50/45 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991RowCellV457('cvrow_12-c2', 'dsV', this.value)" class="w-10 text-center font-black text-xs rounded-md py-1 border border-indigo-200 bg-white focus:border-blue-600 outline-none text-slate-300" style="">
+                </td>
+                                            
+                <td class="p-1 border-r border-slate-200 bg-teal-50/45">
+                    <input type="number" min="0" max="20" value="1" onchange="window.TRITHUC.setCv7991RowCellV457('cvrow_12-c2', 'saB', this.value)" class="w-10 text-center font-black text-xs rounded-md py-1 border border-indigo-200 bg-white focus:border-blue-600 outline-none text-blue-900" style="">
+                </td>
+                                            
+                <td class="p-1 border-r border-slate-200 bg-teal-50/45">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991RowCellV457('cvrow_12-c2', 'saH', this.value)" class="w-10 text-center font-black text-xs rounded-md py-1 border border-indigo-200 bg-white focus:border-blue-600 outline-none text-slate-300" style="">
+                </td>
+                                            
+                <td class="p-1 border-r border-slate-200 bg-teal-50/45 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="1" onchange="window.TRITHUC.setCv7991RowCellV457('cvrow_12-c2', 'saV', this.value)" class="w-10 text-center font-black text-xs rounded-md py-1 border border-indigo-200 bg-white focus:border-blue-600 outline-none text-blue-900" style="">
+                </td>
+                                            
+                <td class="p-1 border-r border-slate-200 bg-amber-50/45">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991RowCellV457('cvrow_12-c2', 'tlB', this.value)" class="w-10 text-center font-black text-xs rounded-md py-1 border border-indigo-200 bg-white focus:border-blue-600 outline-none text-slate-300" style="">
+                </td>
+                                            
+                <td class="p-1 border-r border-slate-200 bg-amber-50/45">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991RowCellV457('cvrow_12-c2', 'tlH', this.value)" class="w-10 text-center font-black text-xs rounded-md py-1 border border-indigo-200 bg-white focus:border-blue-600 outline-none text-slate-300" style="">
+                </td>
+                                            
+                <td class="p-1 border-r border-slate-200 bg-amber-50/45 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="2" onchange="window.TRITHUC.setCv7991RowCellV457('cvrow_12-c2', 'tlV', this.value)" class="w-10 text-center font-black text-xs rounded-md py-1 border border-indigo-200 bg-white focus:border-blue-600 outline-none text-blue-900" style="">
+                </td>
+                                            <td class="p-1.5 border-r border-slate-200 font-black text-sky-900 bg-emerald-50/40">5</td>
+                                            <td class="p-1.5 border-r border-slate-200 font-black text-amber-900 bg-emerald-50/40">2</td>
+                                            <td class="p-1.5 border-r border-slate-300 font-black text-rose-900 bg-emerald-50/40">3</td>
+                                            <td class="p-1.5 font-black text-indigo-900">45.0%<div class="text-[10px] font-bold text-slate-600">(4,50đ)</div></td>
+                                        </tr>
+                                        
+                                            <tr class="bg-white hover:bg-blue-50/35">
+                                                <td class="p-1.5 border-r border-slate-200 text-[10.5px] font-bold text-slate-400">2.1</td>
+                                                <td class="py-1.5 pl-4 pr-2 border-r border-slate-200 text-left">
+                                                    <div class="text-[11.5px] font-bold text-slate-900 leading-snug">
+                                                        <span class="text-indigo-700 font-black">Bài 6:</span> Vectơ trong không gian
+                                                    </div>
+                                                    <div class="text-[9.5px] text-slate-400 font-semibold mt-0.5">
+                                                        Kho E: <span class="text-sky-700 font-bold">24 TN</span> • <span class="text-purple-700 font-bold">6 Đ-S</span> • <span class="text-teal-700 font-bold">8 TLN</span>
+                                                    </div>
+                                                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-sky-50/15">
+                    <input type="number" min="0" max="20" value="1" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c2', '12-b6', 'tnB', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-indigo-800 border-indigo-300 bg-indigo-50/40" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-sky-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c2', '12-b6', 'tnH', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-sky-50/15 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c2', '12-b6', 'tnV', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-purple-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c2', '12-b6', 'dsB', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-purple-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c2', '12-b6', 'dsH', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-purple-50/15 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c2', '12-b6', 'dsV', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-teal-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c2', '12-b6', 'saB', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-teal-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c2', '12-b6', 'saH', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-teal-50/15 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c2', '12-b6', 'saV', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-amber-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c2', '12-b6', 'tlB', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-amber-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c2', '12-b6', 'tlH', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-amber-50/15 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="1" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c2', '12-b6', 'tlV', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-indigo-800 border-indigo-300 bg-indigo-50/40" style="">
+                </td>
+                                                <td class="p-1 border-r border-slate-200 text-[11px] font-bold text-sky-800">1</td>
+                                                <td class="p-1 border-r border-slate-200 text-[11px] font-bold text-slate-300">0</td>
+                                                <td class="p-1 border-r border-slate-300 text-[11px] font-bold text-rose-800">1</td>
+                                                <td class="p-1 text-[10.5px] font-bold text-slate-700">1,25đ</td>
+                                            </tr>
+                                            <tr class="bg-white hover:bg-blue-50/35">
+                                                <td class="p-1.5 border-r border-slate-200 text-[10.5px] font-bold text-slate-400">2.2</td>
+                                                <td class="py-1.5 pl-4 pr-2 border-r border-slate-200 text-left">
+                                                    <div class="text-[11.5px] font-bold text-slate-900 leading-snug">
+                                                        <span class="text-indigo-700 font-black">Bài 7:</span> Hệ trục tọa độ trong không gian
+                                                    </div>
+                                                    <div class="text-[9.5px] text-slate-400 font-semibold mt-0.5">
+                                                        Kho E: <span class="text-sky-700 font-bold">28 TN</span> • <span class="text-purple-700 font-bold">6 Đ-S</span> • <span class="text-teal-700 font-bold">5 TLN</span>
+                                                    </div>
+                                                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-sky-50/15">
+                    <input type="number" min="0" max="20" value="1" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c2', '12-b7', 'tnB', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-indigo-800 border-indigo-300 bg-indigo-50/40" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-sky-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c2', '12-b7', 'tnH', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-sky-50/15 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c2', '12-b7', 'tnV', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-purple-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c2', '12-b7', 'dsB', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-purple-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c2', '12-b7', 'dsH', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-purple-50/15 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c2', '12-b7', 'dsV', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-teal-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c2', '12-b7', 'saB', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-teal-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c2', '12-b7', 'saH', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-teal-50/15 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c2', '12-b7', 'saV', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-amber-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c2', '12-b7', 'tlB', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-amber-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c2', '12-b7', 'tlH', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-amber-50/15 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c2', '12-b7', 'tlV', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                <td class="p-1 border-r border-slate-200 text-[11px] font-bold text-sky-800">1</td>
+                                                <td class="p-1 border-r border-slate-200 text-[11px] font-bold text-slate-300">0</td>
+                                                <td class="p-1 border-r border-slate-300 text-[11px] font-bold text-slate-300">0</td>
+                                                <td class="p-1 text-[10.5px] font-bold text-slate-700">0,25đ</td>
+                                            </tr>
+                                            <tr class="bg-white hover:bg-blue-50/35">
+                                                <td class="p-1.5 border-r border-slate-200 text-[10.5px] font-bold text-slate-400">2.3</td>
+                                                <td class="py-1.5 pl-4 pr-2 border-r border-slate-200 text-left">
+                                                    <div class="text-[11.5px] font-bold text-slate-900 leading-snug">
+                                                        <span class="text-indigo-700 font-black">Bài 8:</span> Biểu thức tọa độ của các phép toán vectơ
+                                                    </div>
+                                                    <div class="text-[9.5px] text-slate-400 font-semibold mt-0.5">
+                                                        Kho E: <span class="text-sky-700 font-bold">34 TN</span> • <span class="text-purple-700 font-bold">17 Đ-S</span> • <span class="text-teal-700 font-bold">25 TLN</span>
+                                                    </div>
+                                                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-sky-50/15">
+                    <input type="number" min="0" max="20" value="1" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c2', '12-b8', 'tnB', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-indigo-800 border-indigo-300 bg-indigo-50/40" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-sky-50/15">
+                    <input type="number" min="0" max="20" value="1" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c2', '12-b8', 'tnH', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-indigo-800 border-indigo-300 bg-indigo-50/40" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-sky-50/15 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c2', '12-b8', 'tnV', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-purple-50/15">
+                    <input type="number" min="0" max="20" value="1" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c2', '12-b8', 'dsB', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-indigo-800 border-indigo-300 bg-indigo-50/40" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-purple-50/15">
+                    <input type="number" min="0" max="20" value="1" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c2', '12-b8', 'dsH', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-indigo-800 border-indigo-300 bg-indigo-50/40" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-purple-50/15 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c2', '12-b8', 'dsV', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-teal-50/15">
+                    <input type="number" min="0" max="20" value="1" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c2', '12-b8', 'saB', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-indigo-800 border-indigo-300 bg-indigo-50/40" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-teal-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c2', '12-b8', 'saH', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-teal-50/15 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="1" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c2', '12-b8', 'saV', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-indigo-800 border-indigo-300 bg-indigo-50/40" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-amber-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c2', '12-b8', 'tlB', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-amber-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c2', '12-b8', 'tlH', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-amber-50/15 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="1" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c2', '12-b8', 'tlV', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-indigo-800 border-indigo-300 bg-indigo-50/40" style="">
+                </td>
+                                                <td class="p-1 border-r border-slate-200 text-[11px] font-bold text-sky-800">3</td>
+                                                <td class="p-1 border-r border-slate-200 text-[11px] font-bold text-amber-800">2</td>
+                                                <td class="p-1 border-r border-slate-300 text-[11px] font-bold text-rose-800">2</td>
+                                                <td class="p-1 text-[10.5px] font-bold text-slate-700">3,00đ</td>
+                                            </tr>
+                                            <tr class="bg-slate-50/50 hover:bg-blue-50/35">
+                                                <td class="p-1.5 border-r border-slate-200 text-[10.5px] font-bold text-slate-400">2.4</td>
+                                                <td class="py-1.5 pl-4 pr-2 border-r border-slate-200 text-left">
+                                                    <div class="text-[11.5px] font-semibold text-slate-500 leading-snug">
+                                                        <span class="text-indigo-700 font-black">Ôn tập C2:</span> Bài tập cuối chương II
+                                                    </div>
+                                                    <div class="text-[9.5px] text-slate-400 font-semibold mt-0.5">
+                                                        Kho E: <span class="text-sky-700 font-bold">21 TN</span> • <span class="text-purple-700 font-bold">6 Đ-S</span> • <span class="text-teal-700 font-bold">6 TLN</span>
+                                                    </div>
+                                                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-sky-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c2', '12-c2-rev', 'tnB', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-sky-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c2', '12-c2-rev', 'tnH', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-sky-50/15 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c2', '12-c2-rev', 'tnV', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-purple-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c2', '12-c2-rev', 'dsB', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-purple-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c2', '12-c2-rev', 'dsH', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-purple-50/15 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c2', '12-c2-rev', 'dsV', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-teal-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c2', '12-c2-rev', 'saB', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-teal-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c2', '12-c2-rev', 'saH', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-teal-50/15 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c2', '12-c2-rev', 'saV', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-amber-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c2', '12-c2-rev', 'tlB', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-amber-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c2', '12-c2-rev', 'tlH', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-amber-50/15 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c2', '12-c2-rev', 'tlV', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                <td class="p-1 border-r border-slate-200 text-[11px] font-bold text-slate-300">0</td>
+                                                <td class="p-1 border-r border-slate-200 text-[11px] font-bold text-slate-300">0</td>
+                                                <td class="p-1 border-r border-slate-300 text-[11px] font-bold text-slate-300">0</td>
+                                                <td class="p-1 text-[10.5px] font-bold text-slate-300">0,00đ</td>
+                                            </tr>
+                                        <tr class="bg-indigo-50/55 hover:bg-indigo-50/80 border-t-2 border-indigo-200/80">
+                                            <td class="p-2 border-r border-slate-200 font-black text-indigo-900">3</td>
+                                            <td class="p-2 border-r border-slate-200 text-left">
+                                                <div class="flex items-start justify-between gap-1.5">
+                                                    <div class="font-black text-slate-900 leading-snug">Chương III: Các số đặc trưng đo độ phân tán của mẫu số liệu ghép nhóm</div>
+                                                    
+                                                        <button type="button" onclick="window.TRITHUC.toggleCv7991ChapterLessonsV461('cvrow_12-c3')" class="shrink-0 px-1.5 py-0.5 rounded-md bg-white hover:bg-indigo-100 border border-indigo-200 text-[10px] font-black text-indigo-800 transition">
+                                                            ▾ Ẩn 3 bài
+                                                        </button>
+                                                    
+                                                </div>
+                                                <div class="text-[10px] text-indigo-700/80 font-bold mt-0.5">Kho E chương: 46 TN • 17 Đ-S • 23 TLN</div>
+                                            </td>
+                                            
+                <td class="p-1 border-r border-slate-200 bg-sky-50/45">
+                    <input type="number" min="0" max="20" value="4" onchange="window.TRITHUC.setCv7991RowCellV457('cvrow_12-c3', 'tnB', this.value)" class="w-10 text-center font-black text-xs rounded-md py-1 border border-indigo-200 bg-white focus:border-blue-600 outline-none text-blue-900" style="">
+                </td>
+                                            
+                <td class="p-1 border-r border-slate-200 bg-sky-50/45">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991RowCellV457('cvrow_12-c3', 'tnH', this.value)" class="w-10 text-center font-black text-xs rounded-md py-1 border border-indigo-200 bg-white focus:border-blue-600 outline-none text-slate-300" style="">
+                </td>
+                                            
+                <td class="p-1 border-r border-slate-200 bg-sky-50/45 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991RowCellV457('cvrow_12-c3', 'tnV', this.value)" class="w-10 text-center font-black text-xs rounded-md py-1 border border-indigo-200 bg-white focus:border-blue-600 outline-none text-slate-300" style="">
+                </td>
+                                            
+                <td class="p-1 border-r border-slate-200 bg-purple-50/45">
+                    <input type="number" min="0" max="20" value="2" onchange="window.TRITHUC.setCv7991RowCellV457('cvrow_12-c3', 'dsB', this.value)" class="w-10 text-center font-black text-xs rounded-md py-1 border border-indigo-200 bg-white focus:border-blue-600 outline-none text-blue-900" style="">
+                </td>
+                                            
+                <td class="p-1 border-r border-slate-200 bg-purple-50/45">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991RowCellV457('cvrow_12-c3', 'dsH', this.value)" class="w-10 text-center font-black text-xs rounded-md py-1 border border-indigo-200 bg-white focus:border-blue-600 outline-none text-slate-300" style="">
+                </td>
+                                            
+                <td class="p-1 border-r border-slate-200 bg-purple-50/45 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="2" onchange="window.TRITHUC.setCv7991RowCellV457('cvrow_12-c3', 'dsV', this.value)" class="w-10 text-center font-black text-xs rounded-md py-1 border border-indigo-200 bg-white focus:border-blue-600 outline-none text-blue-900" style="">
+                </td>
+                                            
+                <td class="p-1 border-r border-slate-200 bg-teal-50/45">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991RowCellV457('cvrow_12-c3', 'saB', this.value)" class="w-10 text-center font-black text-xs rounded-md py-1 border border-indigo-200 bg-white focus:border-blue-600 outline-none text-slate-300" style="">
+                </td>
+                                            
+                <td class="p-1 border-r border-slate-200 bg-teal-50/45">
+                    <input type="number" min="0" max="20" value="1" onchange="window.TRITHUC.setCv7991RowCellV457('cvrow_12-c3', 'saH', this.value)" class="w-10 text-center font-black text-xs rounded-md py-1 border border-indigo-200 bg-white focus:border-blue-600 outline-none text-blue-900" style="">
+                </td>
+                                            
+                <td class="p-1 border-r border-slate-200 bg-teal-50/45 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991RowCellV457('cvrow_12-c3', 'saV', this.value)" class="w-10 text-center font-black text-xs rounded-md py-1 border border-indigo-200 bg-white focus:border-blue-600 outline-none text-slate-300" style="">
+                </td>
+                                            
+                <td class="p-1 border-r border-slate-200 bg-amber-50/45">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991RowCellV457('cvrow_12-c3', 'tlB', this.value)" class="w-10 text-center font-black text-xs rounded-md py-1 border border-indigo-200 bg-white focus:border-blue-600 outline-none text-slate-300" style="">
+                </td>
+                                            
+                <td class="p-1 border-r border-slate-200 bg-amber-50/45">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991RowCellV457('cvrow_12-c3', 'tlH', this.value)" class="w-10 text-center font-black text-xs rounded-md py-1 border border-indigo-200 bg-white focus:border-blue-600 outline-none text-slate-300" style="">
+                </td>
+                                            
+                <td class="p-1 border-r border-slate-200 bg-amber-50/45 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991RowCellV457('cvrow_12-c3', 'tlV', this.value)" class="w-10 text-center font-black text-xs rounded-md py-1 border border-indigo-200 bg-white focus:border-blue-600 outline-none text-slate-300" style="">
+                </td>
+                                            <td class="p-1.5 border-r border-slate-200 font-black text-sky-900 bg-emerald-50/40">6</td>
+                                            <td class="p-1.5 border-r border-slate-200 font-black text-amber-900 bg-emerald-50/40">1</td>
+                                            <td class="p-1.5 border-r border-slate-300 font-black text-rose-900 bg-emerald-50/40">2</td>
+                                            <td class="p-1.5 font-black text-indigo-900">25.0%<div class="text-[10px] font-bold text-slate-600">(2,50đ)</div></td>
+                                        </tr>
+                                        
+                                            <tr class="bg-white hover:bg-blue-50/35">
+                                                <td class="p-1.5 border-r border-slate-200 text-[10.5px] font-bold text-slate-400">3.1</td>
+                                                <td class="py-1.5 pl-4 pr-2 border-r border-slate-200 text-left">
+                                                    <div class="text-[11.5px] font-bold text-slate-900 leading-snug">
+                                                        <span class="text-indigo-700 font-black">Bài 9:</span> Khoảng biến thiên và khoảng tứ phân vị
+                                                    </div>
+                                                    <div class="text-[9.5px] text-slate-400 font-semibold mt-0.5">
+                                                        Kho E: <span class="text-sky-700 font-bold">16 TN</span> • <span class="text-purple-700 font-bold">6 Đ-S</span> • <span class="text-teal-700 font-bold">7 TLN</span>
+                                                    </div>
+                                                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-sky-50/15">
+                    <input type="number" min="0" max="20" value="2" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c3', '12-b9', 'tnB', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-indigo-800 border-indigo-300 bg-indigo-50/40" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-sky-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c3', '12-b9', 'tnH', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-sky-50/15 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c3', '12-b9', 'tnV', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-purple-50/15">
+                    <input type="number" min="0" max="20" value="1" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c3', '12-b9', 'dsB', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-indigo-800 border-indigo-300 bg-indigo-50/40" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-purple-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c3', '12-b9', 'dsH', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-purple-50/15 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="1" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c3', '12-b9', 'dsV', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-indigo-800 border-indigo-300 bg-indigo-50/40" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-teal-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c3', '12-b9', 'saB', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-teal-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c3', '12-b9', 'saH', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-teal-50/15 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c3', '12-b9', 'saV', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-amber-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c3', '12-b9', 'tlB', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-amber-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c3', '12-b9', 'tlH', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-amber-50/15 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c3', '12-b9', 'tlV', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                <td class="p-1 border-r border-slate-200 text-[11px] font-bold text-sky-800">3</td>
+                                                <td class="p-1 border-r border-slate-200 text-[11px] font-bold text-slate-300">0</td>
+                                                <td class="p-1 border-r border-slate-300 text-[11px] font-bold text-rose-800">1</td>
+                                                <td class="p-1 text-[10.5px] font-bold text-slate-700">1,00đ</td>
+                                            </tr>
+                                            <tr class="bg-white hover:bg-blue-50/35">
+                                                <td class="p-1.5 border-r border-slate-200 text-[10.5px] font-bold text-slate-400">3.2</td>
+                                                <td class="py-1.5 pl-4 pr-2 border-r border-slate-200 text-left">
+                                                    <div class="text-[11.5px] font-bold text-slate-900 leading-snug">
+                                                        <span class="text-indigo-700 font-black">Bài 10:</span> Phương sai và độ lệch chuẩn
+                                                    </div>
+                                                    <div class="text-[9.5px] text-slate-400 font-semibold mt-0.5">
+                                                        Kho E: <span class="text-sky-700 font-bold">14 TN</span> • <span class="text-purple-700 font-bold">5 Đ-S</span> • <span class="text-teal-700 font-bold">8 TLN</span>
+                                                    </div>
+                                                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-sky-50/15">
+                    <input type="number" min="0" max="20" value="2" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c3', '12-b10', 'tnB', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-indigo-800 border-indigo-300 bg-indigo-50/40" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-sky-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c3', '12-b10', 'tnH', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-sky-50/15 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c3', '12-b10', 'tnV', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-purple-50/15">
+                    <input type="number" min="0" max="20" value="1" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c3', '12-b10', 'dsB', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-indigo-800 border-indigo-300 bg-indigo-50/40" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-purple-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c3', '12-b10', 'dsH', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-purple-50/15 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="1" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c3', '12-b10', 'dsV', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-indigo-800 border-indigo-300 bg-indigo-50/40" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-teal-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c3', '12-b10', 'saB', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-teal-50/15">
+                    <input type="number" min="0" max="20" value="1" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c3', '12-b10', 'saH', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-indigo-800 border-indigo-300 bg-indigo-50/40" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-teal-50/15 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c3', '12-b10', 'saV', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-amber-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c3', '12-b10', 'tlB', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-amber-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c3', '12-b10', 'tlH', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-amber-50/15 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c3', '12-b10', 'tlV', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                <td class="p-1 border-r border-slate-200 text-[11px] font-bold text-sky-800">3</td>
+                                                <td class="p-1 border-r border-slate-200 text-[11px] font-bold text-amber-800">1</td>
+                                                <td class="p-1 border-r border-slate-300 text-[11px] font-bold text-rose-800">1</td>
+                                                <td class="p-1 text-[10.5px] font-bold text-slate-700">1,50đ</td>
+                                            </tr>
+                                            <tr class="bg-slate-50/50 hover:bg-blue-50/35">
+                                                <td class="p-1.5 border-r border-slate-200 text-[10.5px] font-bold text-slate-400">3.3</td>
+                                                <td class="py-1.5 pl-4 pr-2 border-r border-slate-200 text-left">
+                                                    <div class="text-[11.5px] font-semibold text-slate-500 leading-snug">
+                                                        <span class="text-indigo-700 font-black">Ôn tập C3:</span> Bài tập cuối chương III
+                                                    </div>
+                                                    <div class="text-[9.5px] text-slate-400 font-semibold mt-0.5">
+                                                        Kho E: <span class="text-sky-700 font-bold">16 TN</span> • <span class="text-purple-700 font-bold">6 Đ-S</span> • <span class="text-teal-700 font-bold">8 TLN</span>
+                                                    </div>
+                                                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-sky-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c3', '12-c3-rev', 'tnB', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-sky-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c3', '12-c3-rev', 'tnH', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-sky-50/15 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c3', '12-c3-rev', 'tnV', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-purple-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c3', '12-c3-rev', 'dsB', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-purple-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c3', '12-c3-rev', 'dsH', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-purple-50/15 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c3', '12-c3-rev', 'dsV', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-teal-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c3', '12-c3-rev', 'saB', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-teal-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c3', '12-c3-rev', 'saH', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-teal-50/15 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c3', '12-c3-rev', 'saV', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-amber-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c3', '12-c3-rev', 'tlB', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-amber-50/15">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c3', '12-c3-rev', 'tlH', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                
+                <td class="p-1 border-r border-slate-200/80 bg-amber-50/15 border-r-slate-300">
+                    <input type="number" min="0" max="20" value="0" onchange="window.TRITHUC.setCv7991LessonCellV461('cvrow_12-c3', '12-c3-rev', 'tlV', this.value)" class="w-9 text-center font-bold text-[11.5px] rounded-md py-0.5 border border-slate-200 bg-white focus:border-indigo-600 outline-none text-slate-300" style="">
+                </td>
+                                                <td class="p-1 border-r border-slate-200 text-[11px] font-bold text-slate-300">0</td>
+                                                <td class="p-1 border-r border-slate-200 text-[11px] font-bold text-slate-300">0</td>
+                                                <td class="p-1 border-r border-slate-300 text-[11px] font-bold text-slate-300">0</td>
+                                                <td class="p-1 text-[10.5px] font-bold text-slate-300">0,00đ</td>
+                                            </tr>
+                                </tbody>
+                                <tfoot class="border-t-2 border-slate-300 font-black text-xs">
+                                    <tr class="bg-slate-50">
+                                        <td colspan="2" class="p-2 border-r border-slate-300 text-right uppercase">Tổng số câu / ý</td>
+                                        <td class="p-1.5 border-r border-slate-200">10</td><td class="p-1.5 border-r border-slate-200">2</td><td class="p-1.5 border-r border-slate-300">0</td>
+                                        <td class="p-1.5 border-r border-slate-200">4</td><td class="p-1.5 border-r border-slate-200">2</td><td class="p-1.5 border-r border-slate-300">2</td>
+                                        <td class="p-1.5 border-r border-slate-200">1</td><td class="p-1.5 border-r border-slate-200">2</td><td class="p-1.5 border-r border-slate-300">1</td>
+                                        <td class="p-1.5 border-r border-slate-200">0</td><td class="p-1.5 border-r border-slate-200">1</td><td class="p-1.5 border-r border-slate-300">2</td>
+                                        <td class="p-1.5 border-r border-slate-200 text-sky-800">15</td>
+                                        <td class="p-1.5 border-r border-slate-200 text-amber-800">7</td>
+                                        <td class="p-1.5 border-r border-slate-300 text-rose-800">5</td>
+                                        <td class="p-1.5">21 câu</td>
+                                    </tr>
+                                    <tr class="bg-white">
+                                        <td colspan="2" class="p-2 border-r border-slate-300 text-right uppercase">Tổng số điểm</td>
+                                        <td colspan="3" class="p-1.5 border-r border-slate-300 text-sky-900">3,00đ (12 câu)</td>
+                                        <td colspan="3" class="p-1.5 border-r border-slate-300 text-purple-900">2,00đ (2 câu)</td>
+                                        <td colspan="3" class="p-1.5 border-r border-slate-300 text-teal-900">2,00đ (4 câu)</td>
+                                        <td colspan="3" class="p-1.5 border-r border-slate-300 text-amber-900">3,00đ (3 câu)</td>
+                                        <td class="p-1.5 border-r border-slate-200 text-sky-900">4,0</td>
+                                        <td class="p-1.5 border-r border-slate-200 text-amber-900">3,0</td>
+                                        <td class="p-1.5 border-r border-slate-300 text-rose-900">3,0</td>
+                                        <td class="p-1.5 text-emerald-700 text-sm">10,0đ</td>
+                                    </tr>
+                                    <tr class="bg-indigo-50/70">
+                                        <td colspan="2" class="p-2 border-r border-slate-300 text-right uppercase">Tỉ lệ % (CV 7991)</td>
+                                        <td colspan="3" class="p-1.5 border-r border-slate-300">30%</td>
+                                        <td colspan="3" class="p-1.5 border-r border-slate-300">20%</td>
+                                        <td colspan="3" class="p-1.5 border-r border-slate-300">20%</td>
+                                        <td colspan="3" class="p-1.5 border-r border-slate-300">30%</td>
+                                        <td class="p-1.5 border-r border-slate-200">40%</td>
+                                        <td class="p-1.5 border-r border-slate-200">30%</td>
+                                        <td class="p-1.5 border-r border-slate-300">30%</td>
+                                        <td class="p-1.5 text-indigo-900">100%</td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- PHẦN C: HÀNH ĐỘNG SINH ĐỀ TỰ ĐỘNG TỪ MA TRẬN CV 7991 -->
+                    <div class="bg-gradient-to-r from-emerald-50 via-white to-blue-50 rounded-3xl border-2 border-emerald-300 p-4 space-y-3 shadow-xs">
+                        <div class="flex flex-wrap items-center justify-between gap-3">
+                            <div class="space-y-1">
+                                <h3 class="text-sm font-black text-emerald-950 uppercase m-0">🚀 Bước 3: Tự Động Sinh Đề Thi Từ Ma Trận CV 7991 Này</h3>
+                                <div class="flex flex-wrap items-center gap-4 text-xs font-bold text-slate-700">
+                                    <label class="inline-flex items-center gap-1.5 cursor-pointer">
+                                        <input type="checkbox" checked="" onchange="window.TRITHUC.setCv7991ConfigV457('allowCrossChapterDs', this.checked)" class="w-4 h-4 accent-purple-700 rounded cursor-pointer" style="">
+                                        <span>🧩 Tự ghép câu Đúng–Sai liên chương/liên bài (khi ý Đ-S trải qua nhiều chương)</span>
+                                    </label>
+                                    <label class="inline-flex items-center gap-1.5 cursor-pointer">
+                                        <input type="checkbox" checked="" onchange="window.TRITHUC.setCv7991ConfigV457('autoParametric', this.checked)" class="w-4 h-4 accent-emerald-600 rounded cursor-pointer" style="">
+                                        <span>🧬 Bật sinh số liệu mới tham số Trithuc5.0</span>
+                                    </label>
+                                    <label class="inline-flex items-center gap-1.5 cursor-pointer">
+                                        <input type="checkbox" onchange="window.TRITHUC.setCv7991ConfigV457('shuffleBatchOrder', this.checked)" class="w-4 h-4 accent-amber-600 rounded cursor-pointer" style="">
+                                        <span>🔀 Đảo thứ tự câu giữa các mã đề <span class="text-slate-500 font-semibold">(Tắt = Giữ nguyên thứ tự ma trận)</span></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="flex flex-wrap items-center gap-2">
+                                <button type="button" onclick="window.TRITHUC.generateExamFromCv7991MatrixV457('tab1')" class="px-3.5 py-2.5 rounded-2xl bg-blue-700 hover:bg-blue-800 text-white font-black text-xs uppercase shadow-sm transition">
+                                    🧭 Nạp Sang Tab 1 Xem &amp; Tinh Chỉnh
+                                </button>
+                                <button type="button" onclick="window.TRITHUC.generateExamFromCv7991MatrixV457('pdf')" class="px-3.5 py-2.5 rounded-2xl bg-rose-600 hover:bg-rose-700 text-white font-black text-xs uppercase shadow-sm transition">
+                                    📄 Sinh Đề &amp; Xuất PDF Ngay
+                                </button>
+                                <button type="button" onclick="window.TRITHUC.generateExamFromCv7991MatrixV457('batch')" class="px-3.5 py-2.5 rounded-2xl bg-gradient-to-r from-purple-700 to-indigo-700 hover:from-purple-800 hover:to-indigo-800 text-white font-black text-xs uppercase shadow-sm transition">
+                                    📦 Sinh Bộ 4 Mã Đề Tương Tự
+                                </button>
+                                <button type="button" onclick="window.TRITHUC.generateExamFromCv7991MatrixV457('v95')" class="px-3.5 py-2.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs uppercase shadow-sm transition">
+                                    🚀 Sinh &amp; Up Đề Online (V9.5 PRO)
+                                </button>
+                            </div>
+                        </div>
+                        
+                    </div>
+                
+            </div>
+                    </main>
+                </div>
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            </div>

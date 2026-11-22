@@ -1,0 +1,115 @@
+{
+  "site": "https://trithuc500.vercel.app/",
+  "version": "V5.1.4",
+  "timestamp": "2026-11-22T12:08:56.095Z",
+  "viewport": {
+    "desktop": "1440x900",
+    "mobile": "390x844"
+  },
+  "adminTabs": [
+    {
+      "id": "matrix_builder",
+      "name": "Lam De & Ma Tran (Tu Phan E)",
+      "label": "01-matrix-builder"
+    },
+    {
+      "id": "cv7991_matrix",
+      "name": "Ma Tran CV 7991 & Tu Sinh De",
+      "label": "02-cv7991-matrix"
+    },
+    {
+      "id": "sync_mock_to_e",
+      "name": "Boc Tach Dang Moi -> Phan E",
+      "label": "03-sync-mock-to-e"
+    },
+    {
+      "id": "exams",
+      "name": "Kho De & Bai Hoc",
+      "label": "04-exams"
+    },
+    {
+      "id": "lessons",
+      "name": "Quan Ly & Sua Bai Hoc",
+      "label": "05-lessons"
+    },
+    {
+      "id": "users",
+      "name": "Tai Khoan & Duyet VIP",
+      "label": "06-users"
+    },
+    {
+      "id": "create",
+      "name": "Tao / Nap De (Chuan V9.6 PRO)",
+      "label": "07-create"
+    },
+    {
+      "id": "results",
+      "name": "Pho Diem & Excel",
+      "label": "08-results"
+    },
+    {
+      "id": "gsites",
+      "name": "Ma Hoa Kho De & Bao Mat",
+      "label": "09-gsites-security"
+    }
+  ],
+  "files": {
+    "screenshots": [
+      "00-admin-portal-entry.png",
+      "01-matrix-builder-desktop-1440-fullpage.png",
+      "01-matrix-builder-desktop-1440.png",
+      "01-matrix-builder-mobile-390.png",
+      "02-cv7991-matrix-desktop-1440-fullpage.png",
+      "02-cv7991-matrix-desktop-1440.png",
+      "02-cv7991-matrix-mobile-390.png",
+      "03-sync-mock-to-e-desktop-1440-fullpage.png",
+      "03-sync-mock-to-e-desktop-1440.png",
+      "03-sync-mock-to-e-mobile-390.png",
+      "04-exams-desktop-1440-fullpage.png",
+      "04-exams-desktop-1440.png",
+      "04-exams-mobile-390.png",
+      "05-lessons-desktop-1440-fullpage.png",
+      "05-lessons-desktop-1440.png",
+      "05-lessons-mobile-390.png",
+      "06-users-desktop-1440-fullpage.png",
+      "06-users-desktop-1440.png",
+      "06-users-mobile-390.png",
+      "07-create-desktop-1440-fullpage.png",
+      "07-create-desktop-1440.png",
+      "07-create-mobile-390.png",
+      "08-results-desktop-1440-fullpage.png",
+      "08-results-desktop-1440.png",
+      "08-results-mobile-390.png",
+      "09-gsites-security-desktop-1440-fullpage.png",
+      "09-gsites-security-desktop-1440.png",
+      "09-gsites-security-mobile-390.png"
+    ],
+    "components": [
+      "00-admin-entry.html",
+      "01-matrix-builder.html",
+      "01-matrix-builder.json",
+      "02-cv7991-matrix.html",
+      "02-cv7991-matrix.json",
+      "03-sync-mock-to-e.html",
+      "03-sync-mock-to-e.json",
+      "04-exams.html",
+      "04-exams.json",
+      "05-lessons.html",
+      "05-lessons.json",
+      "06-users.html",
+      "06-users.json",
+      "07-create.html",
+      "07-create.json",
+      "08-results.html",
+      "08-results.json",
+      "09-gsites-security.html",
+      "09-gsites-security.json",
+      "full-page-source.html",
+      "MANIFEST.json",
+      "render-functions.js",
+      "state-dump.json",
+      "trithuc-api.js"
+    ]
+  },
+  "note": "All components extracted via local admin mock. No real server authentication. No production writes."
+}

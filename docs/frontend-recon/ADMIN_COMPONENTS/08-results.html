@@ -1,0 +1,538 @@
+
+            <div class="v511-admin-shell">
+                <header class="v511-admin-topbar">
+                    <div class="max-w-[1680px] mx-auto flex items-center justify-between gap-2 flex-wrap">
+                        <div class="flex items-center gap-2 flex-wrap min-w-0">
+                            <button type="button" onclick="window.TRITHUC.toggleAdminHeaderCollapsedV44()" title="Thu gọn thanh điều hướng để mở rộng không gian làm việc" class="hidden lg:inline-flex v5-nav-btn-secondary px-2.5 py-1.5 text-xs items-center gap-1">
+                                <span>◧ Thu gọn</span>
+                            </button>
+                            <div class="w-7 h-7 rounded-lg bg-blue-700 text-white flex items-center justify-center font-black text-xs shrink-0">🎓</div>
+                            <span class="text-xs sm:text-sm font-extrabold text-slate-900 tracking-tight">QUẢN TRỊ GV</span>
+                            <span class="v5-version-pill">V5.1.4</span>
+                            <span class="hidden xl:inline text-xs font-semibold text-slate-500">› 📊 Phổ Điểm &amp; Excel (5)</span>
+                            <select onchange="window.TRITHUC.switchAdminTab(this.value)" aria-label="Chọn mục quản trị" class="lg:hidden px-2.5 py-1 rounded-lg bg-slate-100 border border-slate-200 text-slate-800 font-bold text-xs outline-none cursor-pointer">
+                                <option value="matrix_builder">🧭 1. Làm Đề &amp; Ma Trận (Từ Phần E)</option><option value="cv7991_matrix">📐 1B. Ma Trận CV 7991 &amp; Tự Sinh Đề</option><option value="sync_mock_to_e">🔍 2. Bóc Tách Dạng Mới → Phần E</option><option value="exams">📋 Kho Đề &amp; Bài Học (241)</option><option value="lessons">✏️ Quản Lý &amp; Sửa Bài Học</option><option value="users">👥 Tài Khoản &amp; Duyệt VIP (0)</option><option value="create">➕ Tạo / Nạp Đề (Chuẩn V9.6 PRO)</option><option value="results" selected="">📊 Phổ Điểm &amp; Excel (5)</option><option value="gsites">🔐 Mã Hóa Kho Đề &amp; Bảo Mật (Mục 5)</option>
+                            </select>
+                        </div>
+                        <div class="flex items-center gap-1.5 flex-wrap">
+                            <div class="v5-theme-switcher v5-theme-switcher-compact" role="radiogroup" aria-label="Chọn chế độ giao diện"><button type="button" role="radio" data-v5-theme-btn="light" aria-checked="false" tabindex="-1" title="Chế độ Sáng (Light)" onclick="window.TRITHUC_THEME.setMode('light')" onkeydown="window.TRITHUC_THEME.onKeyDown(event,'light')" class="v5-theme-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg></button><button type="button" role="radio" data-v5-theme-btn="dark" aria-checked="false" tabindex="-1" title="Chế độ Tối (Dark)" onclick="window.TRITHUC_THEME.setMode('dark')" onkeydown="window.TRITHUC_THEME.onKeyDown(event,'dark')" class="v5-theme-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg></button><button type="button" role="radio" data-v5-theme-btn="system" aria-checked="true" tabindex="0" title="Tự động theo hệ điều hành (System)" onclick="window.TRITHUC_THEME.setMode('system')" onkeydown="window.TRITHUC_THEME.onKeyDown(event,'system')" class="v5-theme-btn v5-theme-btn-active"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="14" x="2" y="3" rx="2"></rect><line x1="8" x2="16" y1="21" y2="21"></line><line x1="12" x2="12" y1="17" y2="21"></line></svg></button></div>
+                            <button type="button" onclick="window.TRITHUC.openVaultSecurityModal()" title="Mã hóa Kho đề thi &amp; Dữ liệu bài học" class="v5-nav-btn-secondary px-2.5 py-1.5 text-[11px] flex items-center gap-1">
+                                <span>🔐</span>
+                                <span class="hidden sm:inline">Khóa Admin</span>
+                            </button>
+                            <button type="button" onclick="window.TRITHUC.toggleHideAuthorInfo()" class="v5-nav-btn-secondary px-2.5 py-1.5 text-[11px] flex items-center gap-1">
+                                <span>👁️ Hiện tác giả</span>
+                            </button>
+                            <button type="button" onclick="window.TRITHUC.openShareVipLinkModal()" class="v5-nav-btn-secondary px-2.5 py-1.5 text-[11px] flex items-center gap-1">
+                                <span>🔗</span>
+                                <span class="hidden md:inline">Link ĐK VIP</span>
+                            </button>
+                            <button type="button" onclick="window.TRITHUC.goStudentHome()" class="v5-nav-btn-primary px-2.5 py-1.5 text-[11px] flex items-center gap-1">
+                                <span>👁️ Trang HS</span>
+                            </button>
+                            <button type="button" onclick="window.TRITHUC.logoutAdmin()" class="px-2.5 py-1.5 rounded-lg bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 text-[11px] font-bold transition">
+                                🔒 Thoát
+                            </button>
+                        </div>
+                    </div>
+                </header>
+
+                <!-- Thanh tab cuộn ngang cho Mobile / Tablet (< 1024px) -->
+                <div class="v511-admin-mobile-tabs">
+                    
+                        <button type="button" onclick="window.TRITHUC.switchAdminTab('matrix_builder')" class="v511-mobile-pill ">
+                            🧭 1. Làm Đề &amp; Ma Trận (Từ Phần E)
+                        </button>
+                    
+                        <button type="button" onclick="window.TRITHUC.switchAdminTab('cv7991_matrix')" class="v511-mobile-pill ">
+                            📐 1B. Ma Trận CV 7991 &amp; Tự Sinh Đề
+                        </button>
+                    
+                        <button type="button" onclick="window.TRITHUC.switchAdminTab('sync_mock_to_e')" class="v511-mobile-pill ">
+                            🔍 2. Bóc Tách Dạng Mới → Phần E
+                        </button>
+                    
+                        <button type="button" onclick="window.TRITHUC.switchAdminTab('exams')" class="v511-mobile-pill ">
+                            📋 Kho Đề &amp; Bài Học (241)
+                        </button>
+                    
+                        <button type="button" onclick="window.TRITHUC.switchAdminTab('lessons')" class="v511-mobile-pill ">
+                            ✏️ Quản Lý &amp; Sửa Bài Học
+                        </button>
+                    
+                        <button type="button" onclick="window.TRITHUC.switchAdminTab('users')" class="v511-mobile-pill ">
+                            👥 Tài Khoản &amp; Duyệt VIP (0)
+                        </button>
+                    
+                        <button type="button" onclick="window.TRITHUC.switchAdminTab('create')" class="v511-mobile-pill ">
+                            ➕ Tạo / Nạp Đề (Chuẩn V9.6 PRO)
+                        </button>
+                    
+                        <button type="button" onclick="window.TRITHUC.switchAdminTab('results')" class="v511-mobile-pill v511-active">
+                            📊 Phổ Điểm &amp; Excel (5)
+                        </button>
+                    
+                        <button type="button" onclick="window.TRITHUC.switchAdminTab('gsites')" class="v511-mobile-pill ">
+                            🔐 Mã Hóa Kho Đề &amp; Bảo Mật (Mục 5)
+                        </button>
+                    
+                </div>
+
+                <div class="v511-admin-body">
+                    <!-- Thanh Sidebar trái phân nhóm 3 cụm nghiệp vụ cho Desktop -->
+                    <aside class="v511-admin-sidebar custom-scrollbar " aria-label="Điều hướng Quản trị Giáo viên">
+                        
+                            <div class="space-y-1">
+                                <div class="v511-nav-group-label">Soạn Đề &amp; Ma Trận</div>
+                                
+                                    <button type="button" onclick="window.TRITHUC.switchAdminTab('matrix_builder')" class="v511-sidebar-item ">
+                                        <span class="flex items-center gap-2 min-w-0">
+                                            <span class="shrink-0">🧭</span>
+                                            <span class="truncate">1. Làm Đề &amp; Ma Trận (E)</span>
+                                        </span>
+                                        
+                                    </button>
+                                
+                                    <button type="button" onclick="window.TRITHUC.switchAdminTab('cv7991_matrix')" class="v511-sidebar-item ">
+                                        <span class="flex items-center gap-2 min-w-0">
+                                            <span class="shrink-0">📐</span>
+                                            <span class="truncate">1B. Ma Trận CV 7991</span>
+                                        </span>
+                                        <span class="v511-sidebar-badge">BGD</span>
+                                    </button>
+                                
+                                    <button type="button" onclick="window.TRITHUC.switchAdminTab('sync_mock_to_e')" class="v511-sidebar-item ">
+                                        <span class="flex items-center gap-2 min-w-0">
+                                            <span class="shrink-0">🔍</span>
+                                            <span class="truncate">2. Bóc Tách Dạng → E</span>
+                                        </span>
+                                        
+                                    </button>
+                                
+                            </div>
+                        
+                            <div class="space-y-1">
+                                <div class="v511-nav-group-label">Học Liệu &amp; Kho Đề</div>
+                                
+                                    <button type="button" onclick="window.TRITHUC.switchAdminTab('exams')" class="v511-sidebar-item ">
+                                        <span class="flex items-center gap-2 min-w-0">
+                                            <span class="shrink-0">📋</span>
+                                            <span class="truncate">Kho Đề &amp; Bài Học</span>
+                                        </span>
+                                        <span class="v511-sidebar-badge">241</span>
+                                    </button>
+                                
+                                    <button type="button" onclick="window.TRITHUC.switchAdminTab('lessons')" class="v511-sidebar-item ">
+                                        <span class="flex items-center gap-2 min-w-0">
+                                            <span class="shrink-0">✏️</span>
+                                            <span class="truncate">Quản Lý &amp; Sửa Bài Học</span>
+                                        </span>
+                                        
+                                    </button>
+                                
+                                    <button type="button" onclick="window.TRITHUC.switchAdminTab('create')" class="v511-sidebar-item ">
+                                        <span class="flex items-center gap-2 min-w-0">
+                                            <span class="shrink-0">➕</span>
+                                            <span class="truncate">Tạo / Nạp Đề V9.6</span>
+                                        </span>
+                                        
+                                    </button>
+                                
+                            </div>
+                        
+                            <div class="space-y-1">
+                                <div class="v511-nav-group-label">Học Sinh &amp; Hệ Thống</div>
+                                
+                                    <button type="button" onclick="window.TRITHUC.switchAdminTab('users')" class="v511-sidebar-item ">
+                                        <span class="flex items-center gap-2 min-w-0">
+                                            <span class="shrink-0">👥</span>
+                                            <span class="truncate">Tài Khoản &amp; Duyệt VIP</span>
+                                        </span>
+                                        <span class="v511-sidebar-badge">0</span>
+                                    </button>
+                                
+                                    <button type="button" onclick="window.TRITHUC.switchAdminTab('results')" class="v511-sidebar-item v511-active">
+                                        <span class="flex items-center gap-2 min-w-0">
+                                            <span class="shrink-0">📊</span>
+                                            <span class="truncate">Phổ Điểm &amp; Excel</span>
+                                        </span>
+                                        <span class="v511-sidebar-badge">5</span>
+                                    </button>
+                                
+                                    <button type="button" onclick="window.TRITHUC.switchAdminTab('gsites')" class="v511-sidebar-item ">
+                                        <span class="flex items-center gap-2 min-w-0">
+                                            <span class="shrink-0">🔐</span>
+                                            <span class="truncate">Mã Hóa &amp; Bảo Mật</span>
+                                        </span>
+                                        
+                                    </button>
+                                
+                            </div>
+                        
+                        
+                    </aside>
+
+                    <main class="v511-admin-main">
+                        
+                        
+                        
+            <div class="space-y-4">
+                <div class="v5-surface-card p-4 sm:p-5 space-y-4">
+                    <div class="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-200">
+                        <div>
+                            <h3 class="text-sm sm:text-base font-extrabold text-slate-900 m-0 flex items-center gap-2 tracking-tight">
+                                <span>📊</span>
+                                <span>Phổ Điểm &amp; So Sánh Kết Quả Học Sinh</span>
+                            </h3>
+                            <p class="text-xs font-medium text-slate-500 m-0 mt-0.5 v5-tabular">
+                                Liên kết 124 bài học • 241 đề thi • 5 tổng lượt nộp.
+                            </p>
+                        </div>
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <label class="px-3 py-1.5 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 text-xs font-extrabold cursor-pointer transition">
+                                📥 Nhập Excel/CSV Điểm
+                                <input type="file" accept=".xlsx,.xls,.csv" class="hidden" onchange="window.TRITHUC.importGoogleFormExcel(event)" style="">
+                            </label>
+                            <button type="button" onclick="window.TRITHUC.exportFilteredResultsToExcelV45('attempts')" class="px-3.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-extrabold shadow-xs transition">
+                                📤 Xuất Excel Chi Tiết
+                            </button>
+                            <button type="button" onclick="window.TRITHUC.syncStudentResultsNowV474()" class="px-3.5 py-1.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white text-xs font-extrabold shadow-xs transition">
+                                🔄 Tải điểm HS mới nhất
+                            </button>
+                            <button type="button" onclick="window.TRITHUC.exportFilteredResultsToExcelV45('compare')" class="px-3.5 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-extrabold shadow-xs transition">
+                                📈 Xuất Excel So Sánh HS
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="v511-mini-kpi-grid">
+                        <div class="v511-mini-kpi">
+                            <div class="text-[11px] font-semibold text-slate-500">Lượt nộp đang lọc</div>
+                            <div class="text-lg font-extrabold text-slate-900 v5-tabular">5 <span class="text-[11px] font-semibold text-slate-400">(1 HS)</span></div>
+                        </div>
+                        <div class="v511-mini-kpi">
+                            <div class="text-[11px] font-semibold text-slate-500">Điểm Trung bình</div>
+                            <div class="text-lg font-extrabold text-blue-700 v5-tabular">2.15 <span class="text-[11px] font-semibold text-slate-400">/ 10</span></div>
+                        </div>
+                        <div class="v511-mini-kpi">
+                            <div class="text-[11px] font-semibold text-slate-500">Trung vị (Median)</div>
+                            <div class="text-lg font-extrabold text-slate-900 v5-tabular">0.60</div>
+                        </div>
+                        <div class="v511-mini-kpi">
+                            <div class="text-[11px] font-semibold text-slate-500">Tỉ lệ Đạt (≥ 5.0)</div>
+                            <div class="text-lg font-extrabold text-emerald-600 v5-tabular">20.0%</div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-2.5 text-xs">
+                        <div class="lg:col-span-2">
+                            <label class="block text-[10px] font-extrabold text-slate-500 uppercase mb-1">1. Khối lớp</label>
+                            <select onchange="window.TRITHUC.setAdminResultGradeFilterV45(this.value)" class="w-full px-2.5 py-2 rounded-xl border border-slate-300 bg-slate-50 font-bold text-slate-800 outline-none focus:border-blue-600">
+                                <option value="all" selected="">Tất cả các khối</option>
+                                <option value="12">Toán Lớp 12</option>
+                                <option value="11">Toán Lớp 11</option>
+                                <option value="10">Toán Lớp 10</option>
+                            </select>
+                        </div>
+                        <div class="lg:col-span-2">
+                            <label class="block text-[10px] font-extrabold text-slate-500 uppercase mb-1">2. Nguồn bài / đề</label>
+                            <select onchange="window.TRITHUC.setAdminResultSourceFilterV45(this.value)" class="w-full px-2.5 py-2 rounded-xl border border-slate-300 bg-slate-50 font-bold text-slate-800 outline-none focus:border-blue-600">
+                                <option value="all" selected="">Tất cả nguồn</option>
+                                <option value="lesson">📚 Đề theo Bài học</option>
+                                <option value="mock">🔥 Đề Thi thử THPT</option>
+                                <option value="bank">📝 Kho đề chung</option>
+                            </select>
+                        </div>
+                        <div class="lg:col-span-3">
+                            <label class="block text-[10px] font-extrabold text-slate-500 uppercase mb-1">3. Liên kết Bài học</label>
+                            <select onchange="window.TRITHUC.setAdminResultLessonFilterV45(this.value)" class="w-full px-2.5 py-2 rounded-xl border border-slate-300 bg-slate-50 font-bold text-slate-800 outline-none focus:border-blue-600">
+                                <option value="all" selected="">📚 Tất cả bài học (124)</option>
+                                <option value="12-b1">[Lớp 12 • Bài 1] Tính đơn điệu và cực trị của hàm số</option><option value="12-b2">[Lớp 12 • Bài 2] Giá trị lớn nhất và giá trị nhỏ nhất của hàm số</option><option value="12-b3">[Lớp 12 • Bài 3] Đường tiệm cận của đồ thị hàm số</option><option value="12-b4">[Lớp 12 • Bài 4] Khảo sát sự biến thiên và vẽ đồ thị của hàm số</option><option value="12-b5">[Lớp 12 • Bài 5] Ứng dụng đạo hàm để giải quyết một số vấn đề liên quan đến thực tiễn</option><option value="12-c1-rev">[Lớp 12 • Ôn tập C1] Bài tập cuối chương I &amp; Kiểm tra thường xuyên Chương I</option><option value="12-gk1-test">[Lớp 12 • Giữa kỳ I] Ôn tập &amp; Kiểm tra đánh giá Giữa kỳ I (Chuẩn CV 7991)</option><option value="12-b6">[Lớp 12 • Bài 6] Vectơ trong không gian</option><option value="12-b7">[Lớp 12 • Bài 7] Hệ trục tọa độ trong không gian</option><option value="12-b8">[Lớp 12 • Bài 8] Biểu thức tọa độ của các phép toán vectơ</option><option value="12-c2-rev">[Lớp 12 • Ôn tập C2] Bài tập cuối chương II</option><option value="12-b9">[Lớp 12 • Bài 9] Khoảng biến thiên và khoảng tứ phân vị</option><option value="12-b10">[Lớp 12 • Bài 10] Phương sai và độ lệch chuẩn</option><option value="12-c3-rev">[Lớp 12 • Ôn tập C3] Bài tập cuối chương III</option><option value="12-ck1-test">[Lớp 12 • Cuối kỳ I] Ôn tập &amp; Kiểm tra Cuối học kỳ I (2 lượt)</option><option value="12-hdtn1">[Lớp 12 • Trải nghiệm HK1] Thực hành GeoGebra (Khảo sát hàm số, Vectơ 3D) &amp; Thống kê độ dài gang tay</option><option value="12-b11">[Lớp 12 • Bài 11] Nguyên hàm</option><option value="12-b12">[Lớp 12 • Bài 12] Tích phân</option><option value="12-b13">[Lớp 12 • Bài 13] Ứng dụng hình học của tích phân</option><option value="12-c4-rev">[Lớp 12 • Ôn tập C4] Bài tập cuối chương IV &amp; Đề kiểm tra Nguyên hàm – Tích phân</option><option value="12-gk2-test">[Lớp 12 • Giữa kỳ II] Ôn tập &amp; Kiểm tra đánh giá Giữa kỳ II</option><option value="12-b14">[Lớp 12 • Bài 14] Phương trình mặt phẳng</option><option value="12-b15">[Lớp 12 • Bài 15] Phương trình đường thẳng trong không gian</option><option value="12-b16">[Lớp 12 • Bài 16] Công thức tính góc trong không gian</option><option value="12-b17">[Lớp 12 • Bài 17] Phương trình mặt cầu</option><option value="12-c5-rev">[Lớp 12 • Ôn tập C5] Bài tập cuối chương V</option><option value="12-b18">[Lớp 12 • Bài 18] Xác suất có điều kiện</option><option value="12-b19">[Lớp 12 • Bài 19] Công thức xác suất toàn phần và công thức Bayes</option><option value="12-c6-rev">[Lớp 12 • Ôn tập C6] Bài tập cuối chương VI</option><option value="12-ck2-test">[Lớp 12 • Cuối năm] Ôn tập &amp; Kiểm tra Cuối năm Toán 12 &amp; Thi thử Tốt nghiệp THPT</option><option value="12-hdtn2">[Lớp 12 • Trải nghiệm HK2] Tính nguyên hàm – tích phân &amp; Vẽ đồ họa 3D với GeoGebra</option><option value="12-cd-b1">[Lớp 12 • CĐ1 - Bài 1] Biến ngẫu nhiên rời rạc và các số đặc trưng</option><option value="12-cd-b2">[Lớp 12 • CĐ1 - Bài 2] Biến ngẫu nhiên có phân bố nhị thức và áp dụng</option><option value="12-cd1-rev">[Lớp 12 • Ôn tập CĐ1] Bài tập cuối chuyên đề 1</option><option value="12-cd-b3">[Lớp 12 • CĐ2 - Bài 3] Vận dụng hệ bất phương trình bậc nhất giải bài toán quy hoạch tuyến tính</option><option value="12-cd-b4">[Lớp 12 • CĐ2 - Bài 4] Vận dụng đạo hàm để giải quyết một số bài toán tối ưu</option><option value="12-cd2-rev">[Lớp 12 • Ôn tập CĐ2] Bài tập cuối chuyên đề 2 &amp; Kiểm tra Chuyên đề</option><option value="12-cd-b5">[Lớp 12 • CĐ3 - Bài 5] Tiền tệ. Lãi suất</option><option value="12-cd-b6">[Lớp 12 • CĐ3 - Bài 6] Tín dụng. Vay nợ</option><option value="12-cd-b7">[Lớp 12 • CĐ3 - Bài 7] Đầu tư tài chính. Lập kế hoạch tài chính cá nhân</option><option value="11-b1">[Lớp 11 • Bài 1] Giá trị lượng giác của góc lượng giác</option><option value="11-b2">[Lớp 11 • Bài 2] Công thức lượng giác</option><option value="11-b3">[Lớp 11 • Bài 3] Hàm số lượng giác</option><option value="11-b4">[Lớp 11 • Bài 4] Phương trình lượng giác cơ bản</option><option value="11-c1-rev">[Lớp 11 • Ôn tập C1] Bài tập cuối chương I</option><option value="11-b5">[Lớp 11 • Bài 5] Dãy số</option><option value="11-b6">[Lớp 11 • Bài 6] Cấp số cộng</option><option value="11-b7">[Lớp 11 • Bài 7] Cấp số nhân</option><option value="11-c2-rev">[Lớp 11 • Ôn tập C2] Bài tập cuối chương II</option><option value="11-b8">[Lớp 11 • Bài 8] Mẫu số liệu ghép nhóm</option><option value="11-b9">[Lớp 11 • Bài 9] Các số đặc trưng đo xu thế trung tâm</option><option value="11-c3-rev">[Lớp 11 • Ôn tập C3] Bài tập cuối chương III &amp; Kiểm tra Giữa kỳ I</option><option value="11-b10">[Lớp 11 • Bài 10] Đường thẳng và mặt phẳng trong không gian</option><option value="11-b11">[Lớp 11 • Bài 11] Hai đường thẳng song song</option><option value="11-b12">[Lớp 11 • Bài 12] Đường thẳng song song với mặt phẳng</option><option value="11-b13">[Lớp 11 • Bài 13] Hai mặt phẳng song song</option><option value="11-b14">[Lớp 11 • Bài 14] Phép chiếu song song</option><option value="11-c4-rev">[Lớp 11 • Ôn tập C4] Bài tập cuối chương IV</option><option value="11-b15">[Lớp 11 • Bài 15] Giới hạn của dãy số</option><option value="11-b16">[Lớp 11 • Bài 16] Giới hạn của hàm số</option><option value="11-b17">[Lớp 11 • Bài 17] Hàm số liên tục</option><option value="11-ck1-rev">[Lớp 11 • Cuối kỳ I] Bài tập cuối chương V, Kiểm tra Cuối kỳ I &amp; Hoạt động trải nghiệm HK1</option><option value="11-b18">[Lớp 11 • Bài 18] Lũy thừa với số mũ thực</option><option value="11-b19">[Lớp 11 • Bài 19] Lôgarit</option><option value="11-b20">[Lớp 11 • Bài 20] Hàm số mũ và hàm số lôgarit</option><option value="11-b21">[Lớp 11 • Bài 21] Phương trình, bất phương trình mũ và lôgarit</option><option value="11-c6-rev">[Lớp 11 • Ôn tập C6] Bài tập cuối chương VI</option><option value="11-b22">[Lớp 11 • Bài 22] Hai đường thẳng vuông góc</option><option value="11-b23">[Lớp 11 • Bài 23] Đường thẳng vuông góc với mặt phẳng</option><option value="11-b24">[Lớp 11 • Bài 24] Phép chiếu vuông góc. Góc giữa đường thẳng và mặt phẳng</option><option value="11-b25">[Lớp 11 • Bài 25] Hai mặt phẳng vuông góc</option><option value="11-b26">[Lớp 11 • Bài 26] Khoảng cách</option><option value="11-b27">[Lớp 11 • Bài 27] Thể tích</option><option value="11-c7-rev">[Lớp 11 • Giữa kỳ II] Bài tập cuối chương VII &amp; Kiểm tra Giữa kỳ II</option><option value="11-b28">[Lớp 11 • Bài 28] Biến cố hợp, biến cố giao, biến cố độc lập</option><option value="11-b29">[Lớp 11 • Bài 29] Công thức cộng xác suất</option><option value="11-b30">[Lớp 11 • Bài 30] Công thức nhân xác suất cho hai biến cố độc lập</option><option value="11-c8-rev">[Lớp 11 • Ôn tập C8] Bài tập cuối chương VIII</option><option value="11-b31">[Lớp 11 • Bài 31] Định nghĩa và ý nghĩa của đạo hàm</option><option value="11-b32">[Lớp 11 • Bài 32] Các quy tắc tính đạo hàm</option><option value="11-b33">[Lớp 11 • Bài 33] Đạo hàm cấp hai</option><option value="11-ck2-rev">[Lớp 11 • Cuối năm] Bài tập cuối chương IX &amp; Kiểm tra Cuối năm Toán 11</option><option value="11-cd-b1">[Lớp 11 • CĐ11 - Bài 1] Phép biến hình trong mặt phẳng (Tịnh tiến, Đối xứng, Quay, Vị tự, Đồng dạng)</option><option value="11-cd-b2">[Lớp 11 • CĐ11 - Bài 2] Làm quen với một số khái niệm của Lý thuyết đồ thị (Đường đi Euler, Hamilton)</option><option value="11-cd-b3">[Lớp 11 • CĐ11 - Bài 3] Một số yếu tố vẽ kỹ thuật (Hình chiếu vuông góc, Hình chiếu trục đo)</option><option value="10-b1">[Lớp 10 • Bài 1] Mệnh đề</option><option value="10-b2">[Lớp 10 • Bài 2] Tập hợp và các phép toán trên tập hợp</option><option value="10-c1-rev">[Lớp 10 • Ôn tập C1] Bài tập cuối chương I</option><option value="10-b3">[Lớp 10 • Bài 3] Bất phương trình bậc nhất hai ẩn</option><option value="10-b4">[Lớp 10 • Bài 4] Hệ bất phương trình bậc nhất hai ẩn</option><option value="10-c2-rev">[Lớp 10 • Ôn tập C2] Bài tập cuối chương II</option><option value="10-b5">[Lớp 10 • Bài 5] Giá trị lượng giác của một góc từ 0° đến 180°</option><option value="10-b6">[Lớp 10 • Bài 6] Hệ thức lượng trong tam giác</option><option value="10-c3-rev">[Lớp 10 • Giữa kỳ I] Bài tập cuối chương III &amp; Kiểm tra Giữa kỳ I</option><option value="10-b7">[Lớp 10 • Bài 7] Các khái niệm mở đầu</option><option value="10-b8">[Lớp 10 • Bài 8] Tổng và hiệu của hai vectơ</option><option value="10-b9">[Lớp 10 • Bài 9] Tích của một vectơ với một số</option><option value="10-b10">[Lớp 10 • Bài 10] Vectơ trong mặt phẳng tọa độ</option><option value="10-b11">[Lớp 10 • Bài 11] Tích vô hướng của hai vectơ</option><option value="10-c4-rev">[Lớp 10 • Ôn tập C4] Bài tập cuối chương IV</option><option value="10-b12">[Lớp 10 • Bài 12] Số gần đúng và sai số</option><option value="10-b13">[Lớp 10 • Bài 13] Các số đặc trưng đo xu thế trung tâm</option><option value="10-b14">[Lớp 10 • Bài 14] Các số đặc trưng đo độ phân tán</option><option value="10-ck1-rev">[Lớp 10 • Cuối kỳ I] Bài tập cuối chương V &amp; Kiểm tra Cuối kỳ I Toán 10 (2 lượt)</option><option value="10-b15">[Lớp 10 • Bài 15] Hàm số</option><option value="10-b16">[Lớp 10 • Bài 16] Hàm số bậc hai</option><option value="10-b17">[Lớp 10 • Bài 17] Dấu của tam thức bậc hai</option><option value="10-b18">[Lớp 10 • Bài 18] Phương trình quy về phương trình bậc hai</option><option value="10-c6-rev">[Lớp 10 • Ôn tập C6] Bài tập cuối chương VI</option><option value="10-b19">[Lớp 10 • Bài 19] Phương trình đường thẳng</option><option value="10-b20">[Lớp 10 • Bài 20] Vị trí tương đối giữa hai đường thẳng. Góc và khoảng cách</option><option value="10-b21">[Lớp 10 • Bài 21] Đường tròn trong mặt phẳng tọa độ</option><option value="10-b22">[Lớp 10 • Bài 22] Ba đường Conic</option><option value="10-c7-rev">[Lớp 10 • Giữa kỳ II] Bài tập cuối chương VII &amp; Kiểm tra Giữa kỳ II</option><option value="10-b23">[Lớp 10 • Bài 23] Quy tắc đếm</option><option value="10-b24">[Lớp 10 • Bài 24] Hoán vị, chỉnh hợp và tổ hợp</option><option value="10-b25">[Lớp 10 • Bài 25] Nhị thức Newton</option><option value="10-c8-rev">[Lớp 10 • Ôn tập C8] Bài tập cuối chương VIII</option><option value="10-b26">[Lớp 10 • Bài 26] Biến cố và định nghĩa cổ điển của xác suất</option><option value="10-b27">[Lớp 10 • Bài 27] Thực hành tính xác suất theo định nghĩa cổ điển</option><option value="10-ck2-rev">[Lớp 10 • Cuối năm] Bài tập cuối chương IX &amp; Kiểm tra Cuối năm Toán 10</option><option value="10-cd-b1">[Lớp 10 • CĐ10 - Bài 1] Hệ phương trình bậc nhất ba ẩn và ứng dụng giải bài toán thực tế</option><option value="10-cd-b2">[Lớp 10 • CĐ10 - Bài 2] Phương pháp quy nạp toán học và Nhị thức Newton tổng quát</option><option value="10-cd-b3">[Lớp 10 • CĐ10 - Bài 3] Ba đường Conic chuyên sâu (Tâm sai, Đường chuẩn, Bán kính qua tiêu)</option>
+                            </select>
+                        </div>
+                        <div class="lg:col-span-3">
+                            <label class="block text-[10px] font-extrabold text-slate-500 uppercase mb-1">4. Đề kiểm tra cụ thể</label>
+                            <select onchange="window.TRITHUC.setAdminResultFilter(this.value)" class="w-full px-2.5 py-2 rounded-xl border border-slate-300 bg-slate-50 font-bold text-slate-800 outline-none focus:border-blue-600">
+                                <option value="all" selected="">📝 Tất cả đề trong bộ lọc (241 đề)</option>
+                                <option value="exam_custom_1795313395246">[TT12-04] Đề Thi Thử Tốt Nghiệp THPT 2026 – Môn Toán 12 – Đề số 04 (Tổng hợp đủ 6 Chương Toán 12 • Chuẩn 22 Câu) (1 lượt)</option><option value="exam_v96_multi_1795278645512_1">[001-1] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 12 — Đề số 1</option><option value="exam_v96_multi_1795278645512_2">[001-2] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 12 — Đề số 2</option><option value="exam_v96_multi_1795278645512_3">[001-3] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 12 — Đề số 3</option><option value="exam_v96_multi_1795278645512_4">[001-4] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 12 — Đề số 4</option><option value="exam_v96_multi_1795278645512_5">[001-5] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 12 — Đề số 5</option><option value="exam_v96_multi_1795278645512_6">[001-6] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 12 — Đề số 6</option><option value="exam_v96_multi_1795278645512_7">[001-7] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 12 — Đề số 7</option><option value="exam_v96_multi_1795278645512_8">[001-8] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 12 — Đề số 8</option><option value="exam_v96_multi_1795278645512_9">[001-9] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 12 — Đề số 9</option><option value="exam_v96_multi_1795278645512_10">[001-10] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 12 — Đề số 10</option><option value="exam_v96_multi_1795278645512_11">[001-11] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 12 — Đề số 11</option><option value="exam_v96_multi_1795278645512_12">[001-12] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 12 — Đề số 12</option><option value="exam_v96_multi_1795278645512_13">[001-13] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 12 — Đề số 13</option><option value="exam_v96_multi_1795278645512_14">[001-14] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 12 — Đề số 14</option><option value="exam_v96_multi_1795278645512_15">[001-15] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 12 — Đề số 15 (2 lượt)</option><option value="exam_v96_multi_1795278450012_1">[001-1] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 11 — Đề số 1</option><option value="exam_v96_multi_1795278450012_2">[001-2] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 11 — Đề số 2</option><option value="exam_v96_multi_1795278450012_3">[001-3] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 11 — Đề số 3</option><option value="exam_v96_multi_1795278450012_4">[001-4] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 11 — Đề số 4</option><option value="exam_v96_multi_1795278450012_5">[001-5] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 11 — Đề số 5</option><option value="exam_v96_multi_1795278450012_6">[001-6] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 11 — Đề số 6</option><option value="exam_v96_multi_1795278450012_7">[001-7] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 11 — Đề số 7</option><option value="exam_v96_multi_1795278450012_8">[001-8] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 11 — Đề số 8</option><option value="exam_v96_multi_1795278450012_9">[001-9] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 11 — Đề số 9</option><option value="exam_v96_multi_1795278450012_10">[001-10] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 11 — Đề số 10</option><option value="exam_v96_multi_1795278450012_11">[001-11] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 11 — Đề số 11</option><option value="exam_v96_multi_1795278450012_12">[001-12] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 11 — Đề số 12</option><option value="exam_v96_multi_1795278450012_13">[001-13] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 11 — Đề số 13</option><option value="exam_v96_multi_1795278450012_14">[001-14] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 11 — Đề số 14</option><option value="exam_v96_multi_1795278450012_15">[001-15] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 11 — Đề số 15</option><option value="exam_v96_multi_1795277585999_1">[001-1] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 10 — Đề số 1 (1 lượt)</option><option value="exam_v96_multi_1795277585999_2">[001-2] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 10 — Đề số 2 (1 lượt)</option><option value="exam_v96_multi_1795277585999_3">[001-3] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 10 — Đề số 3</option><option value="exam_v96_multi_1795277585999_4">[001-4] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 10 — Đề số 4</option><option value="exam_v96_multi_1795277585999_5">[001-5] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 10 — Đề số 5</option><option value="exam_v96_multi_1795277585999_6">[001-6] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 10 — Đề số 6</option><option value="exam_v96_multi_1795277585999_7">[001-7] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 10 — Đề số 7</option><option value="exam_v96_multi_1795277585999_8">[001-8] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 10 — Đề số 8</option><option value="exam_v96_multi_1795277585999_9">[001-9] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 10 — Đề số 9</option><option value="exam_v96_multi_1795277585999_10">[001-10] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 10 — Đề số 10</option><option value="exam_v96_multi_1795277585999_11">[001-11] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 10 — Đề số 11</option><option value="exam_v96_multi_1795277585999_12">[001-12] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 10 — Đề số 12</option><option value="exam_v96_multi_1795277585999_13">[001-13] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 10 — Đề số 13</option><option value="exam_v96_multi_1795277585999_14">[001-14] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 10 — Đề số 14</option><option value="exam_v96_multi_1795277585999_15">[001-15] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 10 — Đề số 15</option><option value="exam_custom_1795229555315">[12CK1TEST-D4] Cuối kỳ I: Ôn tập &amp; Kiểm tra Cuối học kỳ I – Đề số 4 (Chuẩn Cấu Trúc 22 Câu)</option><option value="exam_custom_1795010290734">[TT12-03] Đề Thi Thử Tốt Nghiệp THPT 2026 – Môn Toán 12 – Đề số 03 (Tổng hợp đủ 6 Chương Toán 12 • Chuẩn 22 Câu)</option><option value="exam_custom_1795005211068">[KS11-01] Đề Khảo Sát Chất Lượng Cả Năm Toán 11 – Đề số 01 (Tổng hợp đủ 9 Chương Toán 11 • Chuẩn 22 Câu)</option><option value="exam_custom_1795004234614">[TT12-02] Đề Thi Thử Tốt Nghiệp THPT 2026 – Môn Toán 12 – Đề số 02 (Tổng hợp đủ 6 Chương Toán 12 • Chuẩn 22 Câu)</option><option value="exam_12_b1_d1">[12B1-NB] Bài 1: Tính đơn điệu và cực trị của hàm số – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)</option><option value="exam_12_b1_d2">[12B1-TH] Bài 1: Tính đơn điệu và cực trị của hàm số – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)</option><option value="exam_12_b2_d1">[12B2-NB] Bài 2: Giá trị lớn nhất và giá trị nhỏ nhất của hàm số – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)</option><option value="exam_12_b2_d2">[12B2-TH] Bài 2: Giá trị lớn nhất và giá trị nhỏ nhất của hàm số – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)</option><option value="exam_12_b3_d1">[12B3-NB] Bài 3: Đường tiệm cận của đồ thị hàm số – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)</option><option value="exam_12_b3_d2">[12B3-TH] Bài 3: Đường tiệm cận của đồ thị hàm số – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)</option><option value="exam_12_b4_d1">[12B4-NB] Bài 4: Khảo sát sự biến thiên và vẽ đồ thị của hàm số – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)</option><option value="exam_12_b4_d2">[12B4-TH] Bài 4: Khảo sát sự biến thiên và vẽ đồ thị của hàm số – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)</option><option value="exam_12_b5_d1">[12B5-NB] Bài 5: Ứng dụng đạo hàm để giải quyết bài toán thực tiễn – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)</option><option value="exam_12_b5_d2">[12B5-TH] Bài 5: Ứng dụng đạo hàm để giải quyết bài toán thực tiễn – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)</option><option value="exam_12_c1_ot1">[12C1-OT1] Ôn tập cuối Chương I: Đạo hàm &amp; Khảo sát hàm số – Đề số 1 (Cơ bản • 22 câu chuẩn Bộ GD&amp;ĐT)</option><option value="exam_nk_121">[TT12-121] Đề Thi Thử Tốt Nghiệp THPT 2026 – Đề số 01 (THCS &amp; THPT Nguyễn Khuyến – TP.HCM • Mã 121)</option><option value="exam_lg_1209">[12C1-VD] Bài tập cuối Chương I – Đề số 3 (Mức Vận dụng • THPT Lạng Giang Số 1 – Mã 1209 • 22 câu)</option><option value="exam_12_c1_rev_d1">[12C1-NB] Bài tập cuối Chương I – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)</option><option value="exam_12_c1_rev_d2">[12C1-NC] Ôn tập cuối Chương I: Ứng dụng đạo hàm khảo sát hàm số – Đề số 2 (Mức Nâng cao • 22 câu)</option><option value="exam_12_b1_d3">[12B1-VD] Bài 1: Tính đơn điệu và cực trị của hàm số – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)</option><option value="exam_12_b2_d3">[12B2-VD] Bài 2: Giá trị lớn nhất và giá trị nhỏ nhất của hàm số – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)</option><option value="exam_12_b3_d3">[12B3-VD] Bài 3: Đường tiệm cận của đồ thị hàm số – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)</option><option value="exam_12_b4_d3">[12B4-VD] Bài 4: Khảo sát sự biến thiên và vẽ đồ thị của hàm số – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)</option><option value="exam_12_b5_d3">[12B5-VD] Bài 5: Ứng dụng đạo hàm để giải quyết bài toán thực tiễn – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)</option><option value="exam_12_b6_d1">[12B6-NB] Bài 6: Vectơ trong không gian – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)</option><option value="exam_12_b6_d2">[12B6-TH] Bài 6: Vectơ trong không gian – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)</option><option value="exam_12_b6_d3">[12B6-VD] Bài 6: Vectơ trong không gian – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)</option><option value="exam_12_b7_d1">[12B7-NB] Bài 7: Hệ trục tọa độ trong không gian – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)</option><option value="exam_12_b7_d2">[12B7-TH] Bài 7: Hệ trục tọa độ trong không gian – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)</option><option value="exam_12_b7_d3">[12B7-VD] Bài 7: Hệ trục tọa độ trong không gian – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)</option><option value="exam_12_b8_d1">[12B8-NB] Bài 8: Biểu thức tọa độ của các phép toán vectơ – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)</option><option value="exam_12_b8_d2">[12B8-TH] Bài 8: Biểu thức tọa độ của các phép toán vectơ – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)</option><option value="exam_12_b8_d3">[12B8-VD] Bài 8: Biểu thức tọa độ của các phép toán vectơ – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)</option><option value="exam_12_c2_rev_d1">[12C2-NB] Bài tập cuối Chương II: Vectơ &amp; Hệ trục tọa độ Oxyz – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)</option><option value="exam_12_c2_rev_d2">[12C2-TH] Bài tập cuối Chương II: Vectơ &amp; Hệ trục tọa độ Oxyz – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)</option><option value="exam_12_c2_rev_d3">[12C2-VD] Bài tập cuối Chương II: Vectơ &amp; Hệ trục tọa độ Oxyz – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)</option><option value="exam_12_b9_d1">[12B9-NB] Bài 9: Khoảng biến thiên và khoảng tứ phân vị – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)</option><option value="exam_12_b9_d2">[12B9-TH] Bài 9: Khoảng biến thiên và khoảng tứ phân vị – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)</option><option value="exam_12_b9_d3">[12B9-VD] Bài 9: Khoảng biến thiên và khoảng tứ phân vị – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)</option><option value="exam_12_b10_d1">[12B10-NB] Bài 10: Phương sai và độ lệch chuẩn – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)</option><option value="exam_12_b10_d2">[12B10-TH] Bài 10: Phương sai và độ lệch chuẩn – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)</option><option value="exam_12_b10_d3">[12B10-VD] Bài 10: Phương sai và độ lệch chuẩn – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)</option><option value="exam_12_c3_rev_d1">[12C3-NB] Bài tập cuối Chương III: Các số đặc trưng đo độ phân tán – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)</option><option value="exam_12_c3_rev_d2">[12C3-TH] Bài tập cuối Chương III: Các số đặc trưng đo độ phân tán – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)</option><option value="exam_12_c3_rev_d3">[12C3-VD] Bài tập cuối Chương III: Các số đặc trưng đo độ phân tán – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)</option><option value="exam_12_b11_d1">[12B11-NB] Bài 11: Nguyên hàm – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)</option><option value="exam_12_b11_d2">[12B11-TH] Bài 11: Nguyên hàm – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)</option><option value="exam_12_b11_d3">[12B11-VD] Bài 11: Nguyên hàm – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)</option><option value="exam_12_b12_d1">[12B12-NB] Bài 12: Tích phân – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)</option><option value="exam_12_b12_d2">[12B12-TH] Bài 12: Tích phân – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)</option><option value="exam_12_b12_d3">[12B12-VD] Bài 12: Tích phân – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)</option><option value="exam_12_b13_d1">[12B13-NB] Bài 13: Ứng dụng hình học của tích phân – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)</option><option value="exam_12_b13_d2">[12B13-TH] Bài 13: Ứng dụng hình học của tích phân – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)</option><option value="exam_12_b13_d3">[12B13-VD] Bài 13: Ứng dụng hình học của tích phân – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)</option><option value="exam_12_c4_rev_d1">[12C4-NB] Bài tập cuối Chương IV: Nguyên hàm và Tích phân – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)</option><option value="exam_12_c4_rev_d2">[12C4-TH] Bài tập cuối Chương IV: Nguyên hàm và Tích phân – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)</option><option value="exam_12_c4_rev_d3">[12C4-VD] Bài tập cuối Chương IV: Nguyên hàm và Tích phân – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)</option><option value="exam_12_b14_d1">[12B14-NB] Bài 14: Phương trình mặt phẳng – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)</option><option value="exam_12_b14_d2">[12B14-TH] Bài 14: Phương trình mặt phẳng – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)</option><option value="exam_12_b14_d3">[12B14-VD] Bài 14: Phương trình mặt phẳng – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)</option><option value="exam_12_b15_d1">[12B15-NB] Bài 15: Phương trình đường thẳng trong không gian – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)</option><option value="exam_12_b15_d2">[12B15-TH] Bài 15: Phương trình đường thẳng trong không gian – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)</option><option value="exam_12_b15_d3">[12B15-VD] Bài 15: Phương trình đường thẳng trong không gian – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)</option><option value="exam_12_b16_d1">[12B16-NB] Bài 16: Công thức tính góc trong không gian – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)</option><option value="exam_12_b16_d2">[12B16-TH] Bài 16: Công thức tính góc trong không gian – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)</option><option value="exam_12_b16_d3">[12B16-VD] Bài 16: Công thức tính góc trong không gian – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)</option><option value="exam_12_b17_d1">[12B17-NB] Bài 17: Phương trình mặt cầu – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)</option><option value="exam_12_b17_d2">[12B17-TH] Bài 17: Phương trình mặt cầu – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)</option><option value="exam_12_b17_d3">[12B17-VD] Bài 17: Phương trình mặt cầu – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)</option><option value="exam_12_c5_rev_d1">[12C5-NB] Bài tập cuối Chương V: Phương pháp tọa độ trong không gian Oxyz – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)</option><option value="exam_12_c5_rev_d2">[12C5-TH] Bài tập cuối Chương V: Phương pháp tọa độ trong không gian Oxyz – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)</option><option value="exam_12_c5_rev_d3">[12C5-VD] Bài tập cuối Chương V: Phương pháp tọa độ trong không gian Oxyz – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)</option><option value="exam_12_b18_d1">[12B18-NB] Bài 18: Xác suất có điều kiện – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)</option><option value="exam_12_b18_d2">[12B18-TH] Bài 18: Xác suất có điều kiện – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)</option><option value="exam_12_b18_d3">[12B18-VD] Bài 18: Xác suất có điều kiện – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)</option><option value="exam_12_b19_d1">[12B19-NB] Bài 19: Công thức xác suất toàn phần và công thức Bayes – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)</option><option value="exam_12_b19_d2">[12B19-TH] Bài 19: Công thức xác suất toàn phần và công thức Bayes – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)</option><option value="exam_12_b19_d3">[12B19-VD] Bài 19: Công thức xác suất toàn phần và công thức Bayes – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)</option><option value="exam_12_c6_rev_d1">[12C6-NB] Bài tập cuối Chương VI: Xác suất có điều kiện &amp; Công thức Bayes – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)</option><option value="exam_12_c6_rev_d2">[12C6-TH] Bài tập cuối Chương VI: Xác suất có điều kiện &amp; Công thức Bayes – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)</option><option value="exam_12_c6_rev_d3">[12C6-VD] Bài tập cuối Chương VI: Xác suất có điều kiện &amp; Công thức Bayes – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)</option><option value="exam_11_b1_d1">[11B1-NB] Bài 1: Giá trị lượng giác của góc lượng giác – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)</option><option value="exam_11_b1_d2">[11B1-TH] Bài 1: Giá trị lượng giác của góc lượng giác – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)</option><option value="exam_11_b1_d3">[11B1-VD] Bài 1: Giá trị lượng giác của góc lượng giác – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)</option><option value="exam_11_b2_d1">[11B2-NB] Bài 2: Công thức lượng giác – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)</option><option value="exam_11_b2_d2">[11B2-TH] Bài 2: Công thức lượng giác – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)</option><option value="exam_11_b2_d3">[11B2-VD] Bài 2: Công thức lượng giác – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)</option><option value="exam_11_b3_d1">[11B3-NB] Bài 3: Hàm số lượng giác – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)</option><option value="exam_11_b3_d2">[11B3-TH] Bài 3: Hàm số lượng giác – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)</option><option value="exam_11_b3_d3">[11B3-VD] Bài 3: Hàm số lượng giác – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)</option><option value="exam_11_b4_d1">[11B4-NB] Bài 4: Phương trình lượng giác cơ bản – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)</option><option value="exam_11_b4_d2">[11B4-TH] Bài 4: Phương trình lượng giác cơ bản – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)</option><option value="exam_11_b4_d3">[11B4-VD] Bài 4: Phương trình lượng giác cơ bản – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)</option><option value="exam_11_c1_rev_d1">[11C1-NB] Bài tập cuối Chương I: Hàm số lượng giác &amp; Phương trình lượng giác – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)</option><option value="exam_11_c1_rev_d2">[11C1-TH] Bài tập cuối Chương I: Hàm số lượng giác &amp; Phương trình lượng giác – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)</option><option value="exam_11_c1_rev_d3">[11C1-VD] Bài tập cuối Chương I: Hàm số lượng giác &amp; Phương trình lượng giác – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)</option><option value="exam_11_b5_d1">[11B5-NB] Bài 5: Dãy số – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)</option><option value="exam_11_b5_d2">[11B5-TH] Bài 5: Dãy số – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)</option><option value="exam_11_b5_d3">[11B5-VD] Bài 5: Dãy số – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)</option><option value="exam_11_b6_d1">[11B6-NB] Bài 6: Cấp số cộng – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)</option><option value="exam_11_b6_d2">[11B6-TH] Bài 6: Cấp số cộng – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)</option><option value="exam_11_b6_d3">[11B6-VD] Bài 6: Cấp số cộng – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)</option><option value="exam_11_b7_d1">[11B7-NB] Bài 7: Cấp số nhân – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)</option><option value="exam_11_b7_d2">[11B7-TH] Bài 7: Cấp số nhân – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)</option><option value="exam_11_b7_d3">[11B7-VD] Bài 7: Cấp số nhân – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)</option><option value="exam_11_c2_rev_d1">[11C2-NB] Bài tập cuối Chương II: Dãy số, Cấp số cộng &amp; Cấp số nhân – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)</option><option value="exam_11_c2_rev_d2">[11C2-TH] Bài tập cuối Chương II: Dãy số, Cấp số cộng &amp; Cấp số nhân – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)</option><option value="exam_11_c2_rev_d3">[11C2-VD] Bài tập cuối Chương II: Dãy số, Cấp số cộng &amp; Cấp số nhân – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)</option><option value="exam_11_b8_d1">[11B8-NB] Bài 8: Mẫu số liệu ghép nhóm – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)</option><option value="exam_11_b8_d2">[11B8-TH] Bài 8: Mẫu số liệu ghép nhóm – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)</option><option value="exam_11_b8_d3">[11B8-VD] Bài 8: Mẫu số liệu ghép nhóm – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)</option><option value="exam_11_b9_d1">[11B9-NB] Bài 9: Các số đặc trưng đo xu thế trung tâm – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)</option><option value="exam_11_b9_d2">[11B9-TH] Bài 9: Các số đặc trưng đo xu thế trung tâm – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)</option><option value="exam_11_b9_d3">[11B9-VD] Bài 9: Các số đặc trưng đo xu thế trung tâm – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)</option><option value="exam_11_c3_rev_d1">[11C3-NB] Bài tập cuối Chương III: Mẫu số liệu ghép nhóm – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)</option><option value="exam_11_c3_rev_d2">[11C3-TH] Bài tập cuối Chương III: Mẫu số liệu ghép nhóm – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)</option><option value="exam_11_c3_rev_d3">[11C3-VD] Bài tập cuối Chương III: Mẫu số liệu ghép nhóm – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)</option><option value="exam_11_b10_d1">[11B10-NB] Bài 10: Đường thẳng và mặt phẳng trong không gian – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)</option><option value="exam_11_b10_d2">[11B10-TH] Bài 10: Đường thẳng và mặt phẳng trong không gian – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)</option><option value="exam_11_b10_d3">[11B10-VD] Bài 10: Đường thẳng và mặt phẳng trong không gian – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)</option><option value="exam_11_b11_d1">[11B11-NB] Bài 11: Hai đường thẳng song song – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)</option><option value="exam_11_b11_d2">[11B11-TH] Bài 11: Hai đường thẳng song song – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)</option><option value="exam_11_b11_d3">[11B11-VD] Bài 11: Hai đường thẳng song song – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)</option><option value="exam_11_b12_d1">[11B12-NB] Bài 12: Đường thẳng song song với mặt phẳng – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)</option><option value="exam_11_b12_d2">[11B12-TH] Bài 12: Đường thẳng song song với mặt phẳng – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)</option><option value="exam_11_b12_d3">[11B12-VD] Bài 12: Đường thẳng song song với mặt phẳng – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)</option><option value="exam_11_b13_d1">[11B13-NB] Bài 13: Hai mặt phẳng song song – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)</option><option value="exam_11_b13_d2">[11B13-TH] Bài 13: Hai mặt phẳng song song – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)</option><option value="exam_11_b13_d3">[11B13-VD] Bài 13: Hai mặt phẳng song song – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)</option><option value="exam_11_b14_d1">[11B14-NB] Bài 14: Phép chiếu song song – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)</option><option value="exam_11_b14_d2">[11B14-TH] Bài 14: Phép chiếu song song – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)</option><option value="exam_11_b14_d3">[11B14-VD] Bài 14: Phép chiếu song song – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)</option><option value="exam_11_c4_rev_d1">[11C4-NB] Bài tập cuối Chương IV: Quan hệ song song trong không gian – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)</option><option value="exam_11_c4_rev_d2">[11C4-TH] Bài tập cuối Chương IV: Quan hệ song song trong không gian – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)</option><option value="exam_11_c4_rev_d3">[11C4-VD] Bài tập cuối Chương IV: Quan hệ song song trong không gian – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)</option><option value="exam_11_b15_d1">[11B15-NB] Bài 15: Giới hạn của dãy số – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)</option><option value="exam_11_b15_d2">[11B15-TH] Bài 15: Giới hạn của dãy số – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)</option><option value="exam_11_b15_d3">[11B15-VD] Bài 15: Giới hạn của dãy số – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)</option><option value="exam_11_b16_d1">[11B16-NB] Bài 16: Giới hạn của hàm số – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)</option><option value="exam_11_b16_d2">[11B16-TH] Bài 16: Giới hạn của hàm số – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)</option><option value="exam_11_b16_d3">[11B16-VD] Bài 16: Giới hạn của hàm số – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)</option><option value="exam_11_b17_d1">[11B17-NB] Bài 17: Hàm số liên tục – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)</option><option value="exam_11_b17_d2">[11B17-TH] Bài 17: Hàm số liên tục – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)</option><option value="exam_11_b17_d3">[11B17-VD] Bài 17: Hàm số liên tục – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)</option><option value="exam_11_ck1_rev_d1">[11C5-NB] Bài tập cuối Chương V &amp; Kiểm tra Cuối kỳ I – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)</option><option value="exam_11_ck1_rev_d2">[11C5-TH] Bài tập cuối Chương V &amp; Kiểm tra Cuối kỳ I – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)</option><option value="exam_11_ck1_rev_d3">[11C5-VD] Bài tập cuối Chương V &amp; Kiểm tra Cuối kỳ I – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)</option><option value="exam_12_c3_d1">[12C3-NB] Chương III: Các số đặc trưng đo độ phân tán của mẫu số liệu ghép nhóm – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)</option><option value="exam_12_c3_d2">[12C3-TH] Chương III: Các số đặc trưng đo độ phân tán của mẫu số liệu ghép nhóm – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)</option><option value="exam_12_c3_d3">[12C3-VD] Chương III: Các số đặc trưng đo độ phân tán của mẫu số liệu ghép nhóm – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)</option><option value="exam_12_c4_d1">[12C4-NB] Chương IV: Nguyên hàm và Tích phân – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)</option><option value="exam_12_c4_d2">[12C4-TH] Chương IV: Nguyên hàm và Tích phân – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)</option><option value="exam_12_c4_d3">[12C4-VD] Chương IV: Nguyên hàm và Tích phân – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)</option><option value="exam_12_c6_d1">[12C6-NB] Chương VI: Xác suất có điều kiện, Công thức Bayes &amp; Chuyên đề Toán 12 – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)</option><option value="exam_12_c6_d2">[12C6-TH] Chương VI: Xác suất có điều kiện, Công thức Bayes &amp; Chuyên đề Toán 12 – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)</option><option value="exam_12_c6_d3">[12C6-VD] Chương VI: Xác suất có điều kiện, Công thức Bayes &amp; Chuyên đề Toán 12 – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)</option><option value="exam_11_c6_d1">[11C6-NB] Chương VI Toán 11: Hàm số mũ và Hàm số lôgarit – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)</option><option value="exam_11_c6_d2">[11C6-TH] Chương VI Toán 11: Hàm số mũ và Hàm số lôgarit – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)</option><option value="exam_11_c6_d3">[11C6-VD] Chương VI Toán 11: Hàm số mũ và Hàm số lôgarit – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)</option><option value="exam_11_c7_d1">[11C7-NB] Chương VII Toán 11: Quan hệ vuông góc, Khoảng cách &amp; Thể tích – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)</option><option value="exam_11_c7_d2">[11C7-TH] Chương VII Toán 11: Quan hệ vuông góc, Khoảng cách &amp; Thể tích – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)</option><option value="exam_11_c7_d3">[11C7-VD] Chương VII Toán 11: Quan hệ vuông góc, Khoảng cách &amp; Thể tích – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)</option><option value="exam_11_c8_d1">[11C8-NB] Chương VIII Toán 11: Các quy tắc tính xác suất – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)</option><option value="exam_11_c8_d2">[11C8-TH] Chương VIII Toán 11: Các quy tắc tính xác suất – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)</option><option value="exam_11_c8_d3">[11C8-VD] Chương VIII Toán 11: Các quy tắc tính xác suất – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)</option><option value="exam_11_c9_d1">[11C9-NB] Chương IX Toán 11: Đạo hàm &amp; Kiểm tra Cuối năm Toán 11 – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)</option><option value="exam_11_c9_d2">[11C9-TH] Chương IX Toán 11: Đạo hàm &amp; Kiểm tra Cuối năm Toán 11 – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)</option><option value="exam_11_c9_d3">[11C9-VD] Chương IX Toán 11: Đạo hàm &amp; Kiểm tra Cuối năm Toán 11 – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)</option><option value="exam_10_c1_d1">[10C1-NB] Chương I Toán 10: Mệnh đề và Tập hợp – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)</option><option value="exam_10_c1_d2">[10C1-TH] Chương I Toán 10: Mệnh đề và Tập hợp – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)</option><option value="exam_10_c1_d3">[10C1-VD] Chương I Toán 10: Mệnh đề và Tập hợp – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)</option><option value="exam_10_c2_d1">[10C2-NB] Chương II Toán 10: Bất phương trình &amp; Hệ BPT bậc nhất hai ẩn – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)</option><option value="exam_10_c2_d2">[10C2-TH] Chương II Toán 10: Bất phương trình &amp; Hệ BPT bậc nhất hai ẩn – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)</option><option value="exam_10_c2_d3">[10C2-VD] Chương II Toán 10: Bất phương trình &amp; Hệ BPT bậc nhất hai ẩn – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)</option><option value="exam_10_c3_d1">[10C3-NB] Chương III Toán 10: Hệ thức lượng trong tam giác – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)</option><option value="exam_10_c3_d2">[10C3-TH] Chương III Toán 10: Hệ thức lượng trong tam giác – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)</option><option value="exam_10_c3_d3">[10C3-VD] Chương III Toán 10: Hệ thức lượng trong tam giác – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)</option><option value="exam_10_c4_d1">[10C4-NB] Chương IV Toán 10: Vectơ trong mặt phẳng – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)</option><option value="exam_10_c4_d2">[10C4-TH] Chương IV Toán 10: Vectơ trong mặt phẳng – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)</option><option value="exam_10_c4_d3">[10C4-VD] Chương IV Toán 10: Vectơ trong mặt phẳng – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)</option><option value="exam_10_c5_d1">[10C5-NB] Chương V Toán 10: Mẫu số liệu không ghép nhóm &amp; Cuối kỳ I – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)</option><option value="exam_10_c5_d2">[10C5-TH] Chương V Toán 10: Mẫu số liệu không ghép nhóm &amp; Cuối kỳ I – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)</option><option value="exam_10_c5_d3">[10C5-VD] Chương V Toán 10: Mẫu số liệu không ghép nhóm &amp; Cuối kỳ I – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)</option><option value="exam_10_c6_d1">[10C6-NB] Chương VI Toán 10: Hàm số, Đồ thị và Ứng dụng – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)</option><option value="exam_10_c6_d2">[10C6-TH] Chương VI Toán 10: Hàm số, Đồ thị và Ứng dụng – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)</option><option value="exam_10_c6_d3">[10C6-VD] Chương VI Toán 10: Hàm số, Đồ thị và Ứng dụng – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)</option><option value="exam_10_c7_d1">[10C7-NB] Chương VII Toán 10: Phương pháp tọa độ trong mặt phẳng Oxy – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)</option><option value="exam_10_c7_d2">[10C7-TH] Chương VII Toán 10: Phương pháp tọa độ trong mặt phẳng Oxy – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)</option><option value="exam_10_c7_d3">[10C7-VD] Chương VII Toán 10: Phương pháp tọa độ trong mặt phẳng Oxy – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)</option><option value="exam_10_c8_d1">[10C8-NB] Chương VIII Toán 10: Đại số tổ hợp &amp; Nhị thức Newton – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)</option><option value="exam_10_c8_d2">[10C8-TH] Chương VIII Toán 10: Đại số tổ hợp &amp; Nhị thức Newton – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)</option><option value="exam_10_c8_d3">[10C8-VD] Chương VIII Toán 10: Đại số tổ hợp &amp; Nhị thức Newton – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)</option><option value="exam_10_c9_d1">[10C9-NB] Chương IX Toán 10: Tính xác suất cổ điển &amp; Kiểm tra Cuối năm Toán 10 – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)</option><option value="exam_10_c9_d2">[10C9-TH] Chương IX Toán 10: Tính xác suất cổ điển &amp; Kiểm tra Cuối năm Toán 10 – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)</option><option value="exam_10_c9_d3">[10C9-VD] Chương IX Toán 10: Tính xác suất cổ điển &amp; Kiểm tra Cuối năm Toán 10 – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)</option>
+                            </select>
+                        </div>
+                        <div class="lg:col-span-2">
+                            <label class="block text-[10px] font-extrabold text-slate-500 uppercase mb-1">5. Tìm HS / Lớp</label>
+                            <div class="relative">
+                                <input id="adminResultSearchInpV45" type="text" value="" oninput="window.TRITHUC.setAdminResultStudentSearchV45(this.value)" placeholder="Tên HS, lớp, TK..." class="w-full px-2.5 py-2 pr-7 rounded-xl border border-slate-300 bg-white font-bold text-slate-800 outline-none focus:border-blue-600" style="">
+                                
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-100">
+                        <div class="inline-flex bg-slate-100 p-1 rounded-xl gap-1 flex-wrap">
+                            <button type="button" onclick="window.TRITHUC.setAdminResultSubTabV45('overview')" class="px-3.5 py-1.5 rounded-lg text-xs font-extrabold transition bg-blue-600 text-white shadow-2xs">
+                                📊 1. Phổ Điểm &amp; Thống Kê Theo Bài/Đề
+                            </button>
+                            <button type="button" onclick="window.TRITHUC.setAdminResultSubTabV45('compare')" class="px-3.5 py-1.5 rounded-lg text-xs font-extrabold transition text-slate-600 hover:text-slate-900">
+                                📈 2. Bảng So Sánh Học Sinh (1 HS × 4 đề)
+                            </button>
+                            <button type="button" onclick="window.TRITHUC.setAdminResultSubTabV45('attempts')" class="px-3.5 py-1.5 rounded-lg text-xs font-extrabold transition text-slate-600 hover:text-slate-900">
+                                📋 3. Chi Tiết Từng Lượt Nộp (5)
+                            </button>
+                        </div>
+                        
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2.5 text-center">
+                    <div class="bg-white p-3 rounded-2xl border border-slate-200">
+                        <div class="text-[10px] font-black text-slate-400 uppercase">Lượt nộp</div>
+                        <div class="text-lg font-black text-slate-900 mt-0.5">5</div>
+                    </div>
+                    <div class="bg-white p-3 rounded-2xl border border-slate-200">
+                        <div class="text-[10px] font-black text-slate-400 uppercase">Số HS làm</div>
+                        <div class="text-lg font-black text-indigo-700 mt-0.5">1</div>
+                    </div>
+                    <div class="bg-white p-3 rounded-2xl border border-slate-200">
+                        <div class="text-[10px] font-black text-slate-400 uppercase">Điểm TB / Trung vị</div>
+                        <div class="text-sm sm:text-base font-black text-blue-700 mt-1">2.15 / 0.60</div>
+                    </div>
+                    <div class="bg-white p-3 rounded-2xl border border-slate-200">
+                        <div class="text-[10px] font-black text-slate-400 uppercase">Cao nhất / Thấp nhất</div>
+                        <div class="text-sm sm:text-base font-black text-slate-800 mt-1">5.75 / 0.00</div>
+                    </div>
+                    <div class="bg-emerald-50 p-3 rounded-2xl border border-emerald-200">
+                        <div class="text-[10px] font-black text-emerald-800 uppercase">Giỏi (≥ 8.0)</div>
+                        <div class="text-lg font-black text-emerald-700 mt-0.5">0</div>
+                    </div>
+                    <div class="bg-blue-50 p-3 rounded-2xl border border-blue-200">
+                        <div class="text-[10px] font-black text-blue-800 uppercase">Khá (6.5–7.9)</div>
+                        <div class="text-lg font-black text-blue-700 mt-0.5">0</div>
+                    </div>
+                    <div class="bg-amber-50 p-3 rounded-2xl border border-amber-200">
+                        <div class="text-[10px] font-black text-amber-800 uppercase">TB (5.0–6.4)</div>
+                        <div class="text-lg font-black text-amber-700 mt-0.5">1 <span class="text-[10px]">(20.0% Đạt)</span></div>
+                    </div>
+                    <div class="bg-rose-50 p-3 rounded-2xl border border-rose-200">
+                        <div class="text-[10px] font-black text-rose-800 uppercase">Yếu (&lt; 5.0)</div>
+                        <div class="text-lg font-black text-rose-600 mt-0.5">4</div>
+                    </div>
+                </div>
+
+                
+                    <div class="bg-white rounded-3xl border border-slate-200 p-4 sm:p-5 shadow-xs space-y-3">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <h4 class="text-xs sm:text-sm font-black text-slate-900 uppercase m-0">📊 Biểu Đồ Phổ Điểm 10 Mức (Thang điểm 10)</h4>
+                            <span class="text-[11px] font-bold text-slate-500">Tổng mẫu phân tích: <b>5 lượt nộp</b> • Tỷ lệ Đạt (≥5.0): <b class="text-emerald-700">20.0%</b></span>
+                        </div>
+                        <div class="grid grid-cols-10 gap-1.5 sm:gap-2.5 items-end h-44 pt-6 px-2 border-b border-slate-200">
+                            
+                                <div class="flex flex-col items-center justify-end h-full gap-1">
+                                    <div class="text-[10px] font-black text-slate-800">3 (60%)</div>
+                                    <div class="w-full max-w-[44px] rounded-t-lg transition-all bg-red-500" style="height:100%;"></div>
+                                    <div class="text-[10.5px] font-extrabold text-slate-600 pt-1">&lt; 1</div>
+                                </div>
+                                <div class="flex flex-col items-center justify-end h-full gap-1">
+                                    <div class="text-[10px] font-black text-slate-300">0</div>
+                                    <div class="w-full max-w-[44px] rounded-t-lg transition-all bg-slate-100" style="height:2%;"></div>
+                                    <div class="text-[10.5px] font-extrabold text-slate-600 pt-1">1–2</div>
+                                </div>
+                                <div class="flex flex-col items-center justify-end h-full gap-1">
+                                    <div class="text-[10px] font-black text-slate-300">0</div>
+                                    <div class="w-full max-w-[44px] rounded-t-lg transition-all bg-slate-100" style="height:2%;"></div>
+                                    <div class="text-[10.5px] font-extrabold text-slate-600 pt-1">2–3</div>
+                                </div>
+                                <div class="flex flex-col items-center justify-end h-full gap-1">
+                                    <div class="text-[10px] font-black text-slate-300">0</div>
+                                    <div class="w-full max-w-[44px] rounded-t-lg transition-all bg-slate-100" style="height:2%;"></div>
+                                    <div class="text-[10.5px] font-extrabold text-slate-600 pt-1">3–4</div>
+                                </div>
+                                <div class="flex flex-col items-center justify-end h-full gap-1">
+                                    <div class="text-[10px] font-black text-slate-800">1 (20%)</div>
+                                    <div class="w-full max-w-[44px] rounded-t-lg transition-all bg-orange-400" style="height:33%;"></div>
+                                    <div class="text-[10.5px] font-extrabold text-slate-600 pt-1">4–5</div>
+                                </div>
+                                <div class="flex flex-col items-center justify-end h-full gap-1">
+                                    <div class="text-[10px] font-black text-slate-800">1 (20%)</div>
+                                    <div class="w-full max-w-[44px] rounded-t-lg transition-all bg-amber-400" style="height:33%;"></div>
+                                    <div class="text-[10.5px] font-extrabold text-slate-600 pt-1">5–6</div>
+                                </div>
+                                <div class="flex flex-col items-center justify-end h-full gap-1">
+                                    <div class="text-[10px] font-black text-slate-300">0</div>
+                                    <div class="w-full max-w-[44px] rounded-t-lg transition-all bg-slate-100" style="height:2%;"></div>
+                                    <div class="text-[10.5px] font-extrabold text-slate-600 pt-1">6–7</div>
+                                </div>
+                                <div class="flex flex-col items-center justify-end h-full gap-1">
+                                    <div class="text-[10px] font-black text-slate-300">0</div>
+                                    <div class="w-full max-w-[44px] rounded-t-lg transition-all bg-slate-100" style="height:2%;"></div>
+                                    <div class="text-[10.5px] font-extrabold text-slate-600 pt-1">7–8</div>
+                                </div>
+                                <div class="flex flex-col items-center justify-end h-full gap-1">
+                                    <div class="text-[10px] font-black text-slate-300">0</div>
+                                    <div class="w-full max-w-[44px] rounded-t-lg transition-all bg-slate-100" style="height:2%;"></div>
+                                    <div class="text-[10.5px] font-extrabold text-slate-600 pt-1">8–9</div>
+                                </div>
+                                <div class="flex flex-col items-center justify-end h-full gap-1">
+                                    <div class="text-[10px] font-black text-slate-300">0</div>
+                                    <div class="w-full max-w-[44px] rounded-t-lg transition-all bg-slate-100" style="height:2%;"></div>
+                                    <div class="text-[10.5px] font-extrabold text-slate-600 pt-1">9–10</div>
+                                </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-3xl border border-slate-200 shadow-xs overflow-hidden">
+                        <div class="px-4 sm:px-5 py-3.5 bg-slate-50 border-b border-slate-200 flex flex-wrap items-center justify-between gap-2">
+                            <h4 class="text-xs sm:text-sm font-black text-slate-900 uppercase m-0">📚 Tổng Hợp Kết Quả Liên Kết Theo Từng Bài Học &amp; Đề Thi (4 đề có dữ liệu)</h4>
+                            <span class="text-[11px] font-semibold text-slate-500">Bấm "🔎 Xem chi tiết" để lọc nhanh danh sách học sinh của đề đó</span>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse text-xs">
+                                <thead>
+                                    <tr class="bg-slate-50/70 border-b border-slate-200 text-slate-500 font-extrabold uppercase text-[10px]">
+                                        <th class="p-3">Bài học / Phân loại</th>
+                                        <th class="p-3">Đề kiểm tra</th>
+                                        <th class="p-3 text-center">Số HS / Lượt</th>
+                                        <th class="p-3 text-center">Điểm TB</th>
+                                        <th class="p-3 text-center">Cao nhất / Thấp nhất</th>
+                                        <th class="p-3 text-center">Tỷ lệ Đạt / Giỏi</th>
+                                        <th class="p-3 text-center">Cảnh báo AI/Tab</th>
+                                        <th class="p-3 text-right">Thao tác</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-100">
+                                    
+                                        <tr class="hover:bg-blue-50/30 transition">
+                                            <td class="p-3">
+                                                <div class="flex items-center gap-1.5 flex-wrap"><span class="px-2 py-0.5 rounded bg-blue-100 text-blue-800 font-extrabold text-[10px]">📚 Bài học</span><span class="font-bold text-slate-700">Cuối kỳ I: Ôn tập &amp; Kiểm tra Cuối học kỳ I</span></div>
+                                            </td>
+                                            <td class="p-3 font-extrabold text-slate-900">
+                                                <span class="font-mono-code text-blue-700 mr-1">[001-15]</span>Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 12 — Đề số 15
+                                            </td>
+                                            <td class="p-3 text-center font-bold text-slate-700">1 HS / 2 lượt</td>
+                                            <td class="p-3 text-center">
+                                                <span class="px-2.5 py-0.5 rounded-lg border font-black bg-rose-100 text-rose-800 border-rose-300">0.42</span>
+                                            </td>
+                                            <td class="p-3 text-center font-mono-code text-slate-700">0.60 / 0.25</td>
+                                            <td class="p-3 text-center font-bold">
+                                                <span class="text-emerald-700">0% Đạt</span> · <span class="text-blue-700">0% Giỏi</span>
+                                            </td>
+                                            <td class="p-3 text-center">
+                                                <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-100 text-rose-700">
+                                                    ⚠️ 1 lượt
+                                                </span>
+                                            </td>
+                                            <td class="p-3 text-right">
+                                                
+                                                    <button type="button" onclick="window.TRITHUC.focusSingleExamResultV45('exam_v96_multi_1795278645512_15')" class="px-2.5 py-1 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 font-extrabold text-[11px] transition">
+                                                        🔎 Xem chi tiết
+                                                    </button>
+                                                
+                                            </td>
+                                        </tr>
+                                        <tr class="hover:bg-blue-50/30 transition">
+                                            <td class="p-3">
+                                                <div class="flex items-center gap-1.5 flex-wrap"><span class="px-2 py-0.5 rounded bg-blue-100 text-blue-800 font-extrabold text-[10px]">📚 Bài học</span><span class="font-bold text-slate-700">Cuối kỳ I: Bài tập cuối chương V &amp; Kiểm tra Cuối kỳ I Toán 10</span></div>
+                                            </td>
+                                            <td class="p-3 font-extrabold text-slate-900">
+                                                <span class="font-mono-code text-blue-700 mr-1">[001-2]</span>Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 10 — Đề số 2
+                                            </td>
+                                            <td class="p-3 text-center font-bold text-slate-700">1 HS / 1 lượt</td>
+                                            <td class="p-3 text-center">
+                                                <span class="px-2.5 py-0.5 rounded-lg border font-black bg-amber-100 text-amber-900 border-amber-300">5.75</span>
+                                            </td>
+                                            <td class="p-3 text-center font-mono-code text-slate-700">5.75 / 5.75</td>
+                                            <td class="p-3 text-center font-bold">
+                                                <span class="text-emerald-700">100% Đạt</span> · <span class="text-blue-700">0% Giỏi</span>
+                                            </td>
+                                            <td class="p-3 text-center">
+                                                <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-100 text-rose-700">
+                                                    ⚠️ 1 lượt
+                                                </span>
+                                            </td>
+                                            <td class="p-3 text-right">
+                                                
+                                                    <button type="button" onclick="window.TRITHUC.focusSingleExamResultV45('exam_v96_multi_1795277585999_2')" class="px-2.5 py-1 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 font-extrabold text-[11px] transition">
+                                                        🔎 Xem chi tiết
+                                                    </button>
+                                                
+                                            </td>
+                                        </tr>
+                                        <tr class="hover:bg-blue-50/30 transition">
+                                            <td class="p-3">
+                                                <div class="flex items-center gap-1.5 flex-wrap"><span class="px-2 py-0.5 rounded bg-blue-100 text-blue-800 font-extrabold text-[10px]">📚 Bài học</span><span class="font-bold text-slate-700">Cuối kỳ I: Bài tập cuối chương V &amp; Kiểm tra Cuối kỳ I Toán 10</span></div>
+                                            </td>
+                                            <td class="p-3 font-extrabold text-slate-900">
+                                                <span class="font-mono-code text-blue-700 mr-1">[001-1]</span>Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 10 — Đề số 1
+                                            </td>
+                                            <td class="p-3 text-center font-bold text-slate-700">1 HS / 1 lượt</td>
+                                            <td class="p-3 text-center">
+                                                <span class="px-2.5 py-0.5 rounded-lg border font-black bg-rose-100 text-rose-800 border-rose-300">4.17</span>
+                                            </td>
+                                            <td class="p-3 text-center font-mono-code text-slate-700">4.17 / 4.17</td>
+                                            <td class="p-3 text-center font-bold">
+                                                <span class="text-emerald-700">0% Đạt</span> · <span class="text-blue-700">0% Giỏi</span>
+                                            </td>
+                                            <td class="p-3 text-center">
+                                                <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-700">
+                                                    🛡️ 0
+                                                </span>
+                                            </td>
+                                            <td class="p-3 text-right">
+                                                
+                                                    <button type="button" onclick="window.TRITHUC.focusSingleExamResultV45('exam_v96_multi_1795277585999_1')" class="px-2.5 py-1 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 font-extrabold text-[11px] transition">
+                                                        🔎 Xem chi tiết
+                                                    </button>
+                                                
+                                            </td>
+                                        </tr>
+                                        <tr class="hover:bg-blue-50/30 transition">
+                                            <td class="p-3">
+                                                <div class="flex items-center gap-1.5 flex-wrap"><span class="px-2 py-0.5 rounded bg-rose-100 text-rose-800 font-extrabold text-[10px]">🔥 Thi thử</span><span class="font-bold text-slate-700">Đề Thi Thử THPT (Toán 12)</span></div>
+                                            </td>
+                                            <td class="p-3 font-extrabold text-slate-900">
+                                                <span class="font-mono-code text-blue-700 mr-1">[TT12-04]</span>Đề Thi Thử Tốt Nghiệp THPT 2026 – Môn Toán 12 – Đề số 04 (Tổng hợp đủ 6 Chương Toán 12 • Chuẩn 22 Câu)
+                                            </td>
+                                            <td class="p-3 text-center font-bold text-slate-700">1 HS / 1 lượt</td>
+                                            <td class="p-3 text-center">
+                                                <span class="px-2.5 py-0.5 rounded-lg border font-black bg-rose-100 text-rose-800 border-rose-300">0.00</span>
+                                            </td>
+                                            <td class="p-3 text-center font-mono-code text-slate-700">0.00 / 0.00</td>
+                                            <td class="p-3 text-center font-bold">
+                                                <span class="text-emerald-700">0% Đạt</span> · <span class="text-blue-700">0% Giỏi</span>
+                                            </td>
+                                            <td class="p-3 text-center">
+                                                <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-700">
+                                                    🛡️ 0
+                                                </span>
+                                            </td>
+                                            <td class="p-3 text-right">
+                                                
+                                                    <button type="button" onclick="window.TRITHUC.focusSingleExamResultV45('exam_custom_1795313395246')" class="px-2.5 py-1 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 font-extrabold text-[11px] transition">
+                                                        🔎 Xem chi tiết
+                                                    </button>
+                                                
+                                            </td>
+                                        </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                
+            </div>
+                    </main>
+                </div>
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            </div>

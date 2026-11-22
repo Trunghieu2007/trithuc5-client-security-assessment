@@ -1,0 +1,1343 @@
+
+            <div class="v511-admin-shell">
+                <header class="v511-admin-topbar">
+                    <div class="max-w-[1680px] mx-auto flex items-center justify-between gap-2 flex-wrap">
+                        <div class="flex items-center gap-2 flex-wrap min-w-0">
+                            <button type="button" onclick="window.TRITHUC.toggleAdminHeaderCollapsedV44()" title="Thu gọn thanh điều hướng để mở rộng không gian làm việc" class="hidden lg:inline-flex v5-nav-btn-secondary px-2.5 py-1.5 text-xs items-center gap-1">
+                                <span>◧ Thu gọn</span>
+                            </button>
+                            <div class="w-7 h-7 rounded-lg bg-blue-700 text-white flex items-center justify-center font-black text-xs shrink-0">🎓</div>
+                            <span class="text-xs sm:text-sm font-extrabold text-slate-900 tracking-tight">QUẢN TRỊ GV</span>
+                            <span class="v5-version-pill">V5.1.4</span>
+                            <span class="hidden xl:inline text-xs font-semibold text-slate-500">› 🔐 Mã Hóa Kho Đề &amp; Bảo Mật (Mục 5)</span>
+                            <select onchange="window.TRITHUC.switchAdminTab(this.value)" aria-label="Chọn mục quản trị" class="lg:hidden px-2.5 py-1 rounded-lg bg-slate-100 border border-slate-200 text-slate-800 font-bold text-xs outline-none cursor-pointer">
+                                <option value="matrix_builder">🧭 1. Làm Đề &amp; Ma Trận (Từ Phần E)</option><option value="cv7991_matrix">📐 1B. Ma Trận CV 7991 &amp; Tự Sinh Đề</option><option value="sync_mock_to_e">🔍 2. Bóc Tách Dạng Mới → Phần E</option><option value="exams">📋 Kho Đề &amp; Bài Học (241)</option><option value="lessons">✏️ Quản Lý &amp; Sửa Bài Học</option><option value="users">👥 Tài Khoản &amp; Duyệt VIP (0)</option><option value="create">➕ Tạo / Nạp Đề (Chuẩn V9.6 PRO)</option><option value="results">📊 Phổ Điểm &amp; Excel (5)</option><option value="gsites" selected="">🔐 Mã Hóa Kho Đề &amp; Bảo Mật (Mục 5)</option>
+                            </select>
+                        </div>
+                        <div class="flex items-center gap-1.5 flex-wrap">
+                            <div class="v5-theme-switcher v5-theme-switcher-compact" role="radiogroup" aria-label="Chọn chế độ giao diện"><button type="button" role="radio" data-v5-theme-btn="light" aria-checked="false" tabindex="-1" title="Chế độ Sáng (Light)" onclick="window.TRITHUC_THEME.setMode('light')" onkeydown="window.TRITHUC_THEME.onKeyDown(event,'light')" class="v5-theme-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg></button><button type="button" role="radio" data-v5-theme-btn="dark" aria-checked="false" tabindex="-1" title="Chế độ Tối (Dark)" onclick="window.TRITHUC_THEME.setMode('dark')" onkeydown="window.TRITHUC_THEME.onKeyDown(event,'dark')" class="v5-theme-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg></button><button type="button" role="radio" data-v5-theme-btn="system" aria-checked="true" tabindex="0" title="Tự động theo hệ điều hành (System)" onclick="window.TRITHUC_THEME.setMode('system')" onkeydown="window.TRITHUC_THEME.onKeyDown(event,'system')" class="v5-theme-btn v5-theme-btn-active"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="14" x="2" y="3" rx="2"></rect><line x1="8" x2="16" y1="21" y2="21"></line><line x1="12" x2="12" y1="17" y2="21"></line></svg></button></div>
+                            <button type="button" onclick="window.TRITHUC.openVaultSecurityModal()" title="Mã hóa Kho đề thi &amp; Dữ liệu bài học" class="v5-nav-btn-secondary px-2.5 py-1.5 text-[11px] flex items-center gap-1">
+                                <span>🔐</span>
+                                <span class="hidden sm:inline">Khóa Admin</span>
+                            </button>
+                            <button type="button" onclick="window.TRITHUC.toggleHideAuthorInfo()" class="v5-nav-btn-secondary px-2.5 py-1.5 text-[11px] flex items-center gap-1">
+                                <span>👁️ Hiện tác giả</span>
+                            </button>
+                            <button type="button" onclick="window.TRITHUC.openShareVipLinkModal()" class="v5-nav-btn-secondary px-2.5 py-1.5 text-[11px] flex items-center gap-1">
+                                <span>🔗</span>
+                                <span class="hidden md:inline">Link ĐK VIP</span>
+                            </button>
+                            <button type="button" onclick="window.TRITHUC.goStudentHome()" class="v5-nav-btn-primary px-2.5 py-1.5 text-[11px] flex items-center gap-1">
+                                <span>👁️ Trang HS</span>
+                            </button>
+                            <button type="button" onclick="window.TRITHUC.logoutAdmin()" class="px-2.5 py-1.5 rounded-lg bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 text-[11px] font-bold transition">
+                                🔒 Thoát
+                            </button>
+                        </div>
+                    </div>
+                </header>
+
+                <!-- Thanh tab cuộn ngang cho Mobile / Tablet (< 1024px) -->
+                <div class="v511-admin-mobile-tabs">
+                    
+                        <button type="button" onclick="window.TRITHUC.switchAdminTab('matrix_builder')" class="v511-mobile-pill ">
+                            🧭 1. Làm Đề &amp; Ma Trận (Từ Phần E)
+                        </button>
+                    
+                        <button type="button" onclick="window.TRITHUC.switchAdminTab('cv7991_matrix')" class="v511-mobile-pill ">
+                            📐 1B. Ma Trận CV 7991 &amp; Tự Sinh Đề
+                        </button>
+                    
+                        <button type="button" onclick="window.TRITHUC.switchAdminTab('sync_mock_to_e')" class="v511-mobile-pill ">
+                            🔍 2. Bóc Tách Dạng Mới → Phần E
+                        </button>
+                    
+                        <button type="button" onclick="window.TRITHUC.switchAdminTab('exams')" class="v511-mobile-pill ">
+                            📋 Kho Đề &amp; Bài Học (241)
+                        </button>
+                    
+                        <button type="button" onclick="window.TRITHUC.switchAdminTab('lessons')" class="v511-mobile-pill ">
+                            ✏️ Quản Lý &amp; Sửa Bài Học
+                        </button>
+                    
+                        <button type="button" onclick="window.TRITHUC.switchAdminTab('users')" class="v511-mobile-pill ">
+                            👥 Tài Khoản &amp; Duyệt VIP (0)
+                        </button>
+                    
+                        <button type="button" onclick="window.TRITHUC.switchAdminTab('create')" class="v511-mobile-pill ">
+                            ➕ Tạo / Nạp Đề (Chuẩn V9.6 PRO)
+                        </button>
+                    
+                        <button type="button" onclick="window.TRITHUC.switchAdminTab('results')" class="v511-mobile-pill ">
+                            📊 Phổ Điểm &amp; Excel (5)
+                        </button>
+                    
+                        <button type="button" onclick="window.TRITHUC.switchAdminTab('gsites')" class="v511-mobile-pill v511-active">
+                            🔐 Mã Hóa Kho Đề &amp; Bảo Mật (Mục 5)
+                        </button>
+                    
+                </div>
+
+                <div class="v511-admin-body">
+                    <!-- Thanh Sidebar trái phân nhóm 3 cụm nghiệp vụ cho Desktop -->
+                    <aside class="v511-admin-sidebar custom-scrollbar " aria-label="Điều hướng Quản trị Giáo viên">
+                        
+                            <div class="space-y-1">
+                                <div class="v511-nav-group-label">Soạn Đề &amp; Ma Trận</div>
+                                
+                                    <button type="button" onclick="window.TRITHUC.switchAdminTab('matrix_builder')" class="v511-sidebar-item ">
+                                        <span class="flex items-center gap-2 min-w-0">
+                                            <span class="shrink-0">🧭</span>
+                                            <span class="truncate">1. Làm Đề &amp; Ma Trận (E)</span>
+                                        </span>
+                                        
+                                    </button>
+                                
+                                    <button type="button" onclick="window.TRITHUC.switchAdminTab('cv7991_matrix')" class="v511-sidebar-item ">
+                                        <span class="flex items-center gap-2 min-w-0">
+                                            <span class="shrink-0">📐</span>
+                                            <span class="truncate">1B. Ma Trận CV 7991</span>
+                                        </span>
+                                        <span class="v511-sidebar-badge">BGD</span>
+                                    </button>
+                                
+                                    <button type="button" onclick="window.TRITHUC.switchAdminTab('sync_mock_to_e')" class="v511-sidebar-item ">
+                                        <span class="flex items-center gap-2 min-w-0">
+                                            <span class="shrink-0">🔍</span>
+                                            <span class="truncate">2. Bóc Tách Dạng → E</span>
+                                        </span>
+                                        
+                                    </button>
+                                
+                            </div>
+                        
+                            <div class="space-y-1">
+                                <div class="v511-nav-group-label">Học Liệu &amp; Kho Đề</div>
+                                
+                                    <button type="button" onclick="window.TRITHUC.switchAdminTab('exams')" class="v511-sidebar-item ">
+                                        <span class="flex items-center gap-2 min-w-0">
+                                            <span class="shrink-0">📋</span>
+                                            <span class="truncate">Kho Đề &amp; Bài Học</span>
+                                        </span>
+                                        <span class="v511-sidebar-badge">241</span>
+                                    </button>
+                                
+                                    <button type="button" onclick="window.TRITHUC.switchAdminTab('lessons')" class="v511-sidebar-item ">
+                                        <span class="flex items-center gap-2 min-w-0">
+                                            <span class="shrink-0">✏️</span>
+                                            <span class="truncate">Quản Lý &amp; Sửa Bài Học</span>
+                                        </span>
+                                        
+                                    </button>
+                                
+                                    <button type="button" onclick="window.TRITHUC.switchAdminTab('create')" class="v511-sidebar-item ">
+                                        <span class="flex items-center gap-2 min-w-0">
+                                            <span class="shrink-0">➕</span>
+                                            <span class="truncate">Tạo / Nạp Đề V9.6</span>
+                                        </span>
+                                        
+                                    </button>
+                                
+                            </div>
+                        
+                            <div class="space-y-1">
+                                <div class="v511-nav-group-label">Học Sinh &amp; Hệ Thống</div>
+                                
+                                    <button type="button" onclick="window.TRITHUC.switchAdminTab('users')" class="v511-sidebar-item ">
+                                        <span class="flex items-center gap-2 min-w-0">
+                                            <span class="shrink-0">👥</span>
+                                            <span class="truncate">Tài Khoản &amp; Duyệt VIP</span>
+                                        </span>
+                                        <span class="v511-sidebar-badge">0</span>
+                                    </button>
+                                
+                                    <button type="button" onclick="window.TRITHUC.switchAdminTab('results')" class="v511-sidebar-item ">
+                                        <span class="flex items-center gap-2 min-w-0">
+                                            <span class="shrink-0">📊</span>
+                                            <span class="truncate">Phổ Điểm &amp; Excel</span>
+                                        </span>
+                                        <span class="v511-sidebar-badge">5</span>
+                                    </button>
+                                
+                                    <button type="button" onclick="window.TRITHUC.switchAdminTab('gsites')" class="v511-sidebar-item v511-active">
+                                        <span class="flex items-center gap-2 min-w-0">
+                                            <span class="shrink-0">🔐</span>
+                                            <span class="truncate">Mã Hóa &amp; Bảo Mật</span>
+                                        </span>
+                                        
+                                    </button>
+                                
+                            </div>
+                        
+                        
+                    </aside>
+
+                    <main class="v511-admin-main">
+                        
+                        
+                        
+            <div class="space-y-5">
+                <div class="v511-admin-hero v511-admin-hero-success flex-col items-start space-y-1">
+                    <div class="flex items-center gap-2 flex-wrap">
+                        <span class="v5-version-pill">Mục 5 • V5.1.4</span>
+                        <h2 class="text-base sm:text-lg font-extrabold text-slate-900 m-0 tracking-tight">🌐 Xuất Bản Google Sites &amp; Khiên Bảo Mật Chống AI 5 Lớp</h2>
+                    </div>
+                    <p class="text-xs text-slate-600 m-0">
+                        Đóng gói tự động toàn bộ Tài khoản Học sinh, kho đề thi đã mã hóa, Khiên Chống AI 5 Lớp và cấu hình bảo mật vào một tệp HTML duy nhất.
+                    </p>
+                </div>
+
+                <!-- KHIÊN BẢO MẬT CHỐNG AI 5 LỚP V9.7PRO -->
+                <div class="v5-surface-card p-5 sm:p-6 space-y-4">
+                    <div class="flex items-center justify-between flex-wrap gap-2 border-b border-purple-100 pb-3">
+                        <h3 class="text-sm sm:text-base font-black text-purple-900 uppercase m-0">🤖 Cấu Hình Khiên Chống Dùng AI Giải Bài (5 Lớp Bảo Vệ V9.7pro)</h3>
+                        <span class="px-3 py-1 rounded-full bg-purple-100 text-purple-800 text-xs font-extrabold">Đang kích hoạt toàn hệ thống</span>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                        <label class="flex items-start gap-2.5 p-3.5 rounded-2xl bg-purple-50/60 border border-purple-200 cursor-pointer">
+                            <input type="checkbox" checked="" onchange="window.TRITHUC.toggleAntiAiField('promptTrap', this.checked)" class="w-4 h-4 mt-0.5" style="">
+                            <div>
+                                <div class="font-extrabold text-purple-900">🕸️ Lớp 1: Bẫy Prompt Ẩn (AI Poisoning / Honeypot)</div>
+                                <div class="text-slate-600 mt-0.5">Chèn dữ liệu bẫy vô hình vào giữa đề bài. Mắt học sinh không thấy nhưng nếu dùng tiện ích quét hoặc copy vào ChatGPT/Gemini, AI sẽ giải sai hoàn toàn.</div>
+                            </div>
+                        </label>
+                        <label class="flex items-start gap-2.5 p-3.5 rounded-2xl bg-purple-50/60 border border-purple-200 cursor-pointer">
+                            <input type="checkbox" checked="" onchange="window.TRITHUC.toggleAntiAiField('extensionDetector', this.checked)" class="w-4 h-4 mt-0.5" style="">
+                            <div>
+                                <div class="font-extrabold text-purple-900">📡 Lớp 2: Radar Quét &amp; Chặn Tiện Ích AI Trình Duyệt</div>
+                                <div class="text-slate-600 mt-0.5">Tự động phát hiện và khóa màn hình khi học sinh bật Sidebar AI (Monica, Sider, Gauthmath, QuestionAI, Copilot, Google Dịch...).</div>
+                            </div>
+                        </label>
+                        <label class="flex items-start gap-2.5 p-3.5 rounded-2xl bg-purple-50/60 border border-purple-200 cursor-pointer">
+                            <input type="checkbox" checked="" onchange="window.TRITHUC.toggleAntiAiField('cameraOcrGrid', this.checked)" class="w-4 h-4 mt-0.5" style="">
+                            <div>
+                                <div class="font-extrabold text-purple-900">📷 Lớp 3: Lưới Quang Học Chống Chụp Google Lens / Photomath</div>
+                                <div class="text-slate-600 mt-0.5">Phủ lưới giao thoa quang học + Watermark định danh tên học sinh bay động ngang qua công thức Toán để làm nhiễu camera chụp OCR.</div>
+                            </div>
+                        </label>
+                        <label class="flex items-start gap-2.5 p-3.5 rounded-2xl bg-purple-50/60 border border-purple-200 cursor-pointer">
+                            <input type="checkbox" checked="" onchange="window.TRITHUC.toggleAntiAiField('idleBlur', this.checked)" class="w-4 h-4 mt-0.5" style="">
+                            <div>
+                                <div class="font-extrabold text-purple-900">👁️ Lớp 4: Tự Động Làm Mờ Đề Khi Ngưng Thao Tác &gt;35 Giây</div>
+                                <div class="text-slate-600 mt-0.5">Nếu học sinh ngưng di chuột/chạm màn hình quá 35 giây (nghi cầm điện thoại phụ gõ/chụp gửi AI), màn hình đề thi tự động làm mờ ngay.</div>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="pt-2 border-t border-purple-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+                        <label class="flex items-center gap-2 font-extrabold text-purple-900 cursor-pointer">
+                            <input type="checkbox" checked="" onchange="window.TRITHUC.toggleAntiAiField('watermark', this.checked)" class="w-4 h-4" style="">
+                            <span>🌊 Hiển thị Chế độ Watermark Chìm Mượt Chuẩn V9.7pro (24 lớp xoay -28° phủ toàn màn hình)</span>
+                        </label>
+                        <div class="flex items-center gap-2 flex-1 max-w-md">
+                            <input type="text" value="" oninput="window.TRITHUC.setCustomWatermarkText(this.value)" placeholder="Chữ Watermark tùy chỉnh (Mặc định: Tên Đề Thi + Tên HS)..." class="flex-1 px-3 py-1.5 rounded-xl border border-purple-300 bg-white font-bold text-xs outline-none" style="">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- XUẤT MÃ GOOGLE SITES -->
+                <div class="bg-white rounded-3xl border border-slate-200 p-5 sm:p-6 shadow-xs space-y-5">
+                    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-5 border-b border-slate-100">
+                        <div class="flex-1">
+                            <label class="block text-xs font-black text-slate-600 uppercase mb-2">Chọn chế độ hiển thị khi học sinh mở trên Google Sites:</label>
+                            <select onchange="window.TRITHUC.setEmbedTargetExam(this.value)" class="w-full p-3 rounded-2xl border-2 border-emerald-500 bg-slate-50 font-extrabold text-xs sm:text-sm text-slate-900 outline-none">
+                                <option value="" selected="">
+                                    🌟 Nhúng TOÀN BỘ WEBSITE TRITHUC5.0 (Học sinh đăng nhập TK &amp; chọn đề)
+                                </option>
+                                
+                                    <option value="exam_custom_1795313395246">
+                                        🎯 Mở thẳng đề: [TT12-04] Đề Thi Thử Tốt Nghiệp THPT 2026 – Môn Toán 12 – Đề số 04 (Tổng hợp đủ 6 Chương Toán 12 • Chuẩn 22 Câu)
+                                    </option>
+                                
+                                    <option value="exam_v96_multi_1795278645512_1">
+                                        🎯 Mở thẳng đề: [001-1] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 12 — Đề số 1
+                                    </option>
+                                
+                                    <option value="exam_v96_multi_1795278645512_2">
+                                        🎯 Mở thẳng đề: [001-2] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 12 — Đề số 2
+                                    </option>
+                                
+                                    <option value="exam_v96_multi_1795278645512_3">
+                                        🎯 Mở thẳng đề: [001-3] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 12 — Đề số 3
+                                    </option>
+                                
+                                    <option value="exam_v96_multi_1795278645512_4">
+                                        🎯 Mở thẳng đề: [001-4] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 12 — Đề số 4
+                                    </option>
+                                
+                                    <option value="exam_v96_multi_1795278645512_5">
+                                        🎯 Mở thẳng đề: [001-5] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 12 — Đề số 5
+                                    </option>
+                                
+                                    <option value="exam_v96_multi_1795278645512_6">
+                                        🎯 Mở thẳng đề: [001-6] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 12 — Đề số 6
+                                    </option>
+                                
+                                    <option value="exam_v96_multi_1795278645512_7">
+                                        🎯 Mở thẳng đề: [001-7] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 12 — Đề số 7
+                                    </option>
+                                
+                                    <option value="exam_v96_multi_1795278645512_8">
+                                        🎯 Mở thẳng đề: [001-8] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 12 — Đề số 8
+                                    </option>
+                                
+                                    <option value="exam_v96_multi_1795278645512_9">
+                                        🎯 Mở thẳng đề: [001-9] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 12 — Đề số 9
+                                    </option>
+                                
+                                    <option value="exam_v96_multi_1795278645512_10">
+                                        🎯 Mở thẳng đề: [001-10] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 12 — Đề số 10
+                                    </option>
+                                
+                                    <option value="exam_v96_multi_1795278645512_11">
+                                        🎯 Mở thẳng đề: [001-11] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 12 — Đề số 11
+                                    </option>
+                                
+                                    <option value="exam_v96_multi_1795278645512_12">
+                                        🎯 Mở thẳng đề: [001-12] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 12 — Đề số 12
+                                    </option>
+                                
+                                    <option value="exam_v96_multi_1795278645512_13">
+                                        🎯 Mở thẳng đề: [001-13] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 12 — Đề số 13
+                                    </option>
+                                
+                                    <option value="exam_v96_multi_1795278645512_14">
+                                        🎯 Mở thẳng đề: [001-14] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 12 — Đề số 14
+                                    </option>
+                                
+                                    <option value="exam_v96_multi_1795278645512_15">
+                                        🎯 Mở thẳng đề: [001-15] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 12 — Đề số 15
+                                    </option>
+                                
+                                    <option value="exam_v96_multi_1795278450012_1">
+                                        🎯 Mở thẳng đề: [001-1] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 11 — Đề số 1
+                                    </option>
+                                
+                                    <option value="exam_v96_multi_1795278450012_2">
+                                        🎯 Mở thẳng đề: [001-2] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 11 — Đề số 2
+                                    </option>
+                                
+                                    <option value="exam_v96_multi_1795278450012_3">
+                                        🎯 Mở thẳng đề: [001-3] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 11 — Đề số 3
+                                    </option>
+                                
+                                    <option value="exam_v96_multi_1795278450012_4">
+                                        🎯 Mở thẳng đề: [001-4] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 11 — Đề số 4
+                                    </option>
+                                
+                                    <option value="exam_v96_multi_1795278450012_5">
+                                        🎯 Mở thẳng đề: [001-5] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 11 — Đề số 5
+                                    </option>
+                                
+                                    <option value="exam_v96_multi_1795278450012_6">
+                                        🎯 Mở thẳng đề: [001-6] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 11 — Đề số 6
+                                    </option>
+                                
+                                    <option value="exam_v96_multi_1795278450012_7">
+                                        🎯 Mở thẳng đề: [001-7] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 11 — Đề số 7
+                                    </option>
+                                
+                                    <option value="exam_v96_multi_1795278450012_8">
+                                        🎯 Mở thẳng đề: [001-8] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 11 — Đề số 8
+                                    </option>
+                                
+                                    <option value="exam_v96_multi_1795278450012_9">
+                                        🎯 Mở thẳng đề: [001-9] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 11 — Đề số 9
+                                    </option>
+                                
+                                    <option value="exam_v96_multi_1795278450012_10">
+                                        🎯 Mở thẳng đề: [001-10] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 11 — Đề số 10
+                                    </option>
+                                
+                                    <option value="exam_v96_multi_1795278450012_11">
+                                        🎯 Mở thẳng đề: [001-11] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 11 — Đề số 11
+                                    </option>
+                                
+                                    <option value="exam_v96_multi_1795278450012_12">
+                                        🎯 Mở thẳng đề: [001-12] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 11 — Đề số 12
+                                    </option>
+                                
+                                    <option value="exam_v96_multi_1795278450012_13">
+                                        🎯 Mở thẳng đề: [001-13] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 11 — Đề số 13
+                                    </option>
+                                
+                                    <option value="exam_v96_multi_1795278450012_14">
+                                        🎯 Mở thẳng đề: [001-14] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 11 — Đề số 14
+                                    </option>
+                                
+                                    <option value="exam_v96_multi_1795278450012_15">
+                                        🎯 Mở thẳng đề: [001-15] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 11 — Đề số 15
+                                    </option>
+                                
+                                    <option value="exam_v96_multi_1795277585999_1">
+                                        🎯 Mở thẳng đề: [001-1] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 10 — Đề số 1
+                                    </option>
+                                
+                                    <option value="exam_v96_multi_1795277585999_2">
+                                        🎯 Mở thẳng đề: [001-2] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 10 — Đề số 2
+                                    </option>
+                                
+                                    <option value="exam_v96_multi_1795277585999_3">
+                                        🎯 Mở thẳng đề: [001-3] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 10 — Đề số 3
+                                    </option>
+                                
+                                    <option value="exam_v96_multi_1795277585999_4">
+                                        🎯 Mở thẳng đề: [001-4] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 10 — Đề số 4
+                                    </option>
+                                
+                                    <option value="exam_v96_multi_1795277585999_5">
+                                        🎯 Mở thẳng đề: [001-5] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 10 — Đề số 5
+                                    </option>
+                                
+                                    <option value="exam_v96_multi_1795277585999_6">
+                                        🎯 Mở thẳng đề: [001-6] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 10 — Đề số 6
+                                    </option>
+                                
+                                    <option value="exam_v96_multi_1795277585999_7">
+                                        🎯 Mở thẳng đề: [001-7] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 10 — Đề số 7
+                                    </option>
+                                
+                                    <option value="exam_v96_multi_1795277585999_8">
+                                        🎯 Mở thẳng đề: [001-8] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 10 — Đề số 8
+                                    </option>
+                                
+                                    <option value="exam_v96_multi_1795277585999_9">
+                                        🎯 Mở thẳng đề: [001-9] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 10 — Đề số 9
+                                    </option>
+                                
+                                    <option value="exam_v96_multi_1795277585999_10">
+                                        🎯 Mở thẳng đề: [001-10] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 10 — Đề số 10
+                                    </option>
+                                
+                                    <option value="exam_v96_multi_1795277585999_11">
+                                        🎯 Mở thẳng đề: [001-11] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 10 — Đề số 11
+                                    </option>
+                                
+                                    <option value="exam_v96_multi_1795277585999_12">
+                                        🎯 Mở thẳng đề: [001-12] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 10 — Đề số 12
+                                    </option>
+                                
+                                    <option value="exam_v96_multi_1795277585999_13">
+                                        🎯 Mở thẳng đề: [001-13] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 10 — Đề số 13
+                                    </option>
+                                
+                                    <option value="exam_v96_multi_1795277585999_14">
+                                        🎯 Mở thẳng đề: [001-14] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 10 — Đề số 14
+                                    </option>
+                                
+                                    <option value="exam_v96_multi_1795277585999_15">
+                                        🎯 Mở thẳng đề: [001-15] Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 10 — Đề số 15
+                                    </option>
+                                
+                                    <option value="exam_custom_1795229555315">
+                                        🎯 Mở thẳng đề: [12CK1TEST-D4] Cuối kỳ I: Ôn tập &amp; Kiểm tra Cuối học kỳ I – Đề số 4 (Chuẩn Cấu Trúc 22 Câu)
+                                    </option>
+                                
+                                    <option value="exam_custom_1795010290734">
+                                        🎯 Mở thẳng đề: [TT12-03] Đề Thi Thử Tốt Nghiệp THPT 2026 – Môn Toán 12 – Đề số 03 (Tổng hợp đủ 6 Chương Toán 12 • Chuẩn 22 Câu)
+                                    </option>
+                                
+                                    <option value="exam_custom_1795005211068">
+                                        🎯 Mở thẳng đề: [KS11-01] Đề Khảo Sát Chất Lượng Cả Năm Toán 11 – Đề số 01 (Tổng hợp đủ 9 Chương Toán 11 • Chuẩn 22 Câu)
+                                    </option>
+                                
+                                    <option value="exam_custom_1795004234614">
+                                        🎯 Mở thẳng đề: [TT12-02] Đề Thi Thử Tốt Nghiệp THPT 2026 – Môn Toán 12 – Đề số 02 (Tổng hợp đủ 6 Chương Toán 12 • Chuẩn 22 Câu)
+                                    </option>
+                                
+                                    <option value="exam_12_b1_d1">
+                                        🎯 Mở thẳng đề: [12B1-NB] Bài 1: Tính đơn điệu và cực trị của hàm số – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_b1_d2">
+                                        🎯 Mở thẳng đề: [12B1-TH] Bài 1: Tính đơn điệu và cực trị của hàm số – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_b2_d1">
+                                        🎯 Mở thẳng đề: [12B2-NB] Bài 2: Giá trị lớn nhất và giá trị nhỏ nhất của hàm số – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_b2_d2">
+                                        🎯 Mở thẳng đề: [12B2-TH] Bài 2: Giá trị lớn nhất và giá trị nhỏ nhất của hàm số – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_b3_d1">
+                                        🎯 Mở thẳng đề: [12B3-NB] Bài 3: Đường tiệm cận của đồ thị hàm số – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_b3_d2">
+                                        🎯 Mở thẳng đề: [12B3-TH] Bài 3: Đường tiệm cận của đồ thị hàm số – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_b4_d1">
+                                        🎯 Mở thẳng đề: [12B4-NB] Bài 4: Khảo sát sự biến thiên và vẽ đồ thị của hàm số – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_b4_d2">
+                                        🎯 Mở thẳng đề: [12B4-TH] Bài 4: Khảo sát sự biến thiên và vẽ đồ thị của hàm số – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_b5_d1">
+                                        🎯 Mở thẳng đề: [12B5-NB] Bài 5: Ứng dụng đạo hàm để giải quyết bài toán thực tiễn – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_b5_d2">
+                                        🎯 Mở thẳng đề: [12B5-TH] Bài 5: Ứng dụng đạo hàm để giải quyết bài toán thực tiễn – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_c1_ot1">
+                                        🎯 Mở thẳng đề: [12C1-OT1] Ôn tập cuối Chương I: Đạo hàm &amp; Khảo sát hàm số – Đề số 1 (Cơ bản • 22 câu chuẩn Bộ GD&amp;ĐT)
+                                    </option>
+                                
+                                    <option value="exam_nk_121">
+                                        🎯 Mở thẳng đề: [TT12-121] Đề Thi Thử Tốt Nghiệp THPT 2026 – Đề số 01 (THCS &amp; THPT Nguyễn Khuyến – TP.HCM • Mã 121)
+                                    </option>
+                                
+                                    <option value="exam_lg_1209">
+                                        🎯 Mở thẳng đề: [12C1-VD] Bài tập cuối Chương I – Đề số 3 (Mức Vận dụng • THPT Lạng Giang Số 1 – Mã 1209 • 22 câu)
+                                    </option>
+                                
+                                    <option value="exam_12_c1_rev_d1">
+                                        🎯 Mở thẳng đề: [12C1-NB] Bài tập cuối Chương I – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_c1_rev_d2">
+                                        🎯 Mở thẳng đề: [12C1-NC] Ôn tập cuối Chương I: Ứng dụng đạo hàm khảo sát hàm số – Đề số 2 (Mức Nâng cao • 22 câu)
+                                    </option>
+                                
+                                    <option value="exam_12_b1_d3">
+                                        🎯 Mở thẳng đề: [12B1-VD] Bài 1: Tính đơn điệu và cực trị của hàm số – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_b2_d3">
+                                        🎯 Mở thẳng đề: [12B2-VD] Bài 2: Giá trị lớn nhất và giá trị nhỏ nhất của hàm số – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_b3_d3">
+                                        🎯 Mở thẳng đề: [12B3-VD] Bài 3: Đường tiệm cận của đồ thị hàm số – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_b4_d3">
+                                        🎯 Mở thẳng đề: [12B4-VD] Bài 4: Khảo sát sự biến thiên và vẽ đồ thị của hàm số – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_b5_d3">
+                                        🎯 Mở thẳng đề: [12B5-VD] Bài 5: Ứng dụng đạo hàm để giải quyết bài toán thực tiễn – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_b6_d1">
+                                        🎯 Mở thẳng đề: [12B6-NB] Bài 6: Vectơ trong không gian – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_b6_d2">
+                                        🎯 Mở thẳng đề: [12B6-TH] Bài 6: Vectơ trong không gian – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_b6_d3">
+                                        🎯 Mở thẳng đề: [12B6-VD] Bài 6: Vectơ trong không gian – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_b7_d1">
+                                        🎯 Mở thẳng đề: [12B7-NB] Bài 7: Hệ trục tọa độ trong không gian – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_b7_d2">
+                                        🎯 Mở thẳng đề: [12B7-TH] Bài 7: Hệ trục tọa độ trong không gian – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_b7_d3">
+                                        🎯 Mở thẳng đề: [12B7-VD] Bài 7: Hệ trục tọa độ trong không gian – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_b8_d1">
+                                        🎯 Mở thẳng đề: [12B8-NB] Bài 8: Biểu thức tọa độ của các phép toán vectơ – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_b8_d2">
+                                        🎯 Mở thẳng đề: [12B8-TH] Bài 8: Biểu thức tọa độ của các phép toán vectơ – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_b8_d3">
+                                        🎯 Mở thẳng đề: [12B8-VD] Bài 8: Biểu thức tọa độ của các phép toán vectơ – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_c2_rev_d1">
+                                        🎯 Mở thẳng đề: [12C2-NB] Bài tập cuối Chương II: Vectơ &amp; Hệ trục tọa độ Oxyz – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_c2_rev_d2">
+                                        🎯 Mở thẳng đề: [12C2-TH] Bài tập cuối Chương II: Vectơ &amp; Hệ trục tọa độ Oxyz – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_c2_rev_d3">
+                                        🎯 Mở thẳng đề: [12C2-VD] Bài tập cuối Chương II: Vectơ &amp; Hệ trục tọa độ Oxyz – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_b9_d1">
+                                        🎯 Mở thẳng đề: [12B9-NB] Bài 9: Khoảng biến thiên và khoảng tứ phân vị – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_b9_d2">
+                                        🎯 Mở thẳng đề: [12B9-TH] Bài 9: Khoảng biến thiên và khoảng tứ phân vị – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_b9_d3">
+                                        🎯 Mở thẳng đề: [12B9-VD] Bài 9: Khoảng biến thiên và khoảng tứ phân vị – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_b10_d1">
+                                        🎯 Mở thẳng đề: [12B10-NB] Bài 10: Phương sai và độ lệch chuẩn – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_b10_d2">
+                                        🎯 Mở thẳng đề: [12B10-TH] Bài 10: Phương sai và độ lệch chuẩn – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_b10_d3">
+                                        🎯 Mở thẳng đề: [12B10-VD] Bài 10: Phương sai và độ lệch chuẩn – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_c3_rev_d1">
+                                        🎯 Mở thẳng đề: [12C3-NB] Bài tập cuối Chương III: Các số đặc trưng đo độ phân tán – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_c3_rev_d2">
+                                        🎯 Mở thẳng đề: [12C3-TH] Bài tập cuối Chương III: Các số đặc trưng đo độ phân tán – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_c3_rev_d3">
+                                        🎯 Mở thẳng đề: [12C3-VD] Bài tập cuối Chương III: Các số đặc trưng đo độ phân tán – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_b11_d1">
+                                        🎯 Mở thẳng đề: [12B11-NB] Bài 11: Nguyên hàm – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_b11_d2">
+                                        🎯 Mở thẳng đề: [12B11-TH] Bài 11: Nguyên hàm – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_b11_d3">
+                                        🎯 Mở thẳng đề: [12B11-VD] Bài 11: Nguyên hàm – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_b12_d1">
+                                        🎯 Mở thẳng đề: [12B12-NB] Bài 12: Tích phân – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_b12_d2">
+                                        🎯 Mở thẳng đề: [12B12-TH] Bài 12: Tích phân – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_b12_d3">
+                                        🎯 Mở thẳng đề: [12B12-VD] Bài 12: Tích phân – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_b13_d1">
+                                        🎯 Mở thẳng đề: [12B13-NB] Bài 13: Ứng dụng hình học của tích phân – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_b13_d2">
+                                        🎯 Mở thẳng đề: [12B13-TH] Bài 13: Ứng dụng hình học của tích phân – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_b13_d3">
+                                        🎯 Mở thẳng đề: [12B13-VD] Bài 13: Ứng dụng hình học của tích phân – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_c4_rev_d1">
+                                        🎯 Mở thẳng đề: [12C4-NB] Bài tập cuối Chương IV: Nguyên hàm và Tích phân – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_c4_rev_d2">
+                                        🎯 Mở thẳng đề: [12C4-TH] Bài tập cuối Chương IV: Nguyên hàm và Tích phân – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_c4_rev_d3">
+                                        🎯 Mở thẳng đề: [12C4-VD] Bài tập cuối Chương IV: Nguyên hàm và Tích phân – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_b14_d1">
+                                        🎯 Mở thẳng đề: [12B14-NB] Bài 14: Phương trình mặt phẳng – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_b14_d2">
+                                        🎯 Mở thẳng đề: [12B14-TH] Bài 14: Phương trình mặt phẳng – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_b14_d3">
+                                        🎯 Mở thẳng đề: [12B14-VD] Bài 14: Phương trình mặt phẳng – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_b15_d1">
+                                        🎯 Mở thẳng đề: [12B15-NB] Bài 15: Phương trình đường thẳng trong không gian – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_b15_d2">
+                                        🎯 Mở thẳng đề: [12B15-TH] Bài 15: Phương trình đường thẳng trong không gian – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_b15_d3">
+                                        🎯 Mở thẳng đề: [12B15-VD] Bài 15: Phương trình đường thẳng trong không gian – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_b16_d1">
+                                        🎯 Mở thẳng đề: [12B16-NB] Bài 16: Công thức tính góc trong không gian – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_b16_d2">
+                                        🎯 Mở thẳng đề: [12B16-TH] Bài 16: Công thức tính góc trong không gian – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_b16_d3">
+                                        🎯 Mở thẳng đề: [12B16-VD] Bài 16: Công thức tính góc trong không gian – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_b17_d1">
+                                        🎯 Mở thẳng đề: [12B17-NB] Bài 17: Phương trình mặt cầu – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_b17_d2">
+                                        🎯 Mở thẳng đề: [12B17-TH] Bài 17: Phương trình mặt cầu – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_b17_d3">
+                                        🎯 Mở thẳng đề: [12B17-VD] Bài 17: Phương trình mặt cầu – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_c5_rev_d1">
+                                        🎯 Mở thẳng đề: [12C5-NB] Bài tập cuối Chương V: Phương pháp tọa độ trong không gian Oxyz – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_c5_rev_d2">
+                                        🎯 Mở thẳng đề: [12C5-TH] Bài tập cuối Chương V: Phương pháp tọa độ trong không gian Oxyz – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_c5_rev_d3">
+                                        🎯 Mở thẳng đề: [12C5-VD] Bài tập cuối Chương V: Phương pháp tọa độ trong không gian Oxyz – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_b18_d1">
+                                        🎯 Mở thẳng đề: [12B18-NB] Bài 18: Xác suất có điều kiện – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_b18_d2">
+                                        🎯 Mở thẳng đề: [12B18-TH] Bài 18: Xác suất có điều kiện – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_b18_d3">
+                                        🎯 Mở thẳng đề: [12B18-VD] Bài 18: Xác suất có điều kiện – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_b19_d1">
+                                        🎯 Mở thẳng đề: [12B19-NB] Bài 19: Công thức xác suất toàn phần và công thức Bayes – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_b19_d2">
+                                        🎯 Mở thẳng đề: [12B19-TH] Bài 19: Công thức xác suất toàn phần và công thức Bayes – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_b19_d3">
+                                        🎯 Mở thẳng đề: [12B19-VD] Bài 19: Công thức xác suất toàn phần và công thức Bayes – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_c6_rev_d1">
+                                        🎯 Mở thẳng đề: [12C6-NB] Bài tập cuối Chương VI: Xác suất có điều kiện &amp; Công thức Bayes – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_c6_rev_d2">
+                                        🎯 Mở thẳng đề: [12C6-TH] Bài tập cuối Chương VI: Xác suất có điều kiện &amp; Công thức Bayes – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_c6_rev_d3">
+                                        🎯 Mở thẳng đề: [12C6-VD] Bài tập cuối Chương VI: Xác suất có điều kiện &amp; Công thức Bayes – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_b1_d1">
+                                        🎯 Mở thẳng đề: [11B1-NB] Bài 1: Giá trị lượng giác của góc lượng giác – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_b1_d2">
+                                        🎯 Mở thẳng đề: [11B1-TH] Bài 1: Giá trị lượng giác của góc lượng giác – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_b1_d3">
+                                        🎯 Mở thẳng đề: [11B1-VD] Bài 1: Giá trị lượng giác của góc lượng giác – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_b2_d1">
+                                        🎯 Mở thẳng đề: [11B2-NB] Bài 2: Công thức lượng giác – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_b2_d2">
+                                        🎯 Mở thẳng đề: [11B2-TH] Bài 2: Công thức lượng giác – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_b2_d3">
+                                        🎯 Mở thẳng đề: [11B2-VD] Bài 2: Công thức lượng giác – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_b3_d1">
+                                        🎯 Mở thẳng đề: [11B3-NB] Bài 3: Hàm số lượng giác – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_b3_d2">
+                                        🎯 Mở thẳng đề: [11B3-TH] Bài 3: Hàm số lượng giác – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_b3_d3">
+                                        🎯 Mở thẳng đề: [11B3-VD] Bài 3: Hàm số lượng giác – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_b4_d1">
+                                        🎯 Mở thẳng đề: [11B4-NB] Bài 4: Phương trình lượng giác cơ bản – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_b4_d2">
+                                        🎯 Mở thẳng đề: [11B4-TH] Bài 4: Phương trình lượng giác cơ bản – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_b4_d3">
+                                        🎯 Mở thẳng đề: [11B4-VD] Bài 4: Phương trình lượng giác cơ bản – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_c1_rev_d1">
+                                        🎯 Mở thẳng đề: [11C1-NB] Bài tập cuối Chương I: Hàm số lượng giác &amp; Phương trình lượng giác – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_c1_rev_d2">
+                                        🎯 Mở thẳng đề: [11C1-TH] Bài tập cuối Chương I: Hàm số lượng giác &amp; Phương trình lượng giác – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_c1_rev_d3">
+                                        🎯 Mở thẳng đề: [11C1-VD] Bài tập cuối Chương I: Hàm số lượng giác &amp; Phương trình lượng giác – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_b5_d1">
+                                        🎯 Mở thẳng đề: [11B5-NB] Bài 5: Dãy số – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_b5_d2">
+                                        🎯 Mở thẳng đề: [11B5-TH] Bài 5: Dãy số – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_b5_d3">
+                                        🎯 Mở thẳng đề: [11B5-VD] Bài 5: Dãy số – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_b6_d1">
+                                        🎯 Mở thẳng đề: [11B6-NB] Bài 6: Cấp số cộng – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_b6_d2">
+                                        🎯 Mở thẳng đề: [11B6-TH] Bài 6: Cấp số cộng – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_b6_d3">
+                                        🎯 Mở thẳng đề: [11B6-VD] Bài 6: Cấp số cộng – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_b7_d1">
+                                        🎯 Mở thẳng đề: [11B7-NB] Bài 7: Cấp số nhân – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_b7_d2">
+                                        🎯 Mở thẳng đề: [11B7-TH] Bài 7: Cấp số nhân – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_b7_d3">
+                                        🎯 Mở thẳng đề: [11B7-VD] Bài 7: Cấp số nhân – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_c2_rev_d1">
+                                        🎯 Mở thẳng đề: [11C2-NB] Bài tập cuối Chương II: Dãy số, Cấp số cộng &amp; Cấp số nhân – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_c2_rev_d2">
+                                        🎯 Mở thẳng đề: [11C2-TH] Bài tập cuối Chương II: Dãy số, Cấp số cộng &amp; Cấp số nhân – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_c2_rev_d3">
+                                        🎯 Mở thẳng đề: [11C2-VD] Bài tập cuối Chương II: Dãy số, Cấp số cộng &amp; Cấp số nhân – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_b8_d1">
+                                        🎯 Mở thẳng đề: [11B8-NB] Bài 8: Mẫu số liệu ghép nhóm – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_b8_d2">
+                                        🎯 Mở thẳng đề: [11B8-TH] Bài 8: Mẫu số liệu ghép nhóm – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_b8_d3">
+                                        🎯 Mở thẳng đề: [11B8-VD] Bài 8: Mẫu số liệu ghép nhóm – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_b9_d1">
+                                        🎯 Mở thẳng đề: [11B9-NB] Bài 9: Các số đặc trưng đo xu thế trung tâm – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_b9_d2">
+                                        🎯 Mở thẳng đề: [11B9-TH] Bài 9: Các số đặc trưng đo xu thế trung tâm – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_b9_d3">
+                                        🎯 Mở thẳng đề: [11B9-VD] Bài 9: Các số đặc trưng đo xu thế trung tâm – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_c3_rev_d1">
+                                        🎯 Mở thẳng đề: [11C3-NB] Bài tập cuối Chương III: Mẫu số liệu ghép nhóm – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_c3_rev_d2">
+                                        🎯 Mở thẳng đề: [11C3-TH] Bài tập cuối Chương III: Mẫu số liệu ghép nhóm – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_c3_rev_d3">
+                                        🎯 Mở thẳng đề: [11C3-VD] Bài tập cuối Chương III: Mẫu số liệu ghép nhóm – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_b10_d1">
+                                        🎯 Mở thẳng đề: [11B10-NB] Bài 10: Đường thẳng và mặt phẳng trong không gian – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_b10_d2">
+                                        🎯 Mở thẳng đề: [11B10-TH] Bài 10: Đường thẳng và mặt phẳng trong không gian – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_b10_d3">
+                                        🎯 Mở thẳng đề: [11B10-VD] Bài 10: Đường thẳng và mặt phẳng trong không gian – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_b11_d1">
+                                        🎯 Mở thẳng đề: [11B11-NB] Bài 11: Hai đường thẳng song song – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_b11_d2">
+                                        🎯 Mở thẳng đề: [11B11-TH] Bài 11: Hai đường thẳng song song – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_b11_d3">
+                                        🎯 Mở thẳng đề: [11B11-VD] Bài 11: Hai đường thẳng song song – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_b12_d1">
+                                        🎯 Mở thẳng đề: [11B12-NB] Bài 12: Đường thẳng song song với mặt phẳng – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_b12_d2">
+                                        🎯 Mở thẳng đề: [11B12-TH] Bài 12: Đường thẳng song song với mặt phẳng – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_b12_d3">
+                                        🎯 Mở thẳng đề: [11B12-VD] Bài 12: Đường thẳng song song với mặt phẳng – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_b13_d1">
+                                        🎯 Mở thẳng đề: [11B13-NB] Bài 13: Hai mặt phẳng song song – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_b13_d2">
+                                        🎯 Mở thẳng đề: [11B13-TH] Bài 13: Hai mặt phẳng song song – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_b13_d3">
+                                        🎯 Mở thẳng đề: [11B13-VD] Bài 13: Hai mặt phẳng song song – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_b14_d1">
+                                        🎯 Mở thẳng đề: [11B14-NB] Bài 14: Phép chiếu song song – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_b14_d2">
+                                        🎯 Mở thẳng đề: [11B14-TH] Bài 14: Phép chiếu song song – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_b14_d3">
+                                        🎯 Mở thẳng đề: [11B14-VD] Bài 14: Phép chiếu song song – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_c4_rev_d1">
+                                        🎯 Mở thẳng đề: [11C4-NB] Bài tập cuối Chương IV: Quan hệ song song trong không gian – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_c4_rev_d2">
+                                        🎯 Mở thẳng đề: [11C4-TH] Bài tập cuối Chương IV: Quan hệ song song trong không gian – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_c4_rev_d3">
+                                        🎯 Mở thẳng đề: [11C4-VD] Bài tập cuối Chương IV: Quan hệ song song trong không gian – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_b15_d1">
+                                        🎯 Mở thẳng đề: [11B15-NB] Bài 15: Giới hạn của dãy số – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_b15_d2">
+                                        🎯 Mở thẳng đề: [11B15-TH] Bài 15: Giới hạn của dãy số – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_b15_d3">
+                                        🎯 Mở thẳng đề: [11B15-VD] Bài 15: Giới hạn của dãy số – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_b16_d1">
+                                        🎯 Mở thẳng đề: [11B16-NB] Bài 16: Giới hạn của hàm số – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_b16_d2">
+                                        🎯 Mở thẳng đề: [11B16-TH] Bài 16: Giới hạn của hàm số – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_b16_d3">
+                                        🎯 Mở thẳng đề: [11B16-VD] Bài 16: Giới hạn của hàm số – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_b17_d1">
+                                        🎯 Mở thẳng đề: [11B17-NB] Bài 17: Hàm số liên tục – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_b17_d2">
+                                        🎯 Mở thẳng đề: [11B17-TH] Bài 17: Hàm số liên tục – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_b17_d3">
+                                        🎯 Mở thẳng đề: [11B17-VD] Bài 17: Hàm số liên tục – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_ck1_rev_d1">
+                                        🎯 Mở thẳng đề: [11C5-NB] Bài tập cuối Chương V &amp; Kiểm tra Cuối kỳ I – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_ck1_rev_d2">
+                                        🎯 Mở thẳng đề: [11C5-TH] Bài tập cuối Chương V &amp; Kiểm tra Cuối kỳ I – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_ck1_rev_d3">
+                                        🎯 Mở thẳng đề: [11C5-VD] Bài tập cuối Chương V &amp; Kiểm tra Cuối kỳ I – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_c3_d1">
+                                        🎯 Mở thẳng đề: [12C3-NB] Chương III: Các số đặc trưng đo độ phân tán của mẫu số liệu ghép nhóm – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_c3_d2">
+                                        🎯 Mở thẳng đề: [12C3-TH] Chương III: Các số đặc trưng đo độ phân tán của mẫu số liệu ghép nhóm – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_c3_d3">
+                                        🎯 Mở thẳng đề: [12C3-VD] Chương III: Các số đặc trưng đo độ phân tán của mẫu số liệu ghép nhóm – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_c4_d1">
+                                        🎯 Mở thẳng đề: [12C4-NB] Chương IV: Nguyên hàm và Tích phân – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_c4_d2">
+                                        🎯 Mở thẳng đề: [12C4-TH] Chương IV: Nguyên hàm và Tích phân – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_c4_d3">
+                                        🎯 Mở thẳng đề: [12C4-VD] Chương IV: Nguyên hàm và Tích phân – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_c6_d1">
+                                        🎯 Mở thẳng đề: [12C6-NB] Chương VI: Xác suất có điều kiện, Công thức Bayes &amp; Chuyên đề Toán 12 – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_c6_d2">
+                                        🎯 Mở thẳng đề: [12C6-TH] Chương VI: Xác suất có điều kiện, Công thức Bayes &amp; Chuyên đề Toán 12 – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_12_c6_d3">
+                                        🎯 Mở thẳng đề: [12C6-VD] Chương VI: Xác suất có điều kiện, Công thức Bayes &amp; Chuyên đề Toán 12 – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_c6_d1">
+                                        🎯 Mở thẳng đề: [11C6-NB] Chương VI Toán 11: Hàm số mũ và Hàm số lôgarit – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_c6_d2">
+                                        🎯 Mở thẳng đề: [11C6-TH] Chương VI Toán 11: Hàm số mũ và Hàm số lôgarit – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_c6_d3">
+                                        🎯 Mở thẳng đề: [11C6-VD] Chương VI Toán 11: Hàm số mũ và Hàm số lôgarit – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_c7_d1">
+                                        🎯 Mở thẳng đề: [11C7-NB] Chương VII Toán 11: Quan hệ vuông góc, Khoảng cách &amp; Thể tích – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_c7_d2">
+                                        🎯 Mở thẳng đề: [11C7-TH] Chương VII Toán 11: Quan hệ vuông góc, Khoảng cách &amp; Thể tích – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_c7_d3">
+                                        🎯 Mở thẳng đề: [11C7-VD] Chương VII Toán 11: Quan hệ vuông góc, Khoảng cách &amp; Thể tích – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_c8_d1">
+                                        🎯 Mở thẳng đề: [11C8-NB] Chương VIII Toán 11: Các quy tắc tính xác suất – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_c8_d2">
+                                        🎯 Mở thẳng đề: [11C8-TH] Chương VIII Toán 11: Các quy tắc tính xác suất – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_c8_d3">
+                                        🎯 Mở thẳng đề: [11C8-VD] Chương VIII Toán 11: Các quy tắc tính xác suất – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_c9_d1">
+                                        🎯 Mở thẳng đề: [11C9-NB] Chương IX Toán 11: Đạo hàm &amp; Kiểm tra Cuối năm Toán 11 – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_c9_d2">
+                                        🎯 Mở thẳng đề: [11C9-TH] Chương IX Toán 11: Đạo hàm &amp; Kiểm tra Cuối năm Toán 11 – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_11_c9_d3">
+                                        🎯 Mở thẳng đề: [11C9-VD] Chương IX Toán 11: Đạo hàm &amp; Kiểm tra Cuối năm Toán 11 – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_10_c1_d1">
+                                        🎯 Mở thẳng đề: [10C1-NB] Chương I Toán 10: Mệnh đề và Tập hợp – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_10_c1_d2">
+                                        🎯 Mở thẳng đề: [10C1-TH] Chương I Toán 10: Mệnh đề và Tập hợp – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_10_c1_d3">
+                                        🎯 Mở thẳng đề: [10C1-VD] Chương I Toán 10: Mệnh đề và Tập hợp – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_10_c2_d1">
+                                        🎯 Mở thẳng đề: [10C2-NB] Chương II Toán 10: Bất phương trình &amp; Hệ BPT bậc nhất hai ẩn – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_10_c2_d2">
+                                        🎯 Mở thẳng đề: [10C2-TH] Chương II Toán 10: Bất phương trình &amp; Hệ BPT bậc nhất hai ẩn – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_10_c2_d3">
+                                        🎯 Mở thẳng đề: [10C2-VD] Chương II Toán 10: Bất phương trình &amp; Hệ BPT bậc nhất hai ẩn – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_10_c3_d1">
+                                        🎯 Mở thẳng đề: [10C3-NB] Chương III Toán 10: Hệ thức lượng trong tam giác – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_10_c3_d2">
+                                        🎯 Mở thẳng đề: [10C3-TH] Chương III Toán 10: Hệ thức lượng trong tam giác – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_10_c3_d3">
+                                        🎯 Mở thẳng đề: [10C3-VD] Chương III Toán 10: Hệ thức lượng trong tam giác – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_10_c4_d1">
+                                        🎯 Mở thẳng đề: [10C4-NB] Chương IV Toán 10: Vectơ trong mặt phẳng – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_10_c4_d2">
+                                        🎯 Mở thẳng đề: [10C4-TH] Chương IV Toán 10: Vectơ trong mặt phẳng – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_10_c4_d3">
+                                        🎯 Mở thẳng đề: [10C4-VD] Chương IV Toán 10: Vectơ trong mặt phẳng – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_10_c5_d1">
+                                        🎯 Mở thẳng đề: [10C5-NB] Chương V Toán 10: Mẫu số liệu không ghép nhóm &amp; Cuối kỳ I – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_10_c5_d2">
+                                        🎯 Mở thẳng đề: [10C5-TH] Chương V Toán 10: Mẫu số liệu không ghép nhóm &amp; Cuối kỳ I – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_10_c5_d3">
+                                        🎯 Mở thẳng đề: [10C5-VD] Chương V Toán 10: Mẫu số liệu không ghép nhóm &amp; Cuối kỳ I – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_10_c6_d1">
+                                        🎯 Mở thẳng đề: [10C6-NB] Chương VI Toán 10: Hàm số, Đồ thị và Ứng dụng – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_10_c6_d2">
+                                        🎯 Mở thẳng đề: [10C6-TH] Chương VI Toán 10: Hàm số, Đồ thị và Ứng dụng – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_10_c6_d3">
+                                        🎯 Mở thẳng đề: [10C6-VD] Chương VI Toán 10: Hàm số, Đồ thị và Ứng dụng – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_10_c7_d1">
+                                        🎯 Mở thẳng đề: [10C7-NB] Chương VII Toán 10: Phương pháp tọa độ trong mặt phẳng Oxy – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_10_c7_d2">
+                                        🎯 Mở thẳng đề: [10C7-TH] Chương VII Toán 10: Phương pháp tọa độ trong mặt phẳng Oxy – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_10_c7_d3">
+                                        🎯 Mở thẳng đề: [10C7-VD] Chương VII Toán 10: Phương pháp tọa độ trong mặt phẳng Oxy – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_10_c8_d1">
+                                        🎯 Mở thẳng đề: [10C8-NB] Chương VIII Toán 10: Đại số tổ hợp &amp; Nhị thức Newton – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_10_c8_d2">
+                                        🎯 Mở thẳng đề: [10C8-TH] Chương VIII Toán 10: Đại số tổ hợp &amp; Nhị thức Newton – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_10_c8_d3">
+                                        🎯 Mở thẳng đề: [10C8-VD] Chương VIII Toán 10: Đại số tổ hợp &amp; Nhị thức Newton – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_10_c9_d1">
+                                        🎯 Mở thẳng đề: [10C9-NB] Chương IX Toán 10: Tính xác suất cổ điển &amp; Kiểm tra Cuối năm Toán 10 – Đề số 1 (Mức Nhận biết • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_10_c9_d2">
+                                        🎯 Mở thẳng đề: [10C9-TH] Chương IX Toán 10: Tính xác suất cổ điển &amp; Kiểm tra Cuối năm Toán 10 – Đề số 2 (Mức Thông hiểu • 22 câu chuẩn)
+                                    </option>
+                                
+                                    <option value="exam_10_c9_d3">
+                                        🎯 Mở thẳng đề: [10C9-VD] Chương IX Toán 10: Tính xác suất cổ điển &amp; Kiểm tra Cuối năm Toán 10 – Đề số 3 (Mức Vận dụng • 22 câu chuẩn)
+                                    </option>
+                                
+                            </select>
+                        </div>
+                        <div class="flex flex-wrap gap-2.5 shrink-0">
+                            <button onclick="window.TRITHUC.copyStandaloneHtmlForGSites()" class="px-5 py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs uppercase tracking-wider shadow-md transition">
+                                📋 Copy Mã HTML Nhúng Google Sites (1-Click)
+                            </button>
+                            <button onclick="window.TRITHUC.downloadStandaloneHtmlFile()" class="px-5 py-3.5 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-black text-xs uppercase tracking-wider shadow-md transition">
+                                💾 Tải File Website (.HTML)
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Đổi tài khoản & mật khẩu Quản trị Giáo viên + Chế độ Ẩn/Hiện Tác Giả -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2 border-b border-slate-100 pb-5">
+                        <div class="space-y-2">
+                            <h4 class="text-xs font-black text-slate-800 uppercase m-0">🔑 Đổi Tài Khoản &amp; Mật Khẩu Quản Trị Giáo Viên:</h4>
+                            <div class="flex gap-2">
+                                <input id="admNewUserInp" type="text" value="" placeholder="Tài khoản GV mới" class="flex-1 p-2.5 rounded-xl border border-slate-300 text-xs font-bold" style="">
+                                <input id="admNewPassInp" type="password" value="" placeholder="Mật khẩu GV mới" class="flex-1 p-2.5 rounded-xl border border-slate-300 text-xs font-bold" style="">
+                                <button onclick="window.TRITHUC.saveAdminCredentials()" class="px-4 py-2.5 rounded-xl bg-blue-600 text-white font-extrabold text-xs">Lưu TK GV</button>
+                            </div>
+                        </div>
+
+                        <div class="space-y-2">
+                            <h4 class="text-xs font-black text-slate-800 uppercase m-0">👤 Chế Độ Hiển Thị Thông Tin Tác Giả Trên Web:</h4>
+                            <div class="flex items-center justify-between gap-3 p-2.5 rounded-2xl bg-slate-50 border border-slate-200">
+                                <div class="text-xs text-slate-700 font-semibold">
+                                    Trạng thái hiện tại: <b class="text-rose-600">🙈 Đang ẩn tên tác giả</b>
+                                </div>
+                                <button type="button" onclick="window.TRITHUC.toggleHideAuthorInfo()" class="px-4 py-2 rounded-xl font-black text-xs transition bg-emerald-600 hover:bg-emerald-700 text-white">
+                                    👁️ Bật Hiện Tác Giả
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                
+            <div class="bg-gradient-to-br from-slate-900 via-indigo-950 to-blue-950 rounded-3xl p-5 sm:p-6 text-white shadow-lg border-2 border-indigo-400/40 space-y-4">
+                <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-white/15 pb-4">
+                    <div class="space-y-1">
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="px-2.5 py-0.5 rounded-full bg-rose-500 text-white text-[10px] font-black uppercase">
+                                🔒 Đang Khóa Mã Hóa Tối Đa
+                            </span>
+                            <h3 class="text-base sm:text-lg font-black uppercase m-0">🔐 Mục 5: Rà Soát Lỗ Hổng Bảo Mật (SEC-01 → SEC-06) &amp; Mã Hóa Kho Đề + Dữ Liệu Bài Học V4.5.0</h3>
+                        </div>
+                        <p class="text-xs text-indigo-200 font-semibold m-0">
+                            Đã tích hợp đầy đủ giải pháp bảo mật <b>SEC-01 (Băm SHA-256 đáp án ans &amp; mã hóa exp)</b>, <b>SEC-05 (Cô lập CSS !important &amp; ẩn URL ảnh lỗi)</b>, <b>SEC-06 (Gia cố phiên Admin tự khóa 15p trong 1 file duy nhất)</b> và <b>Chống Hack VIP Học sinh (poc_vip_nologin / 999 thiết bị)</b>. Mật khẩu Quản trị &amp; Khóa Vault được xác thực hoàn toàn bằng <b>Hash 2 vòng có Salt</b> (không lưu mật khẩu bản rõ).
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-2.5 shrink-0 flex-wrap">
+                        <button type="button" onclick="window.TRITHUC.simulateStudentVipHackTestV44()" class="px-4 py-3 rounded-2xl bg-rose-500/30 hover:bg-rose-500/50 text-rose-100 border border-rose-400/40 font-black text-xs uppercase transition">
+                            🧪 Test Bắt Lỗi Học Sinh Hack VIP
+                        </button>
+                        <button type="button" onclick="window.TRITHUC.openVaultSecurityModal()" class="px-5 py-3 rounded-2xl bg-amber-400 hover:bg-amber-500 text-slate-950 font-black text-xs uppercase shadow-md transition flex items-center gap-1.5">
+                            <span>🔓</span>
+                            <span>Nút Mở Khóa Admin (Nhập Mã Khóa)</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- BẢNG TỔNG HỢP TRẠNG THÁI 6 HẠNG MỤC BẢO MẬT SEC-01 -> SEC-06 (MỤC 5) -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 text-xs">
+                    <div class="p-3 rounded-2xl bg-white/10 border border-white/15">
+                        <div class="font-black text-emerald-300">✔ SEC-01: Chống lộ ans &amp; exp (view-source)</div>
+                        <div class="text-[11px] text-indigo-100 mt-0.5">Đã băm một chiều đáp án (SHA-256 + Salt) và xóa sạch kịch bản dữ liệu thô trên DOM.</div>
+                    </div>
+                    <div class="p-3 rounded-2xl bg-white/10 border border-white/15">
+                        <div class="font-black text-emerald-300">✔ SEC-02 &amp; SEC-03: Anti-DevTools &amp; AI Honeypot</div>
+                        <div class="text-[11px] text-indigo-100 mt-0.5">Khóa F12/chuột phải, chèn bẫy Prompt ẩn làm sai lệch kết quả ChatGPT/Gemini.</div>
+                    </div>
+                    <div class="p-3 rounded-2xl bg-white/10 border border-white/15">
+                        <div class="font-black text-emerald-300">✔ SEC-04: Anti-OCR &amp; Làm mờ sau 35 giây</div>
+                        <div class="text-[11px] text-indigo-100 mt-0.5">Phủ lưới quang học động chống Google Lens/Photomath và tự làm mờ khi ngưng thao tác.</div>
+                    </div>
+                    <div class="p-3 rounded-2xl bg-white/10 border border-white/15">
+                        <div class="font-black text-emerald-300">✔ SEC-05: Cô lập CSS !important &amp; Ảnh dự phòng</div>
+                        <div class="text-[11px] text-indigo-100 mt-0.5">Chống ghi đè CSS trên Google Sites và tự thay ảnh lỗi bằng Base64 nội bộ, ẩn đường dẫn gốc.</div>
+                    </div>
+                    <div class="p-3 rounded-2xl bg-white/10 border border-white/15">
+                        <div class="font-black text-emerald-300">✔ SEC-06: Gia cố Quản trị trong 1 File duy nhất</div>
+                        <div class="text-[11px] text-indigo-100 mt-0.5">Chữ ký phiên bắt buộc, tự đăng xuất sau 15p không hoạt động và Khóa bảo mật lớp 2 (Hash 2 vòng + Chặn 98+ API quản trị).</div>
+                    </div>
+                    <div class="p-3 rounded-2xl bg-white/10 border border-white/15">
+                        <div class="font-black text-amber-300">✔ Chống Hack VIP (poc_vip_nologin / 999 máy)</div>
+                        <div class="text-[11px] text-indigo-100 mt-0.5">Khóa cứng tối đa 2-3 máy, kiểm tra chữ ký phê duyệt Giáo viên và bật Báo động đỏ khi bị can thiệp.</div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs pt-1">
+                    <div class="p-4 rounded-2xl bg-white/10 border border-white/15 space-y-2">
+                        <div class="font-black text-amber-300 uppercase">🛡️ Chữ Ký Mã Hóa Kho Đề &amp; Bài Học Hiện Tại:</div>
+                        <div class="p-2.5 rounded-xl bg-slate-950/80 font-mono-code text-[11px] text-emerald-300 break-all border border-emerald-500/30">
+                            TT50_V45_SEAL_qlJKU0RbVCoYd25wCgkzNNPUx8+NhrQHLdx7URvc
+                        </div>
+                    </div>
+
+                    <div class="p-4 rounded-2xl bg-white/10 border border-white/15 space-y-2.5">
+                        <div class="font-black text-amber-300 uppercase">🔑 Đổi Mã Khóa Admin (Xác thực Hash):</div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                            <input id="vaultCurrentPassInlineInp" type="password" placeholder="Nhập mã khóa hiện tại..." class="px-3 py-2 rounded-xl bg-white text-slate-900 font-bold text-xs outline-none" style="">
+                            <input id="vaultNewPassInlineInp" type="text" placeholder="Mã khóa Admin mới..." class="px-3 py-2 rounded-xl bg-white text-slate-900 font-bold text-xs outline-none" style="">
+                        </div>
+                        <div class="flex items-center justify-between gap-2 pt-1">
+                            <span class="text-[11px] text-indigo-200">Mã khóa dùng để mở khóa kho đề &amp; đổi mật khẩu.</span>
+                            <button type="button" onclick="window.TRITHUC.changeVaultAdminPasswordInlineV44()" class="px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-black text-xs uppercase transition">
+                                💾 Lưu Mã Khóa Mới
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+                    </main>
+                </div>
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            </div>

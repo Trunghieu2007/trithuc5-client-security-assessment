@@ -1,0 +1,733 @@
+
+            <div class="v511-admin-shell">
+                <header class="v511-admin-topbar">
+                    <div class="max-w-[1680px] mx-auto flex items-center justify-between gap-2 flex-wrap">
+                        <div class="flex items-center gap-2 flex-wrap min-w-0">
+                            <button type="button" onclick="window.TRITHUC.toggleAdminHeaderCollapsedV44()" title="Thu gọn thanh điều hướng để mở rộng không gian làm việc" class="hidden lg:inline-flex v5-nav-btn-secondary px-2.5 py-1.5 text-xs items-center gap-1">
+                                <span>◧ Thu gọn</span>
+                            </button>
+                            <div class="w-7 h-7 rounded-lg bg-blue-700 text-white flex items-center justify-center font-black text-xs shrink-0">🎓</div>
+                            <span class="text-xs sm:text-sm font-extrabold text-slate-900 tracking-tight">QUẢN TRỊ GV</span>
+                            <span class="v5-version-pill">V5.1.4</span>
+                            <span class="hidden xl:inline text-xs font-semibold text-slate-500">› ➕ Tạo / Nạp Đề (Chuẩn V9.6 PRO)</span>
+                            <select onchange="window.TRITHUC.switchAdminTab(this.value)" aria-label="Chọn mục quản trị" class="lg:hidden px-2.5 py-1 rounded-lg bg-slate-100 border border-slate-200 text-slate-800 font-bold text-xs outline-none cursor-pointer">
+                                <option value="matrix_builder">🧭 1. Làm Đề &amp; Ma Trận (Từ Phần E)</option><option value="cv7991_matrix">📐 1B. Ma Trận CV 7991 &amp; Tự Sinh Đề</option><option value="sync_mock_to_e">🔍 2. Bóc Tách Dạng Mới → Phần E</option><option value="exams">📋 Kho Đề &amp; Bài Học (241)</option><option value="lessons">✏️ Quản Lý &amp; Sửa Bài Học</option><option value="users">👥 Tài Khoản &amp; Duyệt VIP (0)</option><option value="create" selected="">➕ Tạo / Nạp Đề (Chuẩn V9.6 PRO)</option><option value="results">📊 Phổ Điểm &amp; Excel (5)</option><option value="gsites">🔐 Mã Hóa Kho Đề &amp; Bảo Mật (Mục 5)</option>
+                            </select>
+                        </div>
+                        <div class="flex items-center gap-1.5 flex-wrap">
+                            <div class="v5-theme-switcher v5-theme-switcher-compact" role="radiogroup" aria-label="Chọn chế độ giao diện"><button type="button" role="radio" data-v5-theme-btn="light" aria-checked="false" tabindex="-1" title="Chế độ Sáng (Light)" onclick="window.TRITHUC_THEME.setMode('light')" onkeydown="window.TRITHUC_THEME.onKeyDown(event,'light')" class="v5-theme-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg></button><button type="button" role="radio" data-v5-theme-btn="dark" aria-checked="false" tabindex="-1" title="Chế độ Tối (Dark)" onclick="window.TRITHUC_THEME.setMode('dark')" onkeydown="window.TRITHUC_THEME.onKeyDown(event,'dark')" class="v5-theme-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg></button><button type="button" role="radio" data-v5-theme-btn="system" aria-checked="true" tabindex="0" title="Tự động theo hệ điều hành (System)" onclick="window.TRITHUC_THEME.setMode('system')" onkeydown="window.TRITHUC_THEME.onKeyDown(event,'system')" class="v5-theme-btn v5-theme-btn-active"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="14" x="2" y="3" rx="2"></rect><line x1="8" x2="16" y1="21" y2="21"></line><line x1="12" x2="12" y1="17" y2="21"></line></svg></button></div>
+                            <button type="button" onclick="window.TRITHUC.openVaultSecurityModal()" title="Mã hóa Kho đề thi &amp; Dữ liệu bài học" class="v5-nav-btn-secondary px-2.5 py-1.5 text-[11px] flex items-center gap-1">
+                                <span>🔐</span>
+                                <span class="hidden sm:inline">Khóa Admin</span>
+                            </button>
+                            <button type="button" onclick="window.TRITHUC.toggleHideAuthorInfo()" class="v5-nav-btn-secondary px-2.5 py-1.5 text-[11px] flex items-center gap-1">
+                                <span>👁️ Hiện tác giả</span>
+                            </button>
+                            <button type="button" onclick="window.TRITHUC.openShareVipLinkModal()" class="v5-nav-btn-secondary px-2.5 py-1.5 text-[11px] flex items-center gap-1">
+                                <span>🔗</span>
+                                <span class="hidden md:inline">Link ĐK VIP</span>
+                            </button>
+                            <button type="button" onclick="window.TRITHUC.goStudentHome()" class="v5-nav-btn-primary px-2.5 py-1.5 text-[11px] flex items-center gap-1">
+                                <span>👁️ Trang HS</span>
+                            </button>
+                            <button type="button" onclick="window.TRITHUC.logoutAdmin()" class="px-2.5 py-1.5 rounded-lg bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 text-[11px] font-bold transition">
+                                🔒 Thoát
+                            </button>
+                        </div>
+                    </div>
+                </header>
+
+                <!-- Thanh tab cuộn ngang cho Mobile / Tablet (< 1024px) -->
+                <div class="v511-admin-mobile-tabs">
+                    
+                        <button type="button" onclick="window.TRITHUC.switchAdminTab('matrix_builder')" class="v511-mobile-pill ">
+                            🧭 1. Làm Đề &amp; Ma Trận (Từ Phần E)
+                        </button>
+                    
+                        <button type="button" onclick="window.TRITHUC.switchAdminTab('cv7991_matrix')" class="v511-mobile-pill ">
+                            📐 1B. Ma Trận CV 7991 &amp; Tự Sinh Đề
+                        </button>
+                    
+                        <button type="button" onclick="window.TRITHUC.switchAdminTab('sync_mock_to_e')" class="v511-mobile-pill ">
+                            🔍 2. Bóc Tách Dạng Mới → Phần E
+                        </button>
+                    
+                        <button type="button" onclick="window.TRITHUC.switchAdminTab('exams')" class="v511-mobile-pill ">
+                            📋 Kho Đề &amp; Bài Học (241)
+                        </button>
+                    
+                        <button type="button" onclick="window.TRITHUC.switchAdminTab('lessons')" class="v511-mobile-pill ">
+                            ✏️ Quản Lý &amp; Sửa Bài Học
+                        </button>
+                    
+                        <button type="button" onclick="window.TRITHUC.switchAdminTab('users')" class="v511-mobile-pill ">
+                            👥 Tài Khoản &amp; Duyệt VIP (0)
+                        </button>
+                    
+                        <button type="button" onclick="window.TRITHUC.switchAdminTab('create')" class="v511-mobile-pill v511-active">
+                            ➕ Tạo / Nạp Đề (Chuẩn V9.6 PRO)
+                        </button>
+                    
+                        <button type="button" onclick="window.TRITHUC.switchAdminTab('results')" class="v511-mobile-pill ">
+                            📊 Phổ Điểm &amp; Excel (5)
+                        </button>
+                    
+                        <button type="button" onclick="window.TRITHUC.switchAdminTab('gsites')" class="v511-mobile-pill ">
+                            🔐 Mã Hóa Kho Đề &amp; Bảo Mật (Mục 5)
+                        </button>
+                    
+                </div>
+
+                <div class="v511-admin-body">
+                    <!-- Thanh Sidebar trái phân nhóm 3 cụm nghiệp vụ cho Desktop -->
+                    <aside class="v511-admin-sidebar custom-scrollbar " aria-label="Điều hướng Quản trị Giáo viên">
+                        
+                            <div class="space-y-1">
+                                <div class="v511-nav-group-label">Soạn Đề &amp; Ma Trận</div>
+                                
+                                    <button type="button" onclick="window.TRITHUC.switchAdminTab('matrix_builder')" class="v511-sidebar-item ">
+                                        <span class="flex items-center gap-2 min-w-0">
+                                            <span class="shrink-0">🧭</span>
+                                            <span class="truncate">1. Làm Đề &amp; Ma Trận (E)</span>
+                                        </span>
+                                        
+                                    </button>
+                                
+                                    <button type="button" onclick="window.TRITHUC.switchAdminTab('cv7991_matrix')" class="v511-sidebar-item ">
+                                        <span class="flex items-center gap-2 min-w-0">
+                                            <span class="shrink-0">📐</span>
+                                            <span class="truncate">1B. Ma Trận CV 7991</span>
+                                        </span>
+                                        <span class="v511-sidebar-badge">BGD</span>
+                                    </button>
+                                
+                                    <button type="button" onclick="window.TRITHUC.switchAdminTab('sync_mock_to_e')" class="v511-sidebar-item ">
+                                        <span class="flex items-center gap-2 min-w-0">
+                                            <span class="shrink-0">🔍</span>
+                                            <span class="truncate">2. Bóc Tách Dạng → E</span>
+                                        </span>
+                                        
+                                    </button>
+                                
+                            </div>
+                        
+                            <div class="space-y-1">
+                                <div class="v511-nav-group-label">Học Liệu &amp; Kho Đề</div>
+                                
+                                    <button type="button" onclick="window.TRITHUC.switchAdminTab('exams')" class="v511-sidebar-item ">
+                                        <span class="flex items-center gap-2 min-w-0">
+                                            <span class="shrink-0">📋</span>
+                                            <span class="truncate">Kho Đề &amp; Bài Học</span>
+                                        </span>
+                                        <span class="v511-sidebar-badge">241</span>
+                                    </button>
+                                
+                                    <button type="button" onclick="window.TRITHUC.switchAdminTab('lessons')" class="v511-sidebar-item ">
+                                        <span class="flex items-center gap-2 min-w-0">
+                                            <span class="shrink-0">✏️</span>
+                                            <span class="truncate">Quản Lý &amp; Sửa Bài Học</span>
+                                        </span>
+                                        
+                                    </button>
+                                
+                                    <button type="button" onclick="window.TRITHUC.switchAdminTab('create')" class="v511-sidebar-item v511-active">
+                                        <span class="flex items-center gap-2 min-w-0">
+                                            <span class="shrink-0">➕</span>
+                                            <span class="truncate">Tạo / Nạp Đề V9.6</span>
+                                        </span>
+                                        
+                                    </button>
+                                
+                            </div>
+                        
+                            <div class="space-y-1">
+                                <div class="v511-nav-group-label">Học Sinh &amp; Hệ Thống</div>
+                                
+                                    <button type="button" onclick="window.TRITHUC.switchAdminTab('users')" class="v511-sidebar-item ">
+                                        <span class="flex items-center gap-2 min-w-0">
+                                            <span class="shrink-0">👥</span>
+                                            <span class="truncate">Tài Khoản &amp; Duyệt VIP</span>
+                                        </span>
+                                        <span class="v511-sidebar-badge">0</span>
+                                    </button>
+                                
+                                    <button type="button" onclick="window.TRITHUC.switchAdminTab('results')" class="v511-sidebar-item ">
+                                        <span class="flex items-center gap-2 min-w-0">
+                                            <span class="shrink-0">📊</span>
+                                            <span class="truncate">Phổ Điểm &amp; Excel</span>
+                                        </span>
+                                        <span class="v511-sidebar-badge">5</span>
+                                    </button>
+                                
+                                    <button type="button" onclick="window.TRITHUC.switchAdminTab('gsites')" class="v511-sidebar-item ">
+                                        <span class="flex items-center gap-2 min-w-0">
+                                            <span class="shrink-0">🔐</span>
+                                            <span class="truncate">Mã Hóa &amp; Bảo Mật</span>
+                                        </span>
+                                        
+                                    </button>
+                                
+                            </div>
+                        
+                        
+                    </aside>
+
+                    <main class="v511-admin-main">
+                        
+                        
+                        
+            <div class="v5-surface-card p-5 sm:p-6 space-y-5">
+                <div class="border-b border-slate-200 pb-3.5">
+                    <h2 class="text-base sm:text-lg font-extrabold text-slate-900 m-0 tracking-tight">➕ Tạo Hoặc Nạp Đề Kiểm Tra Mới Vào Bài Học / Kho Đề</h2>
+                    <p class="text-xs text-slate-500 font-semibold m-0 mt-0.5">Hỗ trợ nạp mã nhúng từ <b>V9.7 PRO3</b>, tải file <b>PDF / Word (.docx) + AI Gemini OCR</b> hoặc dán văn bản câu hỏi LaTeX.</p>
+                </div>
+
+                <!-- TAB CHỌN MỤC ĐÍCH TẠO ĐỀ: GẮN BÀI HỌC / GẮN MÁC ĐỀ THI THỬ / KHO ĐỀ CHUNG -->
+                <div class="space-y-2.5">
+                    <label class="block text-xs font-black text-slate-700 uppercase">1. Chọn phân loại &amp; Gắn mác đề thi:</label>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                        <button type="button" onclick="window.TRITHUC.setCreateTargetType('lesson')" class="p-3.5 rounded-2xl border-2 text-left transition flex items-start gap-3 bg-blue-50 border-blue-600 text-blue-950 shadow-xs">
+                            <span class="text-2xl">📚</span>
+                            <div>
+                                <div class="font-black text-xs uppercase">Đề Kiểm Tra Bài Học</div>
+                                <div class="text-[11px] font-semibold opacity-80 mt-0.5">Gắn trực tiếp vào từng Bài / Chương</div>
+                            </div>
+                        </button>
+                        <button type="button" onclick="window.TRITHUC.setCreateTargetType('mock')" class="p-3.5 rounded-2xl border-2 text-left transition flex items-start gap-3 bg-white border-slate-200 text-slate-600 hover:bg-slate-50">
+                            <span class="text-2xl">🔥</span>
+                            <div>
+                                <div class="font-black text-xs uppercase text-rose-700">Gắn Mác ĐỀ THI THỬ</div>
+                                <div class="text-[11px] font-semibold opacity-85 mt-0.5">Hiển thị ngay ở tab <b>🔥 Đề thi thử</b> &amp; Kho đề</div>
+                            </div>
+                        </button>
+                        <button type="button" onclick="window.TRITHUC.setCreateTargetType('bank')" class="p-3.5 rounded-2xl border-2 text-left transition flex items-start gap-3 bg-white border-slate-200 text-slate-600 hover:bg-slate-50">
+                            <span class="text-2xl">📂</span>
+                            <div>
+                                <div class="font-black text-xs uppercase">Kho Đề Thi Chung</div>
+                                <div class="text-[11px] font-semibold opacity-80 mt-0.5">Lưu vào Kho Đề các Trường &amp; Sở GD&amp;ĐT</div>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-12 gap-3 bg-slate-50 p-4 rounded-2xl border border-slate-200">
+                    <div class="sm:col-span-6">
+                        <label class="block text-[11px] font-extrabold text-slate-600 uppercase mb-1">Tên đề kiểm tra / Đề thi thử (*)</label>
+                        <input type="text" value="" oninput="window.TRITHUC.setCreateField('title', this.value)" placeholder="VD: Bài 3: Đường tiệm cận – Đề số 3 (Nâng cao)" class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white font-bold text-xs outline-none focus:border-blue-600" style="">
+                    </div>
+                    <div class="sm:col-span-2">
+                        <label class="block text-[11px] font-extrabold text-slate-600 uppercase mb-1">Mã đề</label>
+                        <input type="text" value="1205" oninput="window.TRITHUC.setCreateField('code', this.value)" class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white font-mono-code font-bold text-xs text-center" style="">
+                    </div>
+                    <div class="sm:col-span-2">
+                        <label class="block text-[11px] font-extrabold text-slate-600 uppercase mb-1">Thời gian (phút)</label>
+                        <input type="number" value="45" oninput="window.TRITHUC.setCreateField('duration', this.value)" class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white font-bold text-xs text-center" style="">
+                    </div>
+                    <div class="sm:col-span-2">
+                        <label class="block text-[11px] font-extrabold text-slate-600 uppercase mb-1">Số lỗi tối đa</label>
+                        <input type="number" value="3" oninput="window.TRITHUC.setCreateField('maxTabSwitches', this.value)" class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white font-bold text-xs text-center" style="">
+                    </div>
+
+                    <div class="sm:col-span-3">
+                        <label class="block text-[11px] font-extrabold text-slate-600 uppercase mb-1">Khối lớp</label>
+                        <select onchange="window.TRITHUC.setCreateGrade(this.value)" class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white font-bold text-xs">
+                            <option value="12" selected="">Toán 12</option>
+                            <option value="11">Toán 11</option>
+                            <option value="10">Toán 10</option>
+                        </select>
+                    </div>
+                    <div class="sm:col-span-6">
+                        <label class="block text-[11px] font-extrabold text-slate-600 uppercase mb-1">
+                            Gắn vào Bài học (Hoặc chọn Kho đề chung)
+                        </label>
+                        
+                            <select onchange="window.TRITHUC.setCreateField('lessonId', this.value)" class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white font-bold text-xs">
+                                <option value="">📂 Chỉ lưu ở Kho Đề Thi Chung (Không gắn bài cụ thể)</option>
+                                
+                                    <option value="12-b1" selected="">
+                                        [Bài 1] Tính đơn điệu và cực trị của hàm số (Chương I: Ứng dụng đạo hàm để khảo sát và vẽ đồ thị hàm số)
+                                    </option>
+                                
+                                    <option value="12-b2">
+                                        [Bài 2] Giá trị lớn nhất và giá trị nhỏ nhất của hàm số (Chương I: Ứng dụng đạo hàm để khảo sát và vẽ đồ thị hàm số)
+                                    </option>
+                                
+                                    <option value="12-b3">
+                                        [Bài 3] Đường tiệm cận của đồ thị hàm số (Chương I: Ứng dụng đạo hàm để khảo sát và vẽ đồ thị hàm số)
+                                    </option>
+                                
+                                    <option value="12-b4">
+                                        [Bài 4] Khảo sát sự biến thiên và vẽ đồ thị của hàm số (Chương I: Ứng dụng đạo hàm để khảo sát và vẽ đồ thị hàm số)
+                                    </option>
+                                
+                                    <option value="12-b5">
+                                        [Bài 5] Ứng dụng đạo hàm để giải quyết một số vấn đề liên quan đến thực tiễn (Chương I: Ứng dụng đạo hàm để khảo sát và vẽ đồ thị hàm số)
+                                    </option>
+                                
+                                    <option value="12-c1-rev">
+                                        [Ôn tập C1] Bài tập cuối chương I &amp; Kiểm tra thường xuyên Chương I (Chương I: Ứng dụng đạo hàm để khảo sát và vẽ đồ thị hàm số)
+                                    </option>
+                                
+                                    <option value="12-gk1-test">
+                                        [Giữa kỳ I] Ôn tập &amp; Kiểm tra đánh giá Giữa kỳ I (Chuẩn CV 7991) (Ôn tập và Kiểm tra Giữa kỳ I)
+                                    </option>
+                                
+                                    <option value="12-b6">
+                                        [Bài 6] Vectơ trong không gian (Chương II: Vectơ và Hệ trục tọa độ trong không gian)
+                                    </option>
+                                
+                                    <option value="12-b7">
+                                        [Bài 7] Hệ trục tọa độ trong không gian (Chương II: Vectơ và Hệ trục tọa độ trong không gian)
+                                    </option>
+                                
+                                    <option value="12-b8">
+                                        [Bài 8] Biểu thức tọa độ của các phép toán vectơ (Chương II: Vectơ và Hệ trục tọa độ trong không gian)
+                                    </option>
+                                
+                                    <option value="12-c2-rev">
+                                        [Ôn tập C2] Bài tập cuối chương II (Chương II: Vectơ và Hệ trục tọa độ trong không gian)
+                                    </option>
+                                
+                                    <option value="12-b9">
+                                        [Bài 9] Khoảng biến thiên và khoảng tứ phân vị (Chương III: Các số đặc trưng đo độ phân tán của mẫu số liệu ghép nhóm)
+                                    </option>
+                                
+                                    <option value="12-b10">
+                                        [Bài 10] Phương sai và độ lệch chuẩn (Chương III: Các số đặc trưng đo độ phân tán của mẫu số liệu ghép nhóm)
+                                    </option>
+                                
+                                    <option value="12-c3-rev">
+                                        [Ôn tập C3] Bài tập cuối chương III (Chương III: Các số đặc trưng đo độ phân tán của mẫu số liệu ghép nhóm)
+                                    </option>
+                                
+                                    <option value="12-ck1-test">
+                                        [Cuối kỳ I] Ôn tập &amp; Kiểm tra Cuối học kỳ I (Ôn tập, Kiểm tra Cuối kỳ I &amp; Hoạt động trải nghiệm)
+                                    </option>
+                                
+                                    <option value="12-hdtn1">
+                                        [Trải nghiệm HK1] Thực hành GeoGebra (Khảo sát hàm số, Vectơ 3D) &amp; Thống kê độ dài gang tay (Ôn tập, Kiểm tra Cuối kỳ I &amp; Hoạt động trải nghiệm)
+                                    </option>
+                                
+                                    <option value="12-b11">
+                                        [Bài 11] Nguyên hàm (Chương IV: Nguyên hàm và Tích phân)
+                                    </option>
+                                
+                                    <option value="12-b12">
+                                        [Bài 12] Tích phân (Chương IV: Nguyên hàm và Tích phân)
+                                    </option>
+                                
+                                    <option value="12-b13">
+                                        [Bài 13] Ứng dụng hình học của tích phân (Chương IV: Nguyên hàm và Tích phân)
+                                    </option>
+                                
+                                    <option value="12-c4-rev">
+                                        [Ôn tập C4] Bài tập cuối chương IV &amp; Đề kiểm tra Nguyên hàm – Tích phân (Chương IV: Nguyên hàm và Tích phân)
+                                    </option>
+                                
+                                    <option value="12-gk2-test">
+                                        [Giữa kỳ II] Ôn tập &amp; Kiểm tra đánh giá Giữa kỳ II (Ôn tập và Kiểm tra Giữa kỳ II)
+                                    </option>
+                                
+                                    <option value="12-b14">
+                                        [Bài 14] Phương trình mặt phẳng (Chương V: Phương pháp tọa độ trong không gian)
+                                    </option>
+                                
+                                    <option value="12-b15">
+                                        [Bài 15] Phương trình đường thẳng trong không gian (Chương V: Phương pháp tọa độ trong không gian)
+                                    </option>
+                                
+                                    <option value="12-b16">
+                                        [Bài 16] Công thức tính góc trong không gian (Chương V: Phương pháp tọa độ trong không gian)
+                                    </option>
+                                
+                                    <option value="12-b17">
+                                        [Bài 17] Phương trình mặt cầu (Chương V: Phương pháp tọa độ trong không gian)
+                                    </option>
+                                
+                                    <option value="12-c5-rev">
+                                        [Ôn tập C5] Bài tập cuối chương V (Chương V: Phương pháp tọa độ trong không gian)
+                                    </option>
+                                
+                                    <option value="12-b18">
+                                        [Bài 18] Xác suất có điều kiện (Chương VI: Xác suất có điều kiện)
+                                    </option>
+                                
+                                    <option value="12-b19">
+                                        [Bài 19] Công thức xác suất toàn phần và công thức Bayes (Chương VI: Xác suất có điều kiện)
+                                    </option>
+                                
+                                    <option value="12-c6-rev">
+                                        [Ôn tập C6] Bài tập cuối chương VI (Chương VI: Xác suất có điều kiện)
+                                    </option>
+                                
+                                    <option value="12-ck2-test">
+                                        [Cuối năm] Ôn tập &amp; Kiểm tra Cuối năm Toán 12 &amp; Thi thử Tốt nghiệp THPT (Ôn tập, Kiểm tra Cuối năm &amp; Hoạt động trải nghiệm HK2)
+                                    </option>
+                                
+                                    <option value="12-hdtn2">
+                                        [Trải nghiệm HK2] Tính nguyên hàm – tích phân &amp; Vẽ đồ họa 3D với GeoGebra (Ôn tập, Kiểm tra Cuối năm &amp; Hoạt động trải nghiệm HK2)
+                                    </option>
+                                
+                                    <option value="12-cd-b1">
+                                        [CĐ1 - Bài 1] Biến ngẫu nhiên rời rạc và các số đặc trưng (Chuyên đề 1: Biến ngẫu nhiên rời rạc. Các số đặc trưng (12 tiết))
+                                    </option>
+                                
+                                    <option value="12-cd-b2">
+                                        [CĐ1 - Bài 2] Biến ngẫu nhiên có phân bố nhị thức và áp dụng (Chuyên đề 1: Biến ngẫu nhiên rời rạc. Các số đặc trưng (12 tiết))
+                                    </option>
+                                
+                                    <option value="12-cd1-rev">
+                                        [Ôn tập CĐ1] Bài tập cuối chuyên đề 1 (Chuyên đề 1: Biến ngẫu nhiên rời rạc. Các số đặc trưng (12 tiết))
+                                    </option>
+                                
+                                    <option value="12-cd-b3">
+                                        [CĐ2 - Bài 3] Vận dụng hệ bất phương trình bậc nhất giải bài toán quy hoạch tuyến tính (Chuyên đề 2: Ứng dụng toán học để giải một số bài toán tối ưu (12 tiết))
+                                    </option>
+                                
+                                    <option value="12-cd-b4">
+                                        [CĐ2 - Bài 4] Vận dụng đạo hàm để giải quyết một số bài toán tối ưu (Chuyên đề 2: Ứng dụng toán học để giải một số bài toán tối ưu (12 tiết))
+                                    </option>
+                                
+                                    <option value="12-cd2-rev">
+                                        [Ôn tập CĐ2] Bài tập cuối chuyên đề 2 &amp; Kiểm tra Chuyên đề (Chuyên đề 2: Ứng dụng toán học để giải một số bài toán tối ưu (12 tiết))
+                                    </option>
+                                
+                                    <option value="12-cd-b5">
+                                        [CĐ3 - Bài 5] Tiền tệ. Lãi suất (Chuyên đề 3: Ứng dụng toán học trong một số vấn đề liên quan đến tài chính (11 tiết))
+                                    </option>
+                                
+                                    <option value="12-cd-b6">
+                                        [CĐ3 - Bài 6] Tín dụng. Vay nợ (Chuyên đề 3: Ứng dụng toán học trong một số vấn đề liên quan đến tài chính (11 tiết))
+                                    </option>
+                                
+                                    <option value="12-cd-b7">
+                                        [CĐ3 - Bài 7] Đầu tư tài chính. Lập kế hoạch tài chính cá nhân (Chuyên đề 3: Ứng dụng toán học trong một số vấn đề liên quan đến tài chính (11 tiết))
+                                    </option>
+                                
+                            </select>
+                        
+                    </div>
+                    <div class="sm:col-span-3">
+                        <label class="block text-[11px] font-extrabold text-slate-600 uppercase mb-1">Mức độ đề</label>
+                        <select onchange="window.TRITHUC.setCreateField('level', this.value)" class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white font-bold text-xs">
+                            <option value="nhanbiet" selected="">🟢 Đề số 1: Mức Nhận biết</option>
+                            <option value="thonghieu">🔵 Đề số 2: Mức Thông hiểu</option>
+                            <option value="vandung">🔥 Đề số 3: Mức Vận dụng</option>
+                        </select>
+                    </div>
+
+                    <!-- CẤU HÌNH CHUYÊN NGHIỆP CHUẨN V9.5 PRO: MẬT KHẨU ĐỀ CÔNG KHAI, ĐẢO CÂU HỎI & GIỚI HẠN LƯỢT THI (BỎ LIÊN KẾT GOOGLE FORM) -->
+                    <div class="sm:col-span-12 pt-2.5 border-t border-slate-200/80 bg-indigo-50/60 p-3.5 rounded-2xl border border-indigo-200 space-y-3">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <span class="text-xs font-black text-indigo-950 uppercase flex items-center gap-1.5">
+                                <span>⚙️</span>
+                                <span>Thiết Lập Phòng Thi Chuyên Nghiệp Chuẩn V9.5 PRO (Lưu Trực Tiếp Hệ Thống • Đã Bỏ Liên Kết Google Form)</span>
+                            </span>
+                            <span class="px-2.5 py-0.5 rounded-full bg-indigo-700 text-white text-[10px] font-extrabold uppercase">V9.5 PRO Engine</span>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs">
+                            <div>
+                                <label class="block text-[11px] font-extrabold text-rose-800 uppercase mb-1">🔑 Mật khẩu đề thi (Công khai / VIP)</label>
+                                <div class="flex gap-1.5">
+                                    <input id="createFormPasswordInpV45" type="text" value="" oninput="window.TRITHUC.setCreateField('password', this.value)" placeholder="Để trống = Không mật khẩu" class="flex-1 px-3 py-2 rounded-xl border border-rose-300 bg-white font-mono-code font-bold text-xs text-rose-800 outline-none focus:border-rose-600" style="">
+                                    <button type="button" onclick="window.TRITHUC.generateRandomCreatePassword()" title="Tạo mật khẩu ngẫu nhiên" class="px-2.5 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-black text-xs">🎲</button>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-extrabold text-slate-700 uppercase mb-1">🔄 Giới hạn số lượt làm bài</label>
+                                <select onchange="window.TRITHUC.setCreateField('maxAttempts', parseInt(this.value, 10) || 0)" class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white font-bold text-xs">
+                                    <option value="0" selected="">♾️ Không giới hạn lượt thi</option>
+                                    <option value="1">1️⃣ Chỉ 1 lượt duy nhất</option>
+                                    <option value="2">2️⃣ Tối đa 2 lượt làm bài</option>
+                                    <option value="3">3️⃣ Tối đa 3 lượt làm bài</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-extrabold text-slate-700 uppercase mb-1">🔀 Chế độ đảo đề V9.5 PRO</label>
+                                <select onchange="window.TRITHUC.setCreateShuffleMode(this.value)" class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white font-bold text-xs">
+                                    <option value="none" selected="">Giữ nguyên thứ tự gốc</option>
+                                    <option value="questions">Đảo thứ tự câu hỏi</option>
+                                    <option value="both">Đảo cả câu hỏi &amp; đáp án A,B,C,D</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-extrabold text-slate-700 uppercase mb-1">👁️ Chế độ xem đáp án sau nộp</label>
+                                <select onchange="window.TRITHUC.setCreateField('showAnswers', this.value === 'true')" class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white font-bold text-xs">
+                                    <option value="true" selected="">Hiện Điểm + Đáp án + Lời giải</option>
+                                    <option value="false">Chỉ hiện Điểm (Ẩn đáp án &amp; lời giải)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TÙY CHỌN MỞ KHÓA TRỰC TIẾP KHI TẠO ĐỀ (ĐỀ CÔNG KHAI KHÔNG CẦN MUA VIP) -->
+                    <div class="sm:col-span-12 pt-2.5 border-t border-slate-200/80 flex flex-col lg:flex-row lg:items-center justify-between gap-3 bg-emerald-50/60 p-3 rounded-xl border border-emerald-200">
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="text-xs font-black text-emerald-950 uppercase flex items-center gap-1">
+                                <span>🔓</span>
+                                <span>Chế độ Mở Khóa Trực Tiếp Khi Tạo Đề:</span>
+                            </span>
+                            <div class="inline-flex bg-white p-1 rounded-xl border border-emerald-300 shadow-2xs flex-wrap">
+                                <button type="button" onclick="window.TRITHUC.setCreatePublicUnlock(true)" class="px-3.5 py-1.5 rounded-lg text-xs font-black transition flex items-center gap-1.5 bg-emerald-600 text-white shadow-xs">
+                                    <span>🔓</span>
+                                    <span>Mở Khóa Trực Tiếp (Đề Công Khai • Không Cần Mua VIP)</span>
+                                </button>
+                                <button type="button" onclick="window.TRITHUC.setCreatePublicUnlock(false)" class="px-3.5 py-1.5 rounded-lg text-xs font-black transition flex items-center gap-1.5 text-slate-600 hover:bg-slate-100">
+                                    <span>🔒</span>
+                                    <span>Khóa VIP Theo Gói (Cần Mua VIP)</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-xs font-extrabold text-emerald-800">
+                            ✓ Đề sẽ CÔNG KHAI 100%: Mọi học sinh vào thi trực tiếp ngay mà KHÔNG cần mua gói VIP!
+                        </div>
+                    </div>
+
+                    <!-- TÙY CHỌN GẮN HOẶC BỎ WATERMARK NGAY TRONG MỤC TẠO ĐỀ -->
+                    <div class="sm:col-span-12 pt-2.5 border-t border-slate-200/80 flex flex-col md:flex-row md:items-center justify-between gap-3">
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="text-xs font-black text-slate-700 uppercase">🌊 Tùy chọn Watermark trên đề này:</span>
+                            <div class="inline-flex bg-white p-1 rounded-xl border border-slate-300">
+                                <button type="button" onclick="window.TRITHUC.setCreateWatermark(true)" class="px-3 py-1.5 rounded-lg text-xs font-extrabold transition bg-blue-600 text-white shadow-2xs">
+                                    ✔ Gắn Watermark V9.7pro
+                                </button>
+                                <button type="button" onclick="window.TRITHUC.setCreateWatermark(false)" class="px-3 py-1.5 rounded-lg text-xs font-extrabold transition text-slate-600 hover:bg-slate-100">
+                                    🚫 Bỏ Watermark (Không gắn)
+                                </button>
+                            </div>
+                        </div>
+                        
+                            <div class="flex items-center gap-2 flex-1 max-w-md">
+                                <input type="text" value="" oninput="window.TRITHUC.setCreateField('watermarkText', this.value)" placeholder="Chữ Watermark riêng cho đề này (Trống = Tên đề thi)..." class="w-full px-3 py-1.5 rounded-xl border border-slate-300 bg-white font-bold text-xs outline-none focus:border-blue-600" style="">
+                            </div>
+                        
+                    </div>
+                </div>
+
+                <!-- THANH CÔNG CỤ SINH NHANH ĐỀ KIỂM TRA GIỮA KỲ, CUỐI KỲ & ĐỀ THI THỬ CHO CẢ 3 KHỐI (12 • 11 • 10) -->
+                <div class="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-rose-50 via-amber-50 to-indigo-50 border-2 border-rose-200 space-y-3.5">
+                    <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3 border-b border-rose-200/70 pb-3">
+                        <div class="space-y-1">
+                            <div class="text-xs sm:text-sm font-black text-rose-900 uppercase flex items-center gap-1.5 flex-wrap">
+                                <span>🔥</span>
+                                <span>Công Cụ Tạo Đề Nhanh Kiểm Tra Giữa Kỳ, Cuối Kỳ &amp; Thi Thử Cho Cả 3 Khối (Toán 12 • 11 • 10)</span>
+                            </div>
+                            <p class="text-[11px] text-slate-600 font-semibold m-0">
+                                Tự động bốc 22 câu hỏi chuẩn cấu trúc Bộ GD&amp;ĐT (12 câu TN + 4 câu Đúng/Sai + 6 câu Trả lời ngắn) kèm hình vẽ và lời giải chi tiết cho cả 3 khối 10, 11, 12.
+                            </p>
+                        </div>
+                        <div class="flex items-center gap-2 flex-wrap shrink-0">
+                            <button type="button" onclick="window.TRITHUC.setCreatePublicUnlock(!(state.createForm.isVipOnly === false))" class="px-3.5 py-2 rounded-xl font-black text-xs uppercase shadow-sm transition flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white ring-2 ring-emerald-300">
+                                <span>🔓</span>
+                                <span>Đã Bật Mở Khóa Trực Tiếp (Công Khai)</span>
+                            </button>
+                            <button type="button" onclick="window.TRITHUC.generateAutoExamFromMatrixBank('current_lesson')" class="px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-black text-xs uppercase shadow-sm transition flex items-center gap-1.5">
+                                <span>🎲</span>
+                                <span>Sinh Đề 22 Câu Theo Bài Đang Chọn</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- BỘ NÚT TẠO ĐỀ NHANH GIỮA KỲ 1, CUỐI KỲ 1, GIỮA KỲ 2, CUỐI KỲ 2 & THI THỬ CHO CẢ 3 KHỐI -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-3">
+                        <!-- KHỐI 12 -->
+                        <div class="bg-white/90 p-3.5 rounded-2xl border-2 border-blue-200 shadow-2xs space-y-2.5">
+                            <div class="flex items-center justify-between gap-2 border-b border-blue-100 pb-1.5">
+                                <span class="text-xs font-black text-blue-900 uppercase flex items-center gap-1.5">📘 Khối 12 (Toán 12)</span>
+                                <span class="px-2 py-0.5 rounded-full bg-blue-100 text-blue-800 text-[10px] font-extrabold">6 Chương • 22 Câu</span>
+                            </div>
+                            <div class="grid grid-cols-2 gap-1.5">
+                                <button type="button" onclick="window.TRITHUC.generateAutoExamFromMatrixBank('gk1_12')" class="px-2.5 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-black text-[11px] uppercase shadow-2xs transition flex items-center justify-center gap-1">
+                                    <span>📙</span><span>Giữa Kỳ 1 K12</span>
+                                </button>
+                                <button type="button" onclick="window.TRITHUC.generateAutoExamFromMatrixBank('hk1_12')" class="px-2.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-black text-[11px] uppercase shadow-2xs transition flex items-center justify-center gap-1">
+                                    <span>📘</span><span>Cuối Kỳ 1 K12</span>
+                                </button>
+                                <button type="button" onclick="window.TRITHUC.generateAutoExamFromMatrixBank('gk2_12')" class="px-2.5 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-black text-[11px] uppercase shadow-2xs transition flex items-center justify-center gap-1">
+                                    <span>📙</span><span>Giữa Kỳ 2 K12</span>
+                                </button>
+                                <button type="button" onclick="window.TRITHUC.generateAutoExamFromMatrixBank('hk2_12')" class="px-2.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-[11px] uppercase shadow-2xs transition flex items-center justify-center gap-1">
+                                    <span>📗</span><span>Cuối Kỳ 2 K12</span>
+                                </button>
+                            </div>
+                            <button type="button" onclick="window.TRITHUC.generateAutoExamFromMatrixBank('mock12_full')" class="w-full px-3 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-black text-[11px] uppercase shadow-2xs transition flex items-center justify-center gap-1.5">
+                                <span>⚡</span><span>Đề Thi Thử Tốt Nghiệp 12 (Đủ 6 Chương)</span>
+                            </button>
+                        </div>
+
+                        <!-- KHỐI 11 -->
+                        <div class="bg-white/90 p-3.5 rounded-2xl border-2 border-emerald-200 shadow-2xs space-y-2.5">
+                            <div class="flex items-center justify-between gap-2 border-b border-emerald-100 pb-1.5">
+                                <span class="text-xs font-black text-emerald-900 uppercase flex items-center gap-1.5">📗 Khối 11 (Toán 11)</span>
+                                <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-extrabold">9 Chương • 22 Câu</span>
+                            </div>
+                            <div class="grid grid-cols-2 gap-1.5">
+                                <button type="button" onclick="window.TRITHUC.generateAutoExamFromMatrixBank('gk1_11')" class="px-2.5 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-black text-[11px] uppercase shadow-2xs transition flex items-center justify-center gap-1">
+                                    <span>📙</span><span>Giữa Kỳ 1 K11</span>
+                                </button>
+                                <button type="button" onclick="window.TRITHUC.generateAutoExamFromMatrixBank('hk1_11')" class="px-2.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-black text-[11px] uppercase shadow-2xs transition flex items-center justify-center gap-1">
+                                    <span>📘</span><span>Cuối Kỳ 1 K11</span>
+                                </button>
+                                <button type="button" onclick="window.TRITHUC.generateAutoExamFromMatrixBank('gk2_11')" class="px-2.5 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-black text-[11px] uppercase shadow-2xs transition flex items-center justify-center gap-1">
+                                    <span>📙</span><span>Giữa Kỳ 2 K11</span>
+                                </button>
+                                <button type="button" onclick="window.TRITHUC.generateAutoExamFromMatrixBank('hk2_11')" class="px-2.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-[11px] uppercase shadow-2xs transition flex items-center justify-center gap-1">
+                                    <span>📗</span><span>Cuối Kỳ 2 K11</span>
+                                </button>
+                            </div>
+                            <button type="button" onclick="window.TRITHUC.generateAutoExamFromMatrixBank('mock11_full')" class="w-full px-3 py-2 rounded-xl bg-teal-700 hover:bg-teal-800 text-white font-black text-[11px] uppercase shadow-2xs transition flex items-center justify-center gap-1.5">
+                                <span>⚡</span><span>Đề Khảo Sát Cả Năm Khối 11 (Đủ 9 Chương)</span>
+                            </button>
+                        </div>
+
+                        <!-- KHỐI 10 -->
+                        <div class="bg-white/90 p-3.5 rounded-2xl border-2 border-purple-200 shadow-2xs space-y-2.5">
+                            <div class="flex items-center justify-between gap-2 border-b border-purple-100 pb-1.5">
+                                <span class="text-xs font-black text-purple-900 uppercase flex items-center gap-1.5">📙 Khối 10 (Toán 10)</span>
+                                <span class="px-2 py-0.5 rounded-full bg-purple-100 text-purple-800 text-[10px] font-extrabold">9 Chương • 22 Câu</span>
+                            </div>
+                            <div class="grid grid-cols-2 gap-1.5">
+                                <button type="button" onclick="window.TRITHUC.generateAutoExamFromMatrixBank('gk1_10')" class="px-2.5 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-black text-[11px] uppercase shadow-2xs transition flex items-center justify-center gap-1">
+                                    <span>📙</span><span>Giữa Kỳ 1 K10</span>
+                                </button>
+                                <button type="button" onclick="window.TRITHUC.generateAutoExamFromMatrixBank('hk1_10')" class="px-2.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-black text-[11px] uppercase shadow-2xs transition flex items-center justify-center gap-1">
+                                    <span>📘</span><span>Cuối Kỳ 1 K10</span>
+                                </button>
+                                <button type="button" onclick="window.TRITHUC.generateAutoExamFromMatrixBank('gk2_10')" class="px-2.5 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-black text-[11px] uppercase shadow-2xs transition flex items-center justify-center gap-1">
+                                    <span>📙</span><span>Giữa Kỳ 2 K10</span>
+                                </button>
+                                <button type="button" onclick="window.TRITHUC.generateAutoExamFromMatrixBank('hk2_10')" class="px-2.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-[11px] uppercase shadow-2xs transition flex items-center justify-center gap-1">
+                                    <span>📗</span><span>Cuối Kỳ 2 K10</span>
+                                </button>
+                            </div>
+                            <button type="button" onclick="window.TRITHUC.generateAutoExamFromMatrixBank('mock10_full')" class="w-full px-3 py-2 rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-black text-[11px] uppercase shadow-2xs transition flex items-center justify-center gap-1.5">
+                                <span>⚡</span><span>Đề Khảo Sát Cả Năm Khối 10 (Đủ 9 Chương)</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap items-center gap-2.5 border-b border-slate-200 pb-2.5">
+                    
+                        <button type="button" onclick="window.TRITHUC.setCreateSourceTab('v97')" class="px-4 py-2.5 rounded-xl text-xs font-extrabold transition bg-blue-700 text-white shadow-xs">
+                            ⚡ Cách 1: Dán Mã Nhúng / File HTML từ V9.6 PRO (Hỗ Trợ Nhiều Đề)
+                        </button>
+                    
+                        <button type="button" onclick="window.TRITHUC.setCreateSourceTab('pdf')" class="px-4 py-2.5 rounded-xl text-xs font-extrabold transition bg-slate-100 text-slate-600 hover:bg-slate-200">
+                            📄 Cách 2: Tải File PDF / Word (.docx) + AI Gemini OCR
+                        </button>
+                    
+                </div>
+
+                
+                    <div class="space-y-3">
+                        <div class="flex flex-wrap items-center justify-between gap-2 bg-blue-50 border border-blue-200 p-3.5 rounded-2xl text-xs text-blue-950">
+                            <div>
+                                <b>💡 Tương thích 100% V9.6 PRO (Đơn đề &amp; Nhiều đề):</b> Dán mã hoặc chọn file <code>.html / .json / .txt</code> (nhận diện tự động <b>File nhiều đề ALL_EXAMS / ENC_MULTI_PAYLOAD</b>, Slide, Mảng JSON, Văn bản 4 phần gồm <b>Phần IV Tự luận → Trả lời ngắn</b>).
+                            </div>
+                            <label class="px-3.5 py-2 rounded-xl bg-white hover:bg-blue-100 text-blue-700 border border-blue-300 font-extrabold cursor-pointer shrink-0">
+                                📂 Chọn File .HTML / .JSON / .TXT
+                                <input type="file" accept=".html,.htm,.json,.txt" class="hidden" onchange="window.TRITHUC.handleV97FileSelect(event)" style="">
+                            </label>
+                        </div>
+                        
+                        <textarea rows="6" oninput="window.TRITHUC.onV97PasteInput(this.value)" placeholder="Dán mã HTML nhiều đề (ALL_EXAMS / ENC_MULTI_PAYLOAD), mã nhúng V9.6 / V9.7, JSON hoặc văn bản đề 4 phần vào đây..." class="w-full p-3.5 rounded-2xl border border-slate-300 font-mono-code text-xs outline-none focus:border-blue-600" style=""></textarea>
+                        <div class="p-3 rounded-2xl bg-slate-50 border border-slate-200 text-[11px] text-slate-700 space-y-2.5">
+                            <div id="examCloudSyncBadgeV468" class="font-bold leading-snug break-words">⚡ Đã nạp tức thì 50 đề từ CDN Vercel (18:52)</div>
+                            <div class="flex items-center gap-1.5 flex-wrap">
+                                <button type="button" onclick="window.TRITHUC.syncCustomExamsNow()" class="px-3 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-700 text-white font-extrabold text-[11px] transition">
+                                    ☁️ Đồng bộ ngay
+                                </button>
+                                <button type="button" onclick="window.TRITHUC.exportCustomExamsBackupGzV469()" class="px-2.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-[11px] transition" title="Xuất file exams-cloud.json.gz để thả thẳng vào thư mục repo Vercel/GitHub (học sinh tải &lt;0.1 giây, không bao giờ 429)">
+                                    🚀 Xuất exams-cloud.json.gz
+                                </button>
+                                <label class="px-2.5 py-1.5 rounded-lg bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 font-extrabold text-[11px] cursor-pointer transition" title="Khôi phục toàn bộ kho đề từ file exams-cloud.json.gz">
+                                    📥 Khôi phục (.gz)
+                                    <input type="file" accept=".gz,.json" class="hidden" onchange="window.TRITHUC.importCustomExamsBackupGzV469(event)" style="">
+                                </label>
+                                <button type="button" onclick="window.TRITHUC.toggleGitHubSyncConfigPanelV473()" class="px-2.5 py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-800 border border-indigo-200 font-extrabold text-[11px] transition">
+                                    ⚙️ GitHub / Vercel 
+                                </button>
+                            </div>
+                            
+                        </div>
+                    </div>
+                
+
+                
+
+                
+
+
+
+                        
+
+                
+                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3">
+                    <div class="flex flex-wrap items-center justify-between gap-2">
+                        <div class="text-xs font-black text-slate-700 uppercase">
+                            ⚡ Chuỗi Đáp Án Chuẩn 3 Phần (Tự động điền khi nạp file hoặc nhập tay):
+                        </div>
+                        <div class="flex items-center gap-2 flex-wrap">
+                            
+                            
+                                <button type="button" onclick="window.TRITHUC.toggleManualPart4BoxV96()" class="px-2.5 py-1 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-300 text-[11px] font-extrabold transition">
+                                    ➕ Thêm Phần IV (Tự luận → TLN)
+                                </button>
+                            
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-600 mb-1">Phần I (Chuỗi ABCD, VD: BCDCD...)</label>
+                            <input type="text" value="" oninput="window.TRITHUC.setCreateField('fastP1', this.value)" placeholder="VD: BCDCD..." class="w-full px-3 py-2 rounded-xl border border-blue-300 bg-white font-mono-code font-black text-xs text-blue-700 uppercase tracking-widest" style="">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-600 mb-1">Phần II (Chuỗi Đ/S, VD: ĐSĐSĐĐSS...)</label>
+                            <input type="text" value="" oninput="window.TRITHUC.setCreateField('fastP2', this.value)" placeholder="VD: ĐSĐSĐĐSS..." class="w-full px-3 py-2 rounded-xl border border-purple-300 bg-white font-mono-code font-black text-xs text-purple-700 uppercase tracking-widest" style="">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-600 mb-1">Phần III (Cách nhau dấu |, VD: -3 | 5 | 2)</label>
+                            <input type="text" value="" oninput="window.TRITHUC.setCreateField('fastP3', this.value)" placeholder="VD: -3 | 5 | 2" class="w-full px-3 py-2 rounded-xl border border-orange-300 bg-white font-mono-code font-bold text-xs text-orange-700" style="">
+                        </div>
+                        
+                    </div>
+                </div>
+
+                
+
+                <div class="flex flex-wrap items-center justify-between gap-2.5 pt-2 border-t border-slate-200">
+                    <div class="text-xs font-bold text-emerald-700">
+                        🔓 Trạng thái khi lưu: Đề Công Khai (Học sinh làm trực tiếp không cần mua VIP)
+                    </div>
+                    <div class="flex flex-wrap items-center gap-2.5">
+                        <button type="button" onclick="window.TRITHUC.saveCreatedExam(true)" class="px-5 py-3 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs uppercase tracking-wider shadow-md transition flex items-center gap-1.5">
+                            <span>🔓</span>
+                            <span>Lưu &amp; Mở Khóa Trực Tiếp (Không Cần VIP)</span>
+                        </button>
+                        <button type="button" onclick="window.TRITHUC.saveCreatedExam()" class="px-5 py-3 rounded-2xl bg-blue-700 hover:bg-blue-800 text-white font-black text-xs uppercase tracking-wider shadow-md transition flex items-center gap-1.5">
+                            <span>💾</span>
+                            <span>Lưu Đề Thi (Công Khai)</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+                    </main>
+                </div>
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            </div>

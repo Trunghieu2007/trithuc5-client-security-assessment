@@ -4,7 +4,7 @@ Authorized assessment of `https://trithuc500.vercel.app/`. No server was modifie
 
 **Build under test:** SHA-256 `ffe94aea9b327853b0b8836bf0d52e1f509fcc68c007bead7b8a888604389185`, 9,120,257 bytes, 34,677 lines, fetched 2026-11-22T10:36:26Z. The measured V4.8.0 → V4.8.6 delta is documented in [`research/trithuc5/PHASE5_UPDATE.md`](research/trithuc5/PHASE5_UPDATE.md).
 
-**Frontend recon note:** a later fetch found the live site at **V5.1.1** (`c4295c9924391721d8a552a6d6723a1b61928d2cee371b75b33af77bbdb62104`). That build has its own separate recon baseline at [`docs/frontend-recon/`](docs/frontend-recon/). Security findings below remain pinned to V4.8.6 and have not been retested against V5.1.1.
+**Frontend recon note:** a later fetch found the live site at **V5.1.1** (`c4295c9924391721d8a552a6d6723a1b61928d2cee371b75b33af77bbdb62104`) and then **V5.1.4**. Both builds have their own recon baseline at [`docs/frontend-recon/`](docs/frontend-recon/), including a full admin-component extraction (9 admin tabs, 28 screenshots, 34 render function sources) obtained with a local-only admin mock. Security findings below remain pinned to V4.8.6 and have not been retested against V5.1.1/V5.1.4.
 
 ## Headline result
 
