@@ -1,0 +1,733 @@
+- generic [ref=f2e217]:
+  - navigation [ref=f2e218]:
+    - generic [ref=f2e219]:
+      - generic [ref=f2e220]:
+        - generic [ref=f2e221] [cursor=pointer]:
+          - generic [ref=f2e222]: "5.0"
+          - generic [ref=f2e224]:
+            - generic [ref=f2e225]: TRITHUC5.0
+            - generic [ref=f2e226]: V5.1.1
+        - generic [ref=f2e227]:
+          - radiogroup "Chọn chế độ giao diện" [ref=f2e228]:
+            - radio "Chế độ Sáng (Light)" [ref=f2e229] [cursor=pointer]
+            - radio "Chế độ Tối (Dark)" [ref=f2e236] [cursor=pointer]
+            - radio "Tự động theo hệ điều hành (System)" [checked] [ref=f2e239] [cursor=pointer]
+          - button "🔗 Link ĐK" [ref=f2e242] [cursor=pointer]:
+            - generic [ref=f2e243]: 🔗
+            - generic [ref=f2e244]: Link ĐK
+          - button "⚙️ GV" [ref=f2e245] [cursor=pointer]:
+            - generic [ref=f2e246]: ⚙️
+            - generic [ref=f2e247]: GV
+      - generic [ref=f2e248]:
+        - button "📚 Chương & Bài học" [ref=f2e249] [cursor=pointer]:
+          - generic [ref=f2e250]: 📚
+          - generic [ref=f2e251]: Chương & Bài học
+        - button "📝 Kho Đề Thi" [ref=f2e252] [cursor=pointer]:
+          - generic [ref=f2e253]: 📝
+          - generic [ref=f2e254]: Kho Đề Thi
+        - button "🏆 Bảng Vàng & Điểm" [ref=f2e255] [cursor=pointer]:
+          - generic [ref=f2e256]: 🏆
+          - generic [ref=f2e257]: Bảng Vàng & Điểm
+      - generic [ref=f2e259]:
+        - button "🔐 Đăng nhập" [ref=f2e260] [cursor=pointer]:
+          - generic [ref=f2e261]: 🔐
+          - generic [ref=f2e262]: Đăng nhập
+        - button "📝 Đăng ký" [ref=f2e263] [cursor=pointer]:
+          - generic [ref=f2e264]: 📝
+          - generic [ref=f2e265]: Đăng ký
+  - main [ref=f2e266]:
+    - generic [ref=f2e267]:
+      - generic [ref=f2e268]:
+        - generic [ref=f2e269]:
+          - button "Thu gọn cây thư mục kho đề" [ref=f2e270] [cursor=pointer]
+          - generic [ref=f2e274]:
+            - button "Kho đề TRITHUC5.0" [ref=f2e275] [cursor=pointer]
+            - generic [ref=f2e276]: 238 đề
+        - generic [ref=f2e277]:
+          - textbox "🔍 Tìm tên đề, mã đề, trường..." [ref=f2e279]
+          - combobox [ref=f2e280] [cursor=pointer]:
+            - option "Tất cả trạng thái" [selected]
+            - option "🔓 Đề Công khai / Miễn phí"
+            - option "🔒 Đề Khóa VIP"
+            - option "✓ Đề em đã làm"
+      - generic [ref=f2e281]:
+        - complementary [ref=f2e282]:
+          - generic [ref=f2e283]:
+            - combobox [ref=f2e284] [cursor=pointer]:
+              - option "Toán – THPT" [selected]
+              - option "Toán 12 – Kết nối tri thức"
+              - option "Toán 11 – Kết nối tri thức"
+              - option "Toán 10 – Kết nối tri thức"
+              - option "🔥 Thi thử TN THPT – Lớp 12"
+            - button "Mở rộng / Thu gọn toàn bộ cây thư mục" [ref=f2e285] [cursor=pointer]
+          - generic [ref=f2e291]:
+            - generic [ref=f2e292]: MÔN / CHƯƠNG / BÀI
+            - button "Tất cả" [ref=f2e296] [cursor=pointer]
+          - navigation [ref=f2e297]:
+            - generic [ref=f2e298] [cursor=pointer]:
+              - generic [ref=f2e299]:
+                - generic [ref=f2e300]: 📚
+                - generic [ref=f2e301]: Tất cả đề thi
+              - generic [ref=f2e302]: "238"
+            - generic [ref=f2e303]:
+              - generic [ref=f2e304] [cursor=pointer]:
+                - generic [ref=f2e305]: Toán 12 – Kết nối tri thức
+                - generic [ref=f2e310]: "97"
+              - generic [ref=f2e311]:
+                - generic [ref=f2e312]:
+                  - generic [ref=f2e313] [cursor=pointer]:
+                    - 'generic "Chương I: Ứng dụng đạo hàm để khảo sát và vẽ đồ thị hàm số" [ref=f2e318]': "CI: Ứng dụng đạo hàm để khảo sát và vẽ đồ thị hàm số"
+                    - generic [ref=f2e319]: "15"
+                  - generic [ref=f2e321]:
+                    - generic [ref=f2e322] [cursor=pointer]:
+                      - 'generic "Bài 2: Giá trị lớn nhất và giá trị nhỏ nhất của hàm số" [ref=f2e323]'
+                      - generic [ref=f2e324]: "3"
+                    - generic [ref=f2e326] [cursor=pointer]:
+                      - 'generic "Bài 3: Đường tiệm cận của đồ thị hàm số" [ref=f2e327]'
+                      - generic [ref=f2e328]: "3"
+                    - generic [ref=f2e330] [cursor=pointer]:
+                      - 'generic "Bài 4: Khảo sát sự biến thiên và vẽ đồ thị của hàm số" [ref=f2e331]'
+                      - generic [ref=f2e332]: "3"
+                    - generic [ref=f2e334] [cursor=pointer]:
+                      - 'generic "Bài 5: Ứng dụng đạo hàm để giải quyết một số vấn đề liên quan đến thực tiễn" [ref=f2e335]'
+                      - generic [ref=f2e336]: "3"
+                    - generic [ref=f2e338] [cursor=pointer]:
+                      - 'generic "Ôn tập C1: Bài tập cuối chương I & Kiểm tra thường xuyên Chương I" [ref=f2e339]'
+                      - generic [ref=f2e340]: "3"
+                - generic [ref=f2e343] [cursor=pointer]:
+                  - 'generic "Chương II: Vectơ và Hệ trục tọa độ trong không gian" [ref=f2e348]': "CII: Vectơ và Hệ trục tọa độ trong không gian"
+                  - generic [ref=f2e349]: "12"
+                - generic [ref=f2e352] [cursor=pointer]:
+                  - 'generic "Chương III: Các số đặc trưng đo độ phân tán của mẫu số liệu ghép nhóm" [ref=f2e357]': "CIII: Các số đặc trưng đo độ phân tán của mẫu số liệu ghép nhóm"
+                  - generic [ref=f2e358]: "9"
+                - generic [ref=f2e361] [cursor=pointer]:
+                  - generic "Ôn tập, Kiểm tra Cuối kỳ I & Hoạt động trải nghiệm" [ref=f2e366]
+                  - generic [ref=f2e367]: "19"
+                - generic [ref=f2e370] [cursor=pointer]:
+                  - 'generic "Chương IV: Nguyên hàm và Tích phân" [ref=f2e375]': "CIV: Nguyên hàm và Tích phân"
+                  - generic [ref=f2e376]: "12"
+                - generic [ref=f2e379] [cursor=pointer]:
+                  - generic "Ôn tập và Kiểm tra Giữa kỳ II" [ref=f2e384]
+                  - generic [ref=f2e385]: "3"
+                - generic [ref=f2e388] [cursor=pointer]:
+                  - 'generic "Chương V: Phương pháp tọa độ trong không gian" [ref=f2e393]': "CV: Phương pháp tọa độ trong không gian"
+                  - generic [ref=f2e394]: "15"
+                - generic [ref=f2e397] [cursor=pointer]:
+                  - 'generic "Chương VI: Xác suất có điều kiện" [ref=f2e402]': "CVI: Xác suất có điều kiện"
+                  - generic [ref=f2e403]: "9"
+                - generic [ref=f2e406] [cursor=pointer]:
+                  - generic "Ôn tập, Kiểm tra Cuối năm & Hoạt động trải nghiệm HK2" [ref=f2e411]
+                  - generic [ref=f2e412]: "3"
+            - generic [ref=f2e415] [cursor=pointer]:
+              - generic [ref=f2e416]: Toán 11 – Kết nối tri thức
+              - generic [ref=f2e421]: "94"
+            - generic [ref=f2e423] [cursor=pointer]:
+              - generic [ref=f2e424]: Toán 10 – Kết nối tri thức
+              - generic [ref=f2e429]: "42"
+            - generic [ref=f2e430]:
+              - generic [ref=f2e431] [cursor=pointer]:
+                - generic [ref=f2e432]: 🔥 Thi thử TN THPT – Lớp 12
+                - generic [ref=f2e437]: "5"
+              - generic [ref=f2e438]:
+                - generic [ref=f2e439] [cursor=pointer]:
+                  - generic "Bộ đề chuẩn cấu trúc mới" [ref=f2e440]
+                  - generic [ref=f2e441]: "3"
+                - generic [ref=f2e443] [cursor=pointer]:
+                  - generic "THCS & THPT Nguyễn Khuyến – TP.HCM • Mã 121" [ref=f2e444]
+                  - generic [ref=f2e445]: "1"
+                - generic [ref=f2e447] [cursor=pointer]:
+                  - generic "THPT Lạng Giang Số 1 – Mã 1209 • 22 câu" [ref=f2e448]
+                  - generic [ref=f2e449]: "1"
+                - button "🔗 Sang mục Luyện đề ngoài →" [ref=f2e452] [cursor=pointer]:
+                  - generic [ref=f2e453]: 🔗 Sang mục Luyện đề ngoài
+                  - generic [ref=f2e454]: →
+            - generic [ref=f2e456] [cursor=pointer]:
+              - generic [ref=f2e457]:
+                - generic [ref=f2e458]: 🔓
+                - generic [ref=f2e459]: Đề Công Khai (Miễn phí)
+              - generic [ref=f2e460]: "46"
+        - generic [ref=f2e461]:
+          - generic [ref=f2e462]:
+            - generic [ref=f2e463]:
+              - generic "Thi thử TN THPT – Lớp 12 › Bộ đề chuẩn cấu trúc mới" [ref=f2e464]: Thi thử TN THPT – Lớp 12›Bộ đề chuẩn cấu trúc mới
+              - generic [ref=f2e465]:
+                - heading "Đề Thi Thử Tốt Nghiệp THPT 2026 – Môn Toán 12 – Đề số 04 (Tổng hợp đủ 6 Chương Toán 12 • Chuẩn 22 Câu)" [level=3] [ref=f2e466]
+                - generic [ref=f2e467]: Miễn phí
+              - generic [ref=f2e468]:
+                - generic [ref=f2e469]: 22 câu · 4 đúng/sai · 6 trả lời ngắn · 12 trắc nghiệm
+                - generic [ref=f2e470]: ·
+                - generic [ref=f2e471]: 90 phút
+                - generic [ref=f2e472]: ·
+                - generic [ref=f2e473]: Mã TT12-04
+                - generic [ref=f2e474]: ·
+                - generic [ref=f2e475]: 1 lượt thi
+            - generic [ref=f2e476]:
+              - button "▶ Vào thi" [ref=f2e477] [cursor=pointer]:
+                - generic [ref=f2e478]: ▶
+                - generic [ref=f2e479]: Vào thi
+              - button "🏆" [ref=f2e480] [cursor=pointer]
+          - generic [ref=f2e481]:
+            - generic [ref=f2e482]:
+              - 'generic "Toán 12 – Kết nối tri thức › Ôn tập, Kiểm tra Cuối kỳ I & Hoạt động trải nghiệm › Cuối kỳ I: Ôn tập & Kiểm tra Cuối học kỳ I" [ref=f2e483]': "Toán 12 – Kết nối tri thức›Ôn tập, Kiểm tra Cuối kỳ I & Hoạt động trải nghiệm›Cuối kỳ I: Ôn tập & Kiểm tra Cuối học kỳ I"
+              - generic [ref=f2e484]:
+                - heading "Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 12 — Đề số 1" [level=3] [ref=f2e485]
+                - generic [ref=f2e486]: Miễn phí
+              - generic [ref=f2e487]:
+                - generic [ref=f2e488]: 22 câu · 4 đúng/sai · 6 trả lời ngắn · 12 trắc nghiệm
+                - generic [ref=f2e489]: ·
+                - generic [ref=f2e490]: 90 phút
+                - generic [ref=f2e491]: ·
+                - generic [ref=f2e492]: Mã 001-1
+                - generic [ref=f2e493]: ·
+                - generic [ref=f2e494]: 0 lượt thi
+            - generic [ref=f2e495]:
+              - button "▶ Vào thi" [ref=f2e496] [cursor=pointer]:
+                - generic [ref=f2e497]: ▶
+                - generic [ref=f2e498]: Vào thi
+              - button "🏆" [ref=f2e499] [cursor=pointer]
+          - generic [ref=f2e500]:
+            - generic [ref=f2e501]:
+              - 'generic "Toán 12 – Kết nối tri thức › Ôn tập, Kiểm tra Cuối kỳ I & Hoạt động trải nghiệm › Cuối kỳ I: Ôn tập & Kiểm tra Cuối học kỳ I" [ref=f2e502]': "Toán 12 – Kết nối tri thức›Ôn tập, Kiểm tra Cuối kỳ I & Hoạt động trải nghiệm›Cuối kỳ I: Ôn tập & Kiểm tra Cuối học kỳ I"
+              - generic [ref=f2e503]:
+                - heading "Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 12 — Đề số 2" [level=3] [ref=f2e504]
+                - generic [ref=f2e505]: Miễn phí
+              - generic [ref=f2e506]:
+                - generic [ref=f2e507]: 22 câu · 4 đúng/sai · 6 trả lời ngắn · 12 trắc nghiệm
+                - generic [ref=f2e508]: ·
+                - generic [ref=f2e509]: 90 phút
+                - generic [ref=f2e510]: ·
+                - generic [ref=f2e511]: Mã 001-2
+                - generic [ref=f2e512]: ·
+                - generic [ref=f2e513]: 0 lượt thi
+            - generic [ref=f2e514]:
+              - button "▶ Vào thi" [ref=f2e515] [cursor=pointer]:
+                - generic [ref=f2e516]: ▶
+                - generic [ref=f2e517]: Vào thi
+              - button "🏆" [ref=f2e518] [cursor=pointer]
+          - generic [ref=f2e519]:
+            - generic [ref=f2e520]:
+              - 'generic "Toán 12 – Kết nối tri thức › Ôn tập, Kiểm tra Cuối kỳ I & Hoạt động trải nghiệm › Cuối kỳ I: Ôn tập & Kiểm tra Cuối học kỳ I" [ref=f2e521]': "Toán 12 – Kết nối tri thức›Ôn tập, Kiểm tra Cuối kỳ I & Hoạt động trải nghiệm›Cuối kỳ I: Ôn tập & Kiểm tra Cuối học kỳ I"
+              - generic [ref=f2e522]:
+                - heading "Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 12 — Đề số 3" [level=3] [ref=f2e523]
+                - generic [ref=f2e524]: Miễn phí
+              - generic [ref=f2e525]:
+                - generic [ref=f2e526]: 22 câu · 4 đúng/sai · 6 trả lời ngắn · 12 trắc nghiệm
+                - generic [ref=f2e527]: ·
+                - generic [ref=f2e528]: 90 phút
+                - generic [ref=f2e529]: ·
+                - generic [ref=f2e530]: Mã 001-3
+                - generic [ref=f2e531]: ·
+                - generic [ref=f2e532]: 0 lượt thi
+            - generic [ref=f2e533]:
+              - button "▶ Vào thi" [ref=f2e534] [cursor=pointer]:
+                - generic [ref=f2e535]: ▶
+                - generic [ref=f2e536]: Vào thi
+              - button "🏆" [ref=f2e537] [cursor=pointer]
+          - generic [ref=f2e538]:
+            - generic [ref=f2e539]:
+              - 'generic "Toán 12 – Kết nối tri thức › Ôn tập, Kiểm tra Cuối kỳ I & Hoạt động trải nghiệm › Cuối kỳ I: Ôn tập & Kiểm tra Cuối học kỳ I" [ref=f2e540]': "Toán 12 – Kết nối tri thức›Ôn tập, Kiểm tra Cuối kỳ I & Hoạt động trải nghiệm›Cuối kỳ I: Ôn tập & Kiểm tra Cuối học kỳ I"
+              - generic [ref=f2e541]:
+                - heading "Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 12 — Đề số 4" [level=3] [ref=f2e542]
+                - generic [ref=f2e543]: Miễn phí
+              - generic [ref=f2e544]:
+                - generic [ref=f2e545]: 22 câu · 4 đúng/sai · 6 trả lời ngắn · 12 trắc nghiệm
+                - generic [ref=f2e546]: ·
+                - generic [ref=f2e547]: 90 phút
+                - generic [ref=f2e548]: ·
+                - generic [ref=f2e549]: Mã 001-4
+                - generic [ref=f2e550]: ·
+                - generic [ref=f2e551]: 0 lượt thi
+            - generic [ref=f2e552]:
+              - button "▶ Vào thi" [ref=f2e553] [cursor=pointer]:
+                - generic [ref=f2e554]: ▶
+                - generic [ref=f2e555]: Vào thi
+              - button "🏆" [ref=f2e556] [cursor=pointer]
+          - generic [ref=f2e557]:
+            - generic [ref=f2e558]:
+              - 'generic "Toán 12 – Kết nối tri thức › Ôn tập, Kiểm tra Cuối kỳ I & Hoạt động trải nghiệm › Cuối kỳ I: Ôn tập & Kiểm tra Cuối học kỳ I" [ref=f2e559]': "Toán 12 – Kết nối tri thức›Ôn tập, Kiểm tra Cuối kỳ I & Hoạt động trải nghiệm›Cuối kỳ I: Ôn tập & Kiểm tra Cuối học kỳ I"
+              - generic [ref=f2e560]:
+                - heading "Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 12 — Đề số 5" [level=3] [ref=f2e561]
+                - generic [ref=f2e562]: Miễn phí
+              - generic [ref=f2e563]:
+                - generic [ref=f2e564]: 22 câu · 4 đúng/sai · 6 trả lời ngắn · 12 trắc nghiệm
+                - generic [ref=f2e565]: ·
+                - generic [ref=f2e566]: 90 phút
+                - generic [ref=f2e567]: ·
+                - generic [ref=f2e568]: Mã 001-5
+                - generic [ref=f2e569]: ·
+                - generic [ref=f2e570]: 0 lượt thi
+            - generic [ref=f2e571]:
+              - button "▶ Vào thi" [ref=f2e572] [cursor=pointer]:
+                - generic [ref=f2e573]: ▶
+                - generic [ref=f2e574]: Vào thi
+              - button "🏆" [ref=f2e575] [cursor=pointer]
+          - generic [ref=f2e576]:
+            - generic [ref=f2e577]:
+              - 'generic "Toán 12 – Kết nối tri thức › Ôn tập, Kiểm tra Cuối kỳ I & Hoạt động trải nghiệm › Cuối kỳ I: Ôn tập & Kiểm tra Cuối học kỳ I" [ref=f2e578]': "Toán 12 – Kết nối tri thức›Ôn tập, Kiểm tra Cuối kỳ I & Hoạt động trải nghiệm›Cuối kỳ I: Ôn tập & Kiểm tra Cuối học kỳ I"
+              - generic [ref=f2e579]:
+                - heading "Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 12 — Đề số 6" [level=3] [ref=f2e580]
+                - generic [ref=f2e581]: Miễn phí
+              - generic [ref=f2e582]:
+                - generic [ref=f2e583]: 22 câu · 4 đúng/sai · 6 trả lời ngắn · 12 trắc nghiệm
+                - generic [ref=f2e584]: ·
+                - generic [ref=f2e585]: 90 phút
+                - generic [ref=f2e586]: ·
+                - generic [ref=f2e587]: Mã 001-6
+                - generic [ref=f2e588]: ·
+                - generic [ref=f2e589]: 0 lượt thi
+            - generic [ref=f2e590]:
+              - button "▶ Vào thi" [ref=f2e591] [cursor=pointer]:
+                - generic [ref=f2e592]: ▶
+                - generic [ref=f2e593]: Vào thi
+              - button "🏆" [ref=f2e594] [cursor=pointer]
+          - generic [ref=f2e595]:
+            - generic [ref=f2e596]:
+              - 'generic "Toán 12 – Kết nối tri thức › Ôn tập, Kiểm tra Cuối kỳ I & Hoạt động trải nghiệm › Cuối kỳ I: Ôn tập & Kiểm tra Cuối học kỳ I" [ref=f2e597]': "Toán 12 – Kết nối tri thức›Ôn tập, Kiểm tra Cuối kỳ I & Hoạt động trải nghiệm›Cuối kỳ I: Ôn tập & Kiểm tra Cuối học kỳ I"
+              - generic [ref=f2e598]:
+                - heading "Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 12 — Đề số 7" [level=3] [ref=f2e599]
+                - generic [ref=f2e600]: Miễn phí
+              - generic [ref=f2e601]:
+                - generic [ref=f2e602]: 22 câu · 4 đúng/sai · 6 trả lời ngắn · 12 trắc nghiệm
+                - generic [ref=f2e603]: ·
+                - generic [ref=f2e604]: 90 phút
+                - generic [ref=f2e605]: ·
+                - generic [ref=f2e606]: Mã 001-7
+                - generic [ref=f2e607]: ·
+                - generic [ref=f2e608]: 0 lượt thi
+            - generic [ref=f2e609]:
+              - button "▶ Vào thi" [ref=f2e610] [cursor=pointer]:
+                - generic [ref=f2e611]: ▶
+                - generic [ref=f2e612]: Vào thi
+              - button "🏆" [ref=f2e613] [cursor=pointer]
+          - generic [ref=f2e614]:
+            - generic [ref=f2e615]:
+              - 'generic "Toán 12 – Kết nối tri thức › Ôn tập, Kiểm tra Cuối kỳ I & Hoạt động trải nghiệm › Cuối kỳ I: Ôn tập & Kiểm tra Cuối học kỳ I" [ref=f2e616]': "Toán 12 – Kết nối tri thức›Ôn tập, Kiểm tra Cuối kỳ I & Hoạt động trải nghiệm›Cuối kỳ I: Ôn tập & Kiểm tra Cuối học kỳ I"
+              - generic [ref=f2e617]:
+                - heading "Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 12 — Đề số 8" [level=3] [ref=f2e618]
+                - generic [ref=f2e619]: Miễn phí
+              - generic [ref=f2e620]:
+                - generic [ref=f2e621]: 22 câu · 4 đúng/sai · 6 trả lời ngắn · 12 trắc nghiệm
+                - generic [ref=f2e622]: ·
+                - generic [ref=f2e623]: 90 phút
+                - generic [ref=f2e624]: ·
+                - generic [ref=f2e625]: Mã 001-8
+                - generic [ref=f2e626]: ·
+                - generic [ref=f2e627]: 0 lượt thi
+            - generic [ref=f2e628]:
+              - button "▶ Vào thi" [ref=f2e629] [cursor=pointer]:
+                - generic [ref=f2e630]: ▶
+                - generic [ref=f2e631]: Vào thi
+              - button "🏆" [ref=f2e632] [cursor=pointer]
+          - generic [ref=f2e633]:
+            - generic [ref=f2e634]:
+              - 'generic "Toán 12 – Kết nối tri thức › Ôn tập, Kiểm tra Cuối kỳ I & Hoạt động trải nghiệm › Cuối kỳ I: Ôn tập & Kiểm tra Cuối học kỳ I" [ref=f2e635]': "Toán 12 – Kết nối tri thức›Ôn tập, Kiểm tra Cuối kỳ I & Hoạt động trải nghiệm›Cuối kỳ I: Ôn tập & Kiểm tra Cuối học kỳ I"
+              - generic [ref=f2e636]:
+                - heading "Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 12 — Đề số 9" [level=3] [ref=f2e637]
+                - generic [ref=f2e638]: Miễn phí
+              - generic [ref=f2e639]:
+                - generic [ref=f2e640]: 22 câu · 4 đúng/sai · 6 trả lời ngắn · 12 trắc nghiệm
+                - generic [ref=f2e641]: ·
+                - generic [ref=f2e642]: 90 phút
+                - generic [ref=f2e643]: ·
+                - generic [ref=f2e644]: Mã 001-9
+                - generic [ref=f2e645]: ·
+                - generic [ref=f2e646]: 0 lượt thi
+            - generic [ref=f2e647]:
+              - button "▶ Vào thi" [ref=f2e648] [cursor=pointer]:
+                - generic [ref=f2e649]: ▶
+                - generic [ref=f2e650]: Vào thi
+              - button "🏆" [ref=f2e651] [cursor=pointer]
+          - generic [ref=f2e652]:
+            - generic [ref=f2e653]:
+              - 'generic "Toán 12 – Kết nối tri thức › Ôn tập, Kiểm tra Cuối kỳ I & Hoạt động trải nghiệm › Cuối kỳ I: Ôn tập & Kiểm tra Cuối học kỳ I" [ref=f2e654]': "Toán 12 – Kết nối tri thức›Ôn tập, Kiểm tra Cuối kỳ I & Hoạt động trải nghiệm›Cuối kỳ I: Ôn tập & Kiểm tra Cuối học kỳ I"
+              - generic [ref=f2e655]:
+                - heading "Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 12 — Đề số 10" [level=3] [ref=f2e656]
+                - generic [ref=f2e657]: Miễn phí
+              - generic [ref=f2e658]:
+                - generic [ref=f2e659]: 22 câu · 4 đúng/sai · 6 trả lời ngắn · 12 trắc nghiệm
+                - generic [ref=f2e660]: ·
+                - generic [ref=f2e661]: 90 phút
+                - generic [ref=f2e662]: ·
+                - generic [ref=f2e663]: Mã 001-10
+                - generic [ref=f2e664]: ·
+                - generic [ref=f2e665]: 0 lượt thi
+            - generic [ref=f2e666]:
+              - button "▶ Vào thi" [ref=f2e667] [cursor=pointer]:
+                - generic [ref=f2e668]: ▶
+                - generic [ref=f2e669]: Vào thi
+              - button "🏆" [ref=f2e670] [cursor=pointer]
+          - generic [ref=f2e671]:
+            - generic [ref=f2e672]:
+              - 'generic "Toán 12 – Kết nối tri thức › Ôn tập, Kiểm tra Cuối kỳ I & Hoạt động trải nghiệm › Cuối kỳ I: Ôn tập & Kiểm tra Cuối học kỳ I" [ref=f2e673]': "Toán 12 – Kết nối tri thức›Ôn tập, Kiểm tra Cuối kỳ I & Hoạt động trải nghiệm›Cuối kỳ I: Ôn tập & Kiểm tra Cuối học kỳ I"
+              - generic [ref=f2e674]:
+                - heading "Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 12 — Đề số 11" [level=3] [ref=f2e675]
+                - generic [ref=f2e676]: Miễn phí
+              - generic [ref=f2e677]:
+                - generic [ref=f2e678]: 22 câu · 4 đúng/sai · 6 trả lời ngắn · 12 trắc nghiệm
+                - generic [ref=f2e679]: ·
+                - generic [ref=f2e680]: 90 phút
+                - generic [ref=f2e681]: ·
+                - generic [ref=f2e682]: Mã 001-11
+                - generic [ref=f2e683]: ·
+                - generic [ref=f2e684]: 0 lượt thi
+            - generic [ref=f2e685]:
+              - button "▶ Vào thi" [ref=f2e686] [cursor=pointer]:
+                - generic [ref=f2e687]: ▶
+                - generic [ref=f2e688]: Vào thi
+              - button "🏆" [ref=f2e689] [cursor=pointer]
+          - generic [ref=f2e690]:
+            - generic [ref=f2e691]:
+              - 'generic "Toán 12 – Kết nối tri thức › Ôn tập, Kiểm tra Cuối kỳ I & Hoạt động trải nghiệm › Cuối kỳ I: Ôn tập & Kiểm tra Cuối học kỳ I" [ref=f2e692]': "Toán 12 – Kết nối tri thức›Ôn tập, Kiểm tra Cuối kỳ I & Hoạt động trải nghiệm›Cuối kỳ I: Ôn tập & Kiểm tra Cuối học kỳ I"
+              - generic [ref=f2e693]:
+                - heading "Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 12 — Đề số 12" [level=3] [ref=f2e694]
+                - generic [ref=f2e695]: Miễn phí
+              - generic [ref=f2e696]:
+                - generic [ref=f2e697]: 22 câu · 4 đúng/sai · 6 trả lời ngắn · 12 trắc nghiệm
+                - generic [ref=f2e698]: ·
+                - generic [ref=f2e699]: 90 phút
+                - generic [ref=f2e700]: ·
+                - generic [ref=f2e701]: Mã 001-12
+                - generic [ref=f2e702]: ·
+                - generic [ref=f2e703]: 0 lượt thi
+            - generic [ref=f2e704]:
+              - button "▶ Vào thi" [ref=f2e705] [cursor=pointer]:
+                - generic [ref=f2e706]: ▶
+                - generic [ref=f2e707]: Vào thi
+              - button "🏆" [ref=f2e708] [cursor=pointer]
+          - generic [ref=f2e709]:
+            - generic [ref=f2e710]:
+              - 'generic "Toán 12 – Kết nối tri thức › Ôn tập, Kiểm tra Cuối kỳ I & Hoạt động trải nghiệm › Cuối kỳ I: Ôn tập & Kiểm tra Cuối học kỳ I" [ref=f2e711]': "Toán 12 – Kết nối tri thức›Ôn tập, Kiểm tra Cuối kỳ I & Hoạt động trải nghiệm›Cuối kỳ I: Ôn tập & Kiểm tra Cuối học kỳ I"
+              - generic [ref=f2e712]:
+                - heading "Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 12 — Đề số 13" [level=3] [ref=f2e713]
+                - generic [ref=f2e714]: Miễn phí
+              - generic [ref=f2e715]:
+                - generic [ref=f2e716]: 22 câu · 4 đúng/sai · 6 trả lời ngắn · 12 trắc nghiệm
+                - generic [ref=f2e717]: ·
+                - generic [ref=f2e718]: 90 phút
+                - generic [ref=f2e719]: ·
+                - generic [ref=f2e720]: Mã 001-13
+                - generic [ref=f2e721]: ·
+                - generic [ref=f2e722]: 0 lượt thi
+            - generic [ref=f2e723]:
+              - button "▶ Vào thi" [ref=f2e724] [cursor=pointer]:
+                - generic [ref=f2e725]: ▶
+                - generic [ref=f2e726]: Vào thi
+              - button "🏆" [ref=f2e727] [cursor=pointer]
+          - generic [ref=f2e728]:
+            - generic [ref=f2e729]:
+              - 'generic "Toán 12 – Kết nối tri thức › Ôn tập, Kiểm tra Cuối kỳ I & Hoạt động trải nghiệm › Cuối kỳ I: Ôn tập & Kiểm tra Cuối học kỳ I" [ref=f2e730]': "Toán 12 – Kết nối tri thức›Ôn tập, Kiểm tra Cuối kỳ I & Hoạt động trải nghiệm›Cuối kỳ I: Ôn tập & Kiểm tra Cuối học kỳ I"
+              - generic [ref=f2e731]:
+                - heading "Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 12 — Đề số 14" [level=3] [ref=f2e732]
+                - generic [ref=f2e733]: Miễn phí
+              - generic [ref=f2e734]:
+                - generic [ref=f2e735]: 22 câu · 4 đúng/sai · 6 trả lời ngắn · 12 trắc nghiệm
+                - generic [ref=f2e736]: ·
+                - generic [ref=f2e737]: 90 phút
+                - generic [ref=f2e738]: ·
+                - generic [ref=f2e739]: Mã 001-14
+                - generic [ref=f2e740]: ·
+                - generic [ref=f2e741]: 0 lượt thi
+            - generic [ref=f2e742]:
+              - button "▶ Vào thi" [ref=f2e743] [cursor=pointer]:
+                - generic [ref=f2e744]: ▶
+                - generic [ref=f2e745]: Vào thi
+              - button "🏆" [ref=f2e746] [cursor=pointer]
+          - generic [ref=f2e747]:
+            - generic [ref=f2e748]:
+              - 'generic "Toán 12 – Kết nối tri thức › Ôn tập, Kiểm tra Cuối kỳ I & Hoạt động trải nghiệm › Cuối kỳ I: Ôn tập & Kiểm tra Cuối học kỳ I" [ref=f2e749]': "Toán 12 – Kết nối tri thức›Ôn tập, Kiểm tra Cuối kỳ I & Hoạt động trải nghiệm›Cuối kỳ I: Ôn tập & Kiểm tra Cuối học kỳ I"
+              - generic [ref=f2e750]:
+                - heading "Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 12 — Đề số 15" [level=3] [ref=f2e751]
+                - generic [ref=f2e752]: Miễn phí
+              - generic [ref=f2e753]:
+                - generic [ref=f2e754]: 22 câu · 4 đúng/sai · 6 trả lời ngắn · 12 trắc nghiệm
+                - generic [ref=f2e755]: ·
+                - generic [ref=f2e756]: 90 phút
+                - generic [ref=f2e757]: ·
+                - generic [ref=f2e758]: Mã 001-15
+                - generic [ref=f2e759]: ·
+                - generic [ref=f2e760]: 1 lượt thi
+            - generic [ref=f2e761]:
+              - button "▶ Vào thi" [ref=f2e762] [cursor=pointer]:
+                - generic [ref=f2e763]: ▶
+                - generic [ref=f2e764]: Vào thi
+              - button "🏆" [ref=f2e765] [cursor=pointer]
+          - generic [ref=f2e766]:
+            - generic [ref=f2e767]:
+              - 'generic "Toán 11 – Kết nối tri thức › Chương V: Giới hạn. Hàm số liên tục & Kiểm tra Cuối kỳ I › Cuối kỳ I: Bài tập cuối chương V, Kiểm tra Cuối kỳ I & Hoạt động trải nghiệm HK1" [ref=f2e768]': "Toán 11 – Kết nối tri thức›Chương V: Giới hạn. Hàm số liên tục & Kiểm tra Cuối kỳ I›Cuối kỳ I: Bài tập cuối chương V, Kiểm tra Cuối kỳ I & Hoạt động trải nghiệm HK1"
+              - generic [ref=f2e769]:
+                - heading "Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 11 — Đề số 1" [level=3] [ref=f2e770]
+                - generic [ref=f2e771]: Miễn phí
+              - generic [ref=f2e772]:
+                - generic [ref=f2e773]: 21 câu · 2 đúng/sai · 3 tự luận · 4 trả lời ngắn · 12 trắc nghiệm
+                - generic [ref=f2e774]: ·
+                - generic [ref=f2e775]: 90 phút
+                - generic [ref=f2e776]: ·
+                - generic [ref=f2e777]: Mã 001-1
+                - generic [ref=f2e778]: ·
+                - generic [ref=f2e779]: 0 lượt thi
+            - generic [ref=f2e780]:
+              - button "▶ Vào thi" [ref=f2e781] [cursor=pointer]:
+                - generic [ref=f2e782]: ▶
+                - generic [ref=f2e783]: Vào thi
+              - button "🏆" [ref=f2e784] [cursor=pointer]
+          - generic [ref=f2e785]:
+            - generic [ref=f2e786]:
+              - 'generic "Toán 11 – Kết nối tri thức › Chương V: Giới hạn. Hàm số liên tục & Kiểm tra Cuối kỳ I › Cuối kỳ I: Bài tập cuối chương V, Kiểm tra Cuối kỳ I & Hoạt động trải nghiệm HK1" [ref=f2e787]': "Toán 11 – Kết nối tri thức›Chương V: Giới hạn. Hàm số liên tục & Kiểm tra Cuối kỳ I›Cuối kỳ I: Bài tập cuối chương V, Kiểm tra Cuối kỳ I & Hoạt động trải nghiệm HK1"
+              - generic [ref=f2e788]:
+                - heading "Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 11 — Đề số 2" [level=3] [ref=f2e789]
+                - generic [ref=f2e790]: Miễn phí
+              - generic [ref=f2e791]:
+                - generic [ref=f2e792]: 22 câu · 2 đúng/sai · 4 tự luận · 4 trả lời ngắn · 12 trắc nghiệm
+                - generic [ref=f2e793]: ·
+                - generic [ref=f2e794]: 90 phút
+                - generic [ref=f2e795]: ·
+                - generic [ref=f2e796]: Mã 001-2
+                - generic [ref=f2e797]: ·
+                - generic [ref=f2e798]: 0 lượt thi
+            - generic [ref=f2e799]:
+              - button "▶ Vào thi" [ref=f2e800] [cursor=pointer]:
+                - generic [ref=f2e801]: ▶
+                - generic [ref=f2e802]: Vào thi
+              - button "🏆" [ref=f2e803] [cursor=pointer]
+          - generic [ref=f2e804]:
+            - generic [ref=f2e805]:
+              - 'generic "Toán 11 – Kết nối tri thức › Chương V: Giới hạn. Hàm số liên tục & Kiểm tra Cuối kỳ I › Cuối kỳ I: Bài tập cuối chương V, Kiểm tra Cuối kỳ I & Hoạt động trải nghiệm HK1" [ref=f2e806]': "Toán 11 – Kết nối tri thức›Chương V: Giới hạn. Hàm số liên tục & Kiểm tra Cuối kỳ I›Cuối kỳ I: Bài tập cuối chương V, Kiểm tra Cuối kỳ I & Hoạt động trải nghiệm HK1"
+              - generic [ref=f2e807]:
+                - heading "Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 11 — Đề số 3" [level=3] [ref=f2e808]
+                - generic [ref=f2e809]: Miễn phí
+              - generic [ref=f2e810]:
+                - generic [ref=f2e811]: 21 câu · 2 đúng/sai · 3 tự luận · 4 trả lời ngắn · 12 trắc nghiệm
+                - generic [ref=f2e812]: ·
+                - generic [ref=f2e813]: 90 phút
+                - generic [ref=f2e814]: ·
+                - generic [ref=f2e815]: Mã 001-3
+                - generic [ref=f2e816]: ·
+                - generic [ref=f2e817]: 0 lượt thi
+            - generic [ref=f2e818]:
+              - button "▶ Vào thi" [ref=f2e819] [cursor=pointer]:
+                - generic [ref=f2e820]: ▶
+                - generic [ref=f2e821]: Vào thi
+              - button "🏆" [ref=f2e822] [cursor=pointer]
+          - generic [ref=f2e823]:
+            - generic [ref=f2e824]:
+              - 'generic "Toán 11 – Kết nối tri thức › Chương V: Giới hạn. Hàm số liên tục & Kiểm tra Cuối kỳ I › Cuối kỳ I: Bài tập cuối chương V, Kiểm tra Cuối kỳ I & Hoạt động trải nghiệm HK1" [ref=f2e825]': "Toán 11 – Kết nối tri thức›Chương V: Giới hạn. Hàm số liên tục & Kiểm tra Cuối kỳ I›Cuối kỳ I: Bài tập cuối chương V, Kiểm tra Cuối kỳ I & Hoạt động trải nghiệm HK1"
+              - generic [ref=f2e826]:
+                - heading "Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 11 — Đề số 4" [level=3] [ref=f2e827]
+                - generic [ref=f2e828]: Miễn phí
+              - generic [ref=f2e829]:
+                - generic [ref=f2e830]: 21 câu · 2 đúng/sai · 3 tự luận · 4 trả lời ngắn · 12 trắc nghiệm
+                - generic [ref=f2e831]: ·
+                - generic [ref=f2e832]: 90 phút
+                - generic [ref=f2e833]: ·
+                - generic [ref=f2e834]: Mã 001-4
+                - generic [ref=f2e835]: ·
+                - generic [ref=f2e836]: 0 lượt thi
+            - generic [ref=f2e837]:
+              - button "▶ Vào thi" [ref=f2e838] [cursor=pointer]:
+                - generic [ref=f2e839]: ▶
+                - generic [ref=f2e840]: Vào thi
+              - button "🏆" [ref=f2e841] [cursor=pointer]
+          - generic [ref=f2e842]:
+            - generic [ref=f2e843]:
+              - 'generic "Toán 11 – Kết nối tri thức › Chương V: Giới hạn. Hàm số liên tục & Kiểm tra Cuối kỳ I › Cuối kỳ I: Bài tập cuối chương V, Kiểm tra Cuối kỳ I & Hoạt động trải nghiệm HK1" [ref=f2e844]': "Toán 11 – Kết nối tri thức›Chương V: Giới hạn. Hàm số liên tục & Kiểm tra Cuối kỳ I›Cuối kỳ I: Bài tập cuối chương V, Kiểm tra Cuối kỳ I & Hoạt động trải nghiệm HK1"
+              - generic [ref=f2e845]:
+                - heading "Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 11 — Đề số 5" [level=3] [ref=f2e846]
+                - generic [ref=f2e847]: Miễn phí
+              - generic [ref=f2e848]:
+                - generic [ref=f2e849]: 21 câu · 2 đúng/sai · 3 tự luận · 4 trả lời ngắn · 12 trắc nghiệm
+                - generic [ref=f2e850]: ·
+                - generic [ref=f2e851]: 90 phút
+                - generic [ref=f2e852]: ·
+                - generic [ref=f2e853]: Mã 001-5
+                - generic [ref=f2e854]: ·
+                - generic [ref=f2e855]: 0 lượt thi
+            - generic [ref=f2e856]:
+              - button "▶ Vào thi" [ref=f2e857] [cursor=pointer]:
+                - generic [ref=f2e858]: ▶
+                - generic [ref=f2e859]: Vào thi
+              - button "🏆" [ref=f2e860] [cursor=pointer]
+          - generic [ref=f2e861]:
+            - generic [ref=f2e862]:
+              - 'generic "Toán 11 – Kết nối tri thức › Chương V: Giới hạn. Hàm số liên tục & Kiểm tra Cuối kỳ I › Cuối kỳ I: Bài tập cuối chương V, Kiểm tra Cuối kỳ I & Hoạt động trải nghiệm HK1" [ref=f2e863]': "Toán 11 – Kết nối tri thức›Chương V: Giới hạn. Hàm số liên tục & Kiểm tra Cuối kỳ I›Cuối kỳ I: Bài tập cuối chương V, Kiểm tra Cuối kỳ I & Hoạt động trải nghiệm HK1"
+              - generic [ref=f2e864]:
+                - heading "Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 11 — Đề số 6" [level=3] [ref=f2e865]
+                - generic [ref=f2e866]: Miễn phí
+              - generic [ref=f2e867]:
+                - generic [ref=f2e868]: 22 câu · 2 đúng/sai · 3 tự luận · 4 trả lời ngắn · 13 trắc nghiệm
+                - generic [ref=f2e869]: ·
+                - generic [ref=f2e870]: 90 phút
+                - generic [ref=f2e871]: ·
+                - generic [ref=f2e872]: Mã 001-6
+                - generic [ref=f2e873]: ·
+                - generic [ref=f2e874]: 0 lượt thi
+            - generic [ref=f2e875]:
+              - button "▶ Vào thi" [ref=f2e876] [cursor=pointer]:
+                - generic [ref=f2e877]: ▶
+                - generic [ref=f2e878]: Vào thi
+              - button "🏆" [ref=f2e879] [cursor=pointer]
+          - generic [ref=f2e880]:
+            - generic [ref=f2e881]:
+              - 'generic "Toán 11 – Kết nối tri thức › Chương V: Giới hạn. Hàm số liên tục & Kiểm tra Cuối kỳ I › Cuối kỳ I: Bài tập cuối chương V, Kiểm tra Cuối kỳ I & Hoạt động trải nghiệm HK1" [ref=f2e882]': "Toán 11 – Kết nối tri thức›Chương V: Giới hạn. Hàm số liên tục & Kiểm tra Cuối kỳ I›Cuối kỳ I: Bài tập cuối chương V, Kiểm tra Cuối kỳ I & Hoạt động trải nghiệm HK1"
+              - generic [ref=f2e883]:
+                - heading "Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 11 — Đề số 7" [level=3] [ref=f2e884]
+                - generic [ref=f2e885]: Miễn phí
+              - generic [ref=f2e886]:
+                - generic [ref=f2e887]: 20 câu · 2 đúng/sai · 2 tự luận · 4 trả lời ngắn · 12 trắc nghiệm
+                - generic [ref=f2e888]: ·
+                - generic [ref=f2e889]: 90 phút
+                - generic [ref=f2e890]: ·
+                - generic [ref=f2e891]: Mã 001-7
+                - generic [ref=f2e892]: ·
+                - generic [ref=f2e893]: 0 lượt thi
+            - generic [ref=f2e894]:
+              - button "▶ Vào thi" [ref=f2e895] [cursor=pointer]:
+                - generic [ref=f2e896]: ▶
+                - generic [ref=f2e897]: Vào thi
+              - button "🏆" [ref=f2e898] [cursor=pointer]
+          - generic [ref=f2e899]:
+            - generic [ref=f2e900]:
+              - 'generic "Toán 11 – Kết nối tri thức › Chương V: Giới hạn. Hàm số liên tục & Kiểm tra Cuối kỳ I › Cuối kỳ I: Bài tập cuối chương V, Kiểm tra Cuối kỳ I & Hoạt động trải nghiệm HK1" [ref=f2e901]': "Toán 11 – Kết nối tri thức›Chương V: Giới hạn. Hàm số liên tục & Kiểm tra Cuối kỳ I›Cuối kỳ I: Bài tập cuối chương V, Kiểm tra Cuối kỳ I & Hoạt động trải nghiệm HK1"
+              - generic [ref=f2e902]:
+                - heading "Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 11 — Đề số 8" [level=3] [ref=f2e903]
+                - generic [ref=f2e904]: Miễn phí
+              - generic [ref=f2e905]:
+                - generic [ref=f2e906]: 20 câu · 2 đúng/sai · 3 tự luận · 3 trả lời ngắn · 12 trắc nghiệm
+                - generic [ref=f2e907]: ·
+                - generic [ref=f2e908]: 90 phút
+                - generic [ref=f2e909]: ·
+                - generic [ref=f2e910]: Mã 001-8
+                - generic [ref=f2e911]: ·
+                - generic [ref=f2e912]: 0 lượt thi
+            - generic [ref=f2e913]:
+              - button "▶ Vào thi" [ref=f2e914] [cursor=pointer]:
+                - generic [ref=f2e915]: ▶
+                - generic [ref=f2e916]: Vào thi
+              - button "🏆" [ref=f2e917] [cursor=pointer]
+          - generic [ref=f2e918]:
+            - generic [ref=f2e919]:
+              - 'generic "Toán 11 – Kết nối tri thức › Chương V: Giới hạn. Hàm số liên tục & Kiểm tra Cuối kỳ I › Cuối kỳ I: Bài tập cuối chương V, Kiểm tra Cuối kỳ I & Hoạt động trải nghiệm HK1" [ref=f2e920]': "Toán 11 – Kết nối tri thức›Chương V: Giới hạn. Hàm số liên tục & Kiểm tra Cuối kỳ I›Cuối kỳ I: Bài tập cuối chương V, Kiểm tra Cuối kỳ I & Hoạt động trải nghiệm HK1"
+              - generic [ref=f2e921]:
+                - heading "Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 11 — Đề số 9" [level=3] [ref=f2e922]
+                - generic [ref=f2e923]: Miễn phí
+              - generic [ref=f2e924]:
+                - generic [ref=f2e925]: 20 câu · 2 đúng/sai · 3 tự luận · 3 trả lời ngắn · 12 trắc nghiệm
+                - generic [ref=f2e926]: ·
+                - generic [ref=f2e927]: 90 phút
+                - generic [ref=f2e928]: ·
+                - generic [ref=f2e929]: Mã 001-9
+                - generic [ref=f2e930]: ·
+                - generic [ref=f2e931]: 0 lượt thi
+            - generic [ref=f2e932]:
+              - button "▶ Vào thi" [ref=f2e933] [cursor=pointer]:
+                - generic [ref=f2e934]: ▶
+                - generic [ref=f2e935]: Vào thi
+              - button "🏆" [ref=f2e936] [cursor=pointer]
+          - generic [ref=f2e937]:
+            - generic [ref=f2e938]:
+              - 'generic "Toán 11 – Kết nối tri thức › Chương V: Giới hạn. Hàm số liên tục & Kiểm tra Cuối kỳ I › Cuối kỳ I: Bài tập cuối chương V, Kiểm tra Cuối kỳ I & Hoạt động trải nghiệm HK1" [ref=f2e939]': "Toán 11 – Kết nối tri thức›Chương V: Giới hạn. Hàm số liên tục & Kiểm tra Cuối kỳ I›Cuối kỳ I: Bài tập cuối chương V, Kiểm tra Cuối kỳ I & Hoạt động trải nghiệm HK1"
+              - generic [ref=f2e940]:
+                - heading "Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 11 — Đề số 10" [level=3] [ref=f2e941]
+                - generic [ref=f2e942]: Miễn phí
+              - generic [ref=f2e943]:
+                - generic [ref=f2e944]: 21 câu · 2 đúng/sai · 3 tự luận · 4 trả lời ngắn · 12 trắc nghiệm
+                - generic [ref=f2e945]: ·
+                - generic [ref=f2e946]: 90 phút
+                - generic [ref=f2e947]: ·
+                - generic [ref=f2e948]: Mã 001-10
+                - generic [ref=f2e949]: ·
+                - generic [ref=f2e950]: 0 lượt thi
+            - generic [ref=f2e951]:
+              - button "▶ Vào thi" [ref=f2e952] [cursor=pointer]:
+                - generic [ref=f2e953]: ▶
+                - generic [ref=f2e954]: Vào thi
+              - button "🏆" [ref=f2e955] [cursor=pointer]
+          - generic [ref=f2e956]:
+            - generic [ref=f2e957]:
+              - 'generic "Toán 11 – Kết nối tri thức › Chương V: Giới hạn. Hàm số liên tục & Kiểm tra Cuối kỳ I › Cuối kỳ I: Bài tập cuối chương V, Kiểm tra Cuối kỳ I & Hoạt động trải nghiệm HK1" [ref=f2e958]': "Toán 11 – Kết nối tri thức›Chương V: Giới hạn. Hàm số liên tục & Kiểm tra Cuối kỳ I›Cuối kỳ I: Bài tập cuối chương V, Kiểm tra Cuối kỳ I & Hoạt động trải nghiệm HK1"
+              - generic [ref=f2e959]:
+                - heading "Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 11 — Đề số 11" [level=3] [ref=f2e960]
+                - generic [ref=f2e961]: Miễn phí
+              - generic [ref=f2e962]:
+                - generic [ref=f2e963]: 21 câu · 2 đúng/sai · 3 tự luận · 4 trả lời ngắn · 12 trắc nghiệm
+                - generic [ref=f2e964]: ·
+                - generic [ref=f2e965]: 90 phút
+                - generic [ref=f2e966]: ·
+                - generic [ref=f2e967]: Mã 001-11
+                - generic [ref=f2e968]: ·
+                - generic [ref=f2e969]: 0 lượt thi
+            - generic [ref=f2e970]:
+              - button "▶ Vào thi" [ref=f2e971] [cursor=pointer]:
+                - generic [ref=f2e972]: ▶
+                - generic [ref=f2e973]: Vào thi
+              - button "🏆" [ref=f2e974] [cursor=pointer]
+          - generic [ref=f2e975]:
+            - generic [ref=f2e976]:
+              - 'generic "Toán 11 – Kết nối tri thức › Chương V: Giới hạn. Hàm số liên tục & Kiểm tra Cuối kỳ I › Cuối kỳ I: Bài tập cuối chương V, Kiểm tra Cuối kỳ I & Hoạt động trải nghiệm HK1" [ref=f2e977]': "Toán 11 – Kết nối tri thức›Chương V: Giới hạn. Hàm số liên tục & Kiểm tra Cuối kỳ I›Cuối kỳ I: Bài tập cuối chương V, Kiểm tra Cuối kỳ I & Hoạt động trải nghiệm HK1"
+              - generic [ref=f2e978]:
+                - heading "Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 11 — Đề số 12" [level=3] [ref=f2e979]
+                - generic [ref=f2e980]: Miễn phí
+              - generic [ref=f2e981]:
+                - generic [ref=f2e982]: 21 câu · 2 đúng/sai · 3 tự luận · 4 trả lời ngắn · 12 trắc nghiệm
+                - generic [ref=f2e983]: ·
+                - generic [ref=f2e984]: 90 phút
+                - generic [ref=f2e985]: ·
+                - generic [ref=f2e986]: Mã 001-12
+                - generic [ref=f2e987]: ·
+                - generic [ref=f2e988]: 0 lượt thi
+            - generic [ref=f2e989]:
+              - button "▶ Vào thi" [ref=f2e990] [cursor=pointer]:
+                - generic [ref=f2e991]: ▶
+                - generic [ref=f2e992]: Vào thi
+              - button "🏆" [ref=f2e993] [cursor=pointer]
+          - generic [ref=f2e994]:
+            - generic [ref=f2e995]:
+              - 'generic "Toán 11 – Kết nối tri thức › Chương V: Giới hạn. Hàm số liên tục & Kiểm tra Cuối kỳ I › Cuối kỳ I: Bài tập cuối chương V, Kiểm tra Cuối kỳ I & Hoạt động trải nghiệm HK1" [ref=f2e996]': "Toán 11 – Kết nối tri thức›Chương V: Giới hạn. Hàm số liên tục & Kiểm tra Cuối kỳ I›Cuối kỳ I: Bài tập cuối chương V, Kiểm tra Cuối kỳ I & Hoạt động trải nghiệm HK1"
+              - generic [ref=f2e997]:
+                - heading "Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 11 — Đề số 13" [level=3] [ref=f2e998]
+                - generic [ref=f2e999]: Miễn phí
+              - generic [ref=f2e1000]:
+                - generic [ref=f2e1001]: 20 câu · 2 đúng/sai · 2 tự luận · 4 trả lời ngắn · 12 trắc nghiệm
+                - generic [ref=f2e1002]: ·
+                - generic [ref=f2e1003]: 90 phút
+                - generic [ref=f2e1004]: ·
+                - generic [ref=f2e1005]: Mã 001-13
+                - generic [ref=f2e1006]: ·
+                - generic [ref=f2e1007]: 0 lượt thi
+            - generic [ref=f2e1008]:
+              - button "▶ Vào thi" [ref=f2e1009] [cursor=pointer]:
+                - generic [ref=f2e1010]: ▶
+                - generic [ref=f2e1011]: Vào thi
+              - button "🏆" [ref=f2e1012] [cursor=pointer]
+          - generic [ref=f2e1013]:
+            - generic [ref=f2e1014]:
+              - 'generic "Toán 11 – Kết nối tri thức › Chương V: Giới hạn. Hàm số liên tục & Kiểm tra Cuối kỳ I › Cuối kỳ I: Bài tập cuối chương V, Kiểm tra Cuối kỳ I & Hoạt động trải nghiệm HK1" [ref=f2e1015]': "Toán 11 – Kết nối tri thức›Chương V: Giới hạn. Hàm số liên tục & Kiểm tra Cuối kỳ I›Cuối kỳ I: Bài tập cuối chương V, Kiểm tra Cuối kỳ I & Hoạt động trải nghiệm HK1"
+              - generic [ref=f2e1016]:
+                - heading "Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 11 — Đề số 14" [level=3] [ref=f2e1017]
+                - generic [ref=f2e1018]: Miễn phí
+              - generic [ref=f2e1019]:
+                - generic [ref=f2e1020]: 21 câu · 2 đúng/sai · 3 tự luận · 4 trả lời ngắn · 12 trắc nghiệm
+                - generic [ref=f2e1021]: ·
+                - generic [ref=f2e1022]: 90 phút
+                - generic [ref=f2e1023]: ·
+                - generic [ref=f2e1024]: Mã 001-14
+                - generic [ref=f2e1025]: ·
+                - generic [ref=f2e1026]: 0 lượt thi
+            - generic [ref=f2e1027]:
+              - button "▶ Vào thi" [ref=f2e1028] [cursor=pointer]:
+                - generic [ref=f2e1029]: ▶
+                - generic [ref=f2e1030]: Vào thi
+              - button "🏆" [ref=f2e1031] [cursor=pointer]
+          - generic [ref=f2e1032]:
+            - button "⬇️ Xem thêm 40 đề (Còn 208 đề)" [ref=f2e1033] [cursor=pointer]
+            - button "Hiện tất cả (238)" [ref=f2e1034] [cursor=pointer]
+  - contentinfo [ref=f2e1035]:
+    - generic [ref=f2e1036]:
+      - generic [ref=f2e1037]:
+        - generic [ref=f2e1038]: TRITHUC5.0 • V5.1.1
+        - generic [ref=f2e1039]: Hệ thống Học & Thi Toán THPT Trực Tuyến
+      - generic [ref=f2e1040]:
+        - button "Chương & Bài học" [ref=f2e1041] [cursor=pointer]
+        - button "Kho Đề Thi" [ref=f2e1042] [cursor=pointer]
+        - button "Bảng Vàng" [ref=f2e1043] [cursor=pointer]
+        - generic [ref=f2e1044]: •
+        - generic [ref=f2e1045]: "Giao diện: Hệ thống (Sáng)"

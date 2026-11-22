@@ -1,0 +1,122 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e1052]:
+    - navigation [ref=e1053]:
+      - generic [ref=e1054]:
+        - generic [ref=e1056] [cursor=pointer]:
+          - generic [ref=e1057]: "5.0"
+          - generic [ref=e1059]:
+            - generic [ref=e1060]: TRITHUC5.0
+            - generic [ref=e1061]: V5.1.1
+        - generic [ref=e1062]:
+          - button "📚 Chương & Bài học" [ref=e1063] [cursor=pointer]:
+            - generic [ref=e1064]: 📚
+            - generic [ref=e1065]: Chương & Bài học
+          - button "📝 Kho Đề Thi" [ref=e1066] [cursor=pointer]:
+            - generic [ref=e1067]: 📝
+            - generic [ref=e1068]: Kho Đề Thi
+          - button "🏆 Bảng Vàng & Điểm" [ref=e1069] [cursor=pointer]:
+            - generic [ref=e1070]: 🏆
+            - generic [ref=e1071]: Bảng Vàng & Điểm
+        - generic [ref=e1072]:
+          - radiogroup "Chọn chế độ giao diện" [ref=e1074]:
+            - radio "Sáng" [ref=e1075] [cursor=pointer]
+            - radio "Tối" [ref=e1083] [cursor=pointer]
+            - radio "Hệ thống" [checked] [ref=e1087] [cursor=pointer]
+          - generic [ref=e1091]:
+            - button "🔐 Đăng nhập" [ref=e1092] [cursor=pointer]:
+              - generic [ref=e1093]: 🔐
+              - generic [ref=e1094]: Đăng nhập
+            - button "📝 Đăng ký" [ref=e1095] [cursor=pointer]:
+              - generic [ref=e1096]: 📝
+              - generic [ref=e1097]: Đăng ký
+          - button "🔗 Link ĐK" [ref=e1098] [cursor=pointer]:
+            - generic [ref=e1099]: 🔗
+            - generic [ref=e1100]: Link ĐK
+          - button "⚙️ Quản trị GV" [ref=e1101] [cursor=pointer]:
+            - generic [ref=e1102]: ⚙️
+            - generic [ref=e1103]: Quản trị GV
+    - main [ref=e1104]:
+      - generic [ref=e1105]:
+        - generic [ref=e1106]:
+          - generic [ref=e1107]:
+            - generic [ref=e1108]:
+              - heading "🏆 Bảng Vàng Vinh Danh & Tra Cứu Điểm Số" [level=2] [ref=e1109]
+              - generic [ref=e1110]: Bảo mật V5.0
+            - paragraph [ref=e1111]: Xếp hạng kết quả làm bài trực tuyến của học sinh (ẩn bài làm & lời giải công khai để bảo mật ngân hàng đề).
+          - generic [ref=e1112]: 🛡️ Chế độ Bảo mật Đề thi V5.0
+        - generic [ref=e1113]:
+          - generic [ref=e1114]:
+            - generic [ref=e1115]: Tổng số lượt nộp bài
+            - generic [ref=e1116]: 3 lượt
+          - generic [ref=e1117]:
+            - generic [ref=e1118]: Điểm trung bình hệ thống
+            - generic [ref=e1119]: 1.47 / 10
+          - generic [ref=e1120]:
+            - generic [ref=e1121]: Điểm cao nhất đạt được
+            - generic [ref=e1122]: 4.17 điểm
+        - generic [ref=e1123]:
+          - generic [ref=e1124]:
+            - generic [ref=e1125]:
+              - generic [ref=e1126]: 🥇 Hạng Nhất
+              - generic [ref=e1127]: Nguyễn Phương Thùy
+              - generic [ref=e1128]: 10TO1 • Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 10 — Đề số 1
+            - generic [ref=e1129]: 4.17đ
+          - generic [ref=e1130]:
+            - generic [ref=e1131]:
+              - generic [ref=e1132]: 🥈 Hạng Nhì
+              - generic [ref=e1133]: Test4
+              - generic [ref=e1134]: 12A1 • Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 12 — Đề số 15
+            - generic [ref=e1135]: 0.25đ
+          - generic [ref=e1136]:
+            - generic [ref=e1137]:
+              - generic [ref=e1138]: 🥉 Hạng Ba
+              - generic [ref=e1139]: Test3
+              - generic [ref=e1140]: 12A1 • Đề Thi Thử Tốt Nghiệp THPT 2026 – Môn Toán 12 – Đề số 04 (Tổng hợp đủ 6 Chương Toán 12 • Chuẩn 22 Câu)
+            - generic [ref=e1141]: 0.00đ
+        - table [ref=e1144]:
+          - rowgroup [ref=e1145]:
+            - row [ref=e1146]:
+              - columnheader "Hạng" [ref=e1147]
+              - columnheader "Họ và tên học sinh" [ref=e1148]
+              - columnheader "Lớp / SBD" [ref=e1149]
+              - columnheader "Đề kiểm tra" [ref=e1150]
+              - columnheader "Điểm số" [ref=e1151]
+              - columnheader "Chi tiết 3 phần" [ref=e1152]
+              - columnheader "Giám sát AI / Tab" [ref=e1153]
+          - rowgroup [ref=e1154]:
+            - row [ref=e1155]:
+              - 'cell "🥇 #1" [ref=e1156]'
+              - cell "Nguyễn Phương Thùy" [ref=e1157]
+              - 'cell "10TO1 (SBD: 01)" [ref=e1158]'
+              - cell "Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 10 — Đề số 1" [ref=e1159]
+              - cell "4.17" [ref=e1160]
+              - 'cell "P1: 10/12 (2.50/3.00đ) • P2: 2.00/2.00đ • P3: 1/4 (0.50/2.00đ) • P4(TL→TLN): 0/5 (0.00/5.00đ)" [ref=e1161]'
+              - cell "🛡️ An toàn" [ref=e1162]
+            - row [ref=e1163]:
+              - 'cell "🥈 #2" [ref=e1164]'
+              - cell "Test4" [ref=e1165]
+              - 'cell "12A1 (SBD: 01)" [ref=e1166]'
+              - cell "Bộ 15 Đề Ôn Tập Cuối Kì 1 Toán 12 — Đề số 15" [ref=e1167]
+              - cell "0.25" [ref=e1168]
+              - 'cell "P1: 1/12 (0.25/3.00đ) • P2: 0.00/4.00đ • P3: 0/6 (0.00/3.00đ)" [ref=e1169]'
+              - cell "🛡️ An toàn" [ref=e1170]
+            - row [ref=e1171]:
+              - 'cell "🥉 #3" [ref=e1172]'
+              - cell "Test3" [ref=e1173]
+              - 'cell "12A1 (SBD: 01)" [ref=e1174]'
+              - cell "Đề Thi Thử Tốt Nghiệp THPT 2026 – Môn Toán 12 – Đề số 04 (Tổng hợp đủ 6 Chương Toán 12 • Chuẩn 22 Câu)" [ref=e1175]
+              - cell "0.00" [ref=e1176]
+              - 'cell "P1: 0/12 (0.00/3.00đ) • P2: 0.00/4.00đ • P3: 0/6 (0.00/3.00đ)" [ref=e1177]'
+              - cell "🛡️ An toàn" [ref=e1178]
+    - contentinfo [ref=e1179]:
+      - generic [ref=e1180]:
+        - generic [ref=e1181]:
+          - generic [ref=e1182]: TRITHUC5.0 • V5.1.1
+          - generic [ref=e1183]: Hệ thống Học & Thi Toán THPT Trực Tuyến
+        - generic [ref=e1184]:
+          - button "Chương & Bài học" [ref=e1185] [cursor=pointer]
+          - button "Kho Đề Thi" [ref=e1186] [cursor=pointer]
+          - button "Bảng Vàng" [ref=e1187] [cursor=pointer]
+          - generic [ref=e1188]: •
+          - generic [ref=e1189]: "Giao diện: Hệ thống (Sáng)"
+  - generic [ref=e219]: ⚡ Đã nạp 50 đề thi mới từ máy chủ Vercel!

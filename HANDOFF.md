@@ -380,3 +380,41 @@ Canonical V4.8.6 docs: `FINDINGS.md`, `PHASE5_UPDATE.md`, `EXECUTIVE_SUMMARY.md`
 Boundaries: no production write, no packet publish, no real account access. The only new
 production request was the unauthenticated GET to `/api/results`; values were not retained.
 Live ntfy content remains UNVERIFIED; release remains blocked.
+
+## V5.1.1 frontend reconnaissance baseline (2026-11-22)
+
+A fresh fetch during frontend reconnaissance showed the live site had moved beyond the V4.8.6
+security pin to TRITHUC5.0 **V5.1.1**, SHA-256
+`c4295c9924391721d8a552a6d6723a1b61928d2cee371b75b33af77bbdb62104`, 9,171,146 bytes,
+35,796 lines. The security findings and harnesses remain pinned to V4.8.6; the new build has
+its own separate recon baseline under `docs/frontend-recon/`.
+
+Frontend-relevant delta: dedicated zero-FOUC 3-mode theme engine
+(`light`/`dark`/`system`, stored as `trithuc_theme_mode_v5`), Be Vietnam Pro + JetBrains Mono
+web fonts, V5 design tokens/components, and a V5.1.1 Teacher Admin Studio shell with grouped
+sidebar, mobile pill tabs and data cards. The public IA is unchanged: three student tabs
+(`curriculum`, `examBank`, `leaderboard`) and one state-driven `renderApp()` dispatcher with
+four top-level views (`studentHome`, `doing`, `result`, `admin`).
+
+Recon package created:
+
+- `docs/frontend-recon/README.md`, `SOURCE_PIN.md`, `ROUTES.md`, `COMPONENTS.md`,
+  `INTERACTIONS.md`, `DESIGN_AUDIT.md`, `DESIGN_MAP.md`, `REDESIGN_BLUEPRINT.md`,
+  `COVERAGE_REPORT.md` and screenshot index.
+- `source-map-v5.1.1.json` with 324 functions, 66 render functions, 386 `window.TRITHUC`
+  methods, 6 theme methods, 30 storage keys and V5/V511 class counts.
+- 20 screenshots across 1440×900, 1280×800, 768×1024 and 390×844; 11 accessibility
+  snapshots; `RUNTIME_METRICS.json` with sticky-nav, overflow and theme measurements.
+- Export copies placed in `C:\Users\Admin\Desktop\Misc\Miscs\WebSource` as requested by the
+  user; canonical copies remain in the repo.
+
+Browser boundary: public views, modals, tabs, theme switcher, chapter/tree expansion and
+scroll only. No student/admin login, no auth bypass, no form submission, no exam entry, no
+production write. Authenticated admin/student states and `doing`/`result` views are explicitly
+listed as source-only gaps in `COVERAGE_REPORT.md`.
+
+Design conclusions: public light/dark themes are visually consistent, no horizontal overflow
+was measured at 1440 or 390, and the sticky nav stays pinned. Highest-priority redesign issues
+are no URL routing/deep links, monolithic single-file architecture, Tailwind CDN in
+production, emoji-heavy iconography, a 141px mobile sticky header and full `innerHTML`
+re-rendering with weak focus preservation. **No redesign or refactor has been started.**

@@ -1,0 +1,23 @@
+- generic [ref=f3e4]:
+  - generic [ref=f3e5]:
+    - generic [ref=f3e6]: TRITHUC5.0 • V5.0
+    - radiogroup "Chọn chế độ giao diện" [ref=f3e7]:
+      - radio "Chế độ Sáng (Light)" [ref=f3e8] [cursor=pointer]
+      - radio "Chế độ Tối (Dark)" [ref=f3e15] [cursor=pointer]
+      - radio "Tự động theo hệ điều hành (System)" [checked] [ref=f3e18] [cursor=pointer]
+  - generic [ref=f3e21]:
+    - generic [ref=f3e22]: 🛡️
+    - heading "Đăng Nhập Quản Trị Giáo Viên" [level=2] [ref=f3e23]
+    - paragraph [ref=f3e24]: Hệ thống TRITHUC5.0 — Bảo mật Đa Tầng Chống Brute-Force
+  - generic [ref=f3e25]:
+    - generic [ref=f3e26]:
+      - generic [ref=f3e27]: Tài khoản Quản trị (Username) *
+      - textbox "Nhập tài khoản quản trị..." [ref=f3e28]
+    - generic [ref=f3e29]:
+      - generic [ref=f3e30]: Mật khẩu Quản trị (Password) *
+      - textbox "Nhập mật khẩu quản trị..." [ref=f3e31]
+    - generic [ref=f3e33] [cursor=pointer]:
+      - checkbox "Ghi nhớ đăng nhập Quản trị" [checked] [ref=f3e34]
+      - generic [ref=f3e35]: Ghi nhớ đăng nhập Quản trị
+  - button "🔓 Đăng Nhập Hệ Thống Quản Trị" [ref=f3e36] [cursor=pointer]
+  - button "← Quay về trang Học sinh" [ref=f3e37] [cursor=pointer]

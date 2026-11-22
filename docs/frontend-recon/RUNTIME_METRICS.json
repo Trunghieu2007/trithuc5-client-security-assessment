@@ -1,0 +1,34 @@
+{
+  "captured_at": "2026-11-22",
+  "target": "https://trithuc500.vercel.app/",
+  "recon_build_sha256": "c4295c9924391721d8a552a6d6723a1b61928d2cee371b75b33af77bbdb62104",
+  "measurements": [
+    {
+      "viewport": "1440x900",
+      "doc": {"scrollWidth": 1440, "scrollHeight": 1273, "clientWidth": 1440},
+      "overflowX": false,
+      "theme": {"mode": "system", "resolved": "light", "dataTheme": "light", "colorScheme": "light"},
+      "bodyFont": "\"Be Vietnam Pro\", \"Segoe UI\", system-ui, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif",
+      "domCounts": {"buttons": 46, "inputs": 1, "tables": 0, "svgs": 7},
+      "stickyNav": {"position": "sticky", "zIndex": "40", "height": 61, "topBeforeScroll": 0, "topAfterScroll": 0}
+    },
+    {
+      "viewport": "390x844",
+      "doc": {"scrollWidth": 390, "scrollHeight": 2286, "clientWidth": 390},
+      "overflowX": false,
+      "theme": {"mode": "system", "resolved": "light", "dataTheme": "light", "colorScheme": "light"},
+      "domCounts": {"buttons": 46, "inputs": 1, "tables": 0, "svgs": 7},
+      "stickyNav": {"position": "sticky", "zIndex": "40", "height": 141, "topBeforeScroll": 0, "topAfterScroll": 0}
+    }
+  ],
+  "console": {
+    "warning": "cdn.tailwindcss.com should not be used in production",
+    "error": "GET https://trithuc500.vercel.app/favicon.ico 404"
+  },
+  "notes": [
+    "Nav remains pinned at top=0 after a 1200px scroll on both measured viewports.",
+    "Mobile sticky nav height is 141px of an 844px viewport (16.7%).",
+    "No horizontal overflow was detected at 1440x900 or 390x844 on the default curriculum view.",
+    "Exam counts changed between captures (191, then 238 total; 3, then 16, then 46 public) because live/cloud data continued to load; this is data drift, not a layout defect."
+  ]
+}

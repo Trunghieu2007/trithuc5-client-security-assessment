@@ -1,0 +1,172 @@
+- generic [ref=f4e3]:
+  - navigation [ref=f4e4]:
+    - generic [ref=f4e5]:
+      - generic [ref=f4e6]:
+        - generic [ref=f4e7] [cursor=pointer]:
+          - generic [ref=f4e8]: "5.0"
+          - generic [ref=f4e10]:
+            - generic [ref=f4e11]: TRITHUC5.0
+            - generic [ref=f4e12]: V5.1.1
+        - generic [ref=f4e13]:
+          - radiogroup "Chọn chế độ giao diện" [ref=f4e14]:
+            - radio "Chế độ Sáng (Light)" [ref=f4e15] [cursor=pointer]
+            - radio "Chế độ Tối (Dark)" [ref=f4e22] [cursor=pointer]
+            - radio "Tự động theo hệ điều hành (System)" [checked] [ref=f4e25] [cursor=pointer]
+          - button "🔗" [ref=f4e28] [cursor=pointer]
+          - button "⚙️ GV" [ref=f4e30] [cursor=pointer]:
+            - generic [ref=f4e31]: ⚙️
+            - generic [ref=f4e32]: GV
+      - generic [ref=f4e33]:
+        - button "📚 Chương & Bài học" [ref=f4e34] [cursor=pointer]:
+          - generic [ref=f4e35]: 📚
+          - generic [ref=f4e36]: Chương & Bài học
+        - button "📝 Kho Đề Thi" [ref=f4e37] [cursor=pointer]:
+          - generic [ref=f4e38]: 📝
+          - generic [ref=f4e39]: Kho Đề Thi
+        - button "🏆 Bảng Vàng & Điểm" [ref=f4e40] [cursor=pointer]:
+          - generic [ref=f4e41]: 🏆
+          - generic [ref=f4e42]: Bảng Vàng & Điểm
+      - generic [ref=f4e44]:
+        - button "🔐 Đăng nhập" [ref=f4e45] [cursor=pointer]:
+          - generic [ref=f4e46]: 🔐
+          - generic [ref=f4e47]: Đăng nhập
+        - button "📝 Đăng ký" [ref=f4e48] [cursor=pointer]:
+          - generic [ref=f4e49]: 📝
+          - generic [ref=f4e50]: Đăng ký
+  - main [ref=f4e51]:
+    - generic [ref=f4e52]:
+      - generic [ref=f4e53]:
+        - generic [ref=f4e54]:
+          - generic [ref=f4e55]:
+            - button "Khối 12 🔒" [ref=f4e56] [cursor=pointer]:
+              - generic [ref=f4e57]: Khối 12
+              - generic [ref=f4e58]: 🔒
+            - button "Khối 11 🔒" [ref=f4e59] [cursor=pointer]:
+              - generic [ref=f4e60]: Khối 11
+              - generic [ref=f4e61]: 🔒
+            - button "Khối 10 🔒" [ref=f4e62] [cursor=pointer]:
+              - generic [ref=f4e63]: Khối 10
+              - generic [ref=f4e64]: 🔒
+            - button "🔥 Luyện đề (5)" [ref=f4e65] [cursor=pointer]:
+              - generic [ref=f4e66]: 🔥
+              - generic [ref=f4e67]: Luyện đề (5)
+            - button "🔓 Đề công khai (16)" [ref=f4e68] [cursor=pointer]:
+              - generic [ref=f4e69]: 🔓
+              - generic [ref=f4e70]: Đề công khai (16)
+          - button "📂 Mở tất cả chương" [ref=f4e72] [cursor=pointer]
+        - generic [ref=f4e74]:
+          - generic [ref=f4e75]:
+            - button "Tất cả" [ref=f4e76] [cursor=pointer]
+            - button "Học kỳ I" [ref=f4e77] [cursor=pointer]
+            - button "Học kỳ II" [ref=f4e78] [cursor=pointer]
+            - button "Chuyên đề" [ref=f4e79] [cursor=pointer]
+          - textbox "🔍 Tìm bài học, dạng toán, mã đề..." [ref=f4e81]
+      - generic [ref=f4e82]:
+        - generic [ref=f4e83]:
+          - heading "Học kỳ I – Tập Một (54 tiết)" [level=2] [ref=f4e86]
+          - generic [ref=f4e88] [cursor=pointer]:
+            - generic [ref=f4e89]:
+              - generic [ref=f4e90]: 📁
+              - 'heading "Chương I: Ứng dụng đạo hàm để khảo sát và vẽ đồ thị hàm số" [level=3] [ref=f4e91]'
+            - generic [ref=f4e92]:
+              - generic [ref=f4e93]: 6 bài học • 15 đề
+              - button "▼ Mở chương" [ref=f4e94]
+          - generic [ref=f4e96] [cursor=pointer]:
+            - generic [ref=f4e97]:
+              - generic [ref=f4e98]: 📁
+              - heading "Ôn tập và Kiểm tra Giữa kỳ I" [level=3] [ref=f4e99]
+            - generic [ref=f4e100]:
+              - generic [ref=f4e101]: 1 bài học • 0 đề
+              - button "▼ Mở chương" [ref=f4e102]
+          - generic [ref=f4e104] [cursor=pointer]:
+            - generic [ref=f4e105]:
+              - generic [ref=f4e106]: 📁
+              - 'heading "Chương II: Vectơ và Hệ trục tọa độ trong không gian" [level=3] [ref=f4e107]'
+            - generic [ref=f4e108]:
+              - generic [ref=f4e109]: 4 bài học • 12 đề
+              - button "▼ Mở chương" [ref=f4e110]
+          - generic [ref=f4e112] [cursor=pointer]:
+            - generic [ref=f4e113]:
+              - generic [ref=f4e114]: 📁
+              - 'heading "Chương III: Các số đặc trưng đo độ phân tán của mẫu số liệu ghép nhóm" [level=3] [ref=f4e115]'
+            - generic [ref=f4e116]:
+              - generic [ref=f4e117]: 3 bài học • 9 đề
+              - button "▼ Mở chương" [ref=f4e118]
+          - generic [ref=f4e120] [cursor=pointer]:
+            - generic [ref=f4e121]:
+              - generic [ref=f4e122]: 📁
+              - heading "Ôn tập, Kiểm tra Cuối kỳ I & Hoạt động trải nghiệm" [level=3] [ref=f4e123]
+            - generic [ref=f4e124]:
+              - generic [ref=f4e125]: 2 bài học • 22 đề
+              - button "▼ Mở chương" [ref=f4e126]
+        - generic [ref=f4e127]:
+          - heading "Học kỳ II – Tập Hai (51 tiết)" [level=2] [ref=f4e130]
+          - generic [ref=f4e132] [cursor=pointer]:
+            - generic [ref=f4e133]:
+              - generic [ref=f4e134]: 📁
+              - 'heading "Chương IV: Nguyên hàm và Tích phân" [level=3] [ref=f4e135]'
+            - generic [ref=f4e136]:
+              - generic [ref=f4e137]: 4 bài học • 12 đề
+              - button "▼ Mở chương" [ref=f4e138]
+          - generic [ref=f4e140] [cursor=pointer]:
+            - generic [ref=f4e141]:
+              - generic [ref=f4e142]: 📁
+              - heading "Ôn tập và Kiểm tra Giữa kỳ II" [level=3] [ref=f4e143]
+            - generic [ref=f4e144]:
+              - generic [ref=f4e145]: 1 bài học • 3 đề
+              - button "▼ Mở chương" [ref=f4e146]
+          - generic [ref=f4e148] [cursor=pointer]:
+            - generic [ref=f4e149]:
+              - generic [ref=f4e150]: 📁
+              - 'heading "Chương V: Phương pháp tọa độ trong không gian" [level=3] [ref=f4e151]'
+            - generic [ref=f4e152]:
+              - generic [ref=f4e153]: 5 bài học • 15 đề
+              - button "▼ Mở chương" [ref=f4e154]
+          - generic [ref=f4e156] [cursor=pointer]:
+            - generic [ref=f4e157]:
+              - generic [ref=f4e158]: 📁
+              - 'heading "Chương VI: Xác suất có điều kiện" [level=3] [ref=f4e159]'
+            - generic [ref=f4e160]:
+              - generic [ref=f4e161]: 3 bài học • 9 đề
+              - button "▼ Mở chương" [ref=f4e162]
+          - generic [ref=f4e164] [cursor=pointer]:
+            - generic [ref=f4e165]:
+              - generic [ref=f4e166]: 📁
+              - heading "Ôn tập, Kiểm tra Cuối năm & Hoạt động trải nghiệm HK2" [level=3] [ref=f4e167]
+            - generic [ref=f4e168]:
+              - generic [ref=f4e169]: 2 bài học • 6 đề
+              - button "▼ Mở chương" [ref=f4e170]
+        - generic [ref=f4e171]:
+          - heading "Chuyên đề học tập Toán 12 (35 tiết)" [level=2] [ref=f4e174]
+          - generic [ref=f4e176] [cursor=pointer]:
+            - generic [ref=f4e177]:
+              - generic [ref=f4e178]: 📁
+              - 'heading "Chuyên đề 1: Biến ngẫu nhiên rời rạc. Các số đặc trưng (12 tiết)" [level=3] [ref=f4e179]'
+            - generic [ref=f4e180]:
+              - generic [ref=f4e181]: 3 bài học • 9 đề
+              - button "▼ Mở chương" [ref=f4e182]
+          - generic [ref=f4e184] [cursor=pointer]:
+            - generic [ref=f4e185]:
+              - generic [ref=f4e186]: 📁
+              - 'heading "Chuyên đề 2: Ứng dụng toán học để giải một số bài toán tối ưu (12 tiết)" [level=3] [ref=f4e187]'
+            - generic [ref=f4e188]:
+              - generic [ref=f4e189]: 3 bài học • 9 đề
+              - button "▼ Mở chương" [ref=f4e190]
+          - generic [ref=f4e192] [cursor=pointer]:
+            - generic [ref=f4e193]:
+              - generic [ref=f4e194]: 📁
+              - 'heading "Chuyên đề 3: Ứng dụng toán học trong một số vấn đề liên quan đến tài chính (11 tiết)" [level=3] [ref=f4e195]'
+            - generic [ref=f4e196]:
+              - generic [ref=f4e197]: 3 bài học • 9 đề
+              - button "▼ Mở chương" [ref=f4e198]
+  - contentinfo [ref=f4e199]:
+    - generic [ref=f4e200]:
+      - generic [ref=f4e201]:
+        - generic [ref=f4e202]: TRITHUC5.0 • V5.1.1
+        - generic [ref=f4e203]: Hệ thống Học & Thi Toán THPT Trực Tuyến
+      - generic [ref=f4e204]:
+        - button "Chương & Bài học" [ref=f4e205] [cursor=pointer]
+        - button "Kho Đề Thi" [ref=f4e206] [cursor=pointer]
+        - button "Bảng Vàng" [ref=f4e207] [cursor=pointer]
+        - generic [ref=f4e208]: •
+        - generic [ref=f4e209]: "Giao diện: Hệ thống (Sáng)"
