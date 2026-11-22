@@ -1,0 +1,11 @@
+PoC: F-03 — VIP entitlement is decided entirely in client-side JavaScript
+Build: V4.8.0 / SHA-256 be27a5bc429dec25ec31031cf9128680bcc116b6eaa48c75bdb0e37896234028
+Evidence state: LOCAL_CONFIRMED
+
+OBSERVED:
+Local artifact forgery changes entitlement for every measured gate, including protected-action verification and the backend grant token.
+
+Evidence references:
+- `IV-05`, `IV-06` and `IV-09` show self-sealed synthetic records passing all three gates.
+- `P4-16` completes the full chain with zero server calls.
+- `poc_f03_vip_entitlement.js` is executed by `poc-suite-validation.txt` with documented restore behavior.

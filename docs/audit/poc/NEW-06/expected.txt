@@ -1,0 +1,9 @@
+PoC: NEW-06 — Response headers are partially hardened; CSP and narrow CORS remain absent
+Build: V4.8.0 / SHA-256 be27a5bc429dec25ec31031cf9128680bcc116b6eaa48c75bdb0e37896234028
+Type: DISPLAY
+
+EXPECTED:
+A restrictive CSP and narrow CORS should accompany the existing HSTS, XFO and nosniff headers.
+
+Prerequisites:
+- Captured response headers from the pinned build.

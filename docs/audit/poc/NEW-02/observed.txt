@@ -1,0 +1,10 @@
+PoC: NEW-02 — Unsigned cloud packet injection still inserts a pending local user
+Build: V4.8.0 / SHA-256 be27a5bc429dec25ec31031cf9128680bcc116b6eaa48c75bdb0e37896234028
+Evidence state: LOCAL_CONFIRMED (downgrade verified; tombstone path fixed)
+
+OBSERVED:
+A pending user record is inserted locally; VIP escalation and unsigned tombstone deletion are blocked.
+
+Evidence references:
+- `P4-19` and `IV-31` verify unsigned packets are downgraded and unsigned tombstones rejected.
+- `poc-suite-validation.txt` verifies the rewritten PoC uses the production local BroadcastChannel path and writes nothing to ntfy/KV.

@@ -1,0 +1,53 @@
+=== V4.8.0 run_all.js — SHA be27a5bc429dec25ec31031cf9128680bcc116b6eaa48c75bdb0e37896234028 ===
+=== TRITHUC5.0 V4.5 isolated regression suite ===
+source sha256: be27a5bc429dec25ec31031cf9128680bcc116b6eaa48c75bdb0e37896234028
+now (fixed): 1795000000000
+PASS H-01 extracted functions are syntactically complete and correctly named
+--- F-01 cloud sync / ntfy / KV ---
+PASS F-01-T01 V4.5 FIX: packet claiming fromAdmin without a valid adminSig is rejected outright
+PASS F-01-T02 V4.5 FIX: invalid adminSig rejects the whole packet (tombstone and injection)
+PASS F-01-T03 valid signature applies the same privileged merge
+PASS F-01-T04 V4.5 FIX: unsigned packet inserts the user but downgrades it to pending/non-VIP
+PASS F-01-T05 V4.5 FIX: forged fromAdmin without signature is rejected and leaves state untouched
+PASS F-01-T06 V4.8.0 FIX: nonce replay is rejected by the verifier
+PASS F-01-T07 V4.8.0 FIX: a packet older than 26 hours is rejected
+PASS F-01-T08 duplicate users in one packet are collapsed by username
+PASS F-01-T09 malformed tombstone values do not crash but malformed user entries are skipped
+PASS F-01-T10 V4.8.0 FIX: unsigned tombstone deletion is rejected
+PASS F-01-T11 V4.5 FIX: forged admin packet does not mutate a second isolated environment
+PASS F-01-T12 V4.8.0 FIX: only a signature-verified admin tombstone merges
+PASS F-01-T13 V4.8.0 FIX: password and admin seal no longer leave the client in packets
+PASS F-01-T14 V4.8.0 FIX: the internal cloud bus is removed from production
+PASS F-01-T15 stale privileged packet can override a newer local downgrade
+PASS F-01-T16 V4.8.0 FIX: unsigned tombstone cannot facilitate a deletion replay
+PASS F-01-T17 unsigned stale packet does not override a newer non-pending user
+--- F-02 admin auth / session ---
+PASS F-02-T01 session forged with client-side salt is accepted
+PASS F-02-T02 V4.5 FIX: session with a missing signature is rejected
+PASS F-02-T03 invalid signature is rejected and session storage is removed
+PASS F-02-T04 expired session with otherwise valid signature is rejected
+PASS F-02-T05 no same-origin backend authorization endpoint exists (static)
+--- F-03 VIP / integrity ---
+PASS F-03-T01 V4.5: recomputed _sig alone is NOT enough (runtime check also requires a valid seal)
+PASS F-03-T02 V4.5: stale _sig is detected, VIP stripped, session force-logged-out
+PASS F-03-T03 lifetime and future expiry pass, past expiry fails
+--- F-04 answer exposure ---
+PASS F-04-T01 V4.5 gzip vault still yields 15 exams / 330 answers offline (bundle-seed XOR + gzip)
+PASS F-04-T02 XOR answer payload is reversible with public key material
+PASS F-04-T03 grading is client-side and no server grading endpoint is called (static)
+--- F-05 device / Gmail lock ---
+PASS F-05-T01 empty trustedDevices causes automatic device registration
+PASS F-05-T02 overwriting deviceId in trustedDevices makes device recognized
+PASS F-05-T03 two-device limit blocks third device and can lock locally
+PASS F-05-T04 simulated third-device slot is available in production source
+PASS F-05-T05 independent clients both accept their own device without server arbitration
+--- F-06 anti-cheat / DOM ---
+PASS F-06-T01 protections are preventDefault / DOM / CSS only (static)
+--- A additional surface ---
+PASS A-01-T01 no server-side entitlement or admin boundary in shipped client (static)
+PASS A-02-T01 Gemini API key is read from localStorage and sent client-side (static)
+PASS A-03-T01 V4.8.0 partial FIX: XFO/nosniff present, CSP and CORS still weak (static)
+PASS A-04-T01 cross-tab storage event replaces state.users from writable localStorage (static)
+PASS A-04-T02 malicious localStorage state propagates to another VM tab and persists
+
+TOTAL 40 PASS 40 FAIL 0

@@ -1,0 +1,11 @@
+PoC: NEW-14 — Privileged-id exemptions remain after a partial detector fix
+Build: V4.8.0 / SHA-256 be27a5bc429dec25ec31031cf9128680bcc116b6eaa48c75bdb0e37896234028
+Evidence state: LOCAL_CONFIRMED (partial fix + residual)
+
+OBSERVED:
+Two exemptions are closed, but `gv_test` still skips the detector, the runtime block still exempts all three IDs, and admin/tester attempts still suppress logs.
+
+Evidence references:
+- `IV-11` and `IV-15` verify `isAdminTester`, `stu_free_12b1` and `stu_practice_e` are now detected.
+- `IV-11-gv_test` verifies `gv_test` still skips the detector even with VIP flags.
+- `IV-13` verifies junk fields and `maxDevices: 999` are left untouched for the three privileged IDs.

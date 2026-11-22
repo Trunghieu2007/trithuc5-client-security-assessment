@@ -1,0 +1,66 @@
+{
+  "note": "All values are synthetic. No credentials, tokens, or real user data.",
+  "fixedNow": 1795000000000,
+  "syntheticUser": {
+    "id": "stu_synthetic_1",
+    "username": "synthetic_student",
+    "password": "synthetic_password",
+    "name": "Synthetic Student",
+    "class": "12A1",
+    "gmail": "synthetic@example.edu.vn",
+    "status": "active",
+    "vipPlan": "none",
+    "maxDevices": 2,
+    "updatedAt": 1794000000000
+  },
+  "packets": {
+    "missingSignature": {
+      "app": "TRITHUC50_V436",
+      "type": "CLOUD_STATE_SYNC",
+      "ts": 1795000000000,
+      "fromAdmin": true,
+      "hideAuthorInfo": true,
+      "hideAuthorTs": 1795000000001,
+      "deletedMap": {},
+      "users": [],
+      "adminSig": "<ABSENT>"
+    },
+    "invalidSignature": {
+      "app": "TRITHUC50_V436",
+      "type": "CLOUD_STATE_SYNC",
+      "ts": 1795000000000,
+      "fromAdmin": true,
+      "adminSig": "asig_INVALID",
+      "deletedMap": { "synthetic_student": 1795010000000 },
+      "users": []
+    },
+    "missingFromAdmin": {
+      "app": "TRITHUC50_V436",
+      "type": "ANY_OTHER_EVENT",
+      "ts": 1795000000000,
+      "users": []
+    },
+    "expired": {
+      "app": "TRITHUC50_V436",
+      "type": "CLOUD_STATE_SYNC",
+      "ts": 1,
+      "fromAdmin": true,
+      "hideAuthorInfo": true,
+      "hideAuthorTs": 2,
+      "users": []
+    },
+    "unauthorizedDeletion": {
+      "app": "TRITHUC50_V436",
+      "type": "CLOUD_STATE_SYNC",
+      "ts": 1795000000000,
+      "fromAdmin": false,
+      "deletedMap": { "delete_me": 1795005000000 }
+    }
+  },
+  "syntheticSession": {
+    "loggedIn": true,
+    "username": "synthetic_admin",
+    "ts": 1795000000000,
+    "sig": "<COMPUTED_BY_EXTRACTED_SOURCE_FUNCTION; NOT STORED>"
+  }
+}

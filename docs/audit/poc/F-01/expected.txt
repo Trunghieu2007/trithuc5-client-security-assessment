@@ -1,0 +1,11 @@
+PoC: F-01 — Cloud sync publishes identity records; signed tombstone path remains offline-forgeable
+Build: V4.8.0 / SHA-256 be27a5bc429dec25ec31031cf9128680bcc116b6eaa48c75bdb0e37896234028
+Type: DISPLAY
+
+EXPECTED:
+No student identity field should be visible to anonymous channel readers. Only a server-authorized writer should be able to tombstone or restore a record.
+
+Prerequisites:
+- Pinned V4.8.0 source.
+- Mock ntfy/KV transport in the isolated VM; no live channel write.
+- Synthetic user and packet fixtures.

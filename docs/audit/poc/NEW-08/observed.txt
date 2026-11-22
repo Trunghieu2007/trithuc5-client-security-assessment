@@ -1,0 +1,11 @@
+PoC: NEW-08 — Activity logs still reach a third-party Google Form; password masking is fixed
+Build: V4.8.0 / SHA-256 be27a5bc429dec25ec31031cf9128680bcc116b6eaa48c75bdb0e37896234028
+Evidence state: LOCAL_CONFIRMED for masking fix; live delivery UNVERIFIED
+
+OBSERVED:
+Password-like detail is masked; name, class, score and other detail values are still present in the wire payload.
+
+Evidence references:
+- `IV-21` verifies the synthetic sentinel is masked in `detail` and the fourth POST pair.
+- `IV-22` verifies no other sensitive field mapping was introduced.
+- `poc-suite-validation.txt` verifies the DISPLAY PoC transmits nothing.

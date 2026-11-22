@@ -1,0 +1,10 @@
+PoC: F-03 — VIP entitlement is decided entirely in client-side JavaScript
+Build: V4.8.0 / SHA-256 be27a5bc429dec25ec31031cf9128680bcc116b6eaa48c75bdb0e37896234028
+Type: ACTION
+
+EXPECTED:
+A local write to user fields must never change entitlement. The server should be the only source of VIP status.
+
+Prerequisites:
+- Own browser and synthetic student fixture.
+- No real account or payment transaction.

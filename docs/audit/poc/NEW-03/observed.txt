@@ -1,0 +1,12 @@
+PoC: NEW-03 — Replay and age guards are present but the packet nonce is optional
+Build: V4.8.0 / SHA-256 be27a5bc429dec25ec31031cf9128680bcc116b6eaa48c75bdb0e37896234028
+Evidence state: LOCAL_CONFIRMED (partial fix)
+
+OBSERVED:
+Nonced replay and stale packets are rejected; nonce-less replay remains unprotected.
+
+Evidence references:
+- `F-01-T06` verifies nonce replay is rejected.
+- `F-01-T07` verifies packets older than 26 hours are rejected.
+- `P3-03` verifies signed-stale packets are rejected.
+- `SC-05` asserts replay protection in the acceptance suite.

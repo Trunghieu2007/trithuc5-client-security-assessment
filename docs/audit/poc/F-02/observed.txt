@@ -1,0 +1,11 @@
+PoC: F-02 — Admin authentication and session signing are client-side
+Build: V4.8.0 / SHA-256 be27a5bc429dec25ec31031cf9128680bcc116b6eaa48c75bdb0e37896234028
+Evidence state: LOCAL_CONFIRMED
+
+OBSERVED:
+A locally computed signature restores admin state and passes the client's own checks.
+
+Evidence references:
+- `F-02-T01` and `F-02-T04` verify client-side comparison and signature generation.
+- `P4-11` and `IV-20` reproduce the session signature offline.
+- `f02-session-validation.txt` records the local session validation behavior.

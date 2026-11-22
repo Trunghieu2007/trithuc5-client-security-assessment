@@ -1,0 +1,10 @@
+PoC: NEW-02 — Unsigned cloud packet injection still inserts a pending local user
+Build: V4.8.0 / SHA-256 be27a5bc429dec25ec31031cf9128680bcc116b6eaa48c75bdb0e37896234028
+Type: ACTION
+
+EXPECTED:
+Unauthenticated local messages must be ignored or require server verification before any state mutation.
+
+Prerequisites:
+- Same-origin script execution in the tester's own browser.
+- Synthetic packet fixture.

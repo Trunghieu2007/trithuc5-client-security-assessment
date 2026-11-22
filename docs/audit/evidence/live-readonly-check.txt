@@ -1,0 +1,22 @@
+=== TRITHUC5.0 live read-only verification ===
+No POST. No state write. Passwords are never printed.
+trithuc50_v436_live_sync_hn: lines=0 decoded=0
+trithuc50_v436_bak_sync_hn: lines=0 decoded=0
+KV meta_cnt: raw=16_1794884925012 count=16
+┌─────────┐
+│ (index) │
+├─────────┤
+└─────────┘
+aggregate: {
+  packets: 0,
+  uniqueUsernames: 0,
+  packetsWithPasswordField: 0,
+  packetsWithNonSeedTombstones: 0
+}
+identifiers hidden. Re-run with --show-identifiers only if owner-approved.
+errors: [
+  'KV s_10: empty',
+  'KV s_15: empty',
+  'KV chunk set incomplete; snapshot skipped'
+]
+=== END READ-ONLY VERIFICATION ===

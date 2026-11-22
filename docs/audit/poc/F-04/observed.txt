@@ -1,0 +1,10 @@
+PoC: F-04 — Exam answers are recoverable from a bundle-seeded client vault
+Build: V4.8.0 / SHA-256 be27a5bc429dec25ec31031cf9128680bcc116b6eaa48c75bdb0e37896234028
+Evidence state: LOCAL_CONFIRMED
+
+OBSERVED:
+The full answer set is recoverable offline from the shipped bundle.
+
+Evidence references:
+- `F-04-T01` decodes the current vault and reports 15 exams / 330 answers.
+- `poc_f04_exam_answers.js` is read-only and validated by `poc-suite-validation.txt`.

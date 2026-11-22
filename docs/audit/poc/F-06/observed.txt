@@ -1,0 +1,10 @@
+PoC: F-06 — Anti-cheat controls are UX-only
+Build: V4.8.0 / SHA-256 be27a5bc429dec25ec31031cf9128680bcc116b6eaa48c75bdb0e37896234028
+Evidence state: LOCAL_CONFIRMED (user-tested userscript in earlier phase)
+
+OBSERVED:
+Client-side anti-cheat can be neutralised locally while the app still renders content.
+
+Evidence references:
+- `poc-suite-validation.txt` executes the console neutraliser and userscript variant safely.
+- Earlier-phase user test confirmed the userscript variant in a real browser without touching production data.

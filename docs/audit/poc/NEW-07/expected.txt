@@ -1,0 +1,10 @@
+PoC: NEW-07 — Cross-tab state replacement still copies non-VIP fields from writable storage
+Build: V4.8.0 / SHA-256 be27a5bc429dec25ec31031cf9128680bcc116b6eaa48c75bdb0e37896234028
+Type: DISPLAY
+
+EXPECTED:
+Cross-tab sync should merge only server-verified state or ignore local writes for privileged fields.
+
+Prerequisites:
+- Two simulated tabs sharing a mock storage backend.
+- Synthetic user records only.

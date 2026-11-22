@@ -1,0 +1,16 @@
+=== F-02 admin session trust — local validation ===
+Source: hash-pinned current.html, SHA-256 fe6fef993c24a4a8bbe3839004a31a47e3392cf6598efd5290303901ecd792b5
+Functions used from harness: computeAdminSessionSig, safeStorageSet, safeStorageGet
+
+Restore condition (source line 2404):
+  (!parsedSess.sig || parsedSess.sig === expectedSig) && notExpired
+
+Positive control: session {loggedIn:true, username:'admin', ts:now} with NO sig
+Negative controls: expired ts, bad sig, loggedIn:false
+
+Result:
+{"noSigAccepted":true,"expiredRejected":true,"badSigRejected":true,"loggedOutRejected":true}
+
+Scope: LOCAL_CONFIRMED. No real credential, salt value, signature value, network
+request, ntfy/KV write, or production account access was used. This demonstrates
+client-side UI trust only; there is no backend admin API to authorize.

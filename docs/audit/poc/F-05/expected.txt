@@ -1,0 +1,10 @@
+PoC: F-05 — Device lock and Gmail binding are enforced from client-owned fields
+Build: V4.8.0 / SHA-256 be27a5bc429dec25ec31031cf9128680bcc116b6eaa48c75bdb0e37896234028
+Type: DISPLAY
+
+EXPECTED:
+Device slots and bindings must be registered by a server with out-of-band verification for new devices.
+
+Prerequisites:
+- Synthetic student fixture.
+- Local VM or browser console.

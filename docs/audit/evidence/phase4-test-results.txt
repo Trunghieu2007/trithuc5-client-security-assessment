@@ -1,0 +1,23 @@
+=== V4.8.0 phase4_tests.js — SHA be27a5bc429dec25ec31031cf9128680bcc116b6eaa48c75bdb0e37896234028 ===
+PASS P4-01  baseline: V4.5 detectAndBlock rejects maxDevices=999 PoC shape
+PASS P4-02  V4.8.0 FIX: structural invariant catches unsigned VIP flags even after renaming
+PASS P4-03  bypass: _adminVipSeal secret (vaultLockConfig.adminPass) is client-side and forgeable
+PASS P4-04  bypass: forged seal+sig grants verified VIP package access via BackendVipAuthServiceV44
+PASS P4-05  negative control: account without a valid seal is denied VIP access
+PASS P4-06  negative control: post-registration tampering is reverted to vault state
+PASS P4-07  finding: seal binds username/name/class/packages but not the expiry timestamp
+PASS P4-08  V4.8.0 partial FIX: isAdminTester exemption removed; gv_test still exempt
+PASS P4-09  finding: runtime integrity check skips gv_test / stu_free_12b1 / stu_practice_e
+PASS P4-10  finding: admin preview unlock-all bypasses every VIP package check
+PASS P4-11  bypass: admin session signature is computable offline from the bundled salt
+PASS P4-12  bypass: user integrity sig salt is a bundle literal => _sig forgeable offline
+PASS P4-13  finding: BackendVipAuthServiceV44 vault is an in-client Map rebuilt from client data
+PASS P4-14  V4.5 FIX: boot normalizer strips VIP when _sig is valid but _adminVipSeal is absent
+PASS P4-15  negative control: boot normalizer downgrades a user with a bad _sig
+PASS P4-16  V4.5 end-to-end: renamed user with BOTH offline-forged _sig and _adminVipSeal survives boot
+PASS P4-17  revalidation: unsigned cloud packet is downgraded to pending/non-VIP on V4.5
+PASS P4-18  negative control: forged fromAdmin packet is rejected on V4.5
+PASS P4-19  V4.8.0 FIX: tombstone table only merges from a signature-verified admin packet
+PASS P4-20  finding: cloud admin signature secret is a bundle literal
+
+TOTAL 20 PASS 20 FAIL 0

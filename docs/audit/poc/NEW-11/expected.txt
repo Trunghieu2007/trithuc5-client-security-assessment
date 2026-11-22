@@ -1,0 +1,11 @@
+PoC: NEW-11 — VIP approval seal is derived from bundle-literal secrets
+Build: V4.8.0 / SHA-256 be27a5bc429dec25ec31031cf9128680bcc116b6eaa48c75bdb0e37896234028
+Type: ACTION
+
+EXPECTED:
+A client-computed approval artifact must be rejected. VIP state and backend tokens must be issued only by a server after an authenticated teacher action.
+
+Prerequisites:
+- Pinned V4.8.0 source available for inspection.
+- Own browser origin and DevTools Console; no account, no server access.
+- Synthetic user fixture only.

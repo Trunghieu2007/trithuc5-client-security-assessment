@@ -40,11 +40,24 @@ entitlements, or exam results.
 | Low | F-04 exam answers hidden in a bundle-seeded gzip/XOR vault (15 exams / 330 answers recovered offline) |
 | Low | NEW-02 unsigned packet injection still inserts a pending local user; tombstone path fixed |
 | Low | F-06 anti-cheat is UX only |
-| Informational | NEW-03 nonce/age guard present but nonce optional |
-| Informational | NEW-04 internal cloud bus bridge removed; local `BroadcastChannel` path remains |
-| Informational | NEW-05 Gemini key moved to `sessionStorage` |
+| Low | NEW-03 nonce/age guard present but nonce optional |
+| Low | NEW-05 Gemini key moved to `sessionStorage` |
 | Informational | NEW-06 CSP/CORS still weak; XFO/nosniff now present |
-| Fixed in V4.8.0 | NEW-01 password in wire format, NEW-09 weak-store mirroring, NEW-16 seal/token broadcast, unsigned tombstone merge |
+| Fixed in V4.8.0 | NEW-01 password in wire format, NEW-04 internal cloud bus removal, NEW-09 weak-store mirroring, NEW-16 seal/token broadcast, unsigned tombstone merge |
+
+## Formal audit package (`docs/audit/`)
+
+A structured, evidence-first package is available at [`docs/audit/`](docs/audit/):
+
+- [`00-executive-summary.md`](docs/audit/00-executive-summary.md) — scope, risk, counts, key risks and priorities.
+- [`01-attack-surface.md`](docs/audit/01-attack-surface.md) — measured stack, channels and asset classification.
+- [`02-configuration-audit.md`](docs/audit/02-configuration-audit.md) — headers, TLS, cookies, CORS and deployment observations.
+- [`03-methodology.md`](docs/audit/03-methodology.md) — evidence rules, classification and boundaries.
+- [`04-findings-summary.md`](docs/audit/04-findings-summary.md) and [`findings/`](docs/audit/findings/) — 18-section reports per finding.
+- [`poc/`](docs/audit/poc/) — one folder per active/residual finding with expected/observed behavior.
+- [`05-remediation-roadmap.md`](docs/audit/05-remediation-roadmap.md) — P0–P3 ownership, verification and dependencies.
+- [`06-retest-results.md`](docs/audit/06-retest-results.md) — V4.8.0 retest status and regression evidence.
+- [`evidence/`](docs/audit/evidence/) — sanitized logs, source pin and reproduction commands.
 
 Live-channel content is `UNVERIFIED`. Full detail: [`research/trithuc5/FINDINGS.md`](research/trithuc5/FINDINGS.md).
 Independent execution-based verification (2026-11-22):
@@ -67,6 +80,7 @@ restore function. The mapping, types, and restore-function names are in the PoC 
 
 ## Repository contents
 
+- `docs/audit/` — formal audit package with per-finding reports, PoC folders and sanitized evidence.
 - `research/trithuc5/FINDINGS.md` — current finding set with per-finding PoC mapping.
 - `research/trithuc5/PHASE5_UPDATE.md` — measured V4.6.7 → V4.8.0 changes and re-verification.
 - `research/trithuc5/PHASE4_BYPASS_ANALYSIS.md` — historical V4.4 anti-hack analysis.

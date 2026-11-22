@@ -1,0 +1,12 @@
+PoC: NEW-15 — Admin preview unlock-all still short-circuits every VIP gate after a forged session
+Build: V4.8.0 / SHA-256 be27a5bc429dec25ec31031cf9128680bcc116b6eaa48c75bdb0e37896234028
+Evidence state: LOCAL_CONFIRMED (partial fix + residual)
+
+OBSERVED:
+The forged session plus preview flag makes every measured gate return true for a non-VIP, unsigned synthetic user.
+
+Evidence references:
+- `IV-16`…`IV-18` show all three gates returning true for a pending, unsigned, non-VIP junk student.
+- `IV-19` shows all three gates deny when preview is off.
+- `IV-20` reproduces the admin session signature from bundle data.
+- `P4-10` verifies the same production gate behavior.

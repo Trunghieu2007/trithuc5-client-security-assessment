@@ -1,0 +1,11 @@
+PoC: NEW-13 — Tamper detector adds a structural invariant but still trusts bundle secrets
+Build: V4.8.0 / SHA-256 be27a5bc429dec25ec31031cf9128680bcc116b6eaa48c75bdb0e37896234028
+Evidence state: LOCAL_CONFIRMED (partial fix + residual)
+
+OBSERVED:
+The keyword path is improved, but recomputing both artifacts from bundle literals restores the bypass.
+
+Evidence references:
+- `P4-02` verifies an ordinary-looking renamed account with VIP but no signature is now detected.
+- `IV-08` verifies tampering after sealing without recomputing artifacts is blocked.
+- `IV-09` verifies recomputing both artifacts evades detection again.

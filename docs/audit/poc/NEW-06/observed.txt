@@ -1,0 +1,10 @@
+PoC: NEW-06 — Response headers are partially hardened; CSP and narrow CORS remain absent
+Build: V4.8.0 / SHA-256 be27a5bc429dec25ec31031cf9128680bcc116b6eaa48c75bdb0e37896234028
+Evidence state: STATIC_CONFIRMED
+
+OBSERVED:
+HSTS, XFO, nosniff, Referrer-Policy and Permissions-Policy are present; CSP is absent and CORS is wildcard.
+
+Evidence references:
+- `A-03-T01` asserts XFO and nosniff are present, CSP is absent, and CORS is wildcard.
+- `response-headers.txt` contains the captured header values.

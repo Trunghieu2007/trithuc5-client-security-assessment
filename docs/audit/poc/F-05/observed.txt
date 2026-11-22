@@ -1,0 +1,10 @@
+PoC: F-05 — Device lock and Gmail binding are enforced from client-owned fields
+Build: V4.8.0 / SHA-256 be27a5bc429dec25ec31031cf9128680bcc116b6eaa48c75bdb0e37896234028
+Evidence state: LOCAL_CONFIRMED (partial fix)
+
+OBSERVED:
+The display PoC shows the decision derives entirely from local fields; the opt-in action changes the decision locally.
+
+Evidence references:
+- `F-05-T01`…`F-05-T05` exercise the local limit and binding logic.
+- `poc-suite-validation.txt` verifies the DISPLAY default does not mutate state.

@@ -1,0 +1,10 @@
+PoC: F-06 — Anti-cheat controls are UX-only
+Build: V4.8.0 / SHA-256 be27a5bc429dec25ec31031cf9128680bcc116b6eaa48c75bdb0e37896234028
+Type: ACTION
+
+EXPECTED:
+Exam restrictions should be server-enforced and not depend on client event handlers.
+
+Prerequisites:
+- Own browser, test page, synthetic exam state.
+- No real exam or grade involved.

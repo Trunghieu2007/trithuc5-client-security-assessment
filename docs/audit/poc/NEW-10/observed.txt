@@ -1,0 +1,10 @@
+PoC: NEW-10 — Admin-tester identities still suppress audit logging
+Build: V4.8.0 / SHA-256 be27a5bc429dec25ec31031cf9128680bcc116b6eaa48c75bdb0e37896234028
+Evidence state: LOCAL_CONFIRMED (partial fix)
+
+OBSERVED:
+Admin/tester and `gv_test` actions are dropped; public guests are now logged.
+
+Evidence references:
+- `IV-23` verifies admin/tester identities produce no form payload while public-exam guests now do.
+- `P4-09` records the same partial fix.

@@ -1,0 +1,41 @@
+Source: current.html, SHA-256 fe6fef993c24a4a8bbe3839004a31a47e3392cf6598efd5290303901ecd792b5
+All ranges are 1-indexed line numbers from that exact file.
+
+1284-1306   STORAGE_KEYS
+1323-1372   readWindowNameStore / writeWindowNameStore / safeStorageGet / safeStorageSet / safeStorageRemove
+1505-1508   state.adminCreds (credential values redacted from all published reports)
+2385-2411   remembered admin session restore block
+2548-2559   hashStringHex
+2591-2655   getHardwareDeviceProfile
+2657-2661   isValidStudentGmail
+2683-2803   verifyAndBindStudentDeviceOnLogin
+2806-2819   computeUserIntegritySig
+2821-2824   computeAdminSessionSig
+2826-2846   verifyRuntimeSecurityIntegrity
+2859-2866   isStudentVipExpired
+2918-2926   CLOUD_SYNC_* / CLOUD_KV_* constants / LEGACY_SAMPLE_BANNED / deletedUsernamesRegistry
+2936-2942   sanitizePlainInput
+2975-2983   computeCloudPacketAdminSig
+2985-3011   serializeCompactUser  (password field 'p')
+3013-3047   deserializeCompactUser
+3049-3063   isUserDeletedByTombstone
+3088-3109   window.__TRITHUC50_CLOUD_BUS__ / buildTeacherSnapshotPacket
+3115-3140   buildTeacherSnapshotPacket
+3142-3268   processIncomingCloudPacket
+3270-3280   decodeCloudMessageString
+3282-3367   pushCloudSyncPacket
+3369-3395   setupRealtimeCloudStream
+3397-3469   pullCloudSyncMessages
+3696-3725   scanAndBlockAIExtensions
+3784-3923   setupAntiCheatListeners
+3925-3945   triggerExamViolation
+9053-9054   watermarkLayer DOM
+15861-15877 setupCrossTabUserSync
+15892-15895 BroadcastChannel onmessage -> processIncomingCloudPacket
+4346-4370   decryptV97EmbedPayload
+1047        window.__INITIAL_EXAMS_DATA__ (15 exams, 330 answer entries)
+1098,1267   correctAnswers construction
+
+Test assertions reference functions by name, not by line number, except the session block,
+which is extracted verbatim from lines 2385-2411. If the source hash changes, the harness stops
+before running any test.
