@@ -164,7 +164,7 @@ Added two 1917x1078 PNG screenshots to `research/trithuc5/evidence/`: `no-login-
 ## Phase 4 — post-patch (V4.4) VIP bypass analysis
 The owner deployed a new build: SHA-256 `33be09d79b1e8089867a7db379a1dc6b9932aed178c9f9dde2e968e74d06b868`, 14,554,401 bytes, 20,224 lines, fetched 2026-11-18T09:02:20Z (HTTP 200). It adds an anti-hack layer: `_adminVipSeal` (`computeTeacherVipApprovalSealV44`, line 10649), `BackendVipAuthServiceV44` (lines 10378-10631), `detectAndBlockStudentVipHackV44` (line 10702), `recordVipHackSecurityAlertV44` (line 10658), a rewritten `verifyRuntimeSecurityIntegrity` (line 3187) and a rewritten boot normalizer (lines 2605-2668).
 
-Two V4.3.9 weaknesses were genuinely hardened: the admin session now requires a matching `sig` (line 2758) and unsigned cloud packets are downgraded to pending/non-VIP (lines 3637-3653). The patch nevertheless fails because every new trust decision is client-side. Findings NEW-11 (seal secret `vaultLockConfig.adminPass` default `THAYTRUNG2026` plus literal `THAY_TRUNG_MASTER_SEAL_2026`, both in the bundle — Critical), NEW-12 (boot normalizer auto-grants `_adminVipSeal` to any record with a matching `_sig` — Critical), NEW-13 (detector is a keyword heuristic on poc_vip/nologin/hack/exploit/bypass/cheat — High), NEW-14 (`gv_test`/`stu_free_12b1`/`stu_practice_e`/`isAdminTester` skip both the detector and the runtime integrity check — High), NEW-15 (admin preview unlock-all short-circuits every VIP gate — High), NEW-16 (`seal` and `bkt` are now serialised into every cloud packet — High).
+Two V4.3.9 weaknesses were genuinely hardened: the admin session now requires a matching `sig` (line 2758) and unsigned cloud packets are downgraded to pending/non-VIP (lines 3637-3653). The patch nevertheless fails because every new trust decision is client-side. Findings NEW-11 (seal secret `vaultLockConfig.adminPass` default `<redacted-vault-default>` plus literal `THAY_TRUNG_MASTER_SEAL_2026`, both in the bundle — Critical), NEW-12 (boot normalizer auto-grants `_adminVipSeal` to any record with a matching `_sig` — Critical), NEW-13 (detector is a keyword heuristic on poc_vip/nologin/hack/exploit/bypass/cheat — High), NEW-14 (`gv_test`/`stu_free_12b1`/`stu_practice_e`/`isAdminTester` skip both the detector and the runtime integrity check — High), NEW-15 (admin preview unlock-all short-circuits every VIP gate — High), NEW-16 (`seal` and `bkt` are now serialised into every cloud packet — High).
 
 Added `research/trithuc5/tests/phase4_harness.js` (source hash-pinned), `research/trithuc5/tests/phase4_tests.js` (16 checks, 16 pass, 0 fail) and `research/trithuc5/tests/phase4_payload_validation.js` (14 checks, 14 pass, 0 fail — runs the shipped PoC against the real extracted V4.4 functions). Added `research/trithuc5/poc/v44_vip_bypass_payload.js` (local-only Chrome Console payload) and `research/trithuc5/PHASE4_BYPASS_ANALYSIS.md`. Evidence: `evidence/phase4-test-results.txt`, `evidence/phase4-payload-validation.txt`, `phase4-target.headers`. The V4.4 HTML is kept local and not committed, matching the existing redaction policy. No packet was published, no real account touched, no production state modified.
 
@@ -290,6 +290,53 @@ new `PHASE5_UPDATE.md`; rewrote `FINDINGS.md`, `EXECUTIVE_SUMMARY.md`, `REMEDIAT
 `INDEPENDENT_VERIFICATION.md`, `evidence/README.md`, root `README.md`, `SOURCE.md`; marked
 `PHASE4_BYPASS_ANALYSIS.md` historical. Canonical V4.5 docs: FINDINGS, PHASE5_UPDATE,
 INDEPENDENT_VERIFICATION, REMEDIATION_PLAN.
+
+Boundaries unchanged: local isolated synthetic fixtures only; no packet published, no real
+account touched, no production state modified. Live-channel content remains UNVERIFIED;
+release remains blocked.
+
+## V4.8.0 redeploy — re-pin, re-verify, canonical docs updated (2026-11-22)
+
+User: "website đã được cập nhật. Hãy update lại toàn bộ báo cáo". Fetched the live page and
+measured a new build: SHA-256
+`be27a5bc429dec25ec31031cf9128680bcc116b6eaa48c75bdb0e37896234028`, 9,115,471 bytes,
+34,599 lines, HTTP 200, Last-Modified 2026-11-22T04:48:27Z. Headers in `current.headers`,
+copied to `phase5-target.headers`. Raw HTML kept local in `research/trithuc5/phase5/target.html`
+and `live-quick.html`, not committed.
+
+Measured security delta (see `research/trithuc5/PHASE5_UPDATE.md`):
+- FIXED: password / seal / backend token blanked in `serializeCompactUser` (5546) and inbound
+  seal/token ignored (5578); password-like log detail masked (7364); sensitive storage keys
+  excluded from cookie / `window.name` / `sessionStorage` (2227, `SameSite=Strict`); unsigned
+  tombstone rejected (5714+); nonce replay and 26-hour stale packets rejected when a nonce is
+  present (5713, 5714+); internal cloud bus removed (5674); Gemini key moved to
+  `sessionStorage` (25287); `X-Frame-Options: DENY` and `X-Content-Type-Options: nosniff`
+  added; `isAdminTester` detector exemption removed (15869).
+- PERSISTS: seal secret is still `DEFAULT_VAULT_PASS_HASH_V45` (2054) plus
+  `THAY_TRUNG_MASTER_SEAL_2026` (15821), so forging `_sig` + seal offline still passes every
+  VIP gate (P4-16, IV-02b–IV-09); `gv_test` and the runtime exemptions remain; admin preview
+  still works after an offline-forged session; admin auth uses bundle hash literals and a
+  bundle-salt session sig (4166); exam answers are unchanged in the gzip + PRNG-XOR vault
+  (15 exams / 330 answers recovered offline); public compact records still carry identity
+  fields; an unsigned local packet can still insert a pending non-VIP user.
+- PARTIAL: the detector now rejects renamed unsigned VIP records but is still bypassed by
+  offline-forged sig+seal; guest VIP flags are detected but `gv_test` is not.
+
+Re-pinned all harnesses to the V4.8.0 hash and updated line ranges: cloud constants 4298–4304,
+admin session restore 3739–3751, boot normalizer 3574–3642. Two new lexical dependencies
+(`__SENSITIVE_STORAGE_RE_V480__` line 2227, `__SEEN_CLOUD_NONCES_V480__` line 5713) were added
+to each VM. Tests asserting fixed vulnerabilities were rewritten as FIX / partial-FIX
+assertions; residual paths remain asserted. `poc_new02_packet_injection.js` now uses the
+production `BroadcastChannel` (`TRITHUC50_AUTOSYNC_V436`) and the validation VM gained a
+matching mock. Final suite state: `run_all.js` 40/40, `phase3_tests.js` 8/8,
+`phase4_tests.js` 20/20, `poc_suite_validation.js` 51/51,
+`independent_verification.js` 36/36, `secure_controls.js` 7 pass / 2 expected failures.
+All logs regenerated in `evidence/`.
+
+Docs updated: rewrote `PHASE5_UPDATE.md` as the V4.6.7 → V4.8.0 delta, plus `FINDINGS.md`,
+`EXECUTIVE_SUMMARY.md`, `REMEDIATION_PLAN.md`, `INDEPENDENT_VERIFICATION.md`,
+`evidence/README.md`, root `README.md` and `SOURCE.md`. Canonical V4.8.0 docs: FINDINGS,
+PHASE5_UPDATE, INDEPENDENT_VERIFICATION, REMEDIATION_PLAN.
 
 Boundaries unchanged: local isolated synthetic fixtures only; no packet published, no real
 account touched, no production state modified. Live-channel content remains UNVERIFIED;

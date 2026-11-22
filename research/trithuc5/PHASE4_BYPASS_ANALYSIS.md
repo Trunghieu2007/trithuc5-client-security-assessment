@@ -6,10 +6,10 @@
 **Scope:** client-side only, read-only against production. No account creation, no packet publication, no production writes.
 
 > **Historical document.** This analyses the V4.4 build (`33be09d7…`) only. The current live
-> build is V4.5 / V4.6.3 (`eff11902…`, fetched 2026-11-21). Its measured delta, the fixed
-> boot auto-seal path and the still-exploitable seal secret are documented in
-> [`PHASE5_UPDATE.md`](PHASE5_UPDATE.md); the canonical current catalogue is
-> [`FINDINGS.md`](FINDINGS.md). Do not reuse V4.4 line numbers below for the current build.
+> build is V4.8.0 (`be27a5bc…`, fetched 2026-11-22). Its measured delta from V4.6.7 and the
+> still-exploitable seal secret are documented in [`PHASE5_UPDATE.md`](PHASE5_UPDATE.md); the
+> canonical current catalogue is [`FINDINGS.md`](FINDINGS.md). Do not reuse V4.4 line numbers
+> below for the current build.
 
 ---
 
@@ -65,7 +65,7 @@ The new approval seal is supposed to prove "a teacher granted this VIP". It does
 function computeTeacherVipApprovalSealV44(u) {
     const vp = u.vipPackages || {};
     const maxD = Math.max(1, Math.min(3, Number(u.maxDevices || 2)));
-    const admSecret = state.vaultLockConfig?.adminPass || 'THAYTRUNG2026';
+    const admSecret = state.vaultLockConfig?.adminPass || '<redacted-vault-default>';
     const raw = `TT50_VIP_SEAL_V44|${username}|${name}|${class}|${vpFlags}|MAXD:${maxD}|${admSecret}|THAY_TRUNG_MASTER_SEAL_2026`;
     return 'vseal44_' + hashStringHex(raw);
 }
@@ -78,7 +78,7 @@ Every input is either attacker-chosen or published:
 | `username`, `name`, `class` | the record being written | Full |
 | `vpFlags` | the record being written | Full |
 | `MAXD` | clamped to 1..3 | Full (pick 2) |
-| `admSecret` | `state.vaultLockConfig.adminPass`, default `'THAYTRUNG2026'` (line 1786) | Known default; also readable from `localStorage` |
+| `admSecret` | `state.vaultLockConfig.adminPass`, default `'<redacted-vault-default>'` (line 1786) | Known default; also readable from `localStorage` |
 | `THAY_TRUNG_MASTER_SEAL_2026` | literal in the bundle (line 10654) | Known |
 | `hashStringHex` | 8-char FNV-style hash (line 2909) | Known |
 

@@ -1,15 +1,15 @@
-# tests/secure_controls.js against the V4.5 build (2026-11-21)
+=== V4.8.0 secure_controls.js — SHA be27a5bc429dec25ec31031cf9128680bcc116b6eaa48c75bdb0e37896234028 ===
 === POST-PATCH SECURE CONTROLS (expected to fail before remediation) ===
-source sha256: eff119024864bb4cfcc96ba2eeac44257e0c73c79456616091b6202535ab965f
+source sha256: be27a5bc429dec25ec31031cf9128680bcc116b6eaa48c75bdb0e37896234028
 PASS SC-01 positive: valid signed admin packet is applied
 PASS SC-02 unsigned fromAdmin packet is rejected
 PASS SC-03 invalid signature packet causes no tombstone or user mutation
-FAIL SC-04 expired packet is rejected :: Expected values to be strictly equal:
-FAIL SC-05 replay protection is present in the verifier :: verifier must expose a replay cache
-FAIL SC-06 unauthorized tombstone is rejected :: The expression evaluated to a falsy value:
+PASS SC-04 expired packet is rejected
+PASS SC-05 replay protection is present in the verifier
+PASS SC-06 unauthorized tombstone is rejected
 FAIL SC-07 unauthorized user injection is rejected for every packet type :: no unsigned packet may create local users
-FAIL SC-08 password never enters a public packet :: The expression evaluated to a falsy value:
+PASS SC-08 password never enters a public packet
 FAIL SC-09 cross-account packet does not mutate an unrelated account :: Expected values to be strictly equal:
 
-TOTAL 9 PASS 3 FAIL 6
+TOTAL 9 PASS 7 FAIL 2
 CURRENT STATE: controls fail as expected before remediation

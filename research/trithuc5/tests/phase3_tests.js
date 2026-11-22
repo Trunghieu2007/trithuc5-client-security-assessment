@@ -77,21 +77,24 @@ function pkt(overrides) {
         assert.ok(stored && stored.includes('synthetic_password'), 'password in localStorage activity log');
     });
 
-    await check('P3-02', 'safeStorageSet mirrors sensitive values into cookie and window.name', () => {
-        const e = h.createEnv({ now: NOW });
+    await check('P3-02', 'V4.8.0 FIX: sensitive keys stay in localStorage, not cookie/window.name/sessionStorage', () => {
+        const store = h.makeMemoryStorage();
+        const e = h.createEnv({ now: NOW, localStore: store });
+        e.safeStorageSet('TRITHUC50_USERS_V436_CLEAN', '{"secret":1}');
+        assert.ok(store.getItem('TRITHUC50_USERS_V436_CLEAN'), 'localStorage write remains');
+        assert.ok(!e.document.cookie.includes('TRITHUC50_USERS'), 'no sensitive cookie mirror');
+        assert.ok(!e.window.name.includes('TRITHUC50_USERS'), 'no sensitive window.name mirror');
+        // Non-sensitive values still mirror, with a Strict cookie.
         e.safeStorageSet('P3_SECRET_KEY', 'phase3_synthetic_secret');
-        assert.ok(e.document.cookie.includes('P3_SECRET_KEY=phase3_synthetic_secret'), 'cookie mirror');
-        assert.ok(e.window.name.includes('__TRITHUC_WN__:'), 'window.name store marker');
-        assert.ok(e.window.name.includes('phase3_synthetic_secret'), 'window.name mirror');
+        assert.ok(e.document.cookie.includes('P3_SECRET_KEY=phase3_synthetic_secret'), 'non-sensitive cookie mirror');
+        assert.ok(e.window.name.includes('phase3_synthetic_secret'), 'non-sensitive window.name mirror');
         const lines = h.readSource().lines;
         const cookieLine = lines.find(l => l.includes('document.cookie = `${key}=${encodeURIComponent(sVal)}'));
-        assert.ok(cookieLine, 'cookie write line found');
-        assert.ok(/SameSite=Lax/i.test(cookieLine), 'SameSite=Lax present');
-        assert.ok(!/HttpOnly/i.test(cookieLine), 'HttpOnly absent');
-        assert.ok(!/Secure/i.test(cookieLine), 'Secure absent');
+        assert.ok(/SameSite=Strict/i.test(cookieLine), 'cookie is SameSite=Strict');
+        assert.ok(lines.some(l => l.includes('__SENSITIVE_STORAGE_RE_V480__')), 'sensitive-key filter present');
     });
 
-    await check('P3-03', 'V4.5: unsigned stale admin packet is rejected by the 24h poll; a VALIDLY signed stale packet still applies', async () => {
+    await check('P3-03', 'V4.8.0 FIX: stale packets are rejected at the verifier even when signed', async () => {
         const e = h.createEnv({ now: NOW });
         const stale = pkt({
             ts: 1,
@@ -100,52 +103,42 @@ function pkt(overrides) {
             hideAuthorTs: 2,
             users: [e.serializeCompactUser(h.compactUser({ username: 'stale_auto_user', updatedAt: 1 }))]
         });
-        // Unsigned: V4.5 rejects the admin claim outright.
         e.__meta.bus.sse = ['TT50V436:' + e.toBase64UrlSafe(JSON.stringify(stale))];
         await e.pullCloudSyncMessages(false);
-        assert.strictEqual(e.state.hideAuthorInfo, false, 'V4.5 must not apply an unsigned admin packet');
-        assert.strictEqual(e.state.users.some(u => u.username === 'stale_auto_user'), false,
-            'V4.5 must not inject from an unsigned admin packet');
+        assert.strictEqual(e.state.hideAuthorInfo, false, 'unsigned stale admin packet rejected');
+        assert.strictEqual(e.state.users.some(u => u.username === 'stale_auto_user'), false);
 
-        // Signed (signature is reproducible offline): the stale packet still applies.
         const staleSigned = Object.assign({}, stale, { adminSig: e.computeCloudPacketAdminSig(stale) });
         e.__meta.bus.sse = ['TT50V436:' + e.toBase64UrlSafe(JSON.stringify(staleSigned))];
         const changed = await e.pullCloudSyncMessages(false);
-        assert.strictEqual(changed, true, 'validly signed stale packet applies (no packet-level expiry)');
-        assert.strictEqual(e.state.hideAuthorInfo, true, 'stale privileged field applied');
-        assert.ok(e.state.users.some(u => u.username === 'stale_auto_user'), 'stale user applied');
+        assert.strictEqual(changed, false, 'signed stale packet rejected by the 26h verifier');
+        assert.strictEqual(e.state.hideAuthorInfo, false);
+        assert.ok(!e.state.users.some(u => u.username === 'stale_auto_user'));
 
         const src = h.readSource().text;
         assert.ok(src.includes("/json?poll=1&since=24h"), '24h poll window in source');
         assert.ok(src.includes("/sse?since=24h"), '24h SSE window in source');
     });
 
-    await check('P3-04', 'V4.5: per-user KV record exceeds the 450-char cap and is skipped; the password still lands in the public snapshot chunks', async () => {
+    await check('P3-04', 'V4.8.0 FIX: passwords, seal and backend token are absent from all public cloud writes', async () => {
         const e = p3.createDeepEnv({ now: NOW });
         await e.pushCloudSyncPacket('STUDENT_REGISTER', { username: 'S.User', password: 'spw' }, []);
 
-        // V4.5 added `seal`/`bkt` to serializeCompactUser, pushing a typical
-        // per-user record past the `singleStr.length <= 450` gate (line ~3812),
-        // so the predictable u_<slug>_<idx> key is no longer written.
         const perUser = e.__captures.filter(c => c.url.includes('u_suser_'));
-        assert.strictEqual(perUser.length, 0, 'V4.5 skips the per-user KV write for a typical record');
+        assert.strictEqual(perUser.length, 0, 'per-user KV write skipped for a typical record');
         const cu = e.serializeCompactUser({ username: 'S.User', password: 'spw' });
-        const probe = e.toBase64UrlSafe(JSON.stringify({ app: 'TRITHUC50_V436', type: 'STUDENT_REGISTER', ts: NOW, fromAdmin: false, adminSig: '', user: cu }));
-        assert.ok(probe.length > 450, 'per-user payload measures ' + probe.length + ' chars (> 450 cap)');
+        assert.strictEqual(cu.p, '', 'password field blanked');
+        assert.strictEqual(cu.seal, '', 'seal field blanked');
+        assert.strictEqual(cu.bkt, '', 'backend token field blanked');
 
-        // The registration record itself no longer enters the snapshot through
-        // this path on V4.5 (the snapshot serialises state.users, and a fresh
-        // registration is not in state.users yet).
         const chunkCalls = e.__captures.filter(c => c.url.includes('/s_'));
         assert.ok(chunkCalls.length > 0, 'snapshot chunks are still published');
         const joined = chunkCalls.map(c => c.url.split('/').pop()).join('');
         const decoded = e.fromBase64UrlSafe(joined);
-        assert.ok(!decoded.includes('spw'), 'V4.5: registration password absent from this snapshot path');
+        assert.ok(!decoded.includes('spw'), 'password absent from snapshot chunks');
 
-        // NEW-01 still holds at the serializer level: any user stored in
-        // state.users keeps its password in every published packet.
         const cuFinal = e.serializeCompactUser({ username: 'stored_user', password: 'spw' });
-        assert.strictEqual(cu.p, 'spw', 'password still serialised for users in state.users');
+        assert.strictEqual(cuFinal.p, '', 'password never serialised, even for a stored user');
     });
 
     await check('P3-05', 'client-controlled admin-tester flag suppresses logging and GForm sync', () => {

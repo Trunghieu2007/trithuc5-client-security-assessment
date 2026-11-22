@@ -3,16 +3,20 @@ HTTP/1.1 200 Connection Established
 HTTP/1.1 200 OK
 Accept-Ranges: bytes
 Access-Control-Allow-Origin: *
-Age: 21511
+Age: 773
 Cache-Control: public, max-age=0, must-revalidate
 Content-Disposition: inline
-Content-Length: 9015050
+Content-Length: 9115471
 Content-Type: text/html; charset=utf-8
-Date: Sat, 21 Nov 2026 14:32:35 GMT
-Etag: "a97f770bc9be607ed115f55c0af6509f"
-Last-Modified: Sat, 21 Nov 2026 08:34:03 GMT
+Date: Sun, 22 Nov 2026 05:01:21 GMT
+Etag: "8d8f3828768329260fe794d06de6cd7b"
+Last-Modified: Sun, 22 Nov 2026 04:48:27 GMT
+Permissions-Policy: camera=(), microphone=(), geolocation=()
+Referrer-Policy: strict-origin-when-cross-origin
 Server: Vercel
-Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+Strict-Transport-Security: max-age=31536000; includeSubDomains
+X-Content-Type-Options: nosniff
+X-Frame-Options: DENY
 X-Vercel-Cache: HIT
-X-Vercel-Id: hkg1::hntlc-1795271555540-fa6317cd03f3
+X-Vercel-Id: sin1::8sfr8-1795323680905-26db189f48ac
 

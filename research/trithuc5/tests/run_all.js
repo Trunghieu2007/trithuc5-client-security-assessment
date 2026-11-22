@@ -140,26 +140,27 @@ test('F-01-T05', 'V4.5 FIX: forged fromAdmin without signature is rejected and l
     assert.strictEqual(e.state.hideAuthorInfo, false, 'V4.5 rejects the forged admin claim');
 });
 
-test('F-01-T06', 'replayed packet has no replay guard and is merely idempotent for equal timestamps', () => {
+test('F-01-T06', 'V4.8.0 FIX: nonce replay is rejected by the verifier', () => {
     const e = h.createEnv({ now: NOW });
-    const p = signed(e, { hideAuthorInfo: true, hideAuthorTs: NOW + 1, users: [compact(e, allVip({ username: 'replay_user' }))] });
-    e.processIncomingCloudPacket(p);
-    const first = e.state.users.length;
-    e.processIncomingCloudPacket(p);
-    assert.strictEqual(e.state.users.length, first, 'duplicate should not add another user');
+    const p = signed(e, { nonce: 'poc_replay_nonce', users: [compact(e, allVip({ username: 'replay_user' }))] });
+    assert.strictEqual(e.processIncomingCloudPacket(p), true, 'first delivery applies');
+    assert.strictEqual(e.processIncomingCloudPacket(p), false, 'replay of the same nonce is rejected');
+    assert.strictEqual(e.state.users.length, 1, 'duplicate does not add another user');
     const fn = h.extractFunction(h.readSource().lines, 'processIncomingCloudPacket').code;
-    assert.ok(!/nonce|replay|seenPacket|messageId/i.test(fn), 'no replay identifiers in verifier');
+    assert.ok(/__SEEN_CLOUD_NONCES_V480__/.test(fn), 'nonce registry present in verifier');
+    // Residual: a packet with no nonce is still only idempotent, not replay-protected.
+    assert.ok(!/nonce/.test(JSON.stringify(signed(e, { users: [] }))), 'nonce remains optional');
 });
 
-test('F-01-T07', 'expired packet is still applied', () => {
+test('F-01-T07', 'V4.8.0 FIX: a packet older than 26 hours is rejected', () => {
     const e = h.createEnv({ now: NOW });
     const p = signed(e, {
         ts: 1, hideAuthorTs: 2, hideAuthorInfo: true,
         users: [compact(e, { username: 'ancient_user', updatedAt: 1 })]
     });
-    e.processIncomingCloudPacket(p);
-    assert.strictEqual(e.state.hideAuthorInfo, true);
-    assert.ok(e.state.users.some(u => u.username === 'ancient_user'));
+    assert.strictEqual(e.processIncomingCloudPacket(p), false, 'stale packet rejected');
+    assert.strictEqual(e.state.hideAuthorInfo, false);
+    assert.ok(!e.state.users.some(u => u.username === 'ancient_user'));
 });
 
 test('F-01-T08', 'duplicate users in one packet are collapsed by username', () => {
@@ -180,10 +181,10 @@ test('F-01-T09', 'malformed tombstone values do not crash but malformed user ent
     assert.ok(e.state.users.some(u => u.username === 'valid_after_malformed'));
 });
 
-test('F-01-T10', 'unauthorized deletion request from non-admin packet is applied', () => {
+test('F-01-T10', 'V4.8.0 FIX: unsigned tombstone deletion is rejected', () => {
     const e = h.createEnv({ now: NOW, state: { users: [h.compactUser({ username: 'delete_me', updatedAt: NOW - 1 })] } });
     e.processIncomingCloudPacket(packet(e, { fromAdmin: false, deletedMap: { delete_me: NOW + 5000 } }));
-    assert.strictEqual(e.state.users.some(u => u.username === 'delete_me'), false);
+    assert.strictEqual(e.state.users.some(u => u.username === 'delete_me'), true, 'user survives unsigned deletion');
 });
 
 test('F-01-T11', 'V4.5 FIX: forged admin packet does not mutate a second isolated environment', () => {
@@ -201,38 +202,39 @@ test('F-01-T11', 'V4.5 FIX: forged admin packet does not mutate a second isolate
     assert.strictEqual(v.isVip, undefined, 'V4.5 must not grant VIP from the forged packet');
 });
 
-test('F-01-T12', 'V4.5: forged ADMIN tombstone is rejected, but an UNSIGNED tombstone still applies (F-01 residual)', () => {
+test('F-01-T12', 'V4.8.0 FIX: only a signature-verified admin tombstone merges', () => {
     const e = h.createEnv({ now: NOW, state: { users: [h.compactUser({ username: 'restore_me', updatedAt: NOW - 100 })] } });
-    // A packet claiming fromAdmin without a valid signature must be rejected.
+    // Both a forged admin claim and an unsigned tombstone must be rejected.
     e.processIncomingCloudPacket(packet(e, { fromAdmin: true, deletedMap: { restore_me: NOW + 100000 } }));
-    assert.strictEqual(e.state.users.some(u => u.username === 'restore_me'), true, 'V4.5 rejects the forged admin tombstone');
-    // An unsigned tombstone, however, still merges (no admin check on that path).
+    assert.strictEqual(e.state.users.some(u => u.username === 'restore_me'), true, 'forged admin tombstone rejected');
     e.processIncomingCloudPacket(packet(e, { fromAdmin: false, deletedMap: { restore_me: NOW + 100000 } }));
-    assert.strictEqual(e.state.users.some(u => u.username === 'restore_me'), false, 'unsigned tombstone still deletes locally');
-    // And a later legitimate signed restore stays blocked by the tombstone.
+    assert.strictEqual(e.state.users.some(u => u.username === 'restore_me'), true, 'unsigned tombstone rejected');
+    // A validly signed admin tombstone still deletes, and blocks a later restore.
+    e.processIncomingCloudPacket(signed(e, { deletedMap: { restore_me: NOW + 100000 }, deletedUsernames: ['restore_me'] }));
+    assert.strictEqual(e.state.users.some(u => u.username === 'restore_me'), false, 'signed tombstone applies');
     e.processIncomingCloudPacket(signed(e, { users: [compact(e, { username: 'restore_me', updatedAt: NOW })] }));
-    assert.strictEqual(e.state.users.some(u => u.username === 'restore_me'), false, 'tombstone still blocks restore');
+    assert.strictEqual(e.state.users.some(u => u.username === 'restore_me'), false, 'tombstone blocks restore');
 });
 
-test('F-01-T13', 'student passwords are serialized into public cloud packets', () => {
+test('F-01-T13', 'V4.8.0 FIX: password and admin seal no longer leave the client in packets', () => {
     const e = h.createEnv({ now: NOW, state: { users: [h.compactUser()] } });
     const compact = e.serializeCompactUser(e.state.users[0]);
-    assert.strictEqual(typeof compact.p, 'string');
-    assert.ok(compact.p.length > 0, 'password field must be populated by shipped serializer');
+    assert.strictEqual(compact.p, '', 'password field blanked by shipped serializer');
+    assert.strictEqual(compact.seal, '', 'admin seal not serialised');
+    assert.strictEqual(compact.bkt, '', 'backend token not serialised');
     const pkt = e.buildTeacherSnapshotPacket([]);
     const json = JSON.stringify(pkt);
-    assert.ok(json.includes('"p":"synthetic_password"'), 'password must appear in snapshot JSON');
-    const decoded = e.fromBase64UrlSafe(e.toBase64UrlSafe(json));
-    assert.ok(decoded.includes('synthetic_password'));
+    assert.ok(!json.includes('synthetic_password'), 'password absent from snapshot JSON');
+    assert.ok(!json.includes('vseal44_'), 'seal absent from snapshot JSON');
 });
 
-test('F-01-T14', 'cloud bus exposes direct packet application (V4.5 renamed to internal bus)', () => {
+test('F-01-T14', 'V4.8.0 FIX: the internal cloud bus is removed from production', () => {
     const src = h.readSource().text;
-    assert.ok(src.includes('__INTERNAL_CLOUD_BUS_V45__'), 'V4.5 internal bus literal must be present');
-    assert.ok(src.includes('applyIncomingPacket(packetObj)'));
-    // V4.5 no longer publishes the bus on window.__TRITHUC50_CLOUD_BUS__; the
-    // original PoC entry point is retained only as an anti-cheat trap string.
-    assert.ok(!src.includes('window.__TRITHUC50_CLOUD_BUS__ ='));
+    assert.ok(!src.includes('__INTERNAL_CLOUD_BUS_V45__ ='), 'no internal bus assignment remains');
+    assert.ok(!src.includes('applyIncomingPacket(packetObj)'), 'no direct packet-application helper remains');
+    assert.ok(!src.includes('window.__TRITHUC50_CLOUD_BUS__ ='), 'no window bus published');
+    // Residual: BroadcastChannel.onmessage still applies raw objects locally.
+    assert.ok(src.includes('processIncomingCloudPacket(ev.data)'), 'local BroadcastChannel path remains');
 });
 
 test('F-01-T15', 'stale privileged packet can override a newer local downgrade', () => {
@@ -245,16 +247,16 @@ test('F-01-T15', 'stale privileged packet can override a newer local downgrade',
     assert.strictEqual(v.vipPlan, 'lifetime');
 });
 
-test('F-01-T16', 'V4.5: replay after a deletion stays blocked by the tombstone (unsigned tombstone path)', () => {
+test('F-01-T16', 'V4.8.0 FIX: unsigned tombstone cannot facilitate a deletion replay', () => {
     const e = h.createEnv({ now: NOW });
     e.state.users = [h.compactUser({ username: 'gone', updatedAt: NOW })];
-    // V4.5 rejects an ADMIN-claiming tombstone without a valid signature...
     e.processIncomingCloudPacket(packet(e, { fromAdmin: true, deletedMap: { gone: NOW + 1000 } }));
     assert.strictEqual(e.state.users.some(u => u.username === 'gone'), true, 'forged admin tombstone rejected');
-    // ...but an unsigned tombstone still merges (F-01 residual, see F-01-T12).
     e.processIncomingCloudPacket(packet(e, { fromAdmin: false, deletedMap: { gone: NOW + 1000 } }));
-    assert.strictEqual(e.state.users.some(u => u.username === 'gone'), false, 'unsigned tombstone deletes locally');
-    // And a later replayed restore stays blocked by the tombstone.
+    assert.strictEqual(e.state.users.some(u => u.username === 'gone'), true, 'unsigned tombstone rejected');
+    // A validly signed tombstone still deletes and blocks a later restore.
+    e.processIncomingCloudPacket(signed(e, { deletedMap: { gone: NOW + 1000 }, deletedUsernames: ['gone'] }));
+    assert.strictEqual(e.state.users.some(u => u.username === 'gone'), false);
     e.processIncomingCloudPacket(signed(e, { users: [compact(e, { username: 'gone', updatedAt: 1 })] }));
     assert.strictEqual(e.state.users.some(u => u.username === 'gone'), false);
 });
@@ -485,12 +487,12 @@ test('A-02-T01', 'Gemini API key is read from localStorage and sent client-side 
     assert.ok(!/(?:AIza)[0-9A-Za-z_-]{20,}/.test(src), 'no embedded live key value');
 });
 
-test('A-03-T01', 'response headers lack CSP and frame/content-type protections (static)', () => {
+test('A-03-T01', 'V4.8.0 partial FIX: XFO/nosniff present, CSP and CORS still weak (static)', () => {
     const headers = fs.readFileSync(path.join(__dirname, '..', 'current.headers'), 'utf8');
-    assert.ok(/Access-Control-Allow-Origin:\s*\*/i.test(headers));
-    assert.ok(!/Content-Security-Policy:/i.test(headers));
-    assert.ok(!/X-Frame-Options:/i.test(headers));
-    assert.ok(!/X-Content-Type-Options:/i.test(headers));
+    assert.ok(/Access-Control-Allow-Origin:\s*\*/i.test(headers), 'wildcard CORS remains');
+    assert.ok(!/Content-Security-Policy:/i.test(headers), 'CSP still absent');
+    assert.ok(/X-Frame-Options:\s*DENY/i.test(headers), 'XFO hardened');
+    assert.ok(/X-Content-Type-Options:\s*nosniff/i.test(headers), 'nosniff hardened');
 });
 
 test('A-04-T01', 'cross-tab storage event replaces state.users from writable localStorage (static)', () => {

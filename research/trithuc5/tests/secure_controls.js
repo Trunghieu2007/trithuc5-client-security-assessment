@@ -84,11 +84,11 @@ control('SC-04', 'expired packet is rejected', () => {
 
 control('SC-05', 'replay protection is present in the verifier', () => {
     const e = h.createEnv({ now: NOW });
-    const p = signed(e, { users: [compact(e, { username: 'replay', updatedAt: NOW })] });
-    e.processIncomingCloudPacket(p);
-    assert.ok(e.replayCache || e.seenPacketIds, 'verifier must expose a replay cache');
-    const changed = e.processIncomingCloudPacket(p);
-    assert.strictEqual(changed, false);
+    const p = signed(e, { nonce: 'acceptance_nonce', users: [compact(e, { username: 'replay', updatedAt: NOW })] });
+    assert.strictEqual(e.processIncomingCloudPacket(p), true);
+    assert.strictEqual(e.processIncomingCloudPacket(p), false);
+    const src = h.readSource().text;
+    assert.ok(src.includes('__SEEN_CLOUD_NONCES_V480__'), 'nonce registry present');
 });
 
 control('SC-06', 'unauthorized tombstone is rejected', () => {
@@ -103,15 +103,19 @@ control('SC-07', 'unauthorized user injection is rejected for every packet type'
         const p = packet(e, { type, users: [compact(e, { username: 'ghost_' + type, status: 'active', vipPlan: 'lifetime', updatedAt: NOW })] });
         e.processIncomingCloudPacket(p);
     }
+    // V4.8.0 downgrades unsigned records to pending/non-VIP but still creates them locally.
     assert.strictEqual(e.state.users.length, 0, 'no unsigned packet may create local users');
 });
 
 control('SC-08', 'password never enters a public packet', () => {
     const e = h.createEnv({ now: NOW, state: { users: [user()] } });
     const serialized = e.serializeCompactUser(e.state.users[0]);
-    assert.ok(!Object.prototype.hasOwnProperty.call(serialized, 'p'));
+    assert.strictEqual(serialized.p, '', 'password field blanked');
+    assert.strictEqual(serialized.seal, '', 'seal field blanked');
+    assert.strictEqual(serialized.bkt, '', 'backend token field blanked');
     const snapshot = JSON.stringify(e.buildTeacherSnapshotPacket([]));
     assert.ok(!snapshot.includes('synthetic_password'));
+    assert.ok(!snapshot.includes('vseal44_'));
 });
 
 control('SC-09', 'cross-account packet does not mutate an unrelated account', () => {

@@ -51,7 +51,7 @@ function makeEnv(seedUsers, seedLogin) {
         createElement: () => ({ width: 0, height: 0, getContext: () => null, toDataURL: () => 'data:,', style: {}, classList: { add() {}, remove() {}, contains() { return false; } }, appendChild() {} })
     };
 
-    const calls = { toast: [], fetch: [], rendered: 0, packets: [] };
+    const calls = { toast: [], fetch: [], rendered: 0, packets: [] , broadcast: [] };
 
     // Mock of the shipped cloud bus: applyIncomingPacket persists the packet's
     // users into the local store and returns true; exportSnapshotPacket returns
@@ -100,6 +100,16 @@ function makeEnv(seedUsers, seedLogin) {
         fetch: async (url, init) => { calls.fetch.push({ url: String(url), init }); return { ok: false, status: 0, text: async () => '' }; },
         Intl,
         __calls: calls
+    };
+    sandbox.BroadcastChannel = class {
+        constructor(name) { this.name = name; }
+        postMessage(packet) {
+            try {
+                calls.broadcast.push({ name: this.name, packet });
+                if (bus && typeof bus.applyIncomingPacket === 'function') bus.applyIncomingPacket(packet);
+            } catch (e) {}
+        }
+        close() {}
     };
     sandbox.window = sandbox;
     sandbox.window.name = '';

@@ -11,7 +11,7 @@ const crypto = require('crypto');
 
 const SOURCE = process.env.TRITHUC_SOURCE || path.join(
     __dirname, '..', '..', '..', '..', 'research', 'trithuc5', 'phase5', 'target.html');
-const EXPECTED_SHA = 'eff119024864bb4cfcc96ba2eeac44257e0c73c79456616091b6202535ab965f';
+const EXPECTED_SHA = 'be27a5bc429dec25ec31031cf9128680bcc116b6eaa48c75bdb0e37896234028';
 
 function readSource() {
     const text = fs.readFileSync(SOURCE, 'utf8');
@@ -238,15 +238,18 @@ function createEnv(options) {
         extractDeclaration(src.lines, 'const STORAGE_KEYS = {').code,
         extractDeclaration(src.lines, 'const setupCrossTabUserSync =').code,
         extractFunction(src.lines, 'getCanvasAndWebGLHardwareSig').code,
-        // Cloud sync constants (V4.5: lines 4262-4268) are lexical, not functions.
-        extractLineRange(src.lines, 4262, 4268).code,
-        // V4.6.3 closure-vault variables referenced by buildCompactCustomMockSpecs (line 1993-2005).
+        // Cloud sync constants (V4.8.0: lines 4298-4304) are lexical, not functions.
+        extractLineRange(src.lines, 4298, 4304).code,
+        // V4.6.3 closure-vault variables referenced by buildCompactCustomMockSpecs (line 1993-2005 — unchanged in V4.8.0).
         extractLineRange(src.lines, 1993, 2005).code,
-        // V4.5 replaced the plaintext vault password with bundle hash literals (line 2030-2054).
+        // V4.8.0 still uses bundle hash literals (line 2030-2054).
         extractLineRange(src.lines, 2030, 2054).code,
+        // V4.8.0 lexical constants referenced by safeStorageSet / packet verifier.
+        extractLineRange(src.lines, 2227, 2227).code,
+        extractLineRange(src.lines, 5713, 5713).code,
         ...FN_NAMES.map(n => extractFunction(src.lines, n).code),
-        // Admin session restore block exactly as shipped (V4.5: lines 3718-3730).
-        'function checkRememberedAdminSessionFromSource() {\n' + extractLineRange(src.lines, 3718, 3730).code + '\n}',
+        // Admin session restore block exactly as shipped (V4.8.0: lines 3739-3751).
+        'function checkRememberedAdminSessionFromSource() {\n' + extractLineRange(src.lines, 3739, 3751).code + '\n}',
         // Expose lexical constants/functions as context properties for assertions.
         'globalThis.STORAGE_KEYS = STORAGE_KEYS;',
         'globalThis.CLOUD_SYNC_TOPIC = CLOUD_SYNC_TOPIC;',

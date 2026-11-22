@@ -1,4 +1,4 @@
-# tests/poc_suite_validation.js — every PoC in poc/ in a mock browser VM (2026-11-21)
+=== V4.8.0 poc_suite_validation.js — SHA be27a5bc429dec25ec31031cf9128680bcc116b6eaa48c75bdb0e37896234028 ===
 ┌───────────────┬───────────────────────────────────┐
 │ (index)       │ Values                            │
 ├───────────────┼───────────────────────────────────┤
@@ -116,7 +116,7 @@ PASS NEW-15 payload did NOT publish
 │ claimedVp     │ '1111'             │
 │ scope         │ 'local apply only' │
 └───────────────┴────────────────────┘
-[NEW-02] processIncomingCloudPacket returned: true
+[NEW-02] packet posted on local BroadcastChannel: TRITHUC50_AUTOSYNC_V436
 ┌──────────────────┬───────────────────────┐
 │ (index)          │ Values                │
 ├──────────────────┼───────────────────────┤
@@ -127,7 +127,7 @@ PASS NEW-15 payload did NOT publish
 │ resultingVipPlan │ 'lifetime'            │
 │ resultingVp      │ 'k12,k11,k10,luyende' │
 └──────────────────┴───────────────────────┘
-[NEW-02] unsigned tombstone packet accepted: true (no admin signature required for deletedMap merge)
+[NEW-02] unsigned tombstone merged: false (V4.8.0 rejects it without a valid adminSig)
 [NEW-02] live publish helper is present but NOT called. Use __AERO_NEW02_PUBLISH__(explicitUrl, packet) against a staging topic only.
 Cleanup: __AERO_NEW02_CLEANUP__() then F5
 PASS NEW-02 payload executes without error

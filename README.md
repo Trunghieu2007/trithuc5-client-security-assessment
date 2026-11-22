@@ -1,60 +1,61 @@
-# TRITHUC5.0 — client-side security assessment (V4.5 / V4.6.3 current build)
+# TRITHUC5.0 — client-side security assessment (V4.8.0 current build)
 
 Authorized, client-side-only assessment of `https://trithuc500.vercel.app/`. No server was
 modified, no account was created, no production packet was sent, and no real user data was
 accessed.
 
 **Build under test:** SHA-256
-`eff119024864bb4cfcc96ba2eeac44257e0c73c79456616091b6202535ab965f`, 9,015,050 bytes,
-32,900 lines, fetched 2026-11-21. The measured V4.5 delta is documented in
+`be27a5bc429dec25ec31031cf9128680bcc116b6eaa48c75bdb0e37896234028`, 9,115,471 bytes,
+34,599 lines, fetched 2026-11-22T04:48:27Z. The measured V4.6.7 → V4.8.0 delta is documented in
 [`research/trithuc5/PHASE5_UPDATE.md`](research/trithuc5/PHASE5_UPDATE.md).
 
 ## Headline result
 
-V4.5 fixed the V4.4 boot auto-seal shortcut and removed the plaintext admin remember-me
-password, and it hides exam answers behind a gzip/XOR vault. Every remaining trust decision
-is still made in the browser, so a full VIP bypass is reproducible offline by forging both
-`_sig` and the seal from bundle literals. The release should remain **blocked** as a system
-that protects accounts, entitlements, or exam results.
+V4.8.0 fixed real exposure issues: password / seal / backend token no longer leave the client
+in public packets, password-like log details are masked, sensitive keys are no longer mirrored
+to cookie / `window.name` / `sessionStorage`, unsigned tombstones are rejected, nonce replay
+and stale packets are rejected when a nonce is present, the internal cloud bus is gone, and
+XFO/nosniff headers were added.
+
+The trust boundary still did not move. Every VIP/admin decision remains in the browser, the
+approval seal and admin session signature are still derived from bundle literals, and the
+exam vault seed/token are public. A full VIP bypass is reproducible offline by forging both
+`_sig` and the seal. Release should remain **blocked** as a system that protects accounts,
+entitlements, or exam results.
 
 | Severity | Finding |
 |---|---|
 | Critical | NEW-11 VIP approval seal computed from bundle-literal secrets |
 | Fixed in V4.5 | NEW-12 boot normalizer auto-grants the seal (now stripped at boot) |
-| High | F-01 cloud sync publishes the user table; tombstones merge without an admin check |
+| High | F-01 cloud sync still publishes user identity; signed admin path still offline-forgeable (unsigned tombstone now fixed) |
 | High | F-03 VIP entitlement decided entirely client-side |
-| High | NEW-08 registration password reaches a third-party Google Form |
-| High | NEW-13 tamper detector is a keyword heuristic |
-| High | NEW-14 privileged ids skip the detector and runtime integrity check |
-| High | NEW-15 admin preview unlock-all short-circuits every gate |
-| High | NEW-16 approval seal/backend token broadcast in every cloud packet |
+| High | NEW-13 structural detector still trusts bundle-literal sig/seal (keyword path partly fixed) |
+| High | NEW-14 `gv_test` / runtime exemptions remain (isAdminTester and guest VIP paths partly fixed) |
+| High | NEW-15 admin preview unlock-all still works after an offline-forged session |
 | Medium | F-02 admin authentication is client-side (hashes/sig forgeable offline) |
 | Medium | F-05 device/Gmail lock enforced only in client JavaScript |
-| Medium | NEW-07 unvalidated cross-tab state replacement |
-| Medium | NEW-09 secrets mirrored into cookie and `window.name` |
-| Medium | NEW-10 admin-tester flag suppresses audit logging |
+| Medium | NEW-07 cross-tab state replacement still copies non-VIP fields |
+| Medium | NEW-08 activity logs still reach a third-party Google Form (password masking fixed) |
+| Medium | NEW-10 admin-tester flag still suppresses audit logging |
 | Low | F-04 exam answers hidden in a bundle-seeded gzip/XOR vault (15 exams / 330 answers recovered offline) |
-| Low | NEW-01 password in the compact wire format |
-| Low | NEW-02 unsigned packet injection (downgraded; internal bus only) |
+| Low | NEW-02 unsigned packet injection still inserts a pending local user; tombstone path fixed |
 | Low | F-06 anti-cheat is UX only |
-| Informational | NEW-03 no packet-level replay/expiry guard (signed path) |
-| Informational | NEW-04 internal cloud bus bridge (no longer a one-line global call) |
-| Informational | NEW-05 Gemini key in localStorage |
-| Informational | NEW-06 missing security headers |
+| Informational | NEW-03 nonce/age guard present but nonce optional |
+| Informational | NEW-04 internal cloud bus bridge removed; local `BroadcastChannel` path remains |
+| Informational | NEW-05 Gemini key moved to `sessionStorage` |
+| Informational | NEW-06 CSP/CORS still weak; XFO/nosniff now present |
+| Fixed in V4.8.0 | NEW-01 password in wire format, NEW-09 weak-store mirroring, NEW-16 seal/token broadcast, unsigned tombstone merge |
 
-Live-channel content is `UNVERIFIED`. Only NEW-12 and plaintext admin remember-me are
-confirmed fixed in this build.
-
-Full analysis: [`research/trithuc5/FINDINGS.md`](research/trithuc5/FINDINGS.md).
-Independent execution-based verification (2026-11-21):
+Live-channel content is `UNVERIFIED`. Full detail: [`research/trithuc5/FINDINGS.md`](research/trithuc5/FINDINGS.md).
+Independent execution-based verification (2026-11-22):
 [`research/trithuc5/INDEPENDENT_VERIFICATION.md`](research/trithuc5/INDEPENDENT_VERIFICATION.md).
 Leadership brief: [`research/trithuc5/EXECUTIVE_SUMMARY.md`](research/trithuc5/EXECUTIVE_SUMMARY.md).
 Fix order: [`research/trithuc5/REMEDIATION_PLAN.md`](research/trithuc5/REMEDIATION_PLAN.md).
 
 `FINDINGS.md`, `PHASE5_UPDATE.md`, `INDEPENDENT_VERIFICATION.md` and `REMEDIATION_PLAN.md`
-are the canonical V4.5 documents. `PHASE4_BYPASS_ANALYSIS.md` is historical V4.4 analysis.
-Older V4.3.9-era documents were removed from the tree (git history retains them); do not
-reuse their line numbers.
+are the canonical V4.8.0 documents. `PHASE4_BYPASS_ANALYSIS.md` is historical V4.4 analysis.
+Older V4.3.9/V4.4/V4.5-era documents were removed from the tree (git history retains them); do
+not reuse their line numbers.
 
 ## One PoC per finding
 
@@ -67,15 +68,14 @@ restore function. The mapping, types, and restore-function names are in the PoC 
 ## Repository contents
 
 - `research/trithuc5/FINDINGS.md` — current finding set with per-finding PoC mapping.
-- `research/trithuc5/PHASE5_UPDATE.md` — measured V4.5/V4.6.3 changes and re-verification.
+- `research/trithuc5/PHASE5_UPDATE.md` — measured V4.6.7 → V4.8.0 changes and re-verification.
 - `research/trithuc5/PHASE4_BYPASS_ANALYSIS.md` — historical V4.4 anti-hack analysis.
 - `research/trithuc5/INDEPENDENT_VERIFICATION.md` — independent 36-check execution and exact
   gate / sensitive-field maps for the four priority areas.
 - `research/trithuc5/EXECUTIVE_SUMMARY.md` — posture, attack chains, release decision.
 - `research/trithuc5/REMEDIATION_PLAN.md` — prioritized fixes and acceptance tests.
 - `research/trithuc5/SOURCE.md` — how to fetch and verify the exact source hash.
-- `research/trithuc5/root.headers`, `current.headers`, `phase4-target.headers`,
-  `phase5-target.headers` — captured response headers.
+- `research/trithuc5/current.headers`, `phase5-target.headers` — captured response headers.
 - `research/trithuc5/poc/` — one per-finding PoC per the table above, plus a read-only live-channel verifier.
 - `research/trithuc5/tests/` — source-hash-pinned harnesses and regression suites.
 - `research/trithuc5/evidence/` — sanitized fixtures, source references, test output, redacted screenshots.
@@ -83,21 +83,21 @@ restore function. The mapping, types, and restore-function names are in the PoC 
 
 The verbatim HTML is **not committed**: the target publishes credential and signing
 literals inside it. All reports, logs and fixtures redact those values. Superseded
-V4.3.9/V4.4-era documents and PoCs were removed from the tree; git history retains them.
+V4.3.9/V4.4/V4.5-era documents and PoCs were removed from the tree; git history retains them.
 
 ## Reproduce
 
-Node.js 22 or newer is required. Fetch the V4.5 source first as described in `SOURCE.md`,
+Node.js 22 or newer is required. Fetch the V4.8.0 source first as described in `SOURCE.md`,
 then run the suites against it:
 
 ```bash
-export TRITHUC_SOURCE=/absolute/path/to/V4.5/target.html
+export TRITHUC_SOURCE=/absolute/path/to/V4.8.0/target.html
 node research/trithuc5/tests/run_all.js                   # 40 pass
 node research/trithuc5/tests/phase3_tests.js              # 8 pass
 node research/trithuc5/tests/phase4_tests.js              # 20 pass
 node research/trithuc5/tests/poc_suite_validation.js      # 51 pass
 node research/trithuc5/tests/independent_verification.js  # 36 pass
-node research/trithuc5/tests/secure_controls.js           # 3 pass / 6 expected failures
+node research/trithuc5/tests/secure_controls.js           # 7 pass / 2 expected failures
 ```
 
 Expected final lines:
@@ -108,6 +108,7 @@ TOTAL 8 PASS 8 FAIL 0
 TOTAL 20 PASS 20 FAIL 0
 TOTAL 51 PASS 51 FAIL 0
 TOTAL 36 PASS 36 FAIL 0
+TOTAL 9 PASS 7 FAIL 2
 CURRENT STATE: controls fail as expected before remediation
 ```
 
@@ -123,5 +124,5 @@ Current outputs are stored in `research/trithuc5/evidence/`.
 - Live cross-client exploitation was identified as a stop condition and not executed.
 - Read-only ntfy GET found no recent lines and the KV read returned an incomplete chunk
   set, so no live packet content is stored.
-- Evidence levels distinguish local reproduction from static-only findings; only the two
-  confirmed V4.5 fixes are marked `FIXED`.
+- Evidence levels distinguish local reproduction from static-only findings; fixed findings
+  are marked `FIXED`, residual paths remain `LOCAL_CONFIRMED` / `STATIC_CONFIRMED`.

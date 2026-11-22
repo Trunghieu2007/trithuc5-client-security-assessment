@@ -48,7 +48,7 @@ test('P4-01', 'baseline: V4.5 detectAndBlock rejects maxDevices=999 PoC shape', 
 // ---------------------------------------------------------------------------
 // P4-02  Keyword-based blacklist is trivially evaded by renaming the account.
 // ---------------------------------------------------------------------------
-test('P4-02', 'bypass: renaming account avoids the poc_vip/nologin/hack/exploit/cheat blacklist', () => {
+test('P4-02', 'V4.8.0 FIX: structural invariant catches unsigned VIP flags even after renaming', () => {
     const e = h.createEnv({ now: NOW });
     const u = h.syntheticStudent({
         username: 'nguyenvana', name: 'Nguyen Van A',
@@ -56,8 +56,13 @@ test('P4-02', 'bypass: renaming account avoids the poc_vip/nologin/hack/exploit/
         maxDevices: 2,
         vipPackages: { k12: true, k11: true, k10: true, luyende: true }, isVip: true
     });
-    const blocked = e.detectAndBlockStudentVipHackV44(u, 'test');
-    assert(blocked === false, 'renamed account should not trip the keyword heuristic');
+    eq(e.detectAndBlockStudentVipHackV44(u, 'test'), true,
+        'renamed account with VIP but no sig/seal is now detected');
+    // Residual: recompute both bundle-derived artifacts offline and the guard is silent again.
+    u._sig = e.computeUserIntegritySig(u);
+    u._adminVipSeal = e.computeTeacherVipApprovalSealV44(u);
+    eq(e.detectAndBlockStudentVipHackV44(u, 'test'), false,
+        'offline-forged sig+seal still evade the structural invariant');
 });
 
 // ---------------------------------------------------------------------------
@@ -164,12 +169,14 @@ test('P4-07', 'finding: seal binds username/name/class/packages but not the expi
 // P4-08  detectAndBlock exempts ids gv_test / stu_free_12b1 / stu_practice_e
 //          and anything with isAdminTester set.
 // ---------------------------------------------------------------------------
-test('P4-08', 'finding: detect guard is bypassed entirely by id=gv_test or isAdminTester=true', () => {
+test('P4-08', 'V4.8.0 partial FIX: isAdminTester exemption removed; gv_test still exempt', () => {
     const e = h.createEnv({ now: NOW });
     const a = h.syntheticStudent({ id: 'gv_test', maxDevices: 999, isVip: true });
     const b = h.syntheticStudent({ isAdminTester: true, maxDevices: 999, isVip: true });
-    assert(e.detectAndBlockStudentVipHackV44(a, 't') === false, 'gv_test must skip the guard');
-    assert(e.detectAndBlockStudentVipHackV44(b, 't') === false, 'isAdminTester must skip the guard');
+    eq(e.detectAndBlockStudentVipHackV44(a, 't'), false, 'gv_test still skips the guard');
+    eq(e.detectAndBlockStudentVipHackV44(b, 't'), true, 'isAdminTester no longer skips the guard');
+    const c = h.syntheticStudent({ id: 'stu_free_12b1', maxDevices: 2, isVip: true });
+    eq(e.detectAndBlockStudentVipHackV44(c, 't'), true, 'guest VIP flag is now detected');
 });
 
 // ---------------------------------------------------------------------------
@@ -387,21 +394,22 @@ test('P4-18', 'negative control: forged fromAdmin packet is rejected on V4.5', (
 // P4-19  The tombstone table is merged WITHOUT any admin check.
 //          This is the residual unauthenticated part of F-01.
 // ---------------------------------------------------------------------------
-test('P4-19', 'finding: tombstone table merges without admin signature (F-01 residual)', () => {
+test('P4-19', 'V4.8.0 FIX: tombstone table only merges from a signature-verified admin packet', () => {
     const e = h.createEnv({ now: NOW });
-    const pkt = {
+    const base = {
         app: 'TRITHUC50_V436', type: 'CLOUD_STATE_SYNC', ts: NOW,
         fromAdmin: false, adminSig: '',
         deletedUsernames: ['demo_target'], deletedMap: { demo_target: NOW }, users: []
     };
     e.state.deletedUsersMap = {};
-    const changed = e.processIncomingCloudPacket(pkt);
-    // NOTE: the shipped function does not set its `changed` flag for the
-    // tombstone-only path, so the observable effect is the map itself.
-    assert(e.state.deletedUsersMap.demo_target === NOW, 'tombstone must be recorded');
+    e.processIncomingCloudPacket(base);
+    eq(e.state.deletedUsersMap.demo_target, undefined, 'unsigned tombstone ignored');
+    const signedPkt = Object.assign({}, base, { fromAdmin: true });
+    signedPkt.adminSig = e.computeCloudPacketAdminSig(signedPkt);
+    e.processIncomingCloudPacket(signedPkt);
+    eq(e.state.deletedUsersMap.demo_target, NOW, 'signed tombstone recorded');
     assert(Array.from(e.deletedUsernamesRegistry || []).includes('demo_target'),
-        'tombstone must be added to the deleted-username registry');
-    assert(changed === false || changed === true, 'return value is the changed flag');
+        'tombstone added to the deleted-username registry');
 });
 
 // ---------------------------------------------------------------------------
