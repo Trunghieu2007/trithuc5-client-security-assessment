@@ -9,7 +9,8 @@
 // Type:    ACTION. Installs a local mock + method hooks. All state is in THIS
 //          browser's localStorage and is restored by the supplied function.
 //
-// Usage:  paste into DevTools Console on the target page.
+// Usage:  paste into DevTools Console on the target page. By default it also
+//         performs the mock login and opens the admin control panel for you.
 // Output: number of hooked methods and a local log key.
 // Audit:  window.__AERO_ADMIN_LOG_DUMP__()
 // Restore: window.__AERO_ADMIN_LOG_RESTORE__(); then F5.
@@ -30,6 +31,10 @@
     const LOG_KEY = '__AERO_ADMIN_OFFLINE_LOG__';
     const MOCK_KEY = '__AERO_ADMIN_LOG_MOCK__';
     const BACKUP_KEY = '__AERO_ADMIN_LOG_BACKUP__';
+
+    // Set to false if you only want hooks installed and plan to open the
+    // admin portal yourself with window.TRITHUC.openAdminPortal().
+    const AUTO_OPEN_ADMIN = true;
 
     if (localStorage.getItem(MOCK_KEY) === '1') {
         return {
@@ -200,7 +205,7 @@
     };
 
     window.__AERO_ADMIN_LOG_RESTORE__ = function () {
-        // Put the untouched frozen API back; wrappers lived only on the Proxy.
+        // Put the untouched frozen API back; wrappers lived only on the facade.
         window.TRITHUC = baseApi;
         window.fetch = origFetch;
         document.getElementById = origGetById;
@@ -220,6 +225,21 @@
     console.log(`[AERO-ADMIN] hooked ${wrapped.length} admin methods; log -> localStorage.${LOG_KEY}`);
     console.log('[AERO-ADMIN] restore with __AERO_ADMIN_LOG_RESTORE__()');
 
+    // ---- 4. Open the local admin panel so there is a UI to instrument. ----
+    // loginAdmin() uses the stubbed inputs + fetch mock above, sets the
+    // shipped state.isAdminLoggedIn flag, and renders the admin view. Then
+    // openAdminPortal() forces state.view = 'admin' as a belt-and-braces step.
+    if (AUTO_OPEN_ADMIN) {
+        try {
+            const p = api.loginAdmin();
+            const openPortal = () => { try { if (api.openAdminPortal) api.openAdminPortal(); } catch (e) {} };
+            if (p && typeof p.then === 'function') p.then(openPortal, openPortal);
+            else openPortal();
+        } catch (e) {
+            append('error', { method: 'AUTO_OPEN_ADMIN', error: String(e && e.message || e).slice(0, 200) });
+        }
+    }
+
     return {
         type: 'ACTION',
         status: 'ACTIVE',
@@ -228,6 +248,7 @@
         logKey: LOG_KEY,
         scope: 'LOCAL ONLY — no network request is sent',
         hookStrategy: 'Mutable facade cloned from frozen window.TRITHUC (no property mutation)',
+        autoOpenRequested: AUTO_OPEN_ADMIN,
         note: 'Mock admin login grants no real authority. Restore with __AERO_ADMIN_LOG_RESTORE__().'
     };
 })();

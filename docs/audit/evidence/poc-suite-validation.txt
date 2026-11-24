@@ -290,6 +290,8 @@ PASS F-06 states the residual risk
 }
 [AERO-ADMIN] hooked 9 admin methods; log -> localStorage.__AERO_ADMIN_OFFLINE_LOG__
 [AERO-ADMIN] restore with __AERO_ADMIN_LOG_RESTORE__()
+[AERO-ADMIN] call { method: 'loginAdmin', args: [] }
+[AERO-ADMIN] result { method: 'loginAdmin', result: true }
 PASS admin logger payload executes without error
 PASS admin logger is ACTION
 PASS admin logger reports ACTIVE
@@ -304,9 +306,12 @@ PASS admin logger replaced fetch
 PASS admin logger preserves API return value
 [AERO-ADMIN] call { method: 'approveStudentWithVip', args: [ 'synthetic_user' ] }
 [AERO-ADMIN] result { method: 'approveStudentWithVip', result: '{ok,user}' }
+[AERO-ADMIN] call { method: 'openAdminPortal', args: [] }
+[AERO-ADMIN] result { method: 'openAdminPortal', result: 'admin' }
 PASS admin logger preserves async return value
 PASS admin logger recorded method calls
 PASS admin logger recorded results
+PASS admin logger auto-opened the local admin panel
 PASS admin logger never sent a network request
 [AERO-ADMIN] restored; log retained in __AERO_ADMIN_OFFLINE_LOG__ — press F5 to clear memory state
 PASS admin logger restore reports count
@@ -327,4 +332,4 @@ PASS syntax poc_new11_seal_forgery.js
 PASS syntax poc_new15_admin_preview.js
 PASS syntax poc_new17_results_api.js
 
-TOTAL 98 PASS 98 FAIL 0
+TOTAL 99 PASS 99 FAIL 0

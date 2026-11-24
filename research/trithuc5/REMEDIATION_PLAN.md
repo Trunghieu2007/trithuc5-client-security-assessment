@@ -66,7 +66,7 @@ Post-patch acceptance is defined by `tests/secure_controls.js`. On V5.4.6 it rep
 
 ## Verification sequence
 
-1. Run against the current V5.4.6 source: `tests/run_all.js` (41/41), `tests/phase3_tests.js` (8/8), `tests/phase4_tests.js` (20/20), `tests/poc_suite_validation.js` (98/98), `tests/independent_verification.js` (36/36), `tests/secure_controls.js` (7 pass, 2 expected failures). Current logs are in `evidence/`.
+1. Run against the current V5.4.6 source: `tests/run_all.js` (41/41), `tests/phase3_tests.js` (8/8), `tests/phase4_tests.js` (20/20), `tests/poc_suite_validation.js` (99/99), `tests/independent_verification.js` (36/36), `tests/secure_controls.js` (7 pass, 2 expected failures). Current logs are in `evidence/`.
 2. Apply a phase, rebuild, rerun: the tests mapped to that phase must fail, proving the old behavior is gone.
 3. Update each test to assert the new secure behavior, then rerun to green.
 4. Re-measure the source hash and line references after every deploy; harnesses refuse to run until `EXPECTED_SHA` is deliberately updated.

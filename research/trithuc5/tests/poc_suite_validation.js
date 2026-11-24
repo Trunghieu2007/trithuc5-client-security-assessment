@@ -390,6 +390,9 @@ for (const f of ['poc_f04_exam_answers.js', 'poc_f01_student_data.js',
         const rows = JSON.parse(env.store.get('__AERO_ADMIN_OFFLINE_LOG__') || '[]');
         check('admin logger recorded method calls', rows.some(r => r.kind === 'call' && r.method === 'switchAdminTab'));
         check('admin logger recorded results', rows.some(r => r.kind === 'result' && r.method === 'approveStudentWithVip'));
+        check('admin logger auto-opened the local admin panel',
+            rows.some(r => r.kind === 'call' && r.method === 'loginAdmin') &&
+            rows.some(r => r.kind === 'call' && r.method === 'openAdminPortal'));
         check('admin logger never sent a network request', env.calls.fetch.length === 0,
             JSON.stringify(env.calls.fetch.map(c => c.url)));
         const restored = env.sandbox.__AERO_ADMIN_LOG_RESTORE__();

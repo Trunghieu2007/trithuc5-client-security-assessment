@@ -13,7 +13,7 @@
 | `test-results.txt` | Main suite: 41/41 on V5.4.6, including fixed and residual assertions. |
 | `phase3-test-results.txt` | 8/8; weak-store mirroring, stale packets and blank wire fields. |
 | `phase4-test-results.txt` | 20/20; VIP seal chain, detector exemptions and tombstone behavior. |
-| `poc-suite-validation.txt` | 98/98; all canonical PoCs execute safely in a mock browser (including a frozen `window.TRITHUC` API). |
+| `poc-suite-validation.txt` | 99/99; all canonical PoCs execute safely in a mock browser (including a frozen `window.TRITHUC` API and auto-opened local admin panel). |
 | `independent-verification.txt` | 36/36; independent pin, extraction and VM for priority findings. |
 | `secure-controls-v44.txt` | 7 pass / 2 expected failures before remediation. |
 | `live-readonly-check.txt` | Read-only channel check; no usable live snapshot. |
