@@ -377,7 +377,10 @@ The offline admin logger PoC was corrected for the V4.5+ `Object.freeze(window.T
 guard: it now clones the frozen API into a mutable facade instead of assigning to read-only
 properties, and the validator freezes its mock API to cover that path. It also performs the
 mock login and opens the admin control panel automatically (set `AUTO_OPEN_ADMIN = false` to
-disable). Four new checks bring the PoC suite to 99/99. Canonical V5.4.6 docs: `FINDINGS.md`,
+disable). Four new checks bring the PoC suite to 99/99. A `playwright-cli` run against the
+live V5.4.6 origin at 1440x900 confirmed 35 hooks, auto-open to `QUẢN TRỊ GV`, and a logged
+`switchAdminTab` when `Tài Khoản & Duyệt VIP` was clicked; screenshot in
+`research/trithuc5/evidence/admin-offline-logger-live.png`. Canonical V5.4.6 docs: `FINDINGS.md`,
 `PHASE5_UPDATE.md`, `EXECUTIVE_SUMMARY.md`,
 `REMEDIATION_PLAN.md`, `INDEPENDENT_VERIFICATION.md`, `SOURCE.md`, `evidence/README.md`, root
 `README.md` and the full `docs/audit/` package.

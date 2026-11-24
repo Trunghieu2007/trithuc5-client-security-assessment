@@ -20,6 +20,20 @@ redacted where they identify a real third-party endpoint.
 
 - `poc/aero_hook_v3.user.js` — the only retained local test hook. Install in Tampermonkey/Violentmonkey at `document-start`; blocks anti-cheat handlers before the page IIFE registers them and exposes the test API. User-tested and confirmed working. Earlier v2 console/CDP variants were removed from the repository.
 
+## Assessor browser verification — offline admin logger (2026-11-24)
+
+Executed with `playwright-cli` against the live V5.4.6 origin at 1440x900. The PoC file was injected with `page.addScriptTag({ path })`; no production write was sent.
+
+| Check | Observed | Result |
+|---|---|---|
+| PoC console install | `[AERO-ADMIN] install { hooked: 35, methods: Array(35), offline: true }` | `LIVE_CONFIRMED` |
+| Auto-open | `loginAdmin` then `openAdminPortal` logged; `state.view = 'admin'` view rendered | `LIVE_CONFIRMED` |
+| Admin UI | Header `QUẢN TRỊ GV V5.4.6`, sidebar tabs `Làm Đề & Ma Trận`, `Kho Đề & Bài Học 191`, `Tài Khoản & Duyệt VIP`, `Phổ Điểm & Excel`, `Mã Hóa & Bảo Mật` | `LIVE_CONFIRMED` |
+| Action logging | Clicking `Tài Khoản & Duyệt VIP` appended a `switchAdminTab` call row; 25 total rows after the click | `LIVE_CONFIRMED` |
+| Console hygiene | No PoC error; only the pre-existing Tailwind CDN warning and `/favicon.ico` 404 | `LIVE_CONFIRMED` |
+
+Screenshot: [`admin-offline-logger-live.png`](admin-offline-logger-live.png).
+
 ## Safety boundary
 
-No ntfy/KV publish was performed. No real account or private record was accessed. All tests remained in the user's own browser profile with synthetic data.
+No ntfy/KV publish was performed. No real account or private record was accessed. All tests remained in the user's own browser profile with synthetic data. The assessor run above used a fresh in-memory browser session and the local fetch stub; the only network responses observed were the page load, the Tailwind CDN, and the favicon 404.
