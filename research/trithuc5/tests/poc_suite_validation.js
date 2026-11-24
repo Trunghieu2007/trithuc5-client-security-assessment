@@ -119,6 +119,17 @@ function makeEnv(seedUsers, seedLogin) {
     sandbox.globalThis = sandbox;
     // Node-side gzip helper for the F-04 DISPLAY PoC (browser path stays untouched).
     sandbox.Buffer = NODE_BUFFER;
+    sandbox.TRITHUC = {
+        loginAdmin: async () => true,
+        logoutAdmin: () => true,
+        openAdminPortal: () => 'admin',
+        switchAdminTab: tab => tab,
+        approveStudentWithVip: u => ({ ok: true, user: u }),
+        grantVipAllActiveStudents: () => 3,
+        deleteStudentAccount: u => ({ deleted: u }),
+        setAdminUserStatusFilter: f => f,
+        setAdminGradeFilter: g => g
+    };
     sandbox.__AERO_GUNZIP__ = (parts) => {
         const zlib = require('zlib');
         const buf = Buffer.concat(parts.map(p => Buffer.isBuffer(p) ? p : Buffer.from(p)));
@@ -347,6 +358,37 @@ for (const f of ['poc_f04_exam_answers.js', 'poc_f01_student_data.js',
     const f06 = env.sandbox.__AERO_F06_RESULT__ || result;
     check('F-06 reports the console variant', f06?.variant === 'console', JSON.stringify(f06?.variant));
     check('F-06 states the residual risk', typeof f06?.residual === 'string');
+}
+
+// ---------------------------------------------------------------------------
+// 6b. Admin offline logger — ACTION with full restore.
+// ---------------------------------------------------------------------------
+{
+    const { result, error, env } = await runPoc('poc_admin_offline_log.js');
+    check('admin logger payload executes without error', !error, error && error.message);
+    if (!error) {
+        check('admin logger is ACTION', result?.type === 'ACTION');
+        check('admin logger reports ACTIVE', result?.status === 'ACTIVE', result?.status);
+        check('admin logger hooked at least 5 methods', (result?.hooked || 0) >= 5, String(result?.hooked));
+        const installRows = JSON.parse(env.store.get('__AERO_ADMIN_OFFLINE_LOG__') || '[]');
+        check('admin logger wrote an install record', installRows.some(r => r.kind === 'install'));
+        check('admin logger mock flag set', env.store.get('__AERO_ADMIN_LOG_MOCK__') === '1');
+        check('admin logger replaced fetch', typeof env.sandbox.fetch === 'function');
+        // Invoke two hooked methods and confirm the log captured them.
+        const api = env.sandbox.TRITHUC;
+        check('admin logger preserves API return value', api.switchAdminTab('users') === 'users');
+        const vip = await api.approveStudentWithVip('synthetic_user');
+        check('admin logger preserves async return value', vip && vip.ok === true);
+        const rows = JSON.parse(env.store.get('__AERO_ADMIN_OFFLINE_LOG__') || '[]');
+        check('admin logger recorded method calls', rows.some(r => r.kind === 'call' && r.method === 'switchAdminTab'));
+        check('admin logger recorded results', rows.some(r => r.kind === 'result' && r.method === 'approveStudentWithVip'));
+        check('admin logger never sent a network request', env.calls.fetch.length === 0,
+            JSON.stringify(env.calls.fetch.map(c => c.url)));
+        const restored = env.sandbox.__AERO_ADMIN_LOG_RESTORE__();
+        check('admin logger restore reports count', restored && restored.restored >= 5);
+        check('admin logger cleared mock flag', !env.store.get('__AERO_ADMIN_LOG_MOCK__'));
+        check('admin logger retained the local log', JSON.parse(env.store.get('__AERO_ADMIN_OFFLINE_LOG__') || '[]').length > 0);
+    }
 }
 
 // ---------------------------------------------------------------------------

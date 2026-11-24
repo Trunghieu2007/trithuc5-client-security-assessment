@@ -264,7 +264,7 @@ PASS F-05 made no change in display mode
 │ overlayPresent     │ false                                                                           │
 │ watermarkPresent   │ false                                                                           │
 │ copyHandlerBlocked │ 'n/a'                                                                           │
-│ trithucApiPresent  │ false                                                                           │
+│ trithucApiPresent  │ true                                                                            │
 │ note               │ 'listeners already bound to document/window cannot be removed from the console' │
 └────────────────────┴─────────────────────────────────────────────────────────────────────────────────┘
 [F-06] The console variant only hides UI artefacts. Use the USERSCRIPT variant
@@ -273,6 +273,44 @@ Stop: __AERO_F06_STOP__()
 PASS F-06 payload executes without error
 PASS F-06 reports the console variant
 PASS F-06 states the residual risk
+[AERO-ADMIN] install {
+  hooked: 9,
+  methods: [
+    'loginAdmin',
+    'logoutAdmin',
+    'openAdminPortal',
+    'switchAdminTab',
+    'approveStudentWithVip',
+    'grantVipAllActiveStudents',
+    'deleteStudentAccount',
+    'setAdminUserStatusFilter',
+    'setAdminGradeFilter'
+  ],
+  offline: true
+}
+[AERO-ADMIN] hooked 9 admin methods; log -> localStorage.__AERO_ADMIN_OFFLINE_LOG__
+[AERO-ADMIN] restore with __AERO_ADMIN_LOG_RESTORE__()
+PASS admin logger payload executes without error
+PASS admin logger is ACTION
+PASS admin logger reports ACTIVE
+PASS admin logger hooked at least 5 methods
+PASS admin logger wrote an install record
+PASS admin logger mock flag set
+PASS admin logger replaced fetch
+[AERO-ADMIN] call { method: 'switchAdminTab', args: [ 'users' ] }
+[AERO-ADMIN] result { method: 'switchAdminTab', result: 'users' }
+PASS admin logger preserves API return value
+[AERO-ADMIN] call { method: 'approveStudentWithVip', args: [ 'synthetic_user' ] }
+[AERO-ADMIN] result { method: 'approveStudentWithVip', result: '{ok,user}' }
+PASS admin logger preserves async return value
+PASS admin logger recorded method calls
+PASS admin logger recorded results
+PASS admin logger never sent a network request
+[AERO-ADMIN] restored; log retained in __AERO_ADMIN_OFFLINE_LOG__ — press F5 to clear memory state
+PASS admin logger restore reports count
+PASS admin logger cleared mock flag
+PASS admin logger retained the local log
+PASS syntax poc_admin_offline_log.js
 PASS syntax poc_f01_student_data.js
 PASS syntax poc_f02_admin_login.js
 PASS syntax poc_f03_vip_entitlement.js
@@ -286,4 +324,4 @@ PASS syntax poc_new11_seal_forgery.js
 PASS syntax poc_new15_admin_preview.js
 PASS syntax poc_new17_results_api.js
 
-TOTAL 79 PASS 79 FAIL 0
+TOTAL 95 PASS 95 FAIL 0

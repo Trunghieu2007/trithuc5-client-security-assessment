@@ -166,5 +166,5 @@ Every harness is pinned to the build SHA-256 and refuses to run if the source di
 - Still open: NEW-11 (client-shipped `TT50_CANONICAL_MASTER_V522` seal literal),
   F-03/NEW-13 (client-owned entitlement), F-01 (public ntfy identity records),
   NEW-17 (unauthenticated `GET /api/results`, HTTP 200 / 89 records on 2026-11-24).
-- Suites: main 41/41, phase3 8/8, phase4 20/20, PoC 79/79, independent 36/36;
+- Suites: main 41/41, phase3 8/8, phase4 20/20, PoC 95/95, independent 36/36;
   secure controls 7 pass / 2 expected-fail.
