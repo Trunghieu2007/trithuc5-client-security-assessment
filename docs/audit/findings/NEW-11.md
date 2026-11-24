@@ -28,9 +28,9 @@ Confirmed — Open. Evidence state: LOCAL_CONFIRMED.
 
 ## 4. Affected components
 
-- `computeTeacherVipApprovalSealV44` (pinned line 15871)
-- `computeUserIntegritySig` and the integrity salt literal (line 4151)
-- `BackendVipAuthServiceV44` (line 15592)
+- `computeTeacherVipApprovalSealV44` (pinned line 19551)
+- `computeUserIntegritySig` and the integrity salt literal (line 6907)
+- `BackendVipAuthServiceV44` (line 19272)
 - VIP gates `hasStudentVipAccess` (6860), `hasVerifiedPackageAccess` (6870), `verifyProtectedVipActionV44` (15801)
 
 ## 5. Security boundary
@@ -66,8 +66,8 @@ All evidence files are sanitized and indexed in `../evidence/README.md`. No real
 ## 10. PoC
 
 Audit PoC: `../poc/NEW-11/README.md`.  
-Canonical implementation: `research/trithuc5/poc/poc_f03_vip_entitlement.js`.  
-Type: **ACTION**. Cleanup: `__AERO_F03_RESTORE__()`.
+Canonical implementation: `research/trithuc5/poc/poc_new11_seal_forgery.js`.  
+Type: **DISPLAY**. Cleanup: `n/a (read-only)`.
 
 ## 11. Expected behavior
 

@@ -3,10 +3,9 @@
 //
 // Target:  https://trithuc500.vercel.app/
 // Findings:
-//   NEW-08 — `logStudentActivity` (line 4606) builds a log entry whose
-//            `detail` string can carry the student's password, and
-//            `syncActivityLogToGoogleForm` (line 4581) ships that entry to a
-//            Google Form endpoint — a third-party service.
+//   NEW-08 — FIXED in V5.4.6: `dispatchParamsToGoogleFormUrl` returns false
+//            immediately. `logStudentActivity` still writes a masked local
+//            entry, but no Google Form payload is produced.
 //   NEW-09 — `safeStorageSet` (line 1562) mirrors EVERY value it stores into
 //            three extra channels: `sessionStorage`, `window.name` (as
 //            `__TRITHUC_WN__:` JSON) and a first-party cookie. The user table
@@ -109,16 +108,15 @@
     }
     console.log(`[NEW-08] configured Google Form endpoint: ${gformUrl || '(not configured on this client)'}`);
 
-    if (gformUrl) {
-        console.warn('[NEW-08] CONFIRMED: activity-log details are POSTed to a third-party');
-        console.warn('         Google Form endpoint. Anything put in `detail` leaves the site.');
-        console.log('[NEW-08] field mapping sent to the form:');
-        console.table([
-            { field: 'name', value: '[username] student name' },
-            { field: 'classInfo', value: 'class (SBD: stt)' },
-            { field: 'score', value: 'score / actionType' },
-            { field: 'detail', value: '[actionLabel] targetTitle | detail | time  ← can contain the password' }
-        ]);
+    const scripts = Array.from(document.querySelectorAll('script')).map(s => s.textContent || '');
+    const gformDisabled = scripts.some(t => t.includes('V5.4.6: Đã gỡ bỏ hoàn toàn Google Form') && t.includes('return false;'));
+    const anySynced = logs.some(l => l.syncedToGForm === true);
+    console.log(`[NEW-08] source dispatch disabled: ${gformDisabled}`);
+    console.log(`[NEW-08] local log entries marked syncedToGForm: ${logs.filter(l => l.syncedToGForm === true).length}`);
+    if (gformDisabled && !anySynced) {
+        console.log('[NEW-08] FIXED-V5.4.6: no Google Form payload is produced by the shipped client.');
+    } else if (!gformDisabled) {
+        console.warn('[NEW-08] still present: dispatch path not disabled in this build.');
     }
 
     // ---- 3. Summary --------------------------------------------------------
@@ -127,7 +125,11 @@
             activityLogEntries: logs.length,
             entriesWithPasswordPattern: logsWithSecret.length,
             googleFormEndpoint: gformUrl || null,
-            verdict: gformUrl ? 'CONFIRMED — log details leave the site via a third-party form' : 'no form endpoint configured on this client'
+            gformDispatchDisabled: gformDisabled,
+            logEntriesMarkedSynced: logs.filter(l => l.syncedToGForm === true).length,
+            verdict: gformDisabled && !anySynced
+                ? 'FIXED-V5.4.6 — Google Form dispatch disabled; masked local log only'
+                : (gformUrl ? 'CONFIRMED — log details leave the site via a third-party form' : 'no form endpoint configured on this client')
         },
         new09: {
             windowNameKeys: Object.keys(wn).length,

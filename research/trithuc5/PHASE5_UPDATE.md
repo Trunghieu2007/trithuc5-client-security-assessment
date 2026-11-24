@@ -26,7 +26,7 @@
 | `tests/run_all.js` | 40/40 | **41/41** |
 | `tests/phase3_tests.js` | 8/8 | **8/8** |
 | `tests/phase4_tests.js` | 20/20 | **20/20** |
-| `tests/poc_suite_validation.js` | 51/51 | **60/60** |
+| `tests/poc_suite_validation.js` | 51/51 | **79/79** |
 | `tests/independent_verification.js` | 36/36 | **36/36** |
 | `tests/secure_controls.js` | 7 pass / 2 expected failures | **7 pass / 2 expected failures** |
 
@@ -95,5 +95,5 @@ New dependencies added to VM harnesses: `isValidTeacherVipSealV522`,
 
 ## Suites
 
-main 41/41, phase3 8/8, phase4 20/20, PoC 60/60, independent 36/36.
+main 41/41, phase3 8/8, phase4 20/20, PoC 79/79, independent 36/36.
 `secure_controls.js` keeps its baseline 7 pass / 2 expected-fail (SC-07, SC-09).

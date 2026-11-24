@@ -19,7 +19,7 @@ All items are local, synthetic, and safe to publish. No real usernames, password
 - `test-results.txt`: `tests/run_all.js` — 41 checks, 41 pass, 0 fail. In addition to the prior fixed/residual checks, `F-02-T01/T05` verify the server admin fix and `A-05-T01` records that the results API call has no auth header. `F-04-T01` still decodes 15 exams / 330 answers.
 - `phase3-test-results.txt`: `tests/phase3_tests.js` — 8 checks, 8 pass, 0 fail. `P3-04` now asserts public KV writes are disabled and no captured write contains the password sentinel.
 - `phase4-test-results.txt`: `tests/phase4_tests.js` — 20 checks, 20 pass, 0 fail. `P4-10` and `P4-11` are inverted to fix assertions for NEW-15 and F-02; `P4-16` still proves the full VIP chain.
-- `poc-suite-validation.txt`: `tests/poc_suite_validation.js` — 60 checks, 60 pass, 0 fail. Executes every PoC in a mock browser VM, including the two fix-verification DISPLAY PoCs and the new read-only NEW-17 PoC.
+- `poc-suite-validation.txt`: `tests/poc_suite_validation.js` — 79 checks, 79 pass, 0 fail. Executes every PoC in a mock browser VM, including the two fix-verification DISPLAY PoCs and the new read-only NEW-17 PoC.
 - `independent-verification.txt`: `tests/independent_verification.js` — 36 checks, 36 pass, 0 fail. Independent SHA pin, extraction and VM. Verify the VIP chain, NEW-14 residual, F-02/NEW-15 fixes, Google Form masking and tombstone behavior.
 - `secure-controls-v44.txt`: `tests/secure_controls.js` — 7 pass, 2 expected failures (SC-07 unsigned user insertion, SC-09 cross-account signed packet). All nine must pass after remediation.
 - The suites run real functions extracted from the V5.4.6 source in a Node VM with mock storage, cookie, KV and transport. They make no production requests.
@@ -79,10 +79,22 @@ CURRENT STATE: controls fail as expected before remediation
 
 - Source SHA-256 `2dbf781e4febf2e47a78da81352227de30c4972a8f0491e4864bdb32e370f61c`,
   2,777,970 bytes, 39,205 lines.
-- Suites: main 41/41, phase3 8/8, phase4 20/20, PoC validation 60/60,
+- Suites: main 41/41, phase3 8/8, phase4 20/20, PoC validation 79/79,
   independent 36/36; secure controls 7 pass / 2 expected-fail (SC-07, SC-09).
 - Genuine V5.4.x fixes: Google Form dispatch disabled; exam answers/questions removed
   from bundle (191 shells, 0 answers); grading moved to `/api/exams/submit`;
   `isValidTeacherVipSealV522` added with legacy-seal migration.
 - NEW-17 remains: read-only GET `/api/results` returned HTTP 200, 89 records, with
   name/class/username/score fields. Only status, count and field names were retained.
+
+## PoC refresh (2026-11-24)
+
+- `poc_f03_vip_entitlement.js` updated to the V5.4.2 canonical seal master literal.
+- `poc_new11_seal_forgery.js` added: DISPLAY-only, recomputes a synthetic canonical
+  seal from bundle material and confirms the validator is shipped client-side.
+- `poc_f04_exam_answers.js` rewritten as FIX verification: 191 exam shells,
+  zero bundled answers/questions, server fetch/submit present.
+- `poc_new08_new09_leakage.js` rewritten so NEW-08 reports `FIXED-V5.4.6`.
+- Validator now injects pinned source into the script DOM mock and exposes a
+  Node gzip bridge for the browser-only DISPLAY PoC.
+- Result: 79 checks, 79 pass, 0 fail. No PoC performs a network write.

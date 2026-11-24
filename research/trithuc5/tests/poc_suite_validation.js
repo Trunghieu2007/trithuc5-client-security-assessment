@@ -9,6 +9,8 @@ const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
 const h = require('./phase4_harness.js');
+const PINNED_SOURCE = h.readSource().text;
+const NODE_BUFFER = Buffer;
 
 const POC_DIR = path.join(__dirname, '..', 'poc');
 const NOW = 1795000000000;
@@ -46,7 +48,7 @@ function makeEnv(seedUsers, seedLogin) {
         cookie: '',
         getElementById: () => null,
         querySelector: () => null,
-        querySelectorAll: () => [],
+        querySelectorAll: (sel) => String(sel).includes('script') ? [{ textContent: PINNED_SOURCE }] : [],
         addEventListener: (t, fn) => { (listeners[t] = listeners[t] || []).push(fn); },
         createElement: () => ({ width: 0, height: 0, getContext: () => null, toDataURL: () => 'data:,', style: {}, classList: { add() {}, remove() {}, contains() { return false; } }, appendChild() {} })
     };
@@ -115,6 +117,39 @@ function makeEnv(seedUsers, seedLogin) {
     sandbox.window.name = '';
     sandbox.__TRITHUC50_CLOUD_BUS__ = bus;
     sandbox.globalThis = sandbox;
+    // Node-side gzip helper for the F-04 DISPLAY PoC (browser path stays untouched).
+    sandbox.Buffer = NODE_BUFFER;
+    sandbox.__AERO_GUNZIP__ = (parts) => {
+        const zlib = require('zlib');
+        const buf = Buffer.concat(parts.map(p => Buffer.isBuffer(p) ? p : Buffer.from(p)));
+        return zlib.gunzipSync(buf).toString('utf8');
+    };
+    // Node polyfills for browser gzip APIs used by the F-04 DISPLAY PoC.
+    if (typeof sandbox.Blob === 'undefined') {
+        const zlib = require('zlib');
+        sandbox.DecompressionStream = class {
+            constructor(format) { this.format = format; }
+        };
+        sandbox.Blob = class {
+            constructor(parts) { this.parts = parts || []; }
+            stream() {
+                const zlib = require('zlib');
+                const buf = Buffer.concat(this.parts.map(p => Buffer.from(p)));
+                const out = zlib.gunzipSync(buf);
+                const { ReadableStream } = require('stream/web');
+                return new ReadableStream({ start(c) { c.enqueue(new Uint8Array(out)); c.close(); } });
+            }
+        };
+        sandbox.Response = class {
+            constructor(body) { this.body = body; }
+            async text() {
+                const chunks = [];
+                const reader = this.body.getReader();
+                for (;;) { const { done, value } = await reader.read(); if (done) break; chunks.push(Buffer.from(value)); }
+                return Buffer.concat(chunks).toString('utf8');
+            }
+        };
+    }
     vm.createContext(sandbox);
     return { sandbox, store, calls };
 }
@@ -160,6 +195,23 @@ async function main() {
         check('F-03 payload wrote a login marker', !!env.store.get('TRITHUC50_LOGGED_STUDENT_V436'));
         check('F-03 payload did NOT publish to ntfy/KV',
             env.calls.fetch.length === 0, JSON.stringify(env.calls.fetch));
+    }
+}
+
+// ---------------------------------------------------------------------------
+// 1b. NEW-11 — canonical seal literal is client-derivable (DISPLAY).
+// ---------------------------------------------------------------------------
+{
+    const { result, error, env } = await runPoc('poc_new11_seal_forgery.js');
+    check('NEW-11 payload executes without error', !error, error && error.message);
+    if (!error) {
+        check('NEW-11 is classified DISPLAY', result?.type === 'DISPLAY');
+        check('NEW-11 reports LOCAL_CONFIRMED', result?.status === 'LOCAL_CONFIRMED', result?.status);
+        check('NEW-11 finds the canonical literal in bundle', result?.sourceContainsCanonicalLiteral === true);
+        check('NEW-11 finds the seal validator in bundle', result?.sourceContainsValidator === true);
+        check('NEW-11 recomputed a canonical seal', /^vseal44_[0-9A-F]{8}$/.test(result?.syntheticSeal || ''), result?.syntheticSeal);
+        check('NEW-11 wrote no state', env.store.size === 0, String(env.store.size));
+        check('NEW-11 made no network call', env.calls.fetch.length === 0);
     }
 }
 
@@ -250,6 +302,20 @@ for (const f of ['poc_f04_exam_answers.js', 'poc_f01_student_data.js',
     }
     if (f === 'poc_f01_student_data.js') {
         check(`${f} reports the cloud verdicts`, !!result?.verdicts);
+    }
+    if (f === 'poc_f04_exam_answers.js') {
+        check('F-04 PoC is DISPLAY', result?.type === 'DISPLAY');
+        check('F-04 PoC reports FIXED-V5.4.6', result?.status === 'FIXED-V5.4.6', result?.status);
+        check('F-04 PoC counts 191 exam shells', result?.exams === 191, String(result?.exams));
+        check('F-04 PoC finds zero bundled answers', result?.answers === 0, String(result?.answers));
+        check('F-04 PoC finds zero bundled questions', result?.questions === 0, String(result?.questions));
+        check('F-04 PoC detects server fetch + submit', result?.hasServerFetch === true && result?.hasServerSubmit === true);
+        check('F-04 PoC prints no answer values', !JSON.stringify(result).includes('correctAnswers'));
+    }
+    if (f === 'poc_new08_new09_leakage.js') {
+        check('NEW-08 PoC reports FIXED-V5.4.6', String(result?.new08?.verdict || '').includes('FIXED-V5.4.6'), result?.new08?.verdict);
+        check('NEW-08 PoC sees disabled dispatch', result?.new08?.gformDispatchDisabled === true);
+        check('NEW-08 PoC sees no synced log entries', result?.new08?.logEntriesMarkedSynced === 0, String(result?.new08?.logEntriesMarkedSynced));
     }
 }
 

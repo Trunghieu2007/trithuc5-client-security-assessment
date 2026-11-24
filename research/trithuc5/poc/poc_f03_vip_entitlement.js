@@ -4,9 +4,9 @@
 // Target:  https://trithuc500.vercel.app/
 // Findings:
 //   F-03    — VIP entitlement is decided entirely from client-owned fields.
-//   NEW-11  — the V4.5 "teacher approval" seal is computed from secrets that
-//             are literals in the same public bundle, so it is forgeable offline.
-//   NEW-12  — the shipped boot normalizer (lines 2663-2666) AUTO-GRANTS a
+//   NEW-11  — the V5.4.6 "teacher approval" seal is computed from a canonical
+//             master literal in the same public bundle, so it is forgeable offline.
+//   NEW-12  — the shipped boot normalizer AUTO-GRANTS a
 //             valid `_adminVipSeal` to any record whose `_sig` matches.
 //   NEW-13  — `detectAndBlockStudentVipHackV44` only matches substrings
 //             (poc_vip|nologin|hack|exploit|bypass|cheat).
@@ -48,9 +48,9 @@
     }
 
     const INTEGRITY_SALT = 'TRITHUC50_SEC_SALT_2026_V27';   // bundle literal
-    const SEAL_MASTER = 'THAY_TRUNG_MASTER_SEAL_2026';       // bundle literal
-    // V4.5 replaced the plaintext vault password with this bundle-literal hash.
-    const VAULT_ADMIN_PASS = 'h45_44e3396f901a954c_24f662274f7844f4'; // DEFAULT_VAULT_PASS_HASH_V45
+    // V5.4.2 canonical master literal shipped in computeTeacherVipApprovalSealV44.
+    const CANONICAL_MASTER = 'TT50_CANONICAL_MASTER_V522';
+    const SEAL_SUFFIX = 'THAY_TRUNG_MASTER_SEAL_2026';
 
     function computeUserIntegritySig(u) {
         if (!u) return '';
@@ -71,7 +71,7 @@
         if (!u) return '';
         const vp = u.vipPackages || {};
         const maxD = Math.max(1, Math.min(3, Number(u.maxDevices || 2)));
-        const raw = `TT50_VIP_SEAL_V44|${String(u.username || '').toLowerCase()}|${String(u.name || '').trim()}|${String(u.class || '').trim()}|${vp.k12 ? 1 : 0}${vp.k11 ? 1 : 0}${vp.k10 ? 1 : 0}${vp.luyende ? 1 : 0}|MAXD:${maxD}|${VAULT_ADMIN_PASS}|${SEAL_MASTER}`;
+        const raw = `TT50_VIP_SEAL_V44|${String(u.username || '').toLowerCase()}|${String(u.name || '').trim()}|${String(u.class || '').trim()}|${vp.k12 ? 1 : 0}${vp.k11 ? 1 : 0}${vp.k10 ? 1 : 0}${vp.luyende ? 1 : 0}|MAXD:${maxD}|${CANONICAL_MASTER}|${SEAL_SUFFIX}`;
         return 'vseal44_' + hashStringHex(raw);
     }
 

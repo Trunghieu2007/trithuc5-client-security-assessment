@@ -4,7 +4,7 @@ One folder per active/residual finding. Each folder contains a README plus expec
 
 | Finding | Type | Folder | Canonical script |
 |---|---|---|---|
-| NEW-11 | ACTION | `poc/NEW-11/` | `research/trithuc5/poc/poc_f03_vip_entitlement.js` |
+| NEW-11 | DISPLAY | `poc/NEW-11/` | `research/trithuc5/poc/poc_new11_seal_forgery.js` |
 | F-01 | DISPLAY | `poc/F-01/` | `research/trithuc5/poc/poc_f01_student_data.js` |
 | F-03 | ACTION | `poc/F-03/` | `research/trithuc5/poc/poc_f03_vip_entitlement.js` |
 | NEW-13 | ACTION | `poc/NEW-13/` | `research/trithuc5/poc/poc_f03_vip_entitlement.js` |

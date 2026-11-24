@@ -1,9 +1,9 @@
 # PoC — NEW-11: VIP approval seal is derived from bundle-literal secrets
 
-**Type:** ACTION  
+**Type:** DISPLAY  
 **Build:** V5.4.6 / SHA-256 `2dbf781e4febf2e47a78da81352227de30c4972a8f0491e4864bdb32e370f61c`  
-**Canonical script:** [`research/trithuc5/poc/poc_f03_vip_entitlement.js`](../../../../research/trithuc5/poc/poc_f03_vip_entitlement.js)  
-**Cleanup:** `__AERO_F03_RESTORE__()`
+**Canonical script:** [`research/trithuc5/poc/poc_new11_seal_forgery.js`](../../../../research/trithuc5/poc/poc_new11_seal_forgery.js)  
+**Cleanup:** `n/a (read-only)`
 
 ## Purpose
 
@@ -37,7 +37,7 @@ A client-computed approval artifact must be rejected. VIP state and backend toke
 
 ## Cleanup
 
-Run `__AERO_F03_RESTORE__()` if the canonical PoC is an ACTION PoC. DISPLAY and regression-only PoCs make no durable local change.
+Run `n/a (read-only)` if the canonical PoC is an ACTION PoC. DISPLAY and regression-only PoCs make no durable local change.
 
 ## Safety
 

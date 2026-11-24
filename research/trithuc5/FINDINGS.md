@@ -35,7 +35,7 @@ Release verdict: **blocked**. V5.4.6 fixed admin login, exam grading and Google 
 a client-shipped canonical master literal plus the fixed suffix `THAY_TRUNG_MASTER_SEAL_2026`.
 V5.4.2 added `isValidTeacherVipSealV522` (line 19561) with legacy-seal migration, but the
 canonical secret remains in the public bundle. The seal is still reproducible offline.
-- **PoC:** `poc/poc_f03_vip_entitlement.js` (ACTION)
+- **PoC:** `poc/poc_new11_seal_forgery.js` (DISPLAY — recomputes the canonical seal from bundle material); end-to-end ACTION path remains in `poc/poc_f03_vip_entitlement.js`.
 - **Evidence state:** `LOCAL_CONFIRMED` — real V5.4.6 functions, end-to-end (`P4-16`, IV-09).
 
 ---
@@ -230,7 +230,7 @@ node research/trithuc5/tests/secure_controls.js   # exits 1 until remediation
 | `poc/poc_new17_results_api.js` | NEW-17 | DISPLAY (one GET) | n/a |
 | `poc/verify_live_readonly.mjs` | live channel verification (Node) | DISPLAY | n/a (read-only) |
 
-All PoCs are validated by `tests/poc_suite_validation.js` (60 checks), which executes each file in a mock browser and asserts the documented behaviour, including that DISPLAY PoCs make no writes and that every ACTION PoC writes nothing to ntfy/KV.
+All PoCs are validated by `tests/poc_suite_validation.js` (79 checks), which executes each file in a mock browser and asserts the documented behaviour, including that DISPLAY PoCs make no writes and that every ACTION PoC writes nothing to ntfy/KV.
 
 ---
 

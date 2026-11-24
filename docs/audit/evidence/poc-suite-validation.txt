@@ -7,7 +7,7 @@
 │ vipPackages   │ 'k12,k11,k10,luyende'             │
 │ vipPlan       │ 'lifetime'                        │
 │ _sig          │ 'v27_6f11d59a2b6fd009'            │
-│ _adminVipSeal │ 'vseal44_62E083AA'                │
+│ _adminVipSeal │ 'vseal44_41E69B1C'                │
 │ scope         │ 'LOCAL ONLY — no ntfy/KV publish' │
 └───────────────┴───────────────────────────────────┘
 === [F-03] VIP entitlement verification ===
@@ -51,6 +51,26 @@ PASS F-03 account avoids the keyword blocklist
 PASS F-03 account id is not one of the exempt ids
 PASS F-03 payload wrote a login marker
 PASS F-03 payload did NOT publish to ntfy/KV
+┌──────────────────────────┬────────────────────────────────────────────┐
+│ (index)                  │ Values                                     │
+├──────────────────────────┼────────────────────────────────────────────┤
+│ finding                  │ 'NEW-11'                                   │
+│ type                     │ 'DISPLAY'                                  │
+│ status                   │ 'LOCAL_CONFIRMED'                          │
+│ canonicalLiteralInBundle │ true                                       │
+│ validatorInBundle        │ true                                       │
+│ syntheticSeal            │ 'vseal44_458FD459'                         │
+│ note                     │ 'No state change. Synthetic fixture only.' │
+└──────────────────────────┴────────────────────────────────────────────┘
+[NEW-11] A seal computed from bundle material is not server-side approval. Do not use this to alter real accounts.
+PASS NEW-11 payload executes without error
+PASS NEW-11 is classified DISPLAY
+PASS NEW-11 reports LOCAL_CONFIRMED
+PASS NEW-11 finds the canonical literal in bundle
+PASS NEW-11 finds the seal validator in bundle
+PASS NEW-11 recomputed a canonical seal
+PASS NEW-11 wrote no state
+PASS NEW-11 made no network call
 ┌────────────────────────┬───────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │ (index)                │ Values                                                                                                │
 ├────────────────────────┼───────────────────────────────────────────────────────────────────────────────────────────────────────┤
@@ -124,11 +144,29 @@ Cleanup: __AERO_NEW02_CLEANUP__() then F5
 PASS NEW-02 payload executes without error
 PASS NEW-02 reports the tombstone merge result
 PASS NEW-02 payload did NOT publish automatically
-=== F-04 Exam answer exposure (READ-ONLY) ===
-exams recovered: 0
-correct-answer entries: 0
+┌───────────────────┬────────────────────────────────────────────────────────────────────────────────────────┐
+│ (index)           │ Values                                                                                 │
+├───────────────────┼────────────────────────────────────────────────────────────────────────────────────────┤
+│ finding           │ 'F-04'                                                                                 │
+│ type              │ 'DISPLAY'                                                                              │
+│ status            │ 'FIXED-V5.4.6'                                                                         │
+│ exams             │ 191                                                                                    │
+│ bundledAnswers    │ 0                                                                                      │
+│ bundledQuestions  │ 0                                                                                      │
+│ serverExamRecords │ 191                                                                                    │
+│ serverFetch       │ true                                                                                   │
+│ serverSubmit      │ true                                                                                   │
+│ verdict           │ 'F-04 FIXED: answer keys and questions are server-only; grading via /api/exams/submit' │
+└───────────────────┴────────────────────────────────────────────────────────────────────────────────────────┘
 PASS poc_f04_exam_answers.js executes without error
 PASS poc_f04_exam_answers.js performs no network write
+PASS F-04 PoC is DISPLAY
+PASS F-04 PoC reports FIXED-V5.4.6
+PASS F-04 PoC counts 191 exam shells
+PASS F-04 PoC finds zero bundled answers
+PASS F-04 PoC finds zero bundled questions
+PASS F-04 PoC detects server fetch + submit
+PASS F-04 PoC prints no answer values
 === F-01 / NEW-01 / NEW-16 student data exposure (READ-ONLY) ===
 
 [local] TRITHUC50_USERS_V436_CLEAN: 1 record(s)
@@ -165,8 +203,14 @@ PASS poc_f01_student_data.js reports the cloud verdicts
 [NEW-08] activity log entries stored locally: 0
 [NEW-08] entries whose text matches a password-like pattern: 0
 [NEW-08] configured Google Form endpoint: (not configured on this client)
+[NEW-08] source dispatch disabled: true
+[NEW-08] local log entries marked syncedToGForm: 0
+[NEW-08] FIXED-V5.4.6: no Google Form payload is produced by the shipped client.
 PASS poc_new08_new09_leakage.js executes without error
 PASS poc_new08_new09_leakage.js performs no network write
+PASS NEW-08 PoC reports FIXED-V5.4.6
+PASS NEW-08 PoC sees disabled dispatch
+PASS NEW-08 PoC sees no synced log entries
 === NEW-05 / NEW-07 / NEW-10 (DISPLAY + LOCAL PROBE) ===
 [NEW-05] TRUNG_GEMINI_OCR_KEY present: false
 [NEW-05] the key is read in the browser and used directly against the
@@ -238,7 +282,8 @@ PASS syntax poc_f06_anticheat.js
 PASS syntax poc_new02_packet_injection.js
 PASS syntax poc_new05_new07_new10_misc.js
 PASS syntax poc_new08_new09_leakage.js
+PASS syntax poc_new11_seal_forgery.js
 PASS syntax poc_new15_admin_preview.js
 PASS syntax poc_new17_results_api.js
 
-TOTAL 60 PASS 60 FAIL 0
+TOTAL 79 PASS 79 FAIL 0
