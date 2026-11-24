@@ -1,13 +1,13 @@
-# PoC — NEW-08: Activity logs still reach a third-party Google Form; password masking is fixed
+# PoC — NEW-08: Third-party Google Form sync disabled; password masking retained — FIXED
 
 **Type:** DISPLAY  
-**Build:** V4.8.6 / SHA-256 `ffe94aea9b327853b0b8836bf0d52e1f509fcc68c007bead7b8a888604389185`  
+**Build:** V5.4.6 / SHA-256 `2dbf781e4febf2e47a78da81352227de30c4972a8f0491e4864bdb32e370f61c`  
 **Canonical script:** [`research/trithuc5/poc/poc_new08_new09_leakage.js`](../../../../research/trithuc5/poc/poc_new08_new09_leakage.js)  
 **Cleanup:** `n/a (read-only)`
 
 ## Purpose
 
-Demonstrate the measured NEW-08 behavior using only synthetic data: the form sync path remains.
+Demonstrate the measured NEW-08 behavior using only synthetic data: v5.
 
 ## Prerequisites
 
@@ -30,7 +30,7 @@ No student identity or activity detail should be sent to a third party without e
 
 ## Observed behavior
 
-Password-like detail is masked; name, class, score and other detail values are still present in the wire payload.
+No Google Form dispatch payload is produced at all; the masked detail remains only in localStorage.
 
 ## Cleanup
 

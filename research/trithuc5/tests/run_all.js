@@ -364,7 +364,7 @@ test('F-03-T03', 'lifetime and future expiry pass, past expiry fails', () => {
 
 console.log('--- F-04 answer exposure ---');
 
-test('F-04-T01', 'V4.5 gzip vault still yields 15 exams / 330 answers offline (bundle-seed XOR + gzip)', () => {
+test('F-04-T01', 'V5.4.6 FIX: gzip vault holds 191 exam shells with ZERO bundled answers/questions', () => {
     const lines = h.readSource().lines;
     const idx = lines.findIndex(l => l.includes('var __ENC_GZ = '));
     assert.ok(idx >= 0, 'V4.5 must embed the gzip vault blob');
@@ -389,9 +389,11 @@ test('F-04-T01', 'V4.5 gzip vault still yields 15 exams / 330 answers offline (b
     const exams = JSON.parse(zlib.gunzipSync(Buffer.concat(parts)).toString('utf8'));
     let count = 0;
     exams.forEach(x => ['p1', 'p2', 'p3'].forEach(p => { count += Object.keys((x.correctAnswers || {})[p] || {}).length; }));
-    assert.strictEqual(exams.length, 15);
-    assert.strictEqual(count, 330);
-    assert.ok(exams.every(x => x.correctAnswers));
+    assert.strictEqual(exams.length, 191, 'V5.4.6 ships 191 exam shells');
+    assert.strictEqual(count, 0, 'V5.4.6 strips all correct answers from the bundle');
+    assert.ok(exams.every(x => x.correctAnswers && !Object.keys((x.correctAnswers.p1 || {})).length));
+    assert.ok(exams.every(x => Array.isArray(x.questions) && x.questions.length === 0), 'questions also server-only');
+    assert.ok(exams.every(x => x._serverGradedV530 === true && x._serverExamV533 === true));
 });
 
 test('F-04-T02', 'XOR answer payload is reversible with public key material', () => {
@@ -407,10 +409,12 @@ test('F-04-T02', 'XOR answer payload is reversible with public key material', ()
     assert.strictEqual(out.correctAnswers.p1['1'], 'B');
 });
 
-test('F-04-T03', 'grading is client-side and no server grading endpoint is called (static)', () => {
+test('F-04-T03', 'V5.4.6 FIX: grading is authoritative via POST /api/exams/submit (static)', () => {
     const src = h.readSource().text;
-    assert.ok(/function calculateAttemptScore\s*\(/.test(src));
-    assert.ok(!/submitAnswers|gradeExam|api\/grade/i.test(src));
+    assert.ok(src.includes("fetch('/api/exams/submit'"), 'server grading endpoint must be called');
+    assert.ok(src.includes('submitExamToServerPhase2V530'), 'server submission function must exist');
+    assert.ok(src.includes('ensureExamHydratedFromServerV533'), 'server exam hydration function must exist');
+    assert.ok(src.includes("fetch('/api/exams/fetch?id='"), 'questions hydrated from server');
 });
 
 console.log('--- F-05 device / Gmail lock ---');

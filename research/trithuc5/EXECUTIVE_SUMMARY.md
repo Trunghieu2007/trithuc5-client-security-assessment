@@ -1,16 +1,16 @@
-# Executive summary — TRITHUC5.0 V4.8.6 (current live build)
+# Executive summary — TRITHUC5.0 V5.4.6 (current live build)
 
 **Target:** `https://trithuc500.vercel.app/`  
 **Owner authorization:** client-side-only assessment; no production write.  
-**Assessment period:** 2026-11-18 → 2026-11-22; final source re-pin 2026-11-22.  
-**Build under test:** V4.8.6, SHA-256 `ffe94aea9b327853b0b8836bf0d52e1f509fcc68c007bead7b8a888604389185` (9,120,257 bytes, 34,677 lines), fetched 2026-11-22T10:36:26Z.  
+**Assessment period:** 2026-11-18 → 2026-11-24; final source re-pin 2026-11-24.  
+**Build under test:** V5.4.6, SHA-256 `2dbf781e4febf2e47a78da81352227de30c4972a8f0491e4864bdb32e370f61c` (2,777,970 bytes, 39,205 lines), fetched 2026-11-24T12:14:00Z.  
 **Overall risk:** High. Release remains blocked for any use case that depends on account identity, entitlement, exam integrity, or result privacy.
 
 ## Scope
 
 The assessment covered the public single-file client application, its response headers, the client-side functions implementing admin login, VIP entitlement, cloud synchronization, device binding, activity logging and exam vault access, and one read-only GET to the new same-origin results endpoint. Vercel internals, ntfy.sh, keyvalue.immanuel.co, Google Forms, Gemini and server-side implementation details were not actively tested. Live ntfy content remains UNVERIFIED.
 
-## Verified fixes in V4.8.5 / V4.8.6
+## Verified fixes in V4.8.5 / V5.4.6
 
 | Earlier weakness | Current status | Proof |
 |---|---|---|
@@ -23,7 +23,7 @@ The assessment covered the public single-file client application, its response h
 
 These fixes were executed as inverted regression assertions, not accepted from code review alone.
 
-## New in V4.8.6
+## New in V5.4.6
 
 **NEW-17 — unauthenticated results API (High).** The new `GET /api/results` endpoint returned HTTP 200 to a request with no cookie and no Authorization header. The response contained two records with student-identifying fields (`username`, `name`, `class`, `school`, `score`, `examTitle`, timestamps and anti-cheat counters). Values were not printed, stored or replicated. The corresponding `POST` path was not tested because it would write to production; its authorization model is UNVERIFIED.
 
@@ -62,3 +62,21 @@ Full ownership, dependencies and verification methods: [`REMEDIATION_PLAN.md`](R
 ## Confidence and limitations
 
 All release-blocking findings are Confirmed by executed local evidence, a read-only endpoint probe, or measured headers. No production account was used, no packet was published, and no live cross-client effect was attempted. The only new server-side request was one unauthenticated GET to `/api/results`; no write was sent. Server-side credential verification, cookie flags and POST authorization were not directly tested. CVSS v4.0 scores are intentionally not assigned; see `03-methodology.md` in the formal audit package.
+
+## V5.4.6 delta (2026-11-24)
+
+Measured against the V4.8.6 pin (`ffe94aea…`, 9,120,257 bytes / 34,677 lines):
+
+| Area | V4.8.6 | V5.4.6 | Effect |
+|---|---|---|---|
+| Exam content | 15 exams, 330 answers in client bundle | 191 exam shells, 0 answers, 0 questions | F-04 Fixed |
+| Grading | client `calculateAttemptScore` authoritative | `POST /api/exams/submit`, questions from `/api/exams/fetch` | F-04 Fixed |
+| Google Form | live dispatch path | `dispatchParamsToGoogleFormUrl` returns `false` immediately | NEW-08 Fixed |
+| VIP seal | vault hash based | `TT50_CANONICAL_MASTER_V522` literal + legacy migration | NEW-11 still critical |
+| Tamper check | signature only | `isValidTeacherVipSealV522` added, stale `_sig` now stripped | F-03 residual reduced but still forgeable offline |
+| Results API | unauthenticated GET | unauthenticated GET (200, 89 records) | NEW-17 unchanged |
+
+Suites on V5.4.6: main 41/41, phase3 8/8, phase4 20/20, PoC 60/60,
+independent 36/36; secure controls 7 pass / 2 expected-fail.
+Release remains blocked because the approval seal and entitlement gates are still
+client-derivable and result records are readable without authentication.

@@ -55,7 +55,7 @@ function pkt(overrides) {
     console.log('=== TRITHUC5.0 V4.5 Phase 3 controlled validation ===');
     console.log('source sha256: ' + h.readSource().sha);
 
-    await check('P3-01', 'registration password reaches Google Form payload and localStorage activity log', () => {
+    await check('P3-01', 'V5.4.6 FIX: local log keeps synthetic marker but no Google Form payload is sent', () => {
         const e = p3.createDeepEnv({ now: NOW, state: { activityLogs: [] } });
         e.state.googleFormConfig = gformConfig();
         const u = h.compactUser();
@@ -68,11 +68,8 @@ function pkt(overrides) {
             u
         );
         assert.ok(entry, 'log entry should be created');
-        const sent = e.window.__GFORM_SENT_LOG__ || [];
-        assert.ok(sent.some(x => JSON.stringify(x).includes('synthetic_password')), 'password in GForm send log');
-        assert.ok(e.__captures.some(c =>
-            c.url.includes('docs.google.com/forms') && c.body.includes('synthetic_password')
-        ), 'password in captured GForm request body');
+        assert.ok(e.__captures.every(c => !String(c.body).includes('synthetic_password')),
+            'V5.4.6 FIX: no captured request carries the password');
         const stored = e.safeStorageGet(e.STORAGE_KEYS.ACTIVITY_LOGS);
         assert.ok(stored && stored.includes('synthetic_password'), 'password in localStorage activity log');
     });
@@ -181,7 +178,7 @@ function pkt(overrides) {
         assert.ok(raw.includes('synthetic_password'), 'student password still survives in storage');
         const lines = h.readSource().lines;
         assert.ok(lines.some(l => l.includes('REMEMBERED_STUDENT_CREDS, JSON.stringify(state.savedStudentCreds)')));
-        assert.ok(lines.some(l => l.includes('pInp.value = state.savedStudentCreds.password')));
+        assert.ok(lines.some(l => l.includes('pInp.value = state.loginDraft.password')));
         // V4.5 fix: admin credentials/remember-me write only username + remember.
         assert.ok(lines.some(l => l.includes('REMEMBERED_ADMIN_CREDS, JSON.stringify({ username: uVal, remember: true })')));
         assert.ok(!lines.some(l => l.includes('REMEMBERED_ADMIN_CREDS, JSON.stringify(state.savedAdminCreds)')));

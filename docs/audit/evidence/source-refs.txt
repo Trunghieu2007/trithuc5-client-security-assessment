@@ -1,57 +1,37 @@
-Source: research/trithuc5/phase5/target.html, SHA-256 ffe94aea9b327853b0b8836bf0d52e1f509fcc68c007bead7b8a888604389185
-Build: TRITHUC5.0 V4.8.6, fetched 2026-11-22T10:36:26Z, 9,120,257 bytes / 34,677 lines.
-All ranges are 1-indexed lines from that exact file. No credential values are stored here.
+# Source references — V5.4.6 (verified 2026-11-24)
 
-3893-3904      hashStringHex
-5536-5543      sanitizePlainInput
-4151-4164      computeUserIntegritySig
-4166-4170      computeAdminSessionSig
-4172-4223      verifyRuntimeSecurityIntegrity
-4236-4243      isStudentVipExpired
-5589-5599      computeCloudPacketAdminSig
-5601-5631      serializeCompactUser
-5633-5671      deserializeCompactUser
-5673-5685      isUserDeletedByTombstone
-5769-5986      processIncomingCloudPacket
-5988-5998      decodeCloudMessageString
-5731-5766      buildTeacherSnapshotPacket
-6000-6131      pushCloudSyncPacket
-6133-6160      setupRealtimeCloudStream
-6162-6315      pullCloudSyncMessages
-4028-4148      verifyAndBindStudentDeviceOnLogin
-4002-4006      isValidStudentGmail
-3936-4000      getHardwareDeviceProfile
-7647-7671      decryptV97EmbedPayload
-6449-6457      saveActivityLogsState
-6915-6944      hasStudentVipAccess
-15856-15869    verifyProtectedVipActionV44
-14020-14033    isAdminExamAttempt
-3202-3321      calculateAttemptScore
-15871-15878    computeTeacherVipApprovalSealV44
-15924-15978    detectAndBlockStudentVipHackV44
-7419-7465      logStudentActivity
-7394-7417      syncActivityLogToGoogleForm
-2170-2192      STORAGE_KEYS
-15592-15853    BackendVipAuthServiceV44
-6530-6629      LessonVipVaultV44
-4295-4305      public ntfy topics / KV key
-2282-2673      state
-31907-31959    loginAdmin (server API)
-2228           sensitive-storage regex
-5768           cloud nonce registry
-31922          server admin login call
-4692           server results API call
-4301           public KV path disabled
-2030-2055      hash64V45 / saltedAuthHashV45 / emptied admin+vault literals
-2228-2253      safeStorageGet / safeStorageSet / safeStorageRemove
-3575-3643      boot-time user normalization (verbatim harness range)
-3740-3752      remembered admin session restore (verbatim harness range)
-4295-4299      public ntfy topic / KV app key constants
-5768           __SEEN_CLOUD_NONCES_V480__
-31922-31927    admin login POST body
-4692-4698      result POST body
-4814-4819      unauthenticated result GET
+SHA-256: 2dbf781e4febf2e47a78da81352227de30c4972a8f0491e4864bdb32e370f61c
+Size: 2,777,970 bytes; 39,205 lines.
 
-Harnesses additionally extract: cloud constants, closure-vault variables, hash functions,
-sensitive-storage regex, nonce registry, boot normalizer and remembered-session block.
-If the measured hash changes, every harness refuses to run until line pins are re-measured.
+| Pin | Line | Match |
+|---|---:|---|
+| state object | 4932 | `const state = {` |
+| renderApp | 31018 | `function renderApp(` |
+| TRITHUC public API | 31118 | `window.TRITHUC = {` |
+| STORAGE_KEYS | 4819 | `const STORAGE_KEYS = {` |
+| sensitive storage regex | 4878 | `__SENSITIVE_STORAGE_RE_V480__` |
+| memory store | 4845 | `const __MEMORY_STORE__ = {};` |
+| hash functions | 4679 | `function hash64V45` |
+| admin/vault literals | 4703 | `DEFAULT_ADMIN_PASS_HASH_V45` |
+| cloud sync constants | 7051 | `const CLOUD_SYNC_TOPIC` |
+| cloud KV disabled | 7057 | `const CLOUD_KV_DISABLED_V485` |
+| nonce registry | 8818 | `__SEEN_CLOUD_NONCES_V480__` |
+| boot normalizer | 6314 | `let __migratedLegacySealsV522` |
+| admin session restore | 6485 | `const remAdmSessRaw` |
+| admin session sig | 6922 | `function computeAdminSessionSig` |
+| runtime integrity | 6928 | `function verifyRuntimeSecurityIntegrity` |
+| seal validator | 19561 | `function isValidTeacherVipSealV522` |
+| seal composer | 19551 | `function computeTeacherVipApprovalSealV44` |
+| vip entitlement | 10260 | `function hasStudentVipAccess` |
+| backend VIP auth | 19272 | `const BackendVipAuthServiceV44` |
+| exam server hydration | 3943 | `async function ensureExamHydratedFromServerV533` |
+| exam server submit | 4025 | `async function submitExamToServerPhase2V530` |
+| results GET (client) | 7836 | `fetch('/api/results', { method: 'GET'` |
+| GForm disabled | 10803 | `V5.4.6: Đã gỡ bỏ hoàn toàn Google Form` |
+| activity log | 10877 | `function logStudentActivity` |
+| student nav | 12432 | `const stuTabs` |
+| student home | 12575 | `function renderStudentHomeView` |
+| admin view | 27509 | `function renderAdminView` |
+| admin tabs | 27587 | `id: 'matrix_builder'` |
+| doing view | 17883 | `function renderDoingExamView` |
+| result view | 18626 | `function renderResultView` |

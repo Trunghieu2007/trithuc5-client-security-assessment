@@ -14,7 +14,7 @@ const assert = require('assert');
 
 const SOURCE = process.env.TRITHUC_SOURCE || path.join(
     __dirname, '..', '..', '..', '..', 'research', 'trithuc5', 'phase5', 'target.html');
-const EXPECTED_SHA = 'ffe94aea9b327853b0b8836bf0d52e1f509fcc68c007bead7b8a888604389185';
+const EXPECTED_SHA = '2dbf781e4febf2e47a78da81352227de30c4972a8f0491e4864bdb32e370f61c';
 const NOW = 1795000000000;
 
 function source() {
@@ -54,7 +54,7 @@ function byDecl(lines, needle) {
 
 const FN = [
     'hashStringHex', 'sanitizePlainInput', 'computeUserIntegritySig', 'computeAdminSessionSig',
-    'computeTeacherVipApprovalSealV44', 'detectAndBlockStudentVipHackV44',
+    'computeTeacherVipApprovalSealV44', 'isValidTeacherVipSealV522', 'detectAndBlockStudentVipHackV44',
     'recordVipHackSecurityAlertV44', 'verifyRuntimeSecurityIntegrity', 'isStudentVipExpired',
     'hasStudentVipAccess', 'verifyProtectedVipActionV44', 'isAdminExamAttempt', 'isFreeLesson',
     'computeCloudPacketAdminSig', 'serializeCompactUser', 'deserializeCompactUser',
@@ -62,7 +62,7 @@ const FN = [
     'readWindowNameStore', 'writeWindowNameStore', 'safeStorageGet', 'safeStorageSet',
     'safeStorageRemove', 'saveActivityLogsState', 'normalizeGFormActionUrl',
     'normalizeGFormEntryCode', 'postToGoogleFormEndpoint', 'syncActivityLogToGoogleForm',
-    'logStudentActivity'
+    'logStudentActivity', 'requestBackgroundRenderV521', 'isUserTypingInModalOrInputV521'
 ];
 
 function mem() {
@@ -127,23 +127,23 @@ function makeEnv(overrides) {
     vm.createContext(sandbox);
     const pieces = [
         byDecl(lines, 'const STORAGE_KEYS = {'),
-        lines[2194], // V4.8.6: const __MEMORY_STORE__ = {}; (line 2195)
-        lines.slice(2029, 2055).join('\n'), // hash64V45 / saltedAuthHashV45 / V4.8.6 emptied hash literals
-        lines[2227], // V4.8.6: __SENSITIVE_STORAGE_RE_V480__ (line 2228)
-        lines[5767], // V4.8.6: __SEEN_CLOUD_NONCES_V480__ (line 5768)
+        lines[4844], // V5.4.6: const __MEMORY_STORE__ = {}; (line 4845)
+        lines.slice(4678, 4704).join('\n'), // hash64V45 / saltedAuthHashV45 / V4.8.6 emptied hash literals
+        lines[4877], // V5.4.6: __SENSITIVE_STORAGE_RE_V480__ (line 4878)
+        lines[8817], // V5.4.6: __SEEN_CLOUD_NONCES_V480__ (line 8818)
         'const LEGACY_SAMPLE_BANNED = new Set();',
         'const deletedUsernamesRegistry = new Set();',
         byDecl(lines, 'const BackendVipAuthServiceV44 = (function() {'),
         byDecl(lines, 'const LessonVipVaultV44 = (function() {'),
         ...FN.map(n => byName(lines, n)),
         'function bootNormalizeUsersV44() {\n' +
-        lines.slice(3574, 3643).join('\n') + '\n}',
+        lines.slice(6313, 6383).join('\n') + '\n}',
         'const bundledUsers = [];',
         ...['BackendVipAuthServiceV44', 'bootNormalizeUsersV44', 'processIncomingCloudPacket',
             'computeCloudPacketAdminSig', 'serializeCompactUser', 'deserializeCompactUser',
             'deletedUsernamesRegistry', 'hasStudentVipAccess', 'verifyProtectedVipActionV44',
             'verifyRuntimeSecurityIntegrity',             'hasVerifiedPackageAccessProbe', 'LessonVipVaultV44',
-            'computeUserIntegritySig', 'computeTeacherVipApprovalSealV44', 'detectAndBlockStudentVipHackV44'
+            'computeUserIntegritySig', 'computeTeacherVipApprovalSealV44', 'isValidTeacherVipSealV522', 'detectAndBlockStudentVipHackV44'
         ].map(n => n === 'hasVerifiedPackageAccessProbe'
             ? 'globalThis.hasVerifiedPackageAccessProbe = (u,k,c) => BackendVipAuthServiceV44.hasVerifiedPackageAccess(u,k,c);'
             : `globalThis.${n} = ${n};`)
@@ -169,7 +169,7 @@ function check(id, label, fn) {
 }
 function compact(u) { return { u: u.username, p: u.password, n: u.name, c: u.class, s: u.stt, vp: [1, 1, 1, 1], st: 'active', pl: '1y', maxD: 2, updAt: NOW, v436: 1 }; }
 
-console.log('=== INDEPENDENT VERIFICATION — V4.5 (SHA ' + EXPECTED_SHA.slice(0, 8) + ') ===');
+console.log('=== INDEPENDENT VERIFICATION — V5.4.6 (SHA ' + EXPECTED_SHA.slice(0, 8) + ') ===');
 
 // ---------------------------------------------------------------- TRACK 1: NEW-11/12
 console.log('\n-- Track 1: NEW-11/12 — _sig -> boot seal -> real access gates --');
@@ -333,28 +333,25 @@ const formCfg = {
 };
 const t3 = makeEnv({ state: { googleFormConfig: formCfg, perfConfig: { autoOffloadGForm: true } } });
 const t3u = ordinaryUser({ id: 'stu_form_probe', username: 'formprobe', name: 'Form Probe', password: SENTINEL });
-check('IV-21', 'V4.8.0 FIX: password-like detail is masked before log + Google Form sync', () => {
+check('IV-21', 'V5.4.6 FIX: password-like detail masked in local log; no GForm sync', () => {
     const entry = t3.logStudentActivity('LOGIN', 'Dang nhap', 'Bai 1', 'MK: ' + SENTINEL, '---', t3u);
-    assert.ok(entry && entry.syncedToGForm);
-    const sent = t3.window.__GFORM_SENT_LOG__;
-    assert.strictEqual(sent.length, 1);
-    assert.ok(!sent[0].payload.detail.includes(SENTINEL), 'password sentinel masked in detail field');
-    assert.ok(sent[0].payload.detail.includes('[ĐÃ ẨN]'), 'mask marker present');
-    assert.strictEqual(sent[0].payload.name, '[formprobe] Form Probe');
-    assert.strictEqual(sent[0].payload.classInfo, '12A1 (SBD: 01)');
-    assert.strictEqual(sent[0].payload.score, '---', 'scoreStr fallback is the literal ---');
+    assert.ok(entry, 'local activity log entry still written');
+    assert.ok(!entry.detail.includes(SENTINEL), 'password sentinel masked in detail field');
+    assert.ok(entry.detail.includes('[ĐÃ ẨN]'), 'mask marker present');
+    assert.strictEqual(entry.score, '---', 'scoreStr fallback is the literal ---');
+    assert.strictEqual(entry.syncedToGForm, false, 'V5.4.6 never marks an entry as GForm-synced');
+    assert.strictEqual(t3.__rec.formDispatch.length, 0, 'no Google Form dispatch');
 });
-check('IV-22', 'Google Form wire pairs are unchanged; sentinel is absent from all four pairs', () => {
-    const pairs = t3.__rec.formDispatch[0].pairs;
-    assert.strictEqual(pairs.map(p => p[0]).join(','), 'entry.111,entry.222,entry.333,entry.444,submit');
-    assert.ok(!pairs[3][1].includes(SENTINEL));
+check('IV-22', 'V5.4.6 FIX: Google Form dispatch disabled at source (no wire pairs)', () => {
+    assert.strictEqual(t3.__rec.formDispatch.length, 0, 'no formDispatch payload at all');
     assert.strictEqual(t3.__rec.kv.length, 0, 'no fetch to any endpoint');
+    assert.ok(/V5\.4\.6: Đã gỡ bỏ hoàn toàn Google Form/.test(fs.readFileSync(SOURCE, 'utf8')), 'source marker present');
 });
-check('IV-23', 'NEW-08: admin/tester identities suppress the log entirely (no form payload)', () => {
-    const before = t3.window.__GFORM_SENT_LOG__.length;
+check('IV-23', 'NEW-08: admin/tester identities suppress the log entirely', () => {
+    const before = t3.__rec.formDispatch.length;
     const suppressed = t3.logStudentActivity('LOGIN', 'x', 'y', 'MK: ' + SENTINEL, '---', ordinaryUser({ isAdminTester: true }));
     assert.strictEqual(suppressed, null);
-    assert.strictEqual(t3.window.__GFORM_SENT_LOG__.length, before);
+    assert.strictEqual(t3.__rec.formDispatch.length, before);
 });
 const t3s = makeEnv();
 const mirKey = 'TRITHUC50_USERS_V436_CLEAN';

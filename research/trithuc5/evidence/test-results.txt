@@ -24,9 +24,9 @@ PASS F-02-T05 V4.8.5 FIX: admin authentication is delegated to /api/admin/login
 PASS F-03-T01 V4.5: recomputed _sig alone is NOT enough (runtime check also requires a valid seal)
 PASS F-03-T02 V4.5: stale _sig is detected, VIP stripped, session force-logged-out
 PASS F-03-T03 lifetime and future expiry pass, past expiry fails
-PASS F-04-T01 V4.5 gzip vault still yields 15 exams / 330 answers offline (bundle-seed XOR + gzip)
+PASS F-04-T01 V5.4.6 FIX: gzip vault holds 191 exam shells with ZERO bundled answers/questions
 PASS F-04-T02 XOR answer payload is reversible with public key material
-PASS F-04-T03 grading is client-side and no server grading endpoint is called (static)
+PASS F-04-T03 V5.4.6 FIX: grading is authoritative via POST /api/exams/submit (static)
 PASS F-05-T01 empty trustedDevices causes automatic device registration
 PASS F-05-T02 overwriting deviceId in trustedDevices makes device recognized
 PASS F-05-T03 two-device limit blocks third device and can lock locally

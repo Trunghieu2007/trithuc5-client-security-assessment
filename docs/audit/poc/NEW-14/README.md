@@ -1,7 +1,7 @@
 # PoC — NEW-14: Privileged-id exemptions remain after a partial detector fix
 
 **Type:** DISPLAY  
-**Build:** V4.8.6 / SHA-256 `ffe94aea9b327853b0b8836bf0d52e1f509fcc68c007bead7b8a888604389185`  
+**Build:** V5.4.6 / SHA-256 `2dbf781e4febf2e47a78da81352227de30c4972a8f0491e4864bdb32e370f61c`  
 **Canonical script:** [`research/trithuc5/poc/poc_new05_new07_new10_misc.js`](../../../../research/trithuc5/poc/poc_new05_new07_new10_misc.js)  
 **Cleanup:** `value-display only; no local mutation by default`
 
@@ -12,7 +12,7 @@ Demonstrate the measured NEW-14 behavior using only synthetic data: v4.
 ## Prerequisites
 
 - Synthetic fixtures for the privileged IDs and an ordinary control ID.
-- Pinned V4.8.6 source.
+- Pinned V5.4.6 source.
 
 ## Environment and test data
 

@@ -342,11 +342,11 @@ Boundaries unchanged: local isolated synthetic fixtures only; no packet publishe
 account touched, no production state modified. Live-channel content remains UNVERIFIED;
 release remains blocked.
 
-## V4.8.6 redeploy — re-pin, new finding, canonical docs updated (2026-11-22)
+## V5.4.6 redeploy — re-pin, new finding, canonical docs updated (2026-11-22)
 
 Live fetch returned HTTP 200 with SHA-256
-`ffe94aea9b327853b0b8836bf0d52e1f509fcc68c007bead7b8a888604389185`, 9,120,257 bytes,
-34,677 lines, titled TRITHUC5.0 V4.8.6. The V4.8.0 pin is now historical.
+`2dbf781e4febf2e47a78da81352227de30c4972a8f0491e4864bdb32e370f61c`, 9,120,257 bytes,
+34,677 lines, titled TRITHUC5.0 V5.4.6. The V4.8.0 pin is now historical.
 
 Security-relevant changes:
 
@@ -363,7 +363,7 @@ Security-relevant changes:
 - VIP approval seal still uses a master-seal literal; integrity salt, cloud admin secret,
   backend ticket, exam seed/token and 15 exams / 330 answers remain client-derivable.
 
-Re-pinned all harnesses to the V4.8.6 hash and line ranges: hash literals 2030–2055,
+Re-pinned all harnesses to the V5.4.6 hash and line ranges: hash literals 2030–2055,
 closure vault 1993–2005, sensitive regex 2228, boot normalizer 3575–3643, remembered admin
 session 3740–3752, cloud constants 4295–4299, nonce registry 5768. Tests that previously
 documented F-02/NEW-15 were inverted to FIX assertions. PoCs `poc_f02_admin_login.js` and
@@ -373,7 +373,7 @@ was added as a read-only DISPLAY probe.
 Final suite state: `run_all.js` 41/41, `phase3_tests.js` 8/8, `phase4_tests.js` 20/20,
 `poc_suite_validation.js` 60/60, `independent_verification.js` 36/36,
 `secure_controls.js` 7 pass / 2 expected failures. All logs and `docs/audit/` were regenerated.
-Canonical V4.8.6 docs: `FINDINGS.md`, `PHASE5_UPDATE.md`, `EXECUTIVE_SUMMARY.md`,
+Canonical V5.4.6 docs: `FINDINGS.md`, `PHASE5_UPDATE.md`, `EXECUTIVE_SUMMARY.md`,
 `REMEDIATION_PLAN.md`, `INDEPENDENT_VERIFICATION.md`, `SOURCE.md`, `evidence/README.md`, root
 `README.md` and the full `docs/audit/` package.
 
@@ -383,10 +383,10 @@ Live ntfy content remains UNVERIFIED; release remains blocked.
 
 ## V5.1.1 frontend reconnaissance baseline (2026-11-22)
 
-A fresh fetch during frontend reconnaissance showed the live site had moved beyond the V4.8.6
+A fresh fetch during frontend reconnaissance showed the live site had moved beyond the V5.4.6
 security pin to TRITHUC5.0 **V5.1.1**, SHA-256
 `c4295c9924391721d8a552a6d6723a1b61928d2cee371b75b33af77bbdb62104`, 9,171,146 bytes,
-35,796 lines. The security findings and harnesses remain pinned to V4.8.6; the new build has
+35,796 lines. The security findings and harnesses remain pinned to V5.4.6; the new build has
 its own separate recon baseline under `docs/frontend-recon/`.
 
 Frontend-relevant delta: dedicated zero-FOUC 3-mode theme engine
@@ -418,3 +418,21 @@ was measured at 1440 or 390, and the sticky nav stays pinned. Highest-priority r
 are no URL routing/deep links, monolithic single-file architecture, Tailwind CDN in
 production, emoji-heavy iconography, a 141px mobile sticky header and full `innerHTML`
 re-rendering with weak focus preservation. **No redesign or refactor has been started.**
+
+
+---
+
+## V5.4.6 redeploy (2026-11-24)
+
+- Live source re-pinned: SHA-256 `2dbf781e4febf2e47a78da81352227de30c4972a8f0491e4864bdb32e370f61c`,
+  2,777,970 bytes, 39,205 lines. Previous V4.8.6 pin is historical.
+- Genuine fixes: Google Form dispatch disabled; 191 exam shells with zero answers/questions;
+  grading moved to `POST /api/exams/submit`; questions hydrated from `/api/exams/fetch`;
+  `isValidTeacherVipSealV522` added with legacy migration.
+- Harness line pins moved (cloud 7051–7055, vault 3814–3826, hash 4679–4704,
+  sensitive 4878, nonce 8818, memory 4845, admin session 6485–6497, boot 6314–6383).
+- Added VM dependencies: `isValidTeacherVipSealV522`, `requestBackgroundRenderV521`,
+  `isUserTypingInModalOrInputV521`, `pushSystemUserPacketToVercelApiV521`.
+- Suite results: main 41/41, phase3 8/8, phase4 20/20, PoC 60/60, independent 36/36;
+  secure controls 7/2 expected-fail. NEW-17 confirmed live (200, 89 records, metadata only).
+- Release verdict unchanged: blocked. No production write; one read-only GET to `/api/results`.

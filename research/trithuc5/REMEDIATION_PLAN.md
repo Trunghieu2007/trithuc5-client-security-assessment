@@ -1,19 +1,21 @@
-# Remediation plan — TRITHUC5.0 V4.8.6 (current live build)
+# Remediation plan — TRITHUC5.0 V5.4.6 (current live build)
 
 Priority is ordered by security impact and implementation dependency. Phase 0 contains public exposure; later phases assume the earlier trust boundary exists. No production code was changed during the assessment.
 
-Build identity: SHA-256 `ffe94aea9b327853b0b8836bf0d52e1f509fcc68c007bead7b8a888604389185`, 9,120,257 bytes, 34,677 lines. All line numbers below refer to that build; re-measure after any redeploy. Harnesses pin the hash and refuse to run on a changed source.
+Build identity: SHA-256 `2dbf781e4febf2e47a78da81352227de30c4972a8f0491e4864bdb32e370f61c`, 2,777,970 bytes, 39,205 lines. All line numbers below refer to that build; re-measure after any redeploy. Harnesses pin the hash and refuse to run on a changed source.
 
 ## Already fixed / disabled (keep as regressions)
 
 - Admin login is server-side via `/api/admin/login` (31907–31959); client hash literals are empty (2052–2055); session salt is per-window (4166–4170); remembered session cleared at boot (34604–34618). **F-02 fixed.**
 - Admin preview no longer bypasses gates without a server-verified session (4185–4195). **NEW-15 fixed.**
 - Public keyvalue.immanuel.co writes are disabled (4301).
+- Exam answers/questions are server-only; grading via `/api/exams/submit`. **F-04 fixed.**
+- Google Form dispatch is disabled (`return false` in `dispatchParamsToGoogleFormUrl`). **NEW-08 fixed.**
 - Password, seal and backend token are blank in compact wire format (5601); unsigned tombstones rejected (5769+); nonce/age guards present (5768); internal cloud bus removed; weak-store mirroring fixed; boot auto-seal fixed; password-like log detail masked.
 
 Preserve `F-02-T01/T05`, `P4-11`, `P4-10`, `IV-16`…`IV-20`, `P3-02`, `P3-04`, `F-01-T12/T13/T16`, `P4-14`, `P4-19`, `IV-10`, `IV-24/IV-29` as green secure assertions.
 
-Post-patch acceptance is defined by `tests/secure_controls.js`. On V4.8.6 it reports 7 passes and 2 expected failures (SC-07 unsigned user insertion, SC-09 cross-account signed packet). After remediation all nine must pass and the command must exit 0.
+Post-patch acceptance is defined by `tests/secure_controls.js`. On V5.4.6 it reports 7 passes and 2 expected failures (SC-07 unsigned user insertion, SC-09 cross-account signed packet). After remediation all nine must pass and the command must exit 0.
 
 ## Phase 0 — Contain public exposure (immediate)
 
@@ -64,7 +66,7 @@ Post-patch acceptance is defined by `tests/secure_controls.js`. On V4.8.6 it rep
 
 ## Verification sequence
 
-1. Run against the current V4.8.6 source: `tests/run_all.js` (41/41), `tests/phase3_tests.js` (8/8), `tests/phase4_tests.js` (20/20), `tests/poc_suite_validation.js` (60/60), `tests/independent_verification.js` (36/36), `tests/secure_controls.js` (7 pass, 2 expected failures). Current logs are in `evidence/`.
+1. Run against the current V5.4.6 source: `tests/run_all.js` (41/41), `tests/phase3_tests.js` (8/8), `tests/phase4_tests.js` (20/20), `tests/poc_suite_validation.js` (60/60), `tests/independent_verification.js` (36/36), `tests/secure_controls.js` (7 pass, 2 expected failures). Current logs are in `evidence/`.
 2. Apply a phase, rebuild, rerun: the tests mapped to that phase must fail, proving the old behavior is gone.
 3. Update each test to assert the new secure behavior, then rerun to green.
 4. Re-measure the source hash and line references after every deploy; harnesses refuse to run until `EXPECTED_SHA` is deliberately updated.

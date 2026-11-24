@@ -1,6 +1,6 @@
 # Sanitized evidence — docs/audit
 
-**Build:** V4.8.6 / SHA-256 `ffe94aea9b327853b0b8836bf0d52e1f509fcc68c007bead7b8a888604389185`  
+**Build:** V5.4.6 / SHA-256 `2dbf781e4febf2e47a78da81352227de30c4972a8f0491e4864bdb32e370f61c`  
 **Source pin:** `source-pin.txt`.  
 **Collection:** local isolated VM, captured headers and read-only channel checks only.
 
@@ -10,7 +10,7 @@
 |---|---|
 | `source-pin.txt` | Exact build identity and fetch provenance. |
 | `response-headers.txt` | HSTS, XFO, nosniff, Referrer-Policy, Permissions-Policy, wildcard CORS, absent CSP. |
-| `test-results.txt` | Main suite: 41/41 on V4.8.6, including fixed and residual assertions. |
+| `test-results.txt` | Main suite: 41/41 on V5.4.6, including fixed and residual assertions. |
 | `phase3-test-results.txt` | 8/8; weak-store mirroring, stale packets and blank wire fields. |
 | `phase4-test-results.txt` | 20/20; VIP seal chain, detector exemptions and tombstone behavior. |
 | `poc-suite-validation.txt` | 60/60; all canonical PoCs execute safely in a mock browser. |

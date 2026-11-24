@@ -1,0 +1,3015 @@
+{
+  "artifact": "frontend-recon-source-map-v5.4.6",
+  "sha256": "2dbf781e4febf2e47a78da81352227de30c4972a8f0491e4864bdb32e370f61c",
+  "bytes": 2777970,
+  "lines": 39206,
+  "title": "TRITHUC5.0 V5.4.6 — Hệ Thống Học &amp; Thi Toán THPT Trực Tuyến",
+  "version_detected": "V5.1.1",
+  "shell": {
+    "root_element": "appRoot",
+    "body_classes": "min-h-screen flex flex-col hide-author-mode",
+    "toast_element": "toastBanner",
+    "router": "none; state.view + state.adminTab + state.studentNavTab"
+  },
+  "external_dependencies": {
+    "scripts": [
+      "https://cdn.tailwindcss.com",
+      "https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js",
+      "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js",
+      "https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js",
+      "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js",
+      "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+    ],
+    "links": [
+      "https://fonts.googleapis.com",
+      "https://fonts.gstatic.com",
+      "https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,700&family=JetBrains+Mono:wght@500;600;700&display=swap"
+    ],
+    "images": [
+      "${src}",
+      "${item.solution_image.trim()}"
+    ]
+  },
+  "styling": {
+    "tailwind_cdn": true,
+    "custom_css_variables": [
+      "--primary",
+      "--primary-dark",
+      "--bg-color",
+      "--surface",
+      "--text-main",
+      "--text-muted",
+      "--border",
+      "--success",
+      "--danger",
+      "--warning",
+      "--study-fs",
+      "--study-tbl-fs",
+      "--bg-canvas",
+      "--bg-surface",
+      "--bg-elevated",
+      "--bg-subtle",
+      "--bg-hover",
+      "--text-primary",
+      "--text-secondary",
+      "--border-subtle",
+      "--border-strong",
+      "--accent",
+      "--accent-hover",
+      "--accent-soft",
+      "--accent-border",
+      "--accent-text",
+      "--success-soft",
+      "--success-border",
+      "--success-text",
+      "--warning-soft",
+      "--warning-border",
+      "--warning-text",
+      "--danger-soft",
+      "--danger-border",
+      "--danger-text",
+      "--nav-bg",
+      "--nav-border",
+      "--chap-header-bg",
+      "--chap-header-hover",
+      "--shadow-xs",
+      "--shadow-sm",
+      "--shadow-md",
+      "--radius-sm",
+      "--radius-md",
+      "--radius-lg",
+      "--radius-xl"
+    ],
+    "media_queries": [
+      "print ",
+      "(min-width: 640px) ",
+      "(min-width: 1024px) ",
+      "(min-width: 1280px) ",
+      "(max-width: 639px) ",
+      "(max-width: 767px) ",
+      "(max-width: 640px) ",
+      "(prefers-reduced-motion: reduce) ",
+      "(max-width: 1279px) ",
+      "(min-width: 768px) ",
+      "screen "
+    ],
+    "keyframes": [
+      "floatGuardMove"
+    ],
+    "font_families": [
+      "'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
+      "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace",
+      "\"Times New Roman\", Times, Georgia, serif !important",
+      "\"Times New Roman\", Times, Georgia, serif",
+      "'Be Vietnam Pro', 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif",
+      "'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace",
+      "'JetBrains Mono', 'Be Vietnam Pro', monospace !important",
+      "'Be Vietnam Pro', system-ui, sans-serif",
+      "\"Times New Roman\", Times, serif",
+      "system-ui,sans-serif",
+      "Segoe UI,Roboto,sans-serif"
+    ],
+    "breakpoint_class_counts": {
+      "sm": 412,
+      "md": 38,
+      "lg": 62,
+      "xl": 11,
+      "2xl": 0
+    },
+    "element_counts": {
+      "svg": 23,
+      "table": 34,
+      "form": 0,
+      "input": 186,
+      "select": 52,
+      "button": 540,
+      "canvas": 0,
+      "h1": 1,
+      "h2": 13,
+      "h3": 48
+    },
+    "emoji_like_glyphs": 1573,
+    "class_prefix_counts": {
+      "v5-": {
+        "v5-tabular": 15,
+        "v5-nav-btn-secondary": 8,
+        "v5-surface-card": 6,
+        "v5-nav-btn-primary": 4,
+        "v5-version-pill": 2,
+        "v5-nav-btn-admin": 2,
+        "v5-stat-chip": 2,
+        "v5-empty-state": 2,
+        "v5-theme-cycle-btn": 1,
+        "v5-theme-switcher": 1,
+        "v5-theme-btn": 1,
+        "v5-theme-label": 1,
+        "v5-brand-title": 1,
+        "v5-author-pill": 1,
+        "v5-account-pill": 1,
+        "v5-footer": 1,
+        "v5-chap-card": 1,
+        "v5-chap-header": 1,
+        "v5-chap-badge": 1,
+        "v5-chap-toggle": 1,
+        "v5-context-strip": 1,
+        "v5-kpi-card": 1,
+        "v5-podium-card": 1,
+        "v5-podium-${idx": 1,
+        "v5-empty-icon": 1
+      },
+      "v431-": {
+        "v431-navbar": 1,
+        "v431-nav-inner": 1,
+        "v431-brand-row": 1,
+        "v431-brand-box": 1,
+        "v431-logo-badge": 1,
+        "v431-curr-toolbar": 1,
+        "v431-grade-grid": 1,
+        "v431-sem-grid": 1
+      },
+      "v511-": {
+        "v511-admin-hero": 4,
+        "v511-data-card": 1,
+        "v511-data-card-header": 1,
+        "v511-admin-shell": 1,
+        "v511-admin-topbar": 1,
+        "v511-admin-mobile-tabs": 1,
+        "v511-mobile-pill": 1,
+        "v511-admin-body": 1,
+        "v511-admin-sidebar": 1,
+        "v511-nav-group-label": 1,
+        "v511-sidebar-item": 1,
+        "v511-sidebar-badge": 1,
+        "v511-admin-main": 1,
+        "v511-admin-hero-warning": 1,
+        "v511-subnav-bar": 1,
+        "v511-exam-row": 1,
+        "v511-mini-kpi-grid": 1,
+        "v511-mini-kpi": 1,
+        "v511-admin-hero-success": 1
+      },
+      "eb-": {
+        "eb-tree-row": 6,
+        "eb-exam-card": 2,
+        "eb-count": 1,
+        "eb-pill-free": 1,
+        "eb-pill-vip": 1
+      },
+      "mat-": {},
+      "gform-": {}
+    }
+  },
+  "theme_engine": {
+    "storage_key": "trithuc_theme_mode_v5",
+    "modes": [
+      "light",
+      "dark",
+      "system"
+    ],
+    "api": "window.TRITHUC_THEME",
+    "methods": [
+      "getMode",
+      "getResolved",
+      "setMode",
+      "cycleMode",
+      "onKeyDown",
+      "syncControls",
+      "renderCycleBtnHtml",
+      "renderSwitcherHtml"
+    ],
+    "root_attributes": [
+      "data-theme-mode",
+      "data-theme",
+      "class=dark",
+      "style.colorScheme"
+    ],
+    "switcher_attributes": [
+      "data-v5-theme-btn",
+      "data-v5-theme-status"
+    ]
+  },
+  "application_state": {
+    "state_object_start_line": 4932,
+    "tracked_keys": [
+      {
+        "key": "view",
+        "assignments": 52
+      },
+      {
+        "key": "adminTab",
+        "assignments": 33
+      },
+      {
+        "key": "adminUserStatusFilter",
+        "assignments": 24
+      },
+      {
+        "key": "loggedInStudent",
+        "assignments": 23
+      },
+      {
+        "key": "examDisplayStyle",
+        "assignments": 16
+      },
+      {
+        "key": "currentQIndex",
+        "assignments": 14
+      },
+      {
+        "key": "activityLogs",
+        "assignments": 11
+      },
+      {
+        "key": "googleFormConfig",
+        "assignments": 10
+      },
+      {
+        "key": "hasNewPendingRegistration",
+        "assignments": 10
+      },
+      {
+        "key": "pendingExam",
+        "assignments": 10
+      },
+      {
+        "key": "showStudentLoginModal",
+        "assignments": 10
+      },
+      {
+        "key": "users",
+        "assignments": 10
+      },
+      {
+        "key": "adminUserClassFilter",
+        "assignments": 9
+      },
+      {
+        "key": "examCloudSyncStatus",
+        "assignments": 9
+      },
+      {
+        "key": "isAdminLoggedIn",
+        "assignments": 9
+      },
+      {
+        "key": "savedStudentCreds",
+        "assignments": 9
+      },
+      {
+        "key": "simulatedDeviceSlot",
+        "assignments": 9
+      },
+      {
+        "key": "studentNavTab",
+        "assignments": 9
+      },
+      {
+        "key": "adminResultExamFilter",
+        "assignments": 8
+      },
+      {
+        "key": "gridFilter",
+        "assignments": 8
+      },
+      {
+        "key": "semesterFilter",
+        "assignments": 8
+      },
+      {
+        "key": "studentAuthMode",
+        "assignments": 8
+      },
+      {
+        "key": "adminResultSourceFilter",
+        "assignments": 7
+      },
+      {
+        "key": "editingLessonModalId",
+        "assignments": 7
+      },
+      {
+        "key": "examSidebarOpen",
+        "assignments": 7
+      },
+      {
+        "key": "history",
+        "assignments": 7
+      },
+      {
+        "key": "isReviewMode",
+        "assignments": 7
+      },
+      {
+        "key": "lastDeletedUsersBackup",
+        "assignments": 7
+      },
+      {
+        "key": "reviewReturnView",
+        "assignments": 7
+      },
+      {
+        "key": "showVaultUnlockModal",
+        "assignments": 7
+      },
+      {
+        "key": "studentDeviceSecurityModalOpen",
+        "assignments": 7
+      },
+      {
+        "key": "studentRegSuccessMsg",
+        "assignments": 7
+      },
+      {
+        "key": "studyFontSize",
+        "assignments": 7
+      },
+      {
+        "key": "adminResultGradeFilter",
+        "assignments": 6
+      },
+      {
+        "key": "adminResultLessonFilter",
+        "assignments": 6
+      },
+      {
+        "key": "deletedUsersMap",
+        "assignments": 6
+      },
+      {
+        "key": "loginDraft",
+        "assignments": 6
+      },
+      {
+        "key": "savedAdminCreds",
+        "assignments": 6
+      },
+      {
+        "key": "teacherDeviceAlertsV543",
+        "assignments": 6
+      },
+      {
+        "key": "adminGradeFilter",
+        "assignments": 5
+      },
+      {
+        "key": "adminLastActiveTs",
+        "assignments": 5
+      },
+      {
+        "key": "adminPreviewUnlockAll",
+        "assignments": 5
+      },
+      {
+        "key": "adminResultSortBy",
+        "assignments": 5
+      },
+      {
+        "key": "adminUsersSubView",
+        "assignments": 5
+      },
+      {
+        "key": "ans",
+        "assignments": 5
+      },
+      {
+        "key": "exams",
+        "assignments": 5
+      },
+      {
+        "key": "lockedPromptContext",
+        "assignments": 5
+      },
+      {
+        "key": "loginTargetExamId",
+        "assignments": 5
+      },
+      {
+        "key": "reviewingAttempt",
+        "assignments": 5
+      },
+      {
+        "key": "selectedAdminUserIds",
+        "assignments": 5
+      },
+      {
+        "key": "showViolationOverlay",
+        "assignments": 5
+      },
+      {
+        "key": "adminLoginFailedAttempts",
+        "assignments": 4
+      },
+      {
+        "key": "adminLoginLockUntil",
+        "assignments": 4
+      },
+      {
+        "key": "adminRememberMe",
+        "assignments": 4
+      },
+      {
+        "key": "cloudSyncStatus",
+        "assignments": 4
+      },
+      {
+        "key": "customAddingSimilarKey",
+        "assignments": 4
+      },
+      {
+        "key": "deletedAttemptIds",
+        "assignments": 4
+      },
+      {
+        "key": "deviceBlockedModalInfo",
+        "assignments": 4
+      },
+      {
+        "key": "editingRealWorldModal",
+        "assignments": 4
+      },
+      {
+        "key": "entryPassword",
+        "assignments": 4
+      },
+      {
+        "key": "gformSyncStats",
+        "assignments": 4
+      },
+      {
+        "key": "hideAuthorInfo",
+        "assignments": 4
+      },
+      {
+        "key": "pendingVaultCallbackAction",
+        "assignments": 4
+      },
+      {
+        "key": "regPackages",
+        "assignments": 4
+      },
+      {
+        "key": "showConfirmSubmitModal",
+        "assignments": 4
+      },
+      {
+        "key": "stuRememberMe",
+        "assignments": 4
+      },
+      {
+        "key": "timeLeft",
+        "assignments": 4
+      },
+      {
+        "key": "activeGrade",
+        "assignments": 3
+      },
+      {
+        "key": "blacklistedDeviceIds",
+        "assignments": 3
+      },
+      {
+        "key": "editingMetaExamId",
+        "assignments": 3
+      },
+      {
+        "key": "lastCloudSyncTs",
+        "assignments": 3
+      },
+      {
+        "key": "lastExamCloudSyncTs",
+        "assignments": 3
+      },
+      {
+        "key": "lightboxScale",
+        "assignments": 3
+      },
+      {
+        "key": "quickPasswordExamId",
+        "assignments": 3
+      },
+      {
+        "key": "regDraft",
+        "assignments": 3
+      },
+      {
+        "key": "regDurationPlan",
+        "assignments": 3
+      },
+      {
+        "key": "showFullSolutionModal",
+        "assignments": 3
+      },
+      {
+        "key": "showShareVipLinkModal",
+        "assignments": 3
+      },
+      {
+        "key": "viewingStudentHistoryId",
+        "assignments": 3
+      },
+      {
+        "key": "_pendingBgRenderV521",
+        "assignments": 2
+      },
+      {
+        "key": "adminCreds",
+        "assignments": 2
+      },
+      {
+        "key": "adminLessonExpandedChapters",
+        "assignments": 2
+      },
+      {
+        "key": "adminManageDeviceUserId",
+        "assignments": 2
+      },
+      {
+        "key": "adminResultStudentSearch",
+        "assignments": 2
+      },
+      {
+        "key": "adminResultSubTab",
+        "assignments": 2
+      },
+      {
+        "key": "adminUserGroupByClassV544",
+        "assignments": 2
+      },
+      {
+        "key": "aiSuspicionCount",
+        "assignments": 2
+      },
+      {
+        "key": "deviceSecurityPolicy",
+        "assignments": 2
+      },
+      {
+        "key": "editingAnswerExamId",
+        "assignments": 2
+      },
+      {
+        "key": "editingLessonForm",
+        "assignments": 2
+      },
+      {
+        "key": "examBankUI",
+        "assignments": 2
+      },
+      {
+        "key": "examEndAtMs",
+        "assignments": 2
+      },
+      {
+        "key": "expandedChapters",
+        "assignments": 2
+      },
+      {
+        "key": "expandedLessonCards",
+        "assignments": 2
+      },
+      {
+        "key": "expandedMathTypes",
+        "assignments": 2
+      },
+      {
+        "key": "flaggedQuestions",
+        "assignments": 2
+      },
+      {
+        "key": "lastSubmitResult",
+        "assignments": 2
+      },
+      {
+        "key": "leaderboardModalExamId",
+        "assignments": 2
+      },
+      {
+        "key": "matrixFilter",
+        "assignments": 2
+      },
+      {
+        "key": "matrixLevelFilter",
+        "assignments": 2
+      },
+      {
+        "key": "perfConfig",
+        "assignments": 2
+      },
+      {
+        "key": "realWorldChapterFilter",
+        "assignments": 2
+      },
+      {
+        "key": "selectedExam",
+        "assignments": 2
+      },
+      {
+        "key": "studentHistoryModalTab",
+        "assignments": 2
+      },
+      {
+        "key": "tabSwitches",
+        "assignments": 2
+      },
+      {
+        "key": "vaultLockConfig",
+        "assignments": 2
+      },
+      {
+        "key": "vipClassesV544",
+        "assignments": 2
+      },
+      {
+        "key": "vipHackAlerts",
+        "assignments": 2
+      },
+      {
+        "key": "activeExampleIdx",
+        "assignments": 1
+      },
+      {
+        "key": "adminActivityFilter",
+        "assignments": 1
+      },
+      {
+        "key": "adminExamSearch",
+        "assignments": 1
+      },
+      {
+        "key": "adminHeaderCollapsed",
+        "assignments": 1
+      },
+      {
+        "key": "adminLessonGradeFilter",
+        "assignments": 1
+      },
+      {
+        "key": "adminResultCompareAxis",
+        "assignments": 1
+      },
+      {
+        "key": "adminUserCreateDrawerOpenV544",
+        "assignments": 1
+      },
+      {
+        "key": "adminUserSearchV544",
+        "assignments": 1
+      },
+      {
+        "key": "aiSuspicionReasons",
+        "assignments": 1
+      },
+      {
+        "key": "bankCategoryFilter",
+        "assignments": 1
+      },
+      {
+        "key": "currentDeviceProfile",
+        "assignments": 1
+      },
+      {
+        "key": "embedTargetExamId",
+        "assignments": 1
+      },
+      {
+        "key": "hiddenExampleSol",
+        "assignments": 1
+      },
+      {
+        "key": "lastResultSyncOkV475",
+        "assignments": 1
+      },
+      {
+        "key": "lastResultSyncStatusV475",
+        "assignments": 1
+      },
+      {
+        "key": "lastViolationReason",
+        "assignments": 1
+      },
+      {
+        "key": "lastVipSyncOkV521",
+        "assignments": 1
+      },
+      {
+        "key": "lastVipSyncStatusV521",
+        "assignments": 1
+      },
+      {
+        "key": "matrixGroupPageV546",
+        "assignments": 1
+      },
+      {
+        "key": "partAMastered",
+        "assignments": 1
+      },
+      {
+        "key": "partARecallMode",
+        "assignments": 1
+      },
+      {
+        "key": "publicExamGuestInfo",
+        "assignments": 1
+      },
+      {
+        "key": "realWorldGradeFilter",
+        "assignments": 1
+      },
+      {
+        "key": "realWorldSearch",
+        "assignments": 1
+      },
+      {
+        "key": "searchQuery",
+        "assignments": 1
+      },
+      {
+        "key": "shareLinkConfig",
+        "assignments": 1
+      },
+      {
+        "key": "showGitHubSyncPanelV473",
+        "assignments": 1
+      },
+      {
+        "key": "startTime",
+        "assignments": 1
+      }
+    ],
+    "modal_and_open_flags": [
+      "examDisplayStyle",
+      "hasNewPendingRegistration",
+      "showStudentLoginModal",
+      "isAdminLoggedIn",
+      "editingLessonModalId",
+      "examSidebarOpen",
+      "history",
+      "isReviewMode",
+      "showVaultUnlockModal",
+      "studentDeviceSecurityModalOpen",
+      "showViolationOverlay",
+      "deviceBlockedModalInfo",
+      "editingRealWorldModal",
+      "showConfirmSubmitModal",
+      "blacklistedDeviceIds",
+      "showFullSolutionModal",
+      "showShareVipLinkModal",
+      "viewingStudentHistoryId",
+      "aiSuspicionCount",
+      "leaderboardModalExamId",
+      "studentHistoryModalTab",
+      "adminUserCreateDrawerOpenV544",
+      "aiSuspicionReasons",
+      "showGitHubSyncPanelV473"
+    ]
+  },
+  "views": {
+    "assignment_count": 23,
+    "known_views": [
+      "studentHome",
+      "result",
+      "admin",
+      "doing"
+    ],
+    "assignments": [
+      {
+        "line": 4092,
+        "view": "studentHome",
+        "function": "if",
+        "source": "state.view = 'studentHome';"
+      },
+      {
+        "line": 30910,
+        "view": "result",
+        "function": "if",
+        "source": "state.view = 'result';"
+      },
+      {
+        "line": 33806,
+        "view": "studentHome",
+        "function": "goStudentHome",
+        "source": "state.view = 'studentHome';"
+      },
+      {
+        "line": 33812,
+        "view": "studentHome",
+        "function": "switchStudentNav",
+        "source": "state.view = 'studentHome';"
+      },
+      {
+        "line": 33826,
+        "view": "studentHome",
+        "function": "openOuterLuyenDe12V464",
+        "source": "state.view = 'studentHome';"
+      },
+      {
+        "line": 33834,
+        "view": "studentHome",
+        "function": "openExamBankMock12V464",
+        "source": "state.view = 'studentHome';"
+      },
+      {
+        "line": 34587,
+        "view": "admin",
+        "function": "if",
+        "source": "state.view = 'admin';"
+      },
+      {
+        "line": 34759,
+        "view": "admin",
+        "function": "openAdminUsersApprovalDirectly",
+        "source": "state.view = 'admin';"
+      },
+      {
+        "line": 35342,
+        "view": "studentHome",
+        "function": "if",
+        "source": "state.view = 'studentHome';"
+      },
+      {
+        "line": 35671,
+        "view": "doing",
+        "function": "if",
+        "source": "state.view = 'doing';"
+      },
+      {
+        "line": 35694,
+        "view": "studentHome",
+        "function": "if",
+        "source": "state.view = 'studentHome';"
+      },
+      {
+        "line": 35899,
+        "view": "doing",
+        "function": "enterV97ReviewMode",
+        "source": "state.view = 'doing';"
+      },
+      {
+        "line": 35907,
+        "view": "doing",
+        "function": "enterV97ReviewAtQuestion",
+        "source": "state.view = 'doing';"
+      },
+      {
+        "line": 35957,
+        "view": "doing",
+        "function": "if",
+        "source": "state.view = 'doing';"
+      },
+      {
+        "line": 36039,
+        "view": "admin",
+        "function": "openAdminPortal",
+        "source": "state.view = 'admin';"
+      },
+      {
+        "line": 36148,
+        "view": "studentHome",
+        "function": "logoutAdmin",
+        "source": "state.view = 'studentHome';"
+      },
+      {
+        "line": 36161,
+        "view": "admin",
+        "function": "openUsersTabFromVipPopupV523",
+        "source": "state.view = 'admin';"
+      },
+      {
+        "line": 36180,
+        "view": "admin",
+        "function": "openDeviceAlertsInUsersTabV543",
+        "source": "state.view = 'admin';"
+      },
+      {
+        "line": 36755,
+        "view": "studentHome",
+        "function": "loginAsStudentForTesting",
+        "source": "state.view = 'studentHome';"
+      },
+      {
+        "line": 36892,
+        "view": "admin",
+        "function": "if",
+        "source": "state.view = 'admin';"
+      },
+      {
+        "line": 36924,
+        "view": "admin",
+        "function": "if",
+        "source": "state.view = 'admin';"
+      },
+      {
+        "line": 37293,
+        "view": "admin",
+        "function": "quickAttachExamToLesson",
+        "source": "state.view = 'admin';"
+      },
+      {
+        "line": 37348,
+        "view": "admin",
+        "function": "if",
+        "source": "state.view = 'admin';"
+      }
+    ]
+  },
+  "navigation": {
+    "admin_tab_assignments": [
+      {
+        "line": 31900,
+        "tab": "create",
+        "function": "if"
+      },
+      {
+        "line": 32578,
+        "tab": "matrix_builder",
+        "function": "if"
+      },
+      {
+        "line": 33243,
+        "tab": "exams",
+        "function": "publishBatchExamsToSystemV50"
+      },
+      {
+        "line": 33429,
+        "tab": "exams",
+        "function": "if"
+      },
+      {
+        "line": 33626,
+        "tab": "sync_mock_to_e",
+        "function": "if"
+      },
+      {
+        "line": 34586,
+        "tab": "create",
+        "function": "if"
+      },
+      {
+        "line": 34753,
+        "tab": "users",
+        "function": "openAdminUsersApprovalDirectly"
+      },
+      {
+        "line": 35104,
+        "tab": "users",
+        "function": "if"
+      },
+      {
+        "line": 36032,
+        "tab": "users",
+        "function": "openAdminPortal"
+      },
+      {
+        "line": 36162,
+        "tab": "users",
+        "function": "openUsersTabFromVipPopupV523"
+      },
+      {
+        "line": 36181,
+        "tab": "users",
+        "function": "openDeviceAlertsInUsersTabV543"
+      },
+      {
+        "line": 36891,
+        "tab": "lessons",
+        "function": "if"
+      },
+      {
+        "line": 36923,
+        "tab": "lessons",
+        "function": "if"
+      },
+      {
+        "line": 37292,
+        "tab": "create",
+        "function": "quickAttachExamToLesson"
+      },
+      {
+        "line": 37301,
+        "tab": "results",
+        "function": "viewExamResultsInAdmin"
+      },
+      {
+        "line": 37887,
+        "tab": "exams",
+        "function": "if"
+      },
+      {
+        "line": 38408,
+        "tab": "exams",
+        "function": "if"
+      }
+    ],
+    "student_tab_assignments": [
+      {
+        "line": 12577,
+        "tab": "curriculum",
+        "function": "if"
+      },
+      {
+        "line": 33827,
+        "tab": "curriculum",
+        "function": "openOuterLuyenDe12V464"
+      },
+      {
+        "line": 33835,
+        "tab": "examBank",
+        "function": "openExamBankMock12V464"
+      }
+    ],
+    "onclick_entries_sample": [
+      {
+        "line": 138,
+        "handler": "window.TRITHUC_THEME.cycleMode()"
+      },
+      {
+        "line": 152,
+        "handler": "window.TRITHUC_THEME.setMode(\\"
+      },
+      {
+        "line": 3258,
+        "handler": "window.TRITHUC.dismissIdleBlurBanner()"
+      },
+      {
+        "line": 3269,
+        "handler": "window.TRITHUC.closeLightbox()"
+      },
+      {
+        "line": 3270,
+        "handler": "event.stopPropagation()"
+      },
+      {
+        "line": 3271,
+        "handler": "window.TRITHUC.zoomLightbox(-0.2)"
+      },
+      {
+        "line": 3272,
+        "handler": "window.TRITHUC.zoomLightbox(0)"
+      },
+      {
+        "line": 3273,
+        "handler": "window.TRITHUC.zoomLightbox(0.2)"
+      },
+      {
+        "line": 3274,
+        "handler": "window.TRITHUC.closeLightbox()"
+      },
+      {
+        "line": 3276,
+        "handler": "event.stopPropagation()"
+      },
+      {
+        "line": 4545,
+        "handler": "window.TRITHUC.dismissDeviceAlertPopupV543()"
+      },
+      {
+        "line": 4557,
+        "handler": "window.TRITHUC.approveSecondDeviceFromAlertV544("
+      },
+      {
+        "line": 4561,
+        "handler": "window.TRITHUC.kickSecondDeviceFromAlertV543("
+      },
+      {
+        "line": 4565,
+        "handler": "window.TRITHUC.lockStudentFromDeviceAlertV543("
+      },
+      {
+        "line": 4570,
+        "handler": "window.TRITHUC.lockStudentFromDeviceAlertV543("
+      },
+      {
+        "line": 4574,
+        "handler": "window.TRITHUC.acknowledgeDeviceAlertV544("
+      },
+      {
+        "line": 5397,
+        "handler": "window.TRITHUC.fn("
+      },
+      {
+        "line": 9325,
+        "handler": "window.TRITHUC.dismissLiveVipPopupV523()"
+      },
+      {
+        "line": 9333,
+        "handler": "window.TRITHUC.quickApproveVipFromPopupV523("
+      },
+      {
+        "line": 9337,
+        "handler": "window.TRITHUC.openUsersTabFromVipPopupV523()"
+      },
+      {
+        "line": 12019,
+        "handler": "window.TRITHUC.showMoreSimilarProblem("
+      },
+      {
+        "line": 12025,
+        "handler": "window.TRITHUC.hideSimilarProblems("
+      },
+      {
+        "line": 12030,
+        "handler": "window.TRITHUC.toggleAddCustomSimilarForm("
+      },
+      {
+        "line": 12042,
+        "handler": "window.TRITHUC.toggleAddCustomSimilarForm(null)"
+      },
+      {
+        "line": 12071,
+        "handler": "window.TRITHUC.saveCustomSimilarProblem("
+      },
+      {
+        "line": 12110,
+        "handler": "window.TRITHUC.selectLessonPracticeAns("
+      },
+      {
+        "line": 12118,
+        "handler": "window.TRITHUC.togglePracticeSolution("
+      },
+      {
+        "line": 12123,
+        "handler": "window.TRITHUC.showMoreSimilarProblem("
+      },
+      {
+        "line": 12158,
+        "handler": "window.TRITHUC.openAddRealWorldModal("
+      },
+      {
+        "line": 12168,
+        "handler": "window.TRITHUC.openAddRealWorldModal("
+      },
+      {
+        "line": 12190,
+        "handler": "window.TRITHUC.openEditRealWorldModal("
+      },
+      {
+        "line": 12208,
+        "handler": "window.TRITHUC.togglePracticeSolution("
+      },
+      {
+        "line": 12264,
+        "handler": "window.TRITHUC.openAddRealWorldModal("
+      },
+      {
+        "line": 12278,
+        "handler": "window.TRITHUC.setRealWorldGradeFilter("
+      },
+      {
+        "line": 12318,
+        "handler": "window.TRITHUC.openEditRealWorldModal("
+      },
+      {
+        "line": 12337,
+        "handler": "window.TRITHUC.togglePracticeSolution("
+      },
+      {
+        "line": 12366,
+        "handler": "if(event.target===this) window.TRITHUC.closeEditRealWorldModal()"
+      },
+      {
+        "line": 12377,
+        "handler": "window.TRITHUC.closeEditRealWorldModal()"
+      },
+      {
+        "line": 12424,
+        "handler": "window.TRITHUC.closeEditRealWorldModal()"
+      },
+      {
+        "line": 12425,
+        "handler": "window.TRITHUC.saveRealWorldModal()"
+      },
+      {
+        "line": 12449,
+        "handler": "window.TRITHUC.switchStudentNav("
+      },
+      {
+        "line": 12470,
+        "handler": "window.TRITHUC.openShareVipLinkModal()"
+      },
+      {
+        "line": 12476,
+        "handler": "window.TRITHUC.openAdminPortal()"
+      },
+      {
+        "line": 12491,
+        "handler": "window.TRITHUC.switchStudentNav("
+      },
+      {
+        "line": 12507,
+        "handler": "window.TRITHUC.openStudentDeviceSecurityModal()"
+      },
+      {
+        "line": 12514,
+        "handler": "window.TRITHUC.openStudentDeviceSecurityModal()"
+      },
+      {
+        "line": 12520,
+        "handler": "window.TRITHUC.openStudentHistoryModal("
+      },
+      {
+        "line": 12527,
+        "handler": "window.TRITHUC.openLockedCourseModal("
+      },
+      {
+        "line": 12534,
+        "handler": "window.TRITHUC.logoutStudent()"
+      },
+      {
+        "line": 12540,
+        "handler": "window.TRITHUC.logoutStudent()"
+      },
+      {
+        "line": 12545,
+        "handler": "window.TRITHUC.openStudentLoginModal(null,"
+      },
+      {
+        "line": 12550,
+        "handler": "window.TRITHUC.openStudentLoginModal(null,"
+      },
+      {
+        "line": 12557,
+        "handler": "window.TRITHUC.openShareVipLinkModal()"
+      },
+      {
+        "line": 12564,
+        "handler": "window.TRITHUC.openAdminPortal()"
+      },
+      {
+        "line": 12600,
+        "handler": "window.TRITHUC.toggleHideAuthorInfo()"
+      },
+      {
+        "line": 12604,
+        "handler": "window.TRITHUC.toggleAdminPreviewUnlockAll()"
+      },
+      {
+        "line": 12608,
+        "handler": "window.TRITHUC.openAdminPortal()"
+      },
+      {
+        "line": 12626,
+        "handler": "window.TRITHUC.switchStudentNav("
+      },
+      {
+        "line": 12628,
+        "handler": "window.TRITHUC.switchStudentNav("
+      },
+      {
+        "line": 12630,
+        "handler": "window.TRITHUC.switchStudentNav("
+      },
+      {
+        "line": 12678,
+        "handler": "if(event.target===this) window.TRITHUC.closeShareVipLinkModal()"
+      },
+      {
+        "line": 12692,
+        "handler": "window.TRITHUC.closeShareVipLinkModal()"
+      },
+      {
+        "line": 12733,
+        "handler": "window.TRITHUC.copyShareVipUrlOnly()"
+      },
+      {
+        "line": 12745,
+        "handler": "window.TRITHUC.testOpenVipRegistrationFromLink()"
+      },
+      {
+        "line": 12749,
+        "handler": "window.TRITHUC.copyShareVipFullMessage()"
+      },
+      {
+        "line": 12774,
+        "handler": "window.TRITHUC.setRegDurationPlan("
+      },
+      {
+        "line": 12785,
+        "handler": "if(event.target===this) window.TRITHUC.closeStudentLoginModal()"
+      },
+      {
+        "line": 12801,
+        "handler": "window.TRITHUC.closeStudentLoginModal()"
+      },
+      {
+        "line": 12817,
+        "handler": "window.TRITHUC.switchStudentAuthMode("
+      },
+      {
+        "line": 12821,
+        "handler": "window.TRITHUC.switchStudentAuthMode("
+      },
+      {
+        "line": 12842,
+        "handler": "window.TRITHUC.retryStudentVipSyncV521()"
+      },
+      {
+        "line": 12848,
+        "handler": "window.TRITHUC.openAdminUsersApprovalDirectly()"
+      },
+      {
+        "line": 12853,
+        "handler": "window.TRITHUC.closeStudentLoginModal()"
+      },
+      {
+        "line": 12870,
+        "handler": "window.TRITHUC.checkStudentCloudApprovalNow()"
+      },
+      {
+        "line": 12875,
+        "handler": "window.TRITHUC.logoutStudent()"
+      },
+      {
+        "line": 12930,
+        "handler": "window.TRITHUC.closeStudentLoginModal()"
+      },
+      {
+        "line": 12934,
+        "handler": "window.TRITHUC.submitStudentVipUpgradeRequest()"
+      },
+      {
+        "line": 12948,
+        "handler": "window.TRITHUC.quickLoginRememberedStudent()"
+      },
+      {
+        "line": 12969,
+        "handler": "window.TRITHUC.setSimulatedDeviceSlot("
+      },
+      {
+        "line": 12973,
+        "handler": "window.TRITHUC.setSimulatedDeviceSlot("
+      },
+      {
+        "line": 12977,
+        "handler": "window.TRITHUC.setSimulatedDeviceSlot("
+      },
+      {
+        "line": 13000,
+        "handler": "const el=document.getElementById("
+      },
+      {
+        "line": 13020,
+        "handler": "window.TRITHUC.clearSavedStudentCreds()"
+      },
+      {
+        "line": 13029,
+        "handler": "window.TRITHUC.switchStudentAuthMode("
+      },
+      {
+        "line": 13033,
+        "handler": "window.TRITHUC.closeStudentLoginModal()"
+      },
+      {
+        "line": 13037,
+        "handler": "window.TRITHUC.submitStudentLogin()"
+      },
+      {
+        "line": 13135,
+        "handler": "window.TRITHUC.closeStudentLoginModal()"
+      },
+      {
+        "line": 13139,
+        "handler": "window.TRITHUC.submitStudentRegistration()"
+      },
+      {
+        "line": 13156,
+        "handler": "if(event.target===this) window.TRITHUC.closeDeviceBlockedModal()"
+      },
+      {
+        "line": 13172,
+        "handler": "window.TRITHUC.closeDeviceBlockedModal()"
+      },
+      {
+        "line": 13221,
+        "handler": "window.TRITHUC.closeDeviceBlockedModal()"
+      },
+      {
+        "line": 13225,
+        "handler": "window.TRITHUC.submitStudentDeviceResetRequest("
+      },
+      {
+        "line": 13249,
+        "handler": "if(event.target===this) window.TRITHUC.closeStudentDeviceSecurityModal()"
+      },
+      {
+        "line": 13259,
+        "handler": "window.TRITHUC.closeStudentDeviceSecurityModal()"
+      },
+      {
+        "line": 13301,
+        "handler": "window.TRITHUC.submitStudentDeviceResetRequest("
+      },
+      {
+        "line": 13309,
+        "handler": "window.TRITHUC.logoutStudent()"
+      },
+      {
+        "line": 13314,
+        "handler": "window.TRITHUC.closeStudentDeviceSecurityModal()"
+      },
+      {
+        "line": 13333,
+        "handler": "if(event.target===this) window.TRITHUC.closeAdminManageDeviceModal()"
+      },
+      {
+        "line": 13342,
+        "handler": "window.TRITHUC.closeAdminManageDeviceModal()"
+      },
+      {
+        "line": 13351,
+        "handler": "window.TRITHUC.adminSaveStudentGmail("
+      },
+      {
+        "line": 13366,
+        "handler": "window.TRITHUC.adminResetStudentDevices("
+      },
+      {
+        "line": 13381,
+        "handler": "window.TRITHUC.adminApproveDeviceResetRequest("
+      },
+      {
+        "line": 13417,
+        "handler": "window.TRITHUC.approveSecondDeviceFromAlertV544("
+      },
+      {
+        "line": 13422,
+        "handler": "window.TRITHUC.adminRemoveSingleDevice("
+      },
+      {
+        "line": 13437,
+        "handler": "window.TRITHUC.adminClearDeviceViolations("
+      },
+      {
+        "line": 13463,
+        "handler": "window.TRITHUC.closeAdminManageDeviceModal()"
+      },
+      {
+        "line": 15078,
+        "handler": "window.TRITHUC.toggleAiStepExplain("
+      },
+      {
+        "line": 15100,
+        "handler": "window.TRITHUC.askAiAboutStep("
+      },
+      {
+        "line": 15104,
+        "handler": "window.TRITHUC.askAiAboutStep("
+      },
+      {
+        "line": 15108,
+        "handler": "window.TRITHUC.askAiAboutStep("
+      },
+      {
+        "line": 15112,
+        "handler": "window.TRITHUC.askAiAboutStep("
+      },
+      {
+        "line": 15124,
+        "handler": "window.TRITHUC.askAiAboutStep("
+      },
+      {
+        "line": 15209,
+        "handler": "window.TRITHUC.toggleMatrixItemCheck("
+      },
+      {
+        "line": 15213,
+        "handler": "event.stopPropagation(); window.TRITHUC.toggleMatrixItemCheck("
+      },
+      {
+        "line": 15239,
+        "handler": "window.TRITHUC.togglePracticeSolution("
+      },
+      {
+        "line": 15260,
+        "handler": "window.TRITHUC.selectLessonPracticeAns("
+      },
+      {
+        "line": 15276,
+        "handler": "window.TRITHUC.selectLessonPracticeAns("
+      },
+      {
+        "line": 15280,
+        "handler": "window.TRITHUC.selectLessonPracticeAns("
+      },
+      {
+        "line": 15298,
+        "handler": "window.TRITHUC.checkLessonPracticeShort("
+      },
+      {
+        "line": 15342,
+        "handler": "window.TRITHUC.generateSimilarForExercise("
+      },
+      {
+        "line": 15347,
+        "handler": "window.TRITHUC.togglePracticeSolution("
+      },
+      {
+        "line": 15369,
+        "handler": "window.TRITHUC.selectLessonPracticeAns("
+      },
+      {
+        "line": 15385,
+        "handler": "window.TRITHUC.selectLessonPracticeAns("
+      },
+      {
+        "line": 15389,
+        "handler": "window.TRITHUC.selectLessonPracticeAns("
+      },
+      {
+        "line": 15407,
+        "handler": "window.TRITHUC.checkLessonPracticeShort("
+      },
+      {
+        "line": 15488,
+        "handler": "window.TRITHUC.selectWorkedExample("
+      },
+      {
+        "line": 15504,
+        "handler": "window.TRITHUC.toggleWorkedExampleSol("
+      },
+      {
+        "line": 15537,
+        "handler": "window.TRITHUC.togglePracticeSolution("
+      },
+      {
+        "line": 15615,
+        "handler": "window.TRITHUC.toggleAllMatrixItemsInLesson("
+      },
+      {
+        "line": 15630,
+        "handler": "window.TRITHUC.startCustomMatrixExam("
+      },
+      {
+        "line": 15635,
+        "handler": "window.TRITHUC.startCustomMatrixExam("
+      },
+      {
+        "line": 15640,
+        "handler": "window.TRITHUC.startCustomMatrixExam("
+      },
+      {
+        "line": 15646,
+        "handler": "window.TRITHUC.startCustomMatrixExam("
+      },
+      {
+        "line": 15665,
+        "handler": "window.TRITHUC.setMatrixFilter("
+      },
+      {
+        "line": 15679,
+        "handler": "window.TRITHUC.setMatrixLevelFilter("
+      },
+      {
+        "line": 15691,
+        "handler": "window.TRITHUC.toggleMatrixTreeBranch("
+      },
+      {
+        "line": 15695,
+        "handler": "event.stopPropagation(); window.TRITHUC.toggleAllMatrixItemsInLesson("
+      },
+      {
+        "line": 15717,
+        "handler": "window.TRITHUC.toggleMatrixTreeBranch("
+      },
+      {
+        "line": 15721,
+        "handler": "event.stopPropagation(); window.TRITHUC.toggleMatrixCategoryCheck("
+      },
+      {
+        "line": 15751,
+        "handler": "window.TRITHUC.setMatrixGroupPageV546("
+      },
+      {
+        "line": 15753,
+        "handler": "window.TRITHUC.setMatrixGroupPageV546("
+      },
+      {
+        "line": 15758,
+        "handler": "window.TRITHUC.setMatrixGroupPageV546("
+      },
+      {
+        "line": 15799,
+        "handler": "window.TRITHUC.setLessonSubTab("
+      },
+      {
+        "line": 15808,
+        "handler": "window.TRITHUC.openLockedCourseModal("
+      },
+      {
+        "line": 15818,
+        "handler": "window.TRITHUC.openEditLessonModal("
+      },
+      {
+        "line": 15843,
+        "handler": "window.TRITHUC.togglePartARecall("
+      },
+      {
+        "line": 15849,
+        "handler": "window.TRITHUC.setStudyFontSize("
+      },
+      {
+        "line": 15850,
+        "handler": "window.TRITHUC.setStudyFontSize("
+      },
+      {
+        "line": 15851,
+        "handler": "window.TRITHUC.setStudyFontSize("
+      },
+      {
+        "line": 15854,
+        "handler": "window.TRITHUC.togglePartAMastered("
+      },
+      {
+        "line": 15860,
+        "handler": "if(this.classList.contains("
+      },
+      {
+        "line": 15881,
+        "handler": "window.TRITHUC.openLockedCourseModal("
+      },
+      {
+        "line": 15903,
+        "handler": "window.TRITHUC.toggleMathTypeCard("
+      },
+      {
+        "line": 15909,
+        "handler": "window.TRITHUC.toggleAllMathTypes("
+      },
+      {
+        "line": 15922,
+        "handler": "window.TRITHUC.toggleMathTypeCard("
+      },
+      {
+        "line": 15999,
+        "handler": "window.TRITHUC.openLockedCourseModal("
+      },
+      {
+        "line": 16038,
+        "handler": "window.TRITHUC.selectLessonPracticeAns("
+      },
+      {
+        "line": 16046,
+        "handler": "window.TRITHUC.togglePracticeSolution("
+      },
+      {
+        "line": 16086,
+        "handler": "window.TRITHUC.selectLessonPracticeAns("
+      },
+      {
+        "line": 16090,
+        "handler": "window.TRITHUC.selectLessonPracticeAns("
+      },
+      {
+        "line": 16104,
+        "handler": "window.TRITHUC.togglePracticeSolution("
+      },
+      {
+        "line": 16138,
+        "handler": "window.TRITHUC.checkLessonPracticeShort("
+      },
+      {
+        "line": 16166,
+        "handler": "window.TRITHUC.quickAttachExamToLesson("
+      },
+      {
+        "line": 16212,
+        "handler": "window.TRITHUC.toggleExamPublicUnlock("
+      },
+      {
+        "line": 16218,
+        "handler": "window.TRITHUC.openExamLeaderboardModal("
+      },
+      {
+        "line": 16224,
+        "handler": "window.TRITHUC.openLockedCourseModal("
+      },
+      {
+        "line": 16230,
+        "handler": "window.TRITHUC.openEntryModal("
+      },
+      {
+        "line": 16250,
+        "handler": "window.TRITHUC.openLockedCourseModal("
+      },
+      {
+        "line": 16292,
+        "handler": "window.TRITHUC.toggleLessonCardOpen("
+      },
+      {
+        "line": 16300,
+        "handler": "event.stopPropagation(); window.TRITHUC.onClickLessonLock("
+      },
+      {
+        "line": 16331,
+        "handler": "event.stopPropagation()"
+      },
+      {
+        "line": 16332,
+        "handler": "window.TRITHUC.toggleLessonCardOpen("
+      },
+      {
+        "line": 16336,
+        "handler": "window.TRITHUC.openLessonExamSection("
+      },
+      {
+        "line": 16340,
+        "handler": "window.TRITHUC.quickAttachExamToLesson("
+      },
+      {
+        "line": 16344,
+        "handler": "window.TRITHUC.openEditLessonModal("
+      },
+      {
+        "line": 16483,
+        "handler": "window.TRITHUC.openOuterLuyenDe12V464()"
+      },
+      {
+        "line": 16494,
+        "handler": "window.TRITHUC.setSemesterFilter("
+      },
+      {
+        "line": 16505,
+        "handler": "window.TRITHUC.selectGrade("
+      },
+      {
+        "line": 16517,
+        "handler": "window.TRITHUC.toggleAllChapters(true)"
+      },
+      {
+        "line": 16523,
+        "handler": "window.TRITHUC.toggleAllChapters(false)"
+      },
+      {
+        "line": 16541,
+        "handler": "window.TRITHUC.setSemesterFilter("
+      },
+      {
+        "line": 16607,
+        "handler": "window.TRITHUC.toggleExamPublicUnlock("
+      },
+      {
+        "line": 16613,
+        "handler": "window.TRITHUC.openExamLeaderboardModal("
+      },
+      {
+        "line": 16617,
+        "handler": "window.TRITHUC.openEntryModal("
+      },
+      {
+        "line": 16640,
+        "handler": "window.TRITHUC.openExamBankMock12V464()"
+      },
+      {
+        "line": 16646,
+        "handler": "window.TRITHUC.openLockedCourseModal("
+      },
+      {
+        "line": 16651,
+        "handler": "window.TRITHUC.quickCreateMockExam("
+      },
+      {
+        "line": 16694,
+        "handler": "window.TRITHUC.toggleExamPublicUnlock("
+      },
+      {
+        "line": 16700,
+        "handler": "window.TRITHUC.openExamLeaderboardModal("
+      },
+      {
+        "line": 16705,
+        "handler": "window.TRITHUC.openLockedCourseModal("
+      },
+      {
+        "line": 16711,
+        "handler": "window.TRITHUC.openEntryModal("
+      },
+      {
+        "line": 16759,
+        "handler": "window.TRITHUC.toggleChapterOpen("
+      },
+      {
+        "line": 16767,
+        "handler": "event.stopPropagation()"
+      },
+      {
+        "line": 16771,
+        "handler": "window.TRITHUC.toggleChapterOpen("
+      },
+      {
+        "line": 17134,
+        "handler": "window.TRITHUC.selectExamBankNodeV458("
+      },
+      {
+        "line": 17151,
+        "handler": "window.TRITHUC.selectExamBankNodeV458("
+      },
+      {
+        "line": 17154,
+        "handler": "event.stopPropagation(); window.TRITHUC.toggleExamBankNodeExpandV458("
+      },
+      {
+        "line": 17173,
+        "handler": "window.TRITHUC.selectExamBankNodeV458("
+      },
+      {
+        "line": 17176,
+        "handler": "event.stopPropagation(); window.TRITHUC.toggleExamBankNodeExpandV458("
+      },
+      {
+        "line": 17184,
+        "handler": "event.stopPropagation(); window.TRITHUC.toggleExamFolderMenuV458("
+      },
+      {
+        "line": 17190,
+        "handler": "event.stopPropagation()"
+      },
+      {
+        "line": 17191,
+        "handler": "window.TRITHUC.toggleExamBankFolderUnlockV458("
+      },
+      {
+        "line": 17193,
+        "handler": "window.TRITHUC.toggleExamBankFolderUnlockV458("
+      },
+      {
+        "line": 17195,
+        "handler": "window.TRITHUC.quickCreateFromExamBankNodeV458("
+      },
+      {
+        "line": 17205,
+        "handler": "window.TRITHUC.selectExamBankNodeV458("
+      },
+      {
+        "line": 17211,
+        "handler": "event.stopPropagation(); window.TRITHUC.quickAttachExamToLesson("
+      },
+      {
+        "line": 17228,
+        "handler": "window.TRITHUC.selectExamBankNodeV458("
+      },
+      {
+        "line": 17231,
+        "handler": "event.stopPropagation(); window.TRITHUC.toggleExamBankNodeExpandV458("
+      },
+      {
+        "line": 17243,
+        "handler": "window.TRITHUC.selectExamBankNodeV458("
+      },
+      {
+        "line": 17249,
+        "handler": "event.stopPropagation(); window.TRITHUC.quickCreateFromExamBankNodeV458("
+      },
+      {
+        "line": 17256,
+        "handler": "window.TRITHUC.openOuterLuyenDe12V464()"
+      },
+      {
+        "line": 17269,
+        "handler": "window.TRITHUC.selectExamBankNodeV458("
+      },
+      {
+        "line": 17288,
+        "handler": "window.TRITHUC.selectExamBankNodeV458("
+      },
+      {
+        "line": 17293,
+        "handler": "window.TRITHUC.quickCreateFromExamBankNodeV458("
+      },
+      {
+        "line": 17338,
+        "handler": "window.TRITHUC.openLockedCourseModal("
+      },
+      {
+        "line": 17343,
+        "handler": "window.TRITHUC.openEntryModal("
+      },
+      {
+        "line": 17348,
+        "handler": "window.TRITHUC.openExamLeaderboardModal("
+      },
+      {
+        "line": 17386,
+        "handler": "window.TRITHUC.toggleExamPublicUnlock("
+      },
+      {
+        "line": 17391,
+        "handler": "window.TRITHUC.adminTestExamDirect("
+      },
+      {
+        "line": 17396,
+        "handler": "window.TRITHUC.openAdminAnswerModal("
+      },
+      {
+        "line": 17401,
+        "handler": "window.TRITHUC.openAdminMetaModal("
+      },
+      {
+        "line": 17406,
+        "handler": "window.TRITHUC.openQuickExamPasswordModal("
+      },
+      {
+        "line": 17411,
+        "handler": "window.TRITHUC.viewExamResultsInAdmin("
+      },
+      {
+        "line": 17416,
+        "handler": "window.TRITHUC.toggleExamVisibilityV458("
+      },
+      {
+        "line": 17421,
+        "handler": "window.TRITHUC.deleteExamById("
+      },
+      {
+        "line": 17432,
+        "handler": "window.TRITHUC.loadMoreExamBankCardsV469("
+      },
+      {
+        "line": 17436,
+        "handler": "window.TRITHUC.loadMoreExamBankCardsV469("
+      },
+      {
+        "line": 17448,
+        "handler": "window.TRITHUC.toggleExamBankSidebarV458("
+      },
+      {
+        "line": 17459,
+        "handler": "window.TRITHUC.selectExamBankNodeV458("
+      },
+      {
+        "line": 17492,
+        "handler": "window.TRITHUC.openOuterLuyenDe12V464()"
+      },
+      {
+        "line": 17499,
+        "handler": "window.TRITHUC.quickCreateMockExam("
+      },
+      {
+        "line": 17503,
+        "handler": "window.TRITHUC.quickCreateFromExamBankNodeV458("
+      },
+      {
+        "line": 17523,
+        "handler": "window.TRITHUC.toggleAllExamBankNodesV458("
+      },
+      {
+        "line": 17543,
+        "handler": "window.TRITHUC.quickCreateFromExamBankNodeV458("
+      },
+      {
+        "line": 17547,
+        "handler": "window.TRITHUC.selectExamBankNodeV458("
+      },
+      {
+        "line": 17564,
+        "handler": "window.TRITHUC.toggleExamBankFolderUnlockV458("
+      },
+      {
+        "line": 17566,
+        "handler": "window.TRITHUC.toggleExamBankFolderUnlockV458("
+      },
+      {
+        "line": 17568,
+        "handler": "window.TRITHUC.quickCreateFromExamBankNodeV458("
+      },
+      {
+        "line": 17665,
+        "handler": "window.TRITHUC.exportHistoryToExcel("
+      },
+      {
+        "line": 17766,
+        "handler": "if(event.target===this) window.TRITHUC.closeEntryModal()"
+      },
+      {
+        "line": 17777,
+        "handler": "window.TRITHUC.closeEntryModal()"
+      },
+      {
+        "line": 17822,
+        "handler": "window.TRITHUC.logoutStudent()"
+      },
+      {
+        "line": 17843,
+        "handler": "window.TRITHUC.toggleEntryPassVis(this)"
+      },
+      {
+        "line": 17850,
+        "handler": "window.TRITHUC.closeEntryModal()"
+      },
+      {
+        "line": 17854,
+        "handler": "window.TRITHUC.startExamNow()"
+      },
+      {
+        "line": 17931,
+        "handler": "window.TRITHUC.exitExamRoom()"
+      },
+      {
+        "line": 17950,
+        "handler": "window.TRITHUC.setExamDisplayStyle("
+      },
+      {
+        "line": 17954,
+        "handler": "window.TRITHUC.setExamDisplayStyle("
+      },
+      {
+        "line": 17962,
+        "handler": "window.TRITHUC.toggleExamSidebar()"
+      },
+      {
+        "line": 17971,
+        "handler": "window.TRITHUC.reEnterExamFullscreen()"
+      }
+    ],
+    "url_param_uses": [
+      {
+        "line": 6590,
+        "source": "const urlParams = new URLSearchParams(window.location.search || '');"
+      },
+      {
+        "line": 6590,
+        "source": "const urlParams = new URLSearchParams(window.location.search || '');"
+      },
+      {
+        "line": 11010,
+        "source": "const params = new URLSearchParams();"
+      }
+    ]
+  },
+  "components": {
+    "all_function_count": 380,
+    "all_function_names": [
+      "initTrithucThemeV5",
+      "readStoredMode",
+      "writeStoredMode",
+      "resolveTheme",
+      "syncSwitcherControls",
+      "applyTheme",
+      "__decGzChunks",
+      "__buildVaultAsync",
+      "exToTypeExerciseItem",
+      "pickCyc",
+      "makeMatExam",
+      "hydrateVaultVariablesV463",
+      "ensureLessonHydratedFromServerV530",
+      "hydrateFullAdminVaultFromServerV530",
+      "ensureExamHydratedFromServerV533",
+      "submitExamToServerPhase2V530",
+      "getClientDeviceMetaV543",
+      "handleServerKickedOrLockedV543",
+      "normalizeUsernameCanonicalV544",
+      "stripNonAsciiUsernameLegacyV544",
+      "normalizeNameKeyV544",
+      "formatDeviceTimestampV544",
+      "findLocalStudentMatchV544",
+      "deduplicateStudentUsersV544",
+      "mergeServerStudentIntoLocalV543",
+      "syncStudentServerAuthV543",
+      "ensureStudentServerSessionV543",
+      "syncStudentToSupabaseAdminV543",
+      "deleteStudentsFromSupabaseAdminV543",
+      "syncAllStudentsWithSupabaseOnAdminLoginV543",
+      "playSecondDeviceAlertSirenV543",
+      "showLiveSecondDevicePopupV543",
+      "handleIncomingSecondDeviceAlertV543",
+      "pollTeacherDeviceAlertsV543",
+      "startTeacherSecondDeviceAlertEngineV543",
+      "hash64V45",
+      "saltedAuthHashV45",
+      "encryptChunksV45",
+      "installWindowSourceHoneypotsV45",
+      "sealExamForStudentSessionV45",
+      "unsealExamAfterSubmitV45",
+      "readWindowNameStore",
+      "writeWindowNameStore",
+      "safeStorageGet",
+      "safeStorageSet",
+      "safeStorageRemove",
+      "markInternalAction",
+      "maskAuthorBranding",
+      "showToast",
+      "escapeHtml",
+      "escapeJsAttr",
+      "enlargeDerivativePrimesInMathSegment",
+      "preprocessMath",
+      "hydrateImageTokens",
+      "initExamMetadataLight",
+      "hydrateExamObject",
+      "formatTimeClock",
+      "formatDuration",
+      "fitOverflowingMathV537",
+      "typesetMath",
+      "updateExamAnswerUIInPlace",
+      "isShortAnsEqual",
+      "normalizeExamScoringV467",
+      "getP2SubScoreV467",
+      "fmtPtVNV467",
+      "computeMatrixBuilderScoreSummaryV467",
+      "calculateAttemptScore",
+      "loadInitialState",
+      "hashStringHex",
+      "getCanvasAndWebGLHardwareSig",
+      "getHardwareDeviceProfile",
+      "isValidStudentGmail",
+      "maskGmailForDisplay",
+      "syncDeviceSecurityEventToGoogleForm",
+      "verifyAndBindStudentDeviceOnLogin",
+      "computeUserIntegritySig",
+      "computeAdminSessionSig",
+      "verifyRuntimeSecurityIntegrity",
+      "computeExpiryTimestampFromPlan",
+      "isStudentVipExpired",
+      "formatVipExpiryBadge",
+      "getRegistrationShareUrl",
+      "kvSafeFetchV485",
+      "gzipCompressUtf8V468",
+      "gzipDecompressToUtf8V468",
+      "computeCustomExamsDigestV471",
+      "computeCustomExamsBundleSigV468",
+      "getGitHubSyncConfigV473",
+      "uint8ToBase64V473",
+      "pushExamsToGitHubRepoV473",
+      "pullExamsFromStaticCdnV473",
+      "normalizeExamDedupeKeyV472",
+      "deduplicateCustomExamsInStateV472",
+      "isSystemSyncRecordV521",
+      "encodeSystemSyncRecordForApiV521",
+      "decodeSystemSyncRecordFromApiV521",
+      "pushSystemUserPacketToVercelApiV521",
+      "isUserTypingInModalOrInputV521",
+      "requestBackgroundRenderV521",
+      "updateVipSyncStatusDomV521",
+      "isAttemptDeletedByTombstoneV52",
+      "markAttemptDeletedTombstoneV52",
+      "sanitizeCompactAnswersV52",
+      "countStudentExamAttemptsV52",
+      "serializeCompactAttemptRecordV474",
+      "mergeIncomingStudentAttemptV474",
+      "encodeCompactAttemptForKvV475",
+      "decodeCompactAttemptFromKvV475",
+      "updateStudentResultSyncBadgeV475",
+      "pushStudentAttemptToKvV475",
+      "pushStudentAttemptToCloudV474",
+      "decodeStudentResultMsgV474",
+      "pullStudentResultsFromKvV475",
+      "pullStudentResultsFromCloudV474",
+      "setupStudentResultsRealtimeStreamV474",
+      "computeCustomExamsRefSigV468",
+      "buildCustomExamsSyncBundleV468",
+      "mergeIncomingCustomExamsBundleV468",
+      "updateExamCloudSyncBadgeDomV472",
+      "buildShardedGzipPartsV472",
+      "pushCustomExamsBundleToCloudV468",
+      "scheduleCustomExamsCloudPushV468",
+      "pullCustomExamsBundleFromCloudV468",
+      "sanitizePlainInput",
+      "requireAdminAuth",
+      "toBase64UrlSafe",
+      "fromBase64UrlSafe",
+      "computeCloudPacketAdminSig",
+      "serializeCompactUser",
+      "deserializeCompactUser",
+      "isUserDeletedByTombstone",
+      "markUsersAsDeleted",
+      "clearDeletionTombstoneForUser",
+      "buildTeacherSnapshotPacket",
+      "processIncomingCloudPacket",
+      "decodeCloudMessageString",
+      "pushCloudSyncPacket",
+      "playVipAlertChimeV523",
+      "showLiveVipRegistrationPopupV523",
+      "notifyAdminIncomingVipV523",
+      "pollFastVipSysSyncV523",
+      "setupRealtimeCloudStream",
+      "pullCloudSyncMessages",
+      "broadcastTeacherUsersToCloud",
+      "saveUsersState",
+      "saveExamsState",
+      "saveHistoryState",
+      "saveActivityLogsState",
+      "savePerfConfigState",
+      "getStorageFootprintKB",
+      "saveLessonOverridesState",
+      "findLessonById",
+      "getAllLessonsFlat",
+      "computeLessonUnlockSig",
+      "persistSigned",
+      "loadAndVerify",
+      "findMatrixItemByCode",
+      "rehydrateMatrixExamQuestions",
+      "buildCompactCustomMockSpecs",
+      "computeMockPayloadSig",
+      "mergeCloudCustomMockSpecs",
+      "openExamsIDB",
+      "saveCustomExamsToIDBAsync",
+      "hydrateCustomExamsFromIDBAsync",
+      "isFreeLesson",
+      "hasStudentVipAccess",
+      "isExamVipRequired",
+      "recordAISuspicion",
+      "scanAndBlockAIExtensions",
+      "stripMatrixCodeForStudentV45",
+      "wrapResponsiveTablesV536",
+      "buildQuestionHtmlWithAntiAiMedia",
+      "isFullscreenActive",
+      "requestExamFullscreen",
+      "exitExamFullscreen",
+      "setupAntiCheatListeners",
+      "checkSplitScreenViolationV535",
+      "triggerExamViolation",
+      "normalizeGFormEntryCode",
+      "normalizeGFormActionUrl",
+      "extractGoogleFormEntriesFromAnyInput",
+      "parseGoogleFormInputUrl",
+      "dispatchParamsToGoogleFormUrl",
+      "flushNext",
+      "syncActivityLogToGoogleForm",
+      "logStudentActivity",
+      "submitViaHiddenIframe",
+      "postToGoogleFormEndpoint",
+      "syncAttemptToGoogleForm",
+      "decryptV97EmbedPayload",
+      "buildImageMetadataV96",
+      "injectImagesIntoTextV96",
+      "extractShortAnsFromExplanationV96",
+      "extractBalancedJsonBlockV96",
+      "extractJsonObjectByVarNamesV96",
+      "extractRawDataArrayV96",
+      "extractExamSelectLabelsV96",
+      "parsePlainTextQuestionsV96",
+      "extractSlideDomQuestionsV96",
+      "extractMultiExamsV96",
+      "parseV97HtmlOrJsonString",
+      "normalizeImportedQuestionsArray",
+      "getExamQuestionsList",
+      "getCurrentQuestionObj",
+      "getQuestionAnswerStatus",
+      "saveDraftAnswers",
+      "getExamLevelBadgeHtml",
+      "getExamLevelDisplayTitle",
+      "saveRealWorldDbState",
+      "normalizeRealWorldTopicItem",
+      "getRealWorldTopicsForChapter",
+      "renderInteractiveSimilarExercisesBlock",
+      "renderChapterRealWorldSection",
+      "renderRealWorldStudentSection",
+      "renderEditRealWorldModal",
+      "renderTopNavbar",
+      "renderStudentHomeView",
+      "renderShareVipLinkModal",
+      "renderStudentLoginModal",
+      "renderDeviceBlockedSecurityModal",
+      "renderStudentDeviceSecurityModal",
+      "renderAdminManageDeviceModal",
+      "parseExplanationIntoSteps",
+      "normalizeMathForDetection",
+      "makeRng",
+      "pick",
+      "cleanSigns",
+      "fmtVN",
+      "fmtSign",
+      "normFp",
+      "makeOptionPack",
+      "buildOnce",
+      "generate",
+      "detectProblemPedagogicalType",
+      "getPedagogicalCoreSummary",
+      "extractMathFormulasPreview",
+      "generateAutoAiStepBreakdown",
+      "renderSolutionStepsWithAiHelper",
+      "getMatrixItemPracticeStatus",
+      "renderMatrixQuestionInteractiveItem",
+      "renderTypeExerciseInteractiveCard",
+      "cleanMathTypeTitleV446",
+      "reRenderLessonCardInPlaceV446",
+      "formatPedagogicalStepsV446",
+      "renderWorkedExamplesBlockV446",
+      "renderTypeExercisesListBlock",
+      "renderMatrixTreeForLesson",
+      "renderLessonStructuredContent",
+      "getLessonExamsForLesson",
+      "renderSingleLessonCardHtml",
+      "refreshSingleLessonCardInPlace",
+      "refreshSingleMatrixItemInPlaceV546",
+      "sortExamsNaturallyV540",
+      "renderCurriculumSection",
+      "buildExamBankCurriculumLookupV458",
+      "isGrade12MockExamV464",
+      "classifyExamBankEntryV458",
+      "getExamQuestionBreakdownV458",
+      "getStudentBestAttemptForExamV458",
+      "renderExamBankExplorerV458",
+      "rerenderExamBankOnlyV469",
+      "renderExamBankSection",
+      "isAdminExamAttempt",
+      "purgeAdminTestHistoryRecords",
+      "renderLeaderboardSection",
+      "renderEntryGateModal",
+      "isCompactExamViewport",
+      "isExamSidebarCurrentlyOpen",
+      "renderDoingExamView",
+      "renderSidebarGridButton",
+      "getQuestionReviewDiagnostic",
+      "renderV97SingleQuestionCard",
+      "renderQuestionAnswerControls",
+      "renderAllQuestionsScrollView",
+      "renderConfirmSubmitModal",
+      "renderResultView",
+      "renderFullSolutionModal",
+      "renderExamTop20Modal",
+      "mapRawLevelToMCode",
+      "mapMCodeToRawLevel",
+      "getMCodeLabelVi",
+      "normalizeQTypeV44",
+      "isGoodEssayCandidateV46",
+      "convertQuestionToEssayV46",
+      "detectOptionGridClassV46",
+      "buildThptPrintShellHtmlV46",
+      "waitMathJaxAndPrintV462",
+      "doPrint",
+      "go",
+      "computeBackendGrantToken",
+      "normalizeExpiry",
+      "verifyProtectedVipActionV44",
+      "computeTeacherVipApprovalSealV44",
+      "isValidTeacherVipSealV522",
+      "recordVipHackSecurityAlertV44",
+      "detectAndBlockStudentVipHackV44",
+      "renderAdminVipHackAlertBannerV44",
+      "vaultCipherTransformV44",
+      "computeOneWayAnswerHashSec01V44",
+      "computeVaultDigestPreviewV44",
+      "setupSec05AndSec06SingleFileProtectionV44",
+      "initTrithucV44UpgradeSystem",
+      "extractDsContextPrefixV456",
+      "extractDsSubExpV456",
+      "buildStandaloneDsStatementV456",
+      "collectDsSubPoolForLessonV456",
+      "renderDsMixerPanelV456",
+      "renderAdminMatrixBuilderTabV44",
+      "getCv7991ProfileV457",
+      "getCv7991PresetTitleV457",
+      "distributeIntegerWeightsV457",
+      "buildCv7991RowsForGradePresetV457",
+      "applyAutoChapterPctV457",
+      "rebalanceCv7991MatrixCellsV457",
+      "distributeChapterCountsToLessonsV461",
+      "syncChapterCountsFromLessonsV461",
+      "computeCv7991SummaryV457",
+      "ensureCv7991InitializedV457",
+      "buildCv7991OfficialDocHtmlV457",
+      "renderAdminCv7991MatrixTabV457",
+      "getFullLessonMetaCatalogV44",
+      "invalidateSectionETfIdfIndexV454",
+      "extractMathTfTokensV454",
+      "getSectionETfIdfIndexV454",
+      "buildQueryTfIdfVecV454",
+      "cosineSparseVecV454",
+      "computeMathStructureSkeletonV44",
+      "extractOperatorFingerprintV45",
+      "computeDiceTokenSimilarityV44",
+      "computeCharTrigramJaccardV45",
+      "extractMathConceptKeywordsV44",
+      "extractCanonicalSkillTagsV445",
+      "checkIsNumberVariantInSectionEV44",
+      "classifyMathQuestionToLessonAndType",
+      "computeNextSectionECodeForLessonV44",
+      "runActiveExtractionOnSelectedMockExamV44",
+      "convertExamQuestionToMatrixEntryV44",
+      "isQuestionAlreadyInLessonSectionEV44",
+      "persistLessonMatrixOverrideV44",
+      "renderAdminSyncMockToSectionETabV44",
+      "buildQuestionsFromMatrixSelectionV44",
+      "generateBatchSimilarExamsV50",
+      "renderSinglePrintableExamBodyV50",
+      "renderBatchCombinedAnswerTableHtmlV50",
+      "renderMatrixBatchExportModalV50",
+      "renderMatrixPdfOfficialHeaderHtmlV45",
+      "buildSingleExamPrintableInnerHtmlV462",
+      "renderMatrixPdfExportModalV44",
+      "renderMatrixV95SetupModalV44",
+      "renderQuickExamPasswordModalV44",
+      "renderVaultEncryptionCenterCardV44",
+      "renderVaultSecurityModalV44",
+      "renderMatrixItemSampleModalV44",
+      "renderMockQuestionPreviewModalV44",
+      "renderAdminView",
+      "renderAdminLessonsTab",
+      "renderAdminEditLessonModal",
+      "renderAdminUsersTab",
+      "renderAdminAccountActivityAndOptimizationPanel",
+      "renderStudentHistoryDetailModal",
+      "renderAdminExamsTab",
+      "renderAdminExamCardHtml",
+      "renderAdminExamsGroupedByChapterHtml",
+      "renderAdminCreateTab",
+      "renderGFormQuickConfigCard",
+      "getResultsCatalogAndFilteredDataV45",
+      "renderAdminResultsTab",
+      "renderAdminGSitesTab",
+      "renderAdminAnswerConfigModal",
+      "renderAdminEditMetaModal",
+      "formatCurrentAnsForScoring",
+      "finalizeExamSubmission",
+      "startExamCountdownTimer",
+      "buildStandaloneHtmlForExport",
+      "__decChunks",
+      "copyTextSafe",
+      "fallbackCopy",
+      "renderApp",
+      "normalizeSecretV519",
+      "syncEntryModalHostV519"
+    ],
+    "render_function_count": 67,
+    "render_function_names": [
+      "requestBackgroundRenderV521",
+      "renderInteractiveSimilarExercisesBlock",
+      "renderChapterRealWorldSection",
+      "renderRealWorldStudentSection",
+      "renderEditRealWorldModal",
+      "renderTopNavbar",
+      "renderStudentHomeView",
+      "renderShareVipLinkModal",
+      "renderStudentLoginModal",
+      "renderDeviceBlockedSecurityModal",
+      "renderStudentDeviceSecurityModal",
+      "renderAdminManageDeviceModal",
+      "renderSolutionStepsWithAiHelper",
+      "renderMatrixQuestionInteractiveItem",
+      "renderTypeExerciseInteractiveCard",
+      "reRenderLessonCardInPlaceV446",
+      "renderWorkedExamplesBlockV446",
+      "renderTypeExercisesListBlock",
+      "renderMatrixTreeForLesson",
+      "renderLessonStructuredContent",
+      "renderSingleLessonCardHtml",
+      "renderCurriculumSection",
+      "renderExamBankExplorerV458",
+      "renderExamBankSection",
+      "renderLeaderboardSection",
+      "renderEntryGateModal",
+      "renderDoingExamView",
+      "renderSidebarGridButton",
+      "renderV97SingleQuestionCard",
+      "renderQuestionAnswerControls",
+      "renderAllQuestionsScrollView",
+      "renderConfirmSubmitModal",
+      "renderResultView",
+      "renderFullSolutionModal",
+      "renderExamTop20Modal",
+      "renderAdminVipHackAlertBannerV44",
+      "renderDsMixerPanelV456",
+      "renderAdminMatrixBuilderTabV44",
+      "renderAdminCv7991MatrixTabV457",
+      "renderAdminSyncMockToSectionETabV44",
+      "renderSinglePrintableExamBodyV50",
+      "renderBatchCombinedAnswerTableHtmlV50",
+      "renderMatrixBatchExportModalV50",
+      "renderMatrixPdfOfficialHeaderHtmlV45",
+      "renderMatrixPdfExportModalV44",
+      "renderMatrixV95SetupModalV44",
+      "renderQuickExamPasswordModalV44",
+      "renderVaultEncryptionCenterCardV44",
+      "renderVaultSecurityModalV44",
+      "renderMatrixItemSampleModalV44",
+      "renderMockQuestionPreviewModalV44",
+      "renderAdminView",
+      "renderAdminLessonsTab",
+      "renderAdminEditLessonModal",
+      "renderAdminUsersTab",
+      "renderAdminAccountActivityAndOptimizationPanel",
+      "renderStudentHistoryDetailModal",
+      "renderAdminExamsTab",
+      "renderAdminExamCardHtml",
+      "renderAdminExamsGroupedByChapterHtml",
+      "renderAdminCreateTab",
+      "renderGFormQuickConfigCard",
+      "renderAdminResultsTab",
+      "renderAdminGSitesTab",
+      "renderAdminAnswerConfigModal",
+      "renderAdminEditMetaModal",
+      "renderApp"
+    ],
+    "public_api_method_count": 399,
+    "public_api_methods": [
+      "setThemeMode",
+      "cycleThemeMode",
+      "getThemeMode",
+      "toggleAdminHeaderCollapsedV44",
+      "setMatrixBuilderSearchV44",
+      "setMatrixBuilderGradeFilterV44",
+      "toggleMatrixBuilderQTypeFilterV44",
+      "toggleMatrixBuilderLevelFilterV44",
+      "resetMatrixBuilderFiltersV44",
+      "toggleMatrixBuilderLargeFontV44",
+      "toggleMatrixBuilderWideModeV44",
+      "expandOrCollapseAllMatrixTreeV44",
+      "toggleMatrixBuilderGradeOpenV44",
+      "toggleMatrixBuilderChapOpenV44",
+      "toggleMatrixBuilderLessonOpenV44",
+      "toggleMatrixBuilderGroupOpenV44",
+      "toggleInlineQuestionPreviewV44",
+      "toggleMatrixBuilderItemV44",
+      "toggleMatrixBuilderLessonCheckV44",
+      "toggleMatrixBuilderGroupCheckV44",
+      "closeMatrixItemSampleModalV44",
+      "setMatrixRowCountV44",
+      "stepMatrixRowCountV44",
+      "promptMatrixRowCountV44",
+      "cycleMatrixRowLevelV44",
+      "removeMatrixBuilderRowV44",
+      "clearAllMatrixBuilderRowsV44",
+      "toggleMatrixRowPreviewV46",
+      "openMatrixRowEditorV46",
+      "saveMatrixRowEditorV46",
+      "convertMatrixRowToEssayV46",
+      "swapMatrixBuilderRowQuestionV462",
+      "addItemAsEssayToMatrixV46",
+      "cycleMatrixTableFilterV44",
+      "cycleMatrixTableSortV44",
+      "setQuickExamTitleV445",
+      "applyQuickExamPresetV445",
+      "setQuickExamSettingV445",
+      "applyMatrixScoringPresetV467",
+      "setMatrixScoringFieldV467",
+      "applyP4UnitToAllEssayRowsV467",
+      "autoBalancePart4To10V467",
+      "generateQuickExamPasswordV45",
+      "generateV95SetupPasswordV45",
+      "clearV95SetupPasswordV45",
+      "generateV95SetupCodeV45",
+      "applyOfficialPdfPresetV45",
+      "toggleExamBankSidebarV458",
+      "setExamBankUiFieldV458",
+      "selectExamBankNodeV458",
+      "toggleExamBankNodeExpandV458",
+      "toggleAllExamBankNodesV458",
+      "setExamBankSearchV458",
+      "toggleExamActionMenuV458",
+      "toggleExamFolderMenuV458",
+      "toggleExamVisibilityV458",
+      "quickCreateFromExamBankNodeV458",
+      "toggleExamBankFolderUnlockV458",
+      "setCv7991SubTabV457",
+      "setCv7991ConfigV457",
+      "setCv7991PreMidPctV457",
+      "toggleCv7991RowEnabledV457",
+      "setCv7991RowPctV457",
+      "setCv7991RowCellV457",
+      "setCv7991LessonCellV461",
+      "toggleCv7991ChapterLessonsV461",
+      "toggleAllCv7991LessonsV461",
+      "toggleMatrixBatchShuffleOrderV461",
+      "setCv7991RowTextV457",
+      "autoDistributeCv7991PctV457",
+      "autoRebalanceCv7991MatrixV457",
+      "printOrDownloadCv7991DocV457",
+      "exportCv7991ExcelV457",
+      "downloadCv7991TemplateExcelV457",
+      "fillSampleCv7991PasteV457",
+      "parseAndApplyCv7991TableRowsV457",
+      "importCv7991FromPasteV457",
+      "generateExamFromCv7991MatrixV457",
+      "toggleDsMixerEnabledV456",
+      "setDsMixerFieldV456",
+      "pickDsSubItemForMixerV456",
+      "pickRandomDsSubFromItemV456",
+      "removeDsMixerSlotV456",
+      "clearDsMixerSlotsV456",
+      "shuffleDsMixerSlotsV456",
+      "autoFillDsMixerFromGradeV456",
+      "commitDsMixerToMatrixV456",
+      "toggleMatrixAutoVariantV443",
+      "regenerateMatrixVariantSeedV443",
+      "openMatrixPdfExportModalV44",
+      "closeMatrixPdfExportModalV44",
+      "setMatrixBatchFieldV50",
+      "openMatrixBatchExportModalV50",
+      "closeMatrixBatchExportModalV50",
+      "setMatrixBatchPreviewIdxV50",
+      "regenerateMatrixBatchExamsV50",
+      "regenerateSingleBatchExamV50",
+      "regenerateSingleQuestionInBatchV55",
+      "buildBatchMergedHtmlDocV50",
+      "buildSingleBatchExamHtmlDocV464",
+      "triggerPrintSingleBatchExamPdfV464",
+      "triggerPrintBatchAnswerTablePdfV464",
+      "downloadBatchSeparateHtmlFilesV464",
+      "triggerPrintBatchPdfV50",
+      "downloadBatchPrintableHtmlV50",
+      "exportBatchAnswerKeyExcelV50",
+      "publishBatchExamsToSystemV50",
+      "setMatrixPdfFieldV44",
+      "triggerPrintMatrixPdfNowV44",
+      "downloadMatrixPrintableHtmlFileV44",
+      "openMatrixV95SetupModalV44",
+      "closeMatrixV95SetupModalV44",
+      "setV95SetupFieldV44",
+      "setV95SetupGradeV44",
+      "publishMatrixExamToSystemV44",
+      "generateRandomCreatePassword",
+      "setCreateShuffleMode",
+      "selectMockExamForExtractionV44",
+      "triggerManualMockExtractionV44",
+      "toggleShowSkippedVariantsV44",
+      "forcePromoteVariantToNewV44",
+      "setMockSyncFilterV44",
+      "overrideMockItemTargetLessonV44",
+      "overrideMockItemLevelV44",
+      "overrideMockItemDescV44",
+      "previewMockQuestionItemV44",
+      "closeMockQuestionPreviewModalV44",
+      "syncSingleMockQuestionToSectionEV44",
+      "syncAllExtractedNewTypesToSectionEV44",
+      "toggleMockQuickPasteBoxV44",
+      "setMockQuickPasteTextV44",
+      "parseAndExtractNewMockExamV44",
+      "openQuickExamPasswordModal",
+      "closeQuickExamPasswordModal",
+      "saveQuickExamPasswordV44",
+      "dismissAllVipHackAlertsV44",
+      "blacklistHackerDeviceV44",
+      "adminClearBlacklistedDevicesV522",
+      "simulateStudentVipHackTestV44",
+      "openVaultSecurityModal",
+      "closeVaultSecurityModal",
+      "unlockDataVaultWithPassV44",
+      "lockDataVaultNowV44",
+      "changeVaultAdminPasswordModalV44",
+      "changeVaultAdminPasswordInlineV44",
+      "goStudentHome",
+      "switchStudentNav",
+      "selectGrade",
+      "setSemesterFilter",
+      "openOuterLuyenDe12V464",
+      "openExamBankMock12V464",
+      "setBankCategoryFilter",
+      "onSearchChange",
+      "toggleChapterOpen",
+      "openChapterTab",
+      "setRealWorldGradeFilter",
+      "setRealWorldChapterFilter",
+      "setRealWorldSearch",
+      "showMoreSimilarProblem",
+      "generateSimilarForExercise",
+      "hideSimilarProblems",
+      "toggleAddCustomSimilarForm",
+      "saveCustomSimilarProblem",
+      "openAddRealWorldModal",
+      "openEditRealWorldModal",
+      "closeEditRealWorldModal",
+      "saveRealWorldModal",
+      "togglePartARecall",
+      "togglePartAMastered",
+      "setStudyFontSize",
+      "selectWorkedExample",
+      "toggleWorkedExampleSol",
+      "toggleMathTypeCard",
+      "toggleAllMathTypes",
+      "toggleLessonCardOpen",
+      "toggleMatrixTreeBranch",
+      "setMatrixFilter",
+      "setMatrixLevelFilter",
+      "startCustomMatrixExam",
+      "toggleMatrixItemCheck",
+      "toggleMatrixCategoryCheck",
+      "toggleAllMatrixItemsInLesson",
+      "toggleAllChapters",
+      "toggleAdminChapterOpen",
+      "toggleAllAdminChapters",
+      "toggleAdminLessonChapterOpen",
+      "toggleAllAdminLessonChapters",
+      "toggleChapterQuickUnlock",
+      "toggleLessonVipUnlock",
+      "toggleLessonTheory",
+      "quickCreateMockExam",
+      "setAdminExamSearch",
+      "openExamLeaderboardModal",
+      "closeExamLeaderboardModal",
+      "setLessonSubTab",
+      "openLessonExamSection",
+      "onClickLessonLock",
+      "toggleAdminPreviewUnlockAll",
+      "openShareVipLinkModal",
+      "closeShareVipLinkModal",
+      "updateShareLinkConfig",
+      "copyShareVipUrlOnly",
+      "copyShareVipFullMessage",
+      "testOpenVipRegistrationFromLink",
+      "syncRegDraftFromDom",
+      "updateRegDraftField",
+      "updateLoginDraftFieldV521",
+      "openAdminUsersApprovalDirectly",
+      "setRegDurationPlan",
+      "openLockedCourseModal",
+      "toggleRegPackage",
+      "submitStudentVipUpgradeRequest",
+      "selectLessonPracticeAns",
+      "toggleAiStepExplain",
+      "togglePracticeSolution",
+      "checkLessonPracticeShort",
+      "openStudentLoginModal",
+      "switchStudentAuthMode",
+      "closeStudentLoginModal",
+      "submitStudentRegistration",
+      "toggleStudentRememberMe",
+      "clearSavedStudentCreds",
+      "quickLoginRememberedStudent",
+      "logoutStudent",
+      "setSimulatedDeviceSlot",
+      "openStudentDeviceSecurityModal",
+      "closeStudentDeviceSecurityModal",
+      "closeDeviceBlockedModal",
+      "submitStudentDeviceResetRequest",
+      "updateDeviceSecurityPolicy",
+      "openAdminManageDeviceModal",
+      "closeAdminManageDeviceModal",
+      "adminSaveStudentGmail",
+      "adminSetStudentMaxDevices",
+      "adminResetStudentDevices",
+      "adminApproveDeviceResetRequest",
+      "adminRemoveSingleDevice",
+      "adminClearDeviceViolations",
+      "openEntryModal",
+      "closeEntryModal",
+      "setEntryPassword",
+      "toggleEntryPassVis",
+      "adminTestExamDirect",
+      "reEnterExamFullscreen",
+      "dismissIdleBlurBanner",
+      "setExamDisplayStyle",
+      "switchSingleAtQuestion",
+      "toggleExamSidebar",
+      "setSidebarFilter",
+      "jumpToQuestion",
+      "prevQuestion",
+      "nextQuestion",
+      "toggleFlagQuestion",
+      "clearQuestionAnswer",
+      "selectAnswerP1",
+      "selectAnswerP2",
+      "inputAnswerP3",
+      "inputAnswerP4",
+      "openConfirmSubmit",
+      "closeConfirmSubmit",
+      "confirmFinalSubmit",
+      "exitExamRoom",
+      "enterV97ReviewMode",
+      "enterV97ReviewAtQuestion",
+      "reviewHistoricalAttempt",
+      "openFullSolutionModal",
+      "closeFullSolutionModal",
+      "handleContentImageClick",
+      "closeLightbox",
+      "zoomLightbox",
+      "downloadSelfHtmlFile",
+      "openAdminPortal",
+      "enterLocalOfflineAdminPreviewV511",
+      "toggleAdminRememberMe",
+      "clearSavedAdminCreds",
+      "logoutAdmin",
+      "dismissLiveVipPopupV523",
+      "openUsersTabFromVipPopupV523",
+      "quickApproveVipFromPopupV523",
+      "dismissDeviceAlertPopupV543",
+      "openDeviceAlertsInUsersTabV543",
+      "setAdminUserSearchV544",
+      "toggleAdminUserGroupByClassV544",
+      "toggleAdminUserCreateDrawerV544",
+      "addVipClassV544",
+      "grantVipForSpecificClassV544",
+      "setMatrixGroupPageV546",
+      "toggleAntiAiField",
+      "switchAdminTab",
+      "setAdminGradeFilter",
+      "setAdminResultFilter",
+      "setAdminResultGradeFilterV45",
+      "setAdminResultSourceFilterV45",
+      "setAdminResultLessonFilterV45",
+      "setAdminResultStudentSearchV45",
+      "resetAdminResultFiltersV45",
+      "setAdminResultSubTabV45",
+      "setAdminResultCompareAxisV45",
+      "setAdminResultSortByV45",
+      "focusSingleExamResultV45",
+      "exportFilteredResultsToExcelV45",
+      "setAdminUserClassFilter",
+      "setAdminUserStatusFilter",
+      "setCustomWatermarkText",
+      "approveStudentAccount",
+      "approveStudentWithVip",
+      "toggleStudentVipPackage",
+      "toggleStudentMasterVip",
+      "setStudentVipDuration",
+      "loginAsStudentForTesting",
+      "grantVipAllActiveStudents",
+      "approveAllPendingStudents",
+      "rejectStudentAccount",
+      "addSingleStudentAccount",
+      "setAdminLessonGradeFilter",
+      "openEditLessonModal",
+      "openAddNewLessonModal",
+      "closeEditLessonModal",
+      "saveEditedLesson",
+      "addBulkStudentAccounts",
+      "toggleLockStudentAccount",
+      "deleteStudentAccount",
+      "quickAddStudentOneRow",
+      "quickGenerateSampleStudent",
+      "toggleSelectSingleUser",
+      "toggleSelectAllFilteredUsers",
+      "quickDeleteSelectedUsers",
+      "quickDeleteAllPendingUsers",
+      "quickDeleteFilteredUsers",
+      "wipeAllStudentAccountsNow",
+      "syncCloudUsersNow",
+      "checkStudentCloudApprovalNow",
+      "undoLastDeletedUsers",
+      "exportStudentAccountsExcel",
+      "quickAttachExamToLesson",
+      "viewExamResultsInAdmin",
+      "deleteExamById",
+      "deleteHistoryRecord",
+      "deleteFilteredHistoryRecordsV52",
+      "openAdminAnswerModal",
+      "closeAdminAnswerModal",
+      "updateAdminFastP1",
+      "updateAdminFastP2",
+      "updateAdminFastP3",
+      "updateAdminFastP4",
+      "openAdminMetaModal",
+      "closeAdminMetaModal",
+      "saveAdminMetaModal",
+      "toggleExamPublicUnlock",
+      "setCreatePublicUnlock",
+      "setCreateField",
+      "setCreateGrade",
+      "setCreateTargetType",
+      "setCreateWatermark",
+      "setCreateSourceTab",
+      "_applyParsedExamToCreateFormV96",
+      "clearV97LoadedFile",
+      "loadMoreExamBankCardsV469",
+      "toggleGitHubSyncConfigPanelV473",
+      "_processV97RawContentV468",
+      "onV97PasteInput",
+      "toggleManualPart4BoxV96",
+      "selectDetectedMultiExamV96",
+      "saveAllDetectedMultiExamsToBank",
+      "handleV97FileSelect",
+      "generateAutoExamFromMatrixBank",
+      "saveCreatedExam",
+      "exportHistoryToExcel",
+      "importGoogleFormExcel",
+      "setEmbedTargetExam",
+      "copyStandaloneHtmlForGSites",
+      "downloadStandaloneHtmlFile",
+      "retypesetAll",
+      "toggleHideAuthorInfo",
+      "updateGFormFieldSilent",
+      "extractGFormEntriesNow",
+      "LoadDemoGFormTemplate",
+      "autoParseGFormUrl",
+      "saveGFormSettings",
+      "clearGFormSettings",
+      "testSendGoogleForm",
+      "resendSingleAttemptToGForm",
+      "syncAllHistoryToGoogleForm",
+      "setAdminUsersSubView",
+      "onAccountGFormUrlInput",
+      "saveAccountGFormConfig",
+      "testSendSampleLogToGForm",
+      "syncSingleLogToGForm",
+      "syncAllUnsentLogsToGForm",
+      "togglePerfSetting",
+      "pruneAndOptimizeBrowserStorage",
+      "setAdminActivityFilter",
+      "clearOldActivityLogs",
+      "openStudentHistoryModal",
+      "closeStudentHistoryModal",
+      "setStudentHistoryModalTab",
+      "exportActivityLogsToExcel",
+      "exportSingleStudentHistoryExcel",
+      "importGoogleFormActivityExcel"
+    ]
+  },
+  "accessibility": {
+    "data_attributes": {
+      "data-theme": 220,
+      "data-p2-key": 3,
+      "data-v5-theme-btn": 2,
+      "data-author-brand": 2,
+      "data-p1-q": 2,
+      "data-p2-q": 2,
+      "data-p2-val": 2,
+      "data-v5-theme-cycle": 1,
+      "data-p1-opt": 1
+    },
+    "aria_attributes": {
+      "aria-label": 7,
+      "aria-hidden": 6,
+      "aria-checked": 1
+    },
+    "switcher_and_view_samples": [
+      {
+        "line": 45,
+        "attribute": "data-v5-theme-btn",
+        "source": "var btns = document.querySelectorAll('[data-v5-theme-btn]');"
+      },
+      {
+        "line": 48,
+        "attribute": "data-v5-theme-btn",
+        "source": "var val = btn.getAttribute('data-v5-theme-btn');"
+      },
+      {
+        "line": 125,
+        "attribute": "data-v5-theme-btn",
+        "source": "var targetBtn = group && group.querySelector('[data-v5-theme-btn=\"' + nextMode + '\"]');"
+      },
+      {
+        "line": 152,
+        "attribute": "data-v5-theme-btn",
+        "source": "html += '<button type=\"button\" role=\"radio\" data-v5-theme-btn=\"' + it.id + '\" aria-checked=\"' + (active ? 'true' : 'false') + '\" tabindex=\"' + (active ? '0' : '-1') + '\" title=\"' + it.title + '\" onclick=\"window.TRITHUC_THEME.setMode(\\'' + it.id + '\\')\" onkeydown=\"window.TRITHUC_THEME.onKeyDown(event,\\'' + it.id + '\\')\" class=\"v5-theme-btn' + (active ? ' v5-theme-btn-active' : '') + '\">'"
+      },
+      {
+        "line": 55,
+        "attribute": "data-v5-theme-status",
+        "source": "var statusEls = document.querySelectorAll('[data-v5-theme-status]');"
+      }
+    ]
+  },
+  "storage": {
+    "keys": [
+      "trithuc_partA_mastered_v446",
+      "trithuc_study_font_v446",
+      "TRITHUC50_VIP_CLASSES_V544",
+      "TRITHUC50_CLEAN_STUCK_PUB_EXAMS_V44",
+      "TRITHUC50_PUBLIC_EXAMS_TS",
+      "TRITHUC50_REALWORLD_OVERRIDES_V439",
+      "TRITHUC50_MIGRATED_CLEAN_V436",
+      "TRITHUC50_NEW_REG_ALERT",
+      "TRITHUC50_HIDE_AUTHOR_TS",
+      "TRITHUC50_CUSTOM_EXAMS_V23",
+      "TRITHUC50_EXAM_OVERRIDES_V26",
+      "TRITHUC50_LESSON_OVERRIDES_V439_PROF_SVG",
+      "TRITHUC50_PUBLIC_LESSONS_V44",
+      "TRITHUC50_DELETED_EXAMS_V23",
+      "TRITHUC50_DELETED_ATTEMPTS_V52",
+      "TRITHUC50_HISTORY_V436",
+      "TRITHUC50_USERS_V436_CLEAN",
+      "TRITHUC50_DELETED_USERS_V436",
+      "TRITHUC50_LOGGED_STUDENT_V436",
+      "TRITHUC50_REMEMBER_STU_CREDS_V436",
+      "TRITHUC50_ADMIN_CREDS_V23",
+      "TRITHUC50_REMEMBER_ADMIN_SESSION_V26",
+      "TRITHUC50_REMEMBER_ADMIN_CREDS_V26",
+      "TRITHUC50_GFORM_CONFIG_V23",
+      "TRITHUC50_PUBLIC_SITE_URL_V23",
+      "TRUNG_GEMINI_OCR_KEY",
+      "TRITHUC50_DEVICE_HW_TOKEN_V26",
+      "TRITHUC50_DEVICE_SEC_POLICY_V26",
+      "TRITHUC50_ACTIVITY_LOGS_V27",
+      "TRITHUC50_PERF_CONFIG_V27",
+      "TRITHUC50_HIDE_AUTHOR_V26",
+      "trithuc_theme_mode_v5"
+    ]
+  }
+}

@@ -1,9 +1,9 @@
-# FINDINGS — TRITHUC5.0 V4.8.6 (current live build)
+# FINDINGS — TRITHUC5.0 V5.4.6 (current live build)
 
 **Target:** `https://trithuc500.vercel.app/`  
-**Build:** SHA-256 `ffe94aea9b327853b0b8836bf0d52e1f509fcc68c007bead7b8a888604389185`, 9,120,257 bytes, 34,677 lines, fetched 2026-11-22T10:36:26Z.  
+**Build:** SHA-256 `2dbf781e4febf2e47a78da81352227de30c4972a8f0491e4864bdb32e370f61c`, 2,777,970 bytes, 39,205 lines, fetched 2026-11-24T12:14:00Z.  
 **Scope:** client-side only, plus one read-only HTTP GET to the new same-origin results endpoint. Every PoC runs in the attacker's own browser. Nothing is published to ntfy.sh, keyvalue.immanuel.co or Google Forms, and no real account is touched.  
-**Build delta:** [`PHASE5_UPDATE.md`](PHASE5_UPDATE.md) records the V4.8.0 → V4.8.6 changes. Older line numbers are history only.
+**Build delta:** [`PHASE5_UPDATE.md`](PHASE5_UPDATE.md) records the V4.8.6 → V5.4.6 changes. Older line numbers are history only.
 
 Each finding maps to exactly one runnable PoC in `poc/`. Two PoC types:
 
@@ -21,23 +21,22 @@ Each finding maps to exactly one runnable PoC in `poc/`. Two PoC types:
 | **Critical** | NEW-11 |
 | **High** | F-01, F-03, NEW-13, NEW-14, NEW-17 |
 | **Medium** | F-05, NEW-07, NEW-08, NEW-10 |
-| **Low / Informational** | F-04, NEW-02, F-06, NEW-03, NEW-05, NEW-06 |
-| **Fixed / disabled** | F-02, NEW-15, NEW-01, NEW-03 nonce/age paths, NEW-04, NEW-08 password masking, NEW-09, NEW-16, unsigned F-01 tombstone, V4.5 boot auto-seal, plaintext admin remember-me, public keyvalue.immanuel.co writes |
+| **Low / Informational** | NEW-02, F-06, NEW-03, NEW-05, NEW-06 |
+| **Fixed / disabled** | F-02, NEW-15, F-04, NEW-08, NEW-01, NEW-03 nonce/age paths, NEW-04, NEW-09, NEW-16, unsigned F-01 tombstone, boot auto-seal, plaintext admin remember-me, public keyvalue.immanuel.co writes |
 
-Release verdict: **blocked**. Server-side admin login is a real fix, but VIP entitlement, tamper detection and exam grading remain client-authoritative, and a new results endpoint is readable without authentication. See [`EXECUTIVE_SUMMARY.md`](EXECUTIVE_SUMMARY.md).
+Release verdict: **blocked**. V5.4.6 fixed admin login, exam grading and Google Form disclosure, but VIP entitlement and tamper detection remain client-authoritative, and `/api/results` is readable without authentication. See [`EXECUTIVE_SUMMARY.md`](EXECUTIVE_SUMMARY.md).
 
 ---
 
 ## Critical
 
 ### NEW-11 — VIP approval seal uses a client-side secret
-`computeTeacherVipApprovalSealV44` (line 15871) derives the "teacher approval" seal from
-`state.vaultLockConfig.adminPassHash || DEFAULT_VAULT_PASS_HASH_V45` (literal now empty at
-line 2055) plus the literal `THAY_TRUNG_MASTER_SEAL_2026` (line 15876). The vault hash literal
-was removed in V4.8.5, but the master seal and every other input remain client-controllable;
-the seal is still reproducible offline.
+`computeTeacherVipApprovalSealV44` (line 19551) derives the "teacher approval" seal from
+a client-shipped canonical master literal plus the fixed suffix `THAY_TRUNG_MASTER_SEAL_2026`.
+V5.4.2 added `isValidTeacherVipSealV522` (line 19561) with legacy-seal migration, but the
+canonical secret remains in the public bundle. The seal is still reproducible offline.
 - **PoC:** `poc/poc_f03_vip_entitlement.js` (ACTION)
-- **Evidence state:** `LOCAL_CONFIRMED` — real V4.8.6 functions, end-to-end (`P4-16`, IV-09).
+- **Evidence state:** `LOCAL_CONFIRMED` — real V5.4.6 functions, end-to-end (`P4-16`, IV-09).
 
 ---
 
@@ -78,7 +77,7 @@ privileged ids. `isAdminExamAttempt` (line 14020) still exempts `isAdminTester` 
 - **Evidence state:** `LOCAL_CONFIRMED` (partial fix + residual).
 
 ### NEW-17 — Unauthenticated results API exposes student result records — **NEW**
-V4.8.6 added `GET /api/results` (line 4814) and `POST /api/results` (line 4692). The client
+V5.4.6 added `GET /api/results` (line 4814) and `POST /api/results` (line 4692). The client
 sends `credentials: 'same-origin'` but no Authorization header. A single read-only curl GET
 without any cookie returned HTTP 200, `Cache-Control: no-store`, `ok=true`, and two records
 with fields including `username`, `name`, `class`, `school`, `score`, `examTitle`, `startTime`,
@@ -124,7 +123,7 @@ dropping their log entries. `stu_free_12b1` returns `false`, so public-exam gues
 ## Low / Informational
 
 ### F-04 — Exam answers ship in the bundle
-V4.8.6 keeps the gzip + PRNG-XOR vault (`var __ENC_GZ` at line 1464) with claim token
+V5.4.6 keeps the gzip + PRNG-XOR vault (`var __ENC_GZ` at line 1464) with claim token
 `TT50_V45_INTERNAL_BOOT_SEAL` (line 1967). The token and chunk seed `0x4F81E3A7` are bundle
 literals. The isolated decoder recovered **15 exams / 330 answer entries** offline
 (`F-04-T01`). Grading remains client-side; no server grading endpoint exists.
@@ -168,7 +167,7 @@ There is still no CSP and `Access-Control-Allow-Origin: *` remains.
 
 ---
 
-## What V4.8.5 / V4.8.6 fixed
+## What V4.8.5 / V5.4.6 fixed
 
 | Earlier issue | Status | Proof |
 |---|---|---|
@@ -203,7 +202,7 @@ These are barriers, not a complete trust boundary.
 Run them all:
 
 ```bash
-export TRITHUC_SOURCE=/absolute/path/to/V4.8.6/target.html
+export TRITHUC_SOURCE=/absolute/path/to/V5.4.6/target.html
 node research/trithuc5/tests/run_all.js
 node research/trithuc5/tests/phase3_tests.js
 node research/trithuc5/tests/phase4_tests.js
@@ -241,4 +240,4 @@ All PoCs are validated by `tests/poc_suite_validation.js` (60 checks), which exe
 - No real account was accessed, modified, or impersonated.
 - Only one new production request was made: an unauthenticated, read-only GET to `/api/results`; no values were retained.
 - Live ntfy content remains `UNVERIFIED` (read-only checks found no usable recent snapshot).
-- Historical documents for superseded V4.3.9/V4.4/V4.5/V4.8.0 builds are retained only where explicitly marked historical; the current tree is pinned to V4.8.6.
+- Historical documents for superseded V4.3.9/V4.4/V4.5/V4.8.0 builds are retained only where explicitly marked historical; the current tree is pinned to V5.4.6.

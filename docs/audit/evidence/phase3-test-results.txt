@@ -1,4 +1,6 @@
-PASS P3-01 registration password reaches Google Form payload and localStorage activity log
+=== TRITHUC5.0 V4.5 Phase 3 controlled validation ===
+source sha256: 2dbf781e4febf2e47a78da81352227de30c4972a8f0491e4864bdb32e370f61c
+PASS P3-01 V5.4.6 FIX: local log keeps synthetic marker but no Google Form payload is sent
 PASS P3-02 V4.8.0 FIX: sensitive keys stay in localStorage, not cookie/window.name/sessionStorage
 PASS P3-03 V4.8.0 FIX: stale packets are rejected at the verifier even when signed
 PASS P3-04 V4.8.5 FIX: public KV writes disabled; passwords, seal and token absent from remaining writes

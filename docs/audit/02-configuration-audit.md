@@ -1,6 +1,6 @@
 # 02 — Configuration audit
 
-**Source of truth:** `research/trithuc5/current.headers` captured from `https://trithuc500.vercel.app/` on 2026-11-22T10:36:26Z, plus static analysis of the V4.8.6 bundle.
+**Source of truth:** `research/trithuc5/current.headers` captured from `https://trithuc500.vercel.app/` on 2026-11-24T12:14:00Z, plus static analysis of the V5.4.6 bundle.
 **Scope note:** Only the response headers observed from the target are assessed. TLS chain/cipher details and redirect behavior were not actively tested and are marked UNVERIFIED.
 
 ## 1. HTTP security headers
@@ -36,7 +36,7 @@ The application sets cookies from JavaScript, not from a server `Set-Cookie` hea
 |---|---|---|
 | `SameSite` | `Strict` since V4.8.0 (was `Lax`) | Improved. Applies to non-sensitive keys only; sensitive keys are excluded entirely by `__SENSITIVE_STORAGE_RE_V480__` (2228). |
 | `HttpOnly` | Absent | Expected for JS-set cookies; no server session cookie exists to protect. |
-| `Secure` | Absent | Cookie is same-origin and non-sensitive after V4.8.0 filtering; retained in V4.8.6; still a hardening gap if cookies are used more broadly. |
+| `Secure` | Absent | Cookie is same-origin and non-sensitive after V4.8.0 filtering; retained in V5.4.6; still a hardening gap if cookies are used more broadly. |
 | `Path` / `Domain` | `path=/`, no explicit `Domain` | Host-only cookie. |
 | Lifecycle | `max-age=31536000` (one year) | Long-lived for non-sensitive mirror values. |
 | Sensitive data in cookies | Not observed after V4.8.0 fix | `P3-02`, IV-24 verify sensitive keys no longer mirror. |
@@ -71,6 +71,6 @@ The application sets cookies from JavaScript, not from a server `Set-Cookie` hea
 | Informational | Missing CSP | OBSERVATION |
 | Informational | Wildcard CORS on main document | OBSERVATION |
 | Informational | JS-set cookies lack `Secure` / `HttpOnly` | OBSERVATION after sensitive-key filtering; server admin cookie not inspected |
-| Positive | HSTS, XFO, nosniff, Referrer-Policy, Permissions-Policy | Verified present in V4.8.6 |
+| Positive | HSTS, XFO, nosniff, Referrer-Policy, Permissions-Policy | Verified present in V5.4.6 |
 
 No configuration-only finding is claimed as an independently exploitable vulnerability in this report.

@@ -1,9 +1,9 @@
 Target: https://trithuc500.vercel.app/
-Build: V4.8.6
-SHA-256: ffe94aea9b327853b0b8836bf0d52e1f509fcc68c007bead7b8a888604389185
+Build: V5.4.6
+SHA-256: 2dbf781e4febf2e47a78da81352227de30c4972a8f0491e4864bdb32e370f61c
 Bytes: 9120257
 Lines: 34677
-Fetched: 2026-11-22T10:36:26Z (HTTP 200)
+Fetched: 2026-11-24T12:14:00Z (HTTP 200)
 
 The raw HTML is not committed because it contains credential and signing literals.
 All harnesses pin EXPECTED_SHA and refuse to run on a changed source.

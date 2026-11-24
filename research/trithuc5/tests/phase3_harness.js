@@ -13,7 +13,7 @@ const EXTRA_FNS = [
     'postToGoogleFormEndpoint',
     'syncActivityLogToGoogleForm',
     'logStudentActivity',
-    'isAdminExamAttempt'
+    'isAdminExamAttempt', 'pushSystemUserPacketToVercelApiV521'
 ];
 
 function createDeepEnv(options) {

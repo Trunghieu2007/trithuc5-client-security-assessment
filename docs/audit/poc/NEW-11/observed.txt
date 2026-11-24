@@ -1,11 +1,11 @@
 PoC: NEW-11 — VIP approval seal is derived from bundle-literal secrets
-Build: V4.8.6 / SHA-256 ffe94aea9b327853b0b8836bf0d52e1f509fcc68c007bead7b8a888604389185
+Build: V5.4.6 / SHA-256 2dbf781e4febf2e47a78da81352227de30c4972a8f0491e4864bdb32e370f61c
 Evidence state: LOCAL_CONFIRMED
 
 OBSERVED:
 `IV-02b`, `IV-03`, `IV-04`, `IV-05`, `IV-06` and `IV-09` observed all three gates returning true and a `bkt44_`-style token issued, with zero KV writes and zero form dispatches.
 
 Evidence references:
-- Independent suite `IV-01`…`IV-10` executes the real V4.8.6 functions with synthetic records.
+- Independent suite `IV-01`…`IV-33` executes the real V5.4.6 functions with synthetic records.
 - `P4-16` reproduces the complete `_sig` → seal → vault → gate chain with zero KV writes.
 - `poc-suite-validation.txt` confirms the ACTION PoC changes only local mechanism state and writes nothing to ntfy/KV.

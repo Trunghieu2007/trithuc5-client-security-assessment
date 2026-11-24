@@ -1,8 +1,8 @@
 # 04 — Findings summary
 
-**Build:** V4.8.6 / SHA-256 `ffe94aea9b327853b0b8836bf0d52e1f509fcc68c007bead7b8a888604389185`  
+**Build:** V5.4.6 / SHA-256 `2dbf781e4febf2e47a78da81352227de30c4972a8f0491e4864bdb32e370f61c`  
 **Assessment period:** 2026-11-18 → 2026-11-22, final re-pin 2026-11-22.  
-**Active/residual findings:** 16.  
+**Active/residual findings:** 14.  
 **Release decision:** blocked. The measured trust boundary remains in the browser.
 
 ## Findings by severity
@@ -11,8 +11,8 @@
 |---|---:|
 | Critical | 1 |
 | High | 5 |
-| Medium | 4 |
-| Low | 5 |
+| Medium | 3 |
+| Low | 4 |
 | Informational | 1 |
 
 ## Active and residual findings
@@ -27,8 +27,6 @@
 | F-05 | Device lock and Gmail binding are enforced from client-owned fields | Medium | Confirmed | Partially Fixed |
 | NEW-07 | Cross-tab state replacement still copies non-VIP fields from writable storage | Medium | Confirmed | Partially Fixed |
 | NEW-10 | Admin-tester identities still suppress audit logging | Medium | Confirmed | Partially Fixed |
-| NEW-08 | Activity logs still reach a third-party Google Form; password masking is fixed | Medium | Confirmed | Partially Fixed |
-| F-04 | Exam answers are recoverable from a bundle-seeded client vault | Low | Confirmed | Open |
 | NEW-02 | Unsigned cloud packet injection still inserts a pending local user | Low | Confirmed | Open |
 | F-06 | Anti-cheat controls are UX-only | Low | Confirmed | Open |
 | NEW-03 | Replay and age guards are present but the packet nonce is optional | Low | Confirmed | Partially Fixed |

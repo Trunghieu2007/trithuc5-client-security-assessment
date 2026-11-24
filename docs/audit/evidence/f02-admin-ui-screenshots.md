@@ -1,6 +1,6 @@
 # F-02 admin UI screenshots — user-supplied local evidence (HISTORICAL)
 
-> **Superseded by V4.8.5/V4.8.6.** These screenshots document the old
+> **Superseded by V4.8.5/V5.4.6.** These screenshots document the old
 > client-side session path, which no longer exists in the current build. See
 > `../FINDINGS.md` for the current F-02 status. The
 > images are retained only as historical evidence and must not be used to

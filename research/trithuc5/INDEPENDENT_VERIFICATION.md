@@ -1,14 +1,14 @@
-# Independent verification — V4.8.6 (2026-11-22)
+# Independent verification — V5.4.6 (2026-11-22)
 
 Execution-based re-verification of the current build, written separately from the original
 Phase 4 suite. It uses its own SHA pin, its own extraction code and its own VM environment:
 `tests/independent_verification.js` (36 checks, 36 pass, 0 fail; output in
 `evidence/independent-verification.txt`). Every check calls **real functions extracted from
-the V4.8.6 bundle** with synthetic data. No network request, no real account, no credential
+the V5.4.6 bundle** with synthetic data. No network request, no real account, no credential
 literal from production. Superseded V4.3.9/V4.4/V4.5 documents and line numbers are not used.
 
-Source: SHA-256 `ffe94aea9b327853b0b8836bf0d52e1f509fcc68c007bead7b8a888604389185`
-(9,120,257 bytes, 34,677 lines).
+Source: SHA-256 `2dbf781e4febf2e47a78da81352227de30c4972a8f0491e4864bdb32e370f61c`
+(2,777,970 bytes, 39,205 lines).
 
 ## 1. NEW-11 — `_sig` → seal → real access gates (IV-01…IV-10)
 
@@ -38,7 +38,7 @@ NEW-11 remains Critical.
 
 ## 2. NEW-14/NEW-15 — which gates are actually bypassed (IV-11…IV-20)
 
-V4.8.6 partially closes the exemptions; the residual behavior was executed with identical
+V5.4.6 partially closes the exemptions; the residual behavior was executed with identical
 tampered records and controls on ordinary ids:
 
 - `detectAndBlockStudentVipHackV44` (15924) now returns `true` for `isAdminTester` and for
@@ -107,4 +107,13 @@ because the key is public.
 All fixtures are synthetic. No packet was published, no real login was used, no form was
 submitted to a live endpoint, no production state was modified. Live-channel contents
 remain `UNVERIFIED`; release remains blocked. Vulnerabilities marked `LOCAL_CONFIRMED` were
-reproduced with extracted V4.8.6 functions in the isolated VM.
+reproduced with extracted V5.4.6 functions in the isolated VM.
+
+
+## V5.4.6 re-pin
+
+`tests/independent_verification.js` now pins SHA-256 `2dbf781e…` and re-measured line
+ranges (memory store 4845, hash literals 4679–4704, sensitive regex 4878, nonce 8818,
+boot normalizer 6314–6383). Result: 36 checks, 36 pass, 0 fail. IV-21/22/23 were
+inverted to FIX assertions after Google Form dispatch was disabled. IV-01/09 remain
+critical: the new `TT50_CANONICAL_MASTER_V522` seal literal is still client-shipped.

@@ -1,6 +1,6 @@
 # 05 — Remediation roadmap
 
-**Build:** V4.8.6 / SHA-256 `ffe94aea9b327853b0b8836bf0d52e1f509fcc68c007bead7b8a888604389185`  
+**Build:** V5.4.6 / SHA-256 `2dbf781e4febf2e47a78da81352227de30c4972a8f0491e4864bdb32e370f61c`  
 **Principle:** fix the root trust boundary, not the individual payload. Client-side checks may remain as UX, but must not be the authority for identity, entitlement, grading or packet validity.
 
 Timelines are suggested sequencing, not measured delivery commitments. Every item lists its verification method so a reviewer can invert the current regression assertion.

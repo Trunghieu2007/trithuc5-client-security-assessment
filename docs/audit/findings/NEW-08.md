@@ -1,15 +1,15 @@
-# NEW-08: Activity logs still reach a third-party Google Form; password masking is fixed
+# NEW-08: Third-party Google Form sync disabled; password masking retained — FIXED
 
 **Severity:** Medium  
 **CVSS v4.0:** not scored — see `../03-methodology.md`.  
 **Confidence:** Confirmed  
-**Status:** Partially Fixed  
+**Status:** Fixed  
 **Evidence state:** LOCAL_CONFIRMED for masking fix; live delivery UNVERIFIED  
-**Build pin:** V4.8.6, SHA-256 `ffe94aea9b327853b0b8836bf0d52e1f509fcc68c007bead7b8a888604389185`
+**Build pin:** V5.4.6, SHA-256 `2dbf781e4febf2e47a78da81352227de30c4972a8f0491e4864bdb32e370f61c`
 
 ## 1. Overview
 
-This finding was verified against the source-hash-pinned V4.8.6 client build. Evidence comes from captured headers, static source review, or real extracted functions executed in an isolated Node VM with synthetic fixtures. No production state was modified.
+This finding was verified against the source-hash-pinned V5.4.6 client build. Evidence comes from captured headers, static source review, or real extracted functions executed in an isolated Node VM with synthetic fixtures. No production state was modified.
 
 ## 2. Severity
 
@@ -24,7 +24,7 @@ This finding was verified against the source-hash-pinned V4.8.6 client build. Ev
 
 ## 3. Status
 
-Confirmed — Partially Fixed. Evidence state: LOCAL_CONFIRMED for masking fix; live delivery UNVERIFIED.
+Confirmed — Fixed. Evidence state: LOCAL_CONFIRMED for masking fix; live delivery UNVERIFIED.
 
 ## 4. Affected components
 
@@ -38,7 +38,7 @@ Activity telemetry must not disclose student identity to an unrelated third part
 
 ## 6. Root cause
 
-The form sync path remains. V4.8.6 masks password-like `detail` values, but name, class, score and detail still leave the client.
+V5.4.6 returns `false` immediately from `dispatchParamsToGoogleFormUrl` with the marker `V5.4.6: Đã gỡ bỏ hoàn toàn Google Form`. `logStudentActivity` still writes a masked local entry but `syncedToGForm` is always false.
 
 ## 7. Evidence
 
@@ -71,11 +71,11 @@ No student identity or activity detail should be sent to a third party without e
 
 ## 12. Actual behavior
 
-Password-like detail is masked; name, class, score and other detail values are still present in the wire payload.
+No Google Form dispatch payload is produced at all; the masked detail remains only in localStorage.
 
 ## 13. Impact
 
-Third-party form operators can receive student identity and activity metadata. The tested credential-like value is no longer exposed through this path.
+The third-party disclosure path is closed in V5.4.6. Activity records remain local and are synced through the first-party results API.
 
 ## 14. Attack scenario
 

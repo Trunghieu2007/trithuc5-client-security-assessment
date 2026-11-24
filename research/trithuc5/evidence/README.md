@@ -1,16 +1,16 @@
-# Evidence index — TRITHUC5.0 V4.8.6 (current live build)
+# Evidence index — TRITHUC5.0 V5.4.6 (current live build)
 
 All items are local, synthetic, and safe to publish. No real usernames, passwords, session tokens, private keys, or production packet contents are stored here.
 
 ## Source identity
 
-- **V4.8.6 build (current live target):**
-  - Bytes: 9,120,257
-  - Lines: 34,677
-  - SHA-256: `ffe94aea9b327853b0b8836bf0d52e1f509fcc68c007bead7b8a888604389185`
-  - Fetched: 2026-11-22T10:36:26Z, HTTP 200
+- **V5.4.6 build (current live target):**
+  - Bytes: 2,777,970
+  - Lines: 39,205
+  - SHA-256: `2dbf781e4febf2e47a78da81352227de30c4972a8f0491e4864bdb32e370f61c`
+  - Fetched: 2026-11-24T12:14:00Z, HTTP 200
   - Headers captured in `phase5-target.headers` and copied to `current.headers` and `response-headers.txt`. HSTS, XFO `DENY`, `nosniff`, Referrer-Policy and Permissions-Policy are present; CSP is absent and CORS remains `*`.
-  - The V4.8.6 HTML itself is kept local (`research/trithuc5/phase5/target.html`) and is **not** committed; every harness pins its hash (`EXPECTED_SHA`) and refuses to run if it changes.
+  - The V5.4.6 HTML itself is kept local (`research/trithuc5/phase5/target.html`) and is **not** committed; every harness pins its hash (`EXPECTED_SHA`) and refuses to run if it changes.
 - Superseded builds (V4.3.9 `fe6fef99…`, V4.4 `33be09d7…`, V4.5 `eff11902…`, V4.6.7 `8ec45ea6…`, V4.8.0 `be27a5bc…`) are history only; their line numbers must not be reused for this build.
 - Re-measure line numbers after any redeploy.
 
@@ -22,17 +22,17 @@ All items are local, synthetic, and safe to publish. No real usernames, password
 - `poc-suite-validation.txt`: `tests/poc_suite_validation.js` — 60 checks, 60 pass, 0 fail. Executes every PoC in a mock browser VM, including the two fix-verification DISPLAY PoCs and the new read-only NEW-17 PoC.
 - `independent-verification.txt`: `tests/independent_verification.js` — 36 checks, 36 pass, 0 fail. Independent SHA pin, extraction and VM. Verify the VIP chain, NEW-14 residual, F-02/NEW-15 fixes, Google Form masking and tombstone behavior.
 - `secure-controls-v44.txt`: `tests/secure_controls.js` — 7 pass, 2 expected failures (SC-07 unsigned user insertion, SC-09 cross-account signed packet). All nine must pass after remediation.
-- The suites run real functions extracted from the V4.8.6 source in a Node VM with mock storage, cookie, KV and transport. They make no production requests.
+- The suites run real functions extracted from the V5.4.6 source in a Node VM with mock storage, cookie, KV and transport. They make no production requests.
 
 ## Live read-only probe
 
-- `live-readonly-check.txt`: historical ntfy/KV check plus the V4.8.6 `GET /api/results` metadata probe. The results request was unauthenticated, returned HTTP 200 with two records, and only status, count and field names were retained. No values were printed or stored. This confirms NEW-17.
-- `response-headers.txt`: exact V4.8.6 response headers.
+- `live-readonly-check.txt`: historical ntfy/KV check plus the V5.4.6 `GET /api/results` metadata probe. The results request was unauthenticated, returned HTTP 200 with two records, and only status, count and field names were retained. No values were printed or stored. This confirms NEW-17.
+- `response-headers.txt`: exact V5.4.6 response headers.
 
 ## Sanitized fixtures and historical evidence
 
 - `packet-fixtures.json`: synthetic packet shapes used by the tests. Values such as `synthetic_password` are invented and are not credentials.
-- `source-refs.txt`: complete measured V4.8.6 line map. `source-refs-phase3.txt` remains historical.
+- `source-refs.txt`: complete measured V5.4.6 line map. `source-refs-phase3.txt` remains historical.
 - `f02-session-validation.txt`, `f02-admin-ui-screenshots.md`, `f02-admin-*.png`, `f02-admin-vip-matrix-redacted.md/.png`, `no-login-vip-*.png/.md` and `live-console-observations.md`: user-supplied historical evidence. Files describing the old F-02/NEW-15 bypass are explicitly marked superseded and must not be used to claim a current bypass.
 - `../phase3/fetch.info` and `../phase3/target.headers`: provenance for the independent 2026-11-17 fetch. The raw body is not committed.
 
@@ -45,8 +45,8 @@ Old V4.3.9/V4.4/V4.5-era PoCs and superseded analysis documents were removed fro
 From the repository root:
 
 ```bash
-# the V4.8.6 source must be fetched locally and passed explicitly
-export TRITHUC_SOURCE=/absolute/path/to/V4.8.6/target.html
+# the V5.4.6 source must be fetched locally and passed explicitly
+export TRITHUC_SOURCE=/absolute/path/to/V5.4.6/target.html
 node research/trithuc5/tests/run_all.js                  # 41 pass
 node research/trithuc5/tests/phase3_tests.js             # 8 pass
 node research/trithuc5/tests/phase4_tests.js             # 20 pass
@@ -74,3 +74,15 @@ CURRENT STATE: controls fail as expected before remediation
 - The only new production request was one unauthenticated read-only GET to `/api/results`; no values were retained.
 - Live ntfy content remains UNVERIFIED; no usable snapshot was found.
 - All exploitability statements marked `CONFIRMED` were reproduced only in the isolated harness or by the documented read-only endpoint probe.
+
+## V5.4.6 re-pin (2026-11-24)
+
+- Source SHA-256 `2dbf781e4febf2e47a78da81352227de30c4972a8f0491e4864bdb32e370f61c`,
+  2,777,970 bytes, 39,205 lines.
+- Suites: main 41/41, phase3 8/8, phase4 20/20, PoC validation 60/60,
+  independent 36/36; secure controls 7 pass / 2 expected-fail (SC-07, SC-09).
+- Genuine V5.4.x fixes: Google Form dispatch disabled; exam answers/questions removed
+  from bundle (191 shells, 0 answers); grading moved to `/api/exams/submit`;
+  `isValidTeacherVipSealV522` added with legacy-seal migration.
+- NEW-17 remains: read-only GET `/api/results` returned HTTP 200, 89 records, with
+  name/class/username/score fields. Only status, count and field names were retained.

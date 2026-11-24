@@ -11,7 +11,7 @@ const crypto = require('crypto');
 
 const SOURCE = process.env.TRITHUC_SOURCE || path.join(
     __dirname, '..', '..', '..', '..', 'research', 'trithuc5', 'phase5', 'target.html');
-const EXPECTED_SHA = 'ffe94aea9b327853b0b8836bf0d52e1f509fcc68c007bead7b8a888604389185';
+const EXPECTED_SHA = '2dbf781e4febf2e47a78da81352227de30c4972a8f0491e4864bdb32e370f61c';
 
 function readSource() {
     const text = fs.readFileSync(SOURCE, 'utf8');
@@ -105,7 +105,7 @@ const FN_NAMES = [
     'readWindowNameStore', 'writeWindowNameStore', 'safeStorageGet', 'safeStorageSet', 'safeStorageRemove',
     'hashStringHex', 'sanitizePlainInput', 'toBase64UrlSafe', 'fromBase64UrlSafe',
     'computeCloudPacketAdminSig', 'computeUserIntegritySig', 'computeAdminSessionSig',
-    'computeTeacherVipApprovalSealV44', 'detectAndBlockStudentVipHackV44',
+    'computeTeacherVipApprovalSealV44', 'isValidTeacherVipSealV522', 'detectAndBlockStudentVipHackV44',
     'recordVipHackSecurityAlertV44',
     'verifyRuntimeSecurityIntegrity', 'isStudentVipExpired',
     'serializeCompactUser', 'deserializeCompactUser', 'isUserDeletedByTombstone',
@@ -114,7 +114,8 @@ const FN_NAMES = [
     'getCanvasAndWebGLHardwareSig', 'getHardwareDeviceProfile', 'isValidStudentGmail',
     'buildCompactCustomMockSpecs',
     'verifyAndBindStudentDeviceOnLogin', 'decryptV97EmbedPayload',
-    'saveUsersState', 'broadcastTeacherUsersToCloud'
+    'saveUsersState', 'broadcastTeacherUsersToCloud',
+    'requestBackgroundRenderV521', 'isUserTypingInModalOrInputV521', 'syncActivityLogToGoogleForm'
 ];
 
 function createEnv(options) {
@@ -238,18 +239,18 @@ function createEnv(options) {
         extractDeclaration(src.lines, 'const STORAGE_KEYS = {').code,
         extractDeclaration(src.lines, 'const setupCrossTabUserSync =').code,
         extractFunction(src.lines, 'getCanvasAndWebGLHardwareSig').code,
-        // Cloud sync constants (V4.8.6: lines 4295-4299) are lexical, not functions.
-        extractLineRange(src.lines, 4295, 4299).code,
-        // V4.6.3 closure-vault variables referenced by buildCompactCustomMockSpecs (line 1993-2005 — unchanged in V4.8.0).
-        extractLineRange(src.lines, 1993, 2005).code,
-        // V4.8.6 keeps the hash functions but empties the admin/vault literals (lines 2030-2055).
-        extractLineRange(src.lines, 2030, 2055).code,
+        // Cloud sync constants (V5.4.6: lines 7051-7055) are lexical, not functions.
+        extractLineRange(src.lines, 7051, 7055).code,
+        // V4.6.3 closure-vault variables referenced by buildCompactCustomMockSpecs (line 3814-3826).
+        extractLineRange(src.lines, 3814, 3826).code,
+        // V5.4.6 keeps the hash functions but empties the admin/vault literals (lines 4679-4704).
+        extractLineRange(src.lines, 4679, 4704).code,
         // V4.8.6 lexical constants referenced by safeStorageSet / packet verifier.
-        extractLineRange(src.lines, 2228, 2228).code,
-        extractLineRange(src.lines, 5768, 5768).code,
+        extractLineRange(src.lines, 4878, 4878).code,
+        extractLineRange(src.lines, 8818, 8818).code,
         ...FN_NAMES.map(n => extractFunction(src.lines, n).code),
-        // Admin session restore block exactly as shipped (V4.8.6: lines 3740-3752).
-        'function checkRememberedAdminSessionFromSource() {\n' + extractLineRange(src.lines, 3740, 3752).code + '\n}',
+        // Admin session restore block exactly as shipped (V5.4.6: lines 6485-6497).
+        'function checkRememberedAdminSessionFromSource() {\n' + extractLineRange(src.lines, 6485, 6497).code + '\n}',
         // Expose lexical constants/functions as context properties for assertions.
         'globalThis.STORAGE_KEYS = STORAGE_KEYS;',
         'globalThis.CLOUD_SYNC_TOPIC = CLOUD_SYNC_TOPIC;',

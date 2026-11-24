@@ -1,10 +1,10 @@
-PoC: F-04 — Exam answers are recoverable from a bundle-seeded client vault
-Build: V4.8.6 / SHA-256 ffe94aea9b327853b0b8836bf0d52e1f509fcc68c007bead7b8a888604389185
+PoC: F-04 — Exam answers were recoverable from a bundle-seeded client vault — FIXED
+Build: V5.4.6 / SHA-256 2dbf781e4febf2e47a78da81352227de30c4972a8f0491e4864bdb32e370f61c
 Type: DISPLAY
 
 EXPECTED:
 Answer keys should not be present in client-downloadable artifacts; grading should occur server-side.
 
 Prerequisites:
-- Pinned V4.8.6 source.
+- Pinned V5.4.6 source.
 - Local Node decoder; no live exam attempt.

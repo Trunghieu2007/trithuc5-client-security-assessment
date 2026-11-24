@@ -3,7 +3,7 @@
 **Target:** `https://trithuc500.vercel.app/`  
 **Owner authorization:** client-side-only assessment; no production write.  
 **Assessment period:** 2026-11-18 → 2026-11-22; final source re-pin 2026-11-22.  
-**Build under test:** V4.8.6, SHA-256 `ffe94aea9b327853b0b8836bf0d52e1f509fcc68c007bead7b8a888604389185`, 9,120,257 bytes / 34,677 lines, fetched 2026-11-22T10:36:26Z.  
+**Build under test:** V5.4.6, SHA-256 `2dbf781e4febf2e47a78da81352227de30c4972a8f0491e4864bdb32e370f61c`, 2,777,970 bytes / 39,205 lines, fetched 2026-11-24T12:14:00Z.  
 **Overall risk:** High. Release remains blocked for any use case that depends on account identity, entitlement or exam results.
 
 ## Scope

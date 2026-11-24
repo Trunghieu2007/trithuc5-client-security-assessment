@@ -1,7 +1,7 @@
 # PoC — NEW-15: Admin preview unlock-all is gated by a server-verified admin session
 
 **Type:** DISPLAY  
-**Build:** V4.8.6 / SHA-256 `ffe94aea9b327853b0b8836bf0d52e1f509fcc68c007bead7b8a888604389185`  
+**Build:** V5.4.6 / SHA-256 `2dbf781e4febf2e47a78da81352227de30c4972a8f0491e4864bdb32e370f61c`  
 **Canonical script:** [`research/trithuc5/poc/poc_new15_admin_preview.js`](../../../../research/trithuc5/poc/poc_new15_admin_preview.js)  
 **Cleanup:** `n/a (read-only)`
 
@@ -11,7 +11,7 @@ Demonstrate the measured NEW-15 behavior using only synthetic data: v4.
 
 ## Prerequisites
 
-- Pinned V4.8.6 source.
+- Pinned V5.4.6 source.
 - Synthetic pending student with no VIP fields.
 - No real admin account is used.
 

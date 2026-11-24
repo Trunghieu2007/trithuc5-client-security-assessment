@@ -28,3 +28,11 @@ examId, examTitle, id, name, school, score, startTime, stt, tabSwitches, usernam
 No auth header was sent by curl. No POST/write was performed.
 Interpretation: NEW-17 CONFIRMED as an unauthenticated read surface.
 === END READ-ONLY VERIFICATION ===
+
+2026-11-24 V5.4.6 re-pin — read-only GET /api/results:
+  HTTP 200, application/json, 136,981 bytes, cache-control no-store.
+  Response keys: ok, configured, count, serverTs, records.
+  records: 89; field names only (no values retained): aiSuspicionCount, class,
+  detail, endTime, examId, examTitle, id, name, school, score, startTime, stt,
+  sysPacket, tabSwitches, username.
+  NEW-17 remains open. No POST/write to any production endpoint.

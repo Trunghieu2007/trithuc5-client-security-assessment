@@ -1,7 +1,7 @@
 # PoC — NEW-13: Tamper detector adds a structural invariant but still trusts bundle secrets
 
 **Type:** ACTION  
-**Build:** V4.8.6 / SHA-256 `ffe94aea9b327853b0b8836bf0d52e1f509fcc68c007bead7b8a888604389185`  
+**Build:** V5.4.6 / SHA-256 `2dbf781e4febf2e47a78da81352227de30c4972a8f0491e4864bdb32e370f61c`  
 **Canonical script:** [`research/trithuc5/poc/poc_f03_vip_entitlement.js`](../../../../research/trithuc5/poc/poc_f03_vip_entitlement.js)  
 **Cleanup:** `__AERO_F03_RESTORE__()`
 
@@ -12,7 +12,7 @@ Demonstrate the measured NEW-13 behavior using only synthetic data: v4.
 ## Prerequisites
 
 - Synthetic renamed account fixture.
-- Pinned V4.8.6 source and local VM or browser console.
+- Pinned V5.4.6 source and local VM or browser console.
 
 ## Environment and test data
 

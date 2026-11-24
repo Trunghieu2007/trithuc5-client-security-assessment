@@ -5,11 +5,11 @@
 **Confidence:** Confirmed  
 **Status:** Open  
 **Evidence state:** LOCAL_CONFIRMED  
-**Build pin:** V4.8.6, SHA-256 `ffe94aea9b327853b0b8836bf0d52e1f509fcc68c007bead7b8a888604389185`
+**Build pin:** V5.4.6, SHA-256 `2dbf781e4febf2e47a78da81352227de30c4972a8f0491e4864bdb32e370f61c`
 
 ## 1. Overview
 
-This finding was verified against the source-hash-pinned V4.8.6 client build. Evidence comes from captured headers, static source review, or real extracted functions executed in an isolated Node VM with synthetic fixtures. No production state was modified.
+This finding was verified against the source-hash-pinned V5.4.6 client build. Evidence comes from captured headers, static source review, or real extracted functions executed in an isolated Node VM with synthetic fixtures. No production state was modified.
 
 ## 2. Severity
 
@@ -43,7 +43,7 @@ The master-seal value and vault hash are literals in the shipped bundle. Every o
 
 ## 7. Evidence
 
-- Independent suite `IV-01`…`IV-10` executes the real V4.8.6 functions with synthetic records.
+- Independent suite `IV-01`…`IV-33` executes the real V5.4.6 functions with synthetic records.
 - `P4-16` reproduces the complete `_sig` → seal → vault → gate chain with zero KV writes.
 - `poc-suite-validation.txt` confirms the ACTION PoC changes only local mechanism state and writes nothing to ntfy/KV.
 
@@ -51,7 +51,7 @@ All evidence files are sanitized and indexed in `../evidence/README.md`. No real
 
 ## 8. Reproduction prerequisites
 
-- Pinned V4.8.6 source available for inspection.
+- Pinned V5.4.6 source available for inspection.
 - Own browser origin and DevTools Console; no account, no server access.
 - Synthetic user fixture only.
 

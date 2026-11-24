@@ -1,8 +1,8 @@
 # 06 — Retest results
 
-**Retest target:** V4.8.6 build SHA-256 `ffe94aea9b327853b0b8836bf0d52e1f509fcc68c007bead7b8a888604389185` (fetched 2026-11-22T10:36:26Z).  
+**Retest target:** V5.4.6 build SHA-256 `2dbf781e4febf2e47a78da81352227de30c4972a8f0491e4864bdb32e370f61c` (fetched 2026-11-24T12:14:00Z).  
 **Previous reference build:** V4.6.7, SHA-256 `8ec45ea6…`.  
-**Method:** source-hash-pinned extraction of real V4.8.6 functions, isolated Node VM with synthetic fixtures, captured headers, and read-only channel checks. No production state was changed.
+**Method:** source-hash-pinned extraction of real V5.4.6 functions, isolated Node VM with synthetic fixtures, captured headers, and read-only channel checks. No production state was changed.
 
 ## 1. What was retested
 
@@ -29,7 +29,7 @@ All current findings were re-executed or re-measured after the V4.8.6 redeploy. 
 | NEW-03 | No replay protection | Partially Fixed — nonced replay/stale rejected; nonce optional | `F-01-T06/T07`, `P3-03`, `SC-05` |
 | NEW-05 | Key in localStorage | Partially Fixed — moved to sessionStorage | static review, PoC display |
 | NEW-06 | Weak headers | Partially Fixed — XFO/nosniff/referrer/permissions present; CSP absent, CORS wildcard | `A-03-T01`, `response-headers.txt` |
-| NEW-17 | Results API | New in V4.8.6 — unauthenticated GET returned result records | `live-readonly-check.txt`, `A-05-T01`, PoC suite |
+| NEW-17 | Results API | Unauthenticated GET still returns result records (200, 89 records on V5.4.6) | `live-readonly-check.txt`, `A-05-T01`, PoC suite |
 
 ## 3. Verified fixed items preserved as regressions
 
@@ -74,4 +74,4 @@ The expected failures are SC-07 (unsigned local user insertion) and SC-09 (cross
 
 ## 7. Retest conclusion
 
-V4.8.6 is a meaningful but incomplete patch. F-02 and NEW-15 are now Fixed because the old offline admin path was removed and verified; several other paths remain Partially Fixed. A new server-side exposure, NEW-17, was confirmed by one read-only GET. The release-blocking conclusion is unchanged because the approval seal, entitlement gates and exam answers remain derivable from client-shipped data, and result records are readable without authentication. Status labels follow `03-methodology.md`; no fix is marked Fixed on code review alone.
+V5.4.6 is a meaningful but incomplete patch. F-02, NEW-15, F-04 and NEW-08 are Fixed because the old paths were removed and verified locally; several other paths remain Partially Fixed. The release-blocking conclusion is unchanged because the approval seal and entitlement gates remain client-derivable and result records are readable without authentication. Status labels follow `03-methodology.md`; no fix is marked Fixed on code review alone.

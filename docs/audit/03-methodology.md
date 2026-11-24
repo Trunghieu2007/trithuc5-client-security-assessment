@@ -5,7 +5,7 @@
 This assessment is **client-side only** against an owner-authorized target. The objective was to identify and verify security boundaries that the shipped browser application claims to enforce, without touching production state or third-party accounts.
 
 **Target:** `https://trithuc500.vercel.app/`
-**Pinned build:** SHA-256 `ffe94aea9b327853b0b8836bf0d52e1f509fcc68c007bead7b8a888604389185` (V4.8.6), 9,120,257 bytes / 34,677 lines.
+**Pinned build:** SHA-256 `2dbf781e4febf2e47a78da81352227de30c4972a8f0491e4864bdb32e370f61c` (V5.4.6), 2,777,970 bytes / 39,205 lines.
 **Assessment period:** 2026-11-18 → 2026-11-22, with the final re-pin on 2026-11-22.
 
 ## 2. Evidence rules
@@ -29,7 +29,7 @@ This assessment is **client-side only** against an owner-authorized target. The 
 | 6 — Severity | Qualitative severity from measured exploitability and impact; CVSS not scored | Per-finding reports |
 | 7 — Documentation | This `docs/audit` tree | All files |
 | 8 — Roadmap | Root-cause remediation ordered P0–P3 | `05-remediation-roadmap.md` |
-| 9 — Retest | Re-ran all suites on V4.8.6 after re-pin | `06-retest-results.md` |
+| 9 — Retest | Re-ran all suites on V5.4.6 after re-pin | `06-retest-results.md` |
 
 ## 4. Isolated execution environment
 

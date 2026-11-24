@@ -1,7 +1,7 @@
 # PoC — F-01: Cloud sync publishes identity records; signed tombstone path remains offline-forgeable
 
 **Type:** DISPLAY  
-**Build:** V4.8.6 / SHA-256 `ffe94aea9b327853b0b8836bf0d52e1f509fcc68c007bead7b8a888604389185`  
+**Build:** V5.4.6 / SHA-256 `2dbf781e4febf2e47a78da81352227de30c4972a8f0491e4864bdb32e370f61c`  
 **Canonical script:** [`research/trithuc5/poc/poc_f01_student_data.js`](../../../../research/trithuc5/poc/poc_f01_student_data.js)  
 **Cleanup:** `n/a (read-only)`
 
@@ -11,7 +11,7 @@ Demonstrate the measured F-01 behavior using only synthetic data: compact user r
 
 ## Prerequisites
 
-- Pinned V4.8.6 source.
+- Pinned V5.4.6 source.
 - Mock ntfy/KV transport in the isolated VM; no live channel write.
 - Synthetic user and packet fixtures.
 

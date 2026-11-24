@@ -1,7 +1,7 @@
 # 01 — Attack surface inventory
 
 **Assessment target:** `https://trithuc500.vercel.app/`  
-**Build pin:** SHA-256 `ffe94aea9b327853b0b8836bf0d52e1f509fcc68c007bead7b8a888604389185` (V4.8.6, 9,120,257 bytes, 34,677 lines, fetched 2026-11-22T10:36:26Z).  
+**Build pin:** SHA-256 `2dbf781e4febf2e47a78da81352227de30c4972a8f0491e4864bdb32e370f61c` (V5.4.6, 2,777,970 bytes, 39,205 lines, fetched 2026-11-24T12:14:00Z).  
 **Method:** static analysis of the pinned client bundle, response-header capture, source-hash-pinned VM execution, and one read-only GET to the same-origin results API. No active scan against third-party services was performed.
 
 ## 1. Identification
@@ -27,7 +27,7 @@
 | `/api/admin/login` | POST | Server credential check | Admin login | `username`, `password`, `remember` | JSON | Server-verified flag unlocks admin UI; cookie flags not directly tested | Static contract verified; no real login |
 | `/api/admin/login` | GET | Server session cookie | Restore admin session | None | JSON `{ok, authenticated}` | Boot fetches this to set admin flag | Static contract verified |
 | `/api/admin/login` | DELETE | Server session cookie | Logout | None | JSON | Clears server session | Static contract verified |
-| `/api/results` | POST | **Unverified** | Submit student attempt | `{record: compact}` | JSON | New in V4.8.6; no write test performed | Static only |
+| `/api/results` | POST | **Unverified** | Submit student attempt | `{record: compact}` | JSON | New in V5.4.6; no write test performed | Static only |
 | `/api/results` | GET | **None observed** | Pull all result records | None | JSON `{ok, records}` | NEW-17: unauthenticated read returned records | Read-only live probe; values not retained |
 | `/exams-cloud.json.gz?v=<bucket>` | GET | Public | Static CDN exam bundle | `v` cache-buster | Compressed JSON | Public exam content; signature checked client-side only | Static-verified; live content not stored |
 | `https://ntfy.sh/trithuc50_v436_live_sync_hn` | GET (SSE/poll), POST by clients | Public channel | Cloud state / packets | Packet body `TT50V436:<base64url>` | Compact user/packet data | Public read/write channel; identity fields still published | Static + local harness; live read-only check found no recent lines |

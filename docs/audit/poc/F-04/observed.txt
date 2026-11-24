@@ -1,10 +1,11 @@
-PoC: F-04 — Exam answers are recoverable from a bundle-seeded client vault
-Build: V4.8.6 / SHA-256 ffe94aea9b327853b0b8836bf0d52e1f509fcc68c007bead7b8a888604389185
-Evidence state: LOCAL_CONFIRMED
+PoC: F-04 — Exam answers were recoverable from a bundle-seeded client vault — FIXED
+Build: V5.4.6 / SHA-256 2dbf781e4febf2e47a78da81352227de30c4972a8f0491e4864bdb32e370f61c
+Evidence state: FIXED-V5.4.2 / VERIFIED-V5.4.6
 
 OBSERVED:
-The full answer set is recoverable offline from the shipped bundle.
+The shipped bundle contains no answer keys or questions; grading is performed by the Vercel API.
 
 Evidence references:
-- `F-04-T01` decodes the current vault and reports 15 exams / 330 answers.
+- `F-04-T01` decodes the current vault and reports 191 exams / 0 answers / 0 questions.
+- `F-04-T03` confirms the server grading endpoint is called.
 - `poc_f04_exam_answers.js` is read-only and validated by `poc-suite-validation.txt`.

@@ -12,7 +12,7 @@ const crypto = require('crypto');
 
 const SOURCE = process.env.TRITHUC_SOURCE ||
     path.join(__dirname, '..', '..', '..', '..', 'research', 'trithuc5', 'phase5', 'target.html');
-const EXPECTED_SHA = 'ffe94aea9b327853b0b8836bf0d52e1f509fcc68c007bead7b8a888604389185';
+const EXPECTED_SHA = '2dbf781e4febf2e47a78da81352227de30c4972a8f0491e4864bdb32e370f61c';
 
 function readSource() {
     const text = fs.readFileSync(SOURCE, 'utf8');
@@ -99,7 +99,7 @@ const FN_NAMES = [
     'hashStringHex',
     'computeUserIntegritySig',
     'computeAdminSessionSig',
-    'computeTeacherVipApprovalSealV44',
+    'computeTeacherVipApprovalSealV44', 'isValidTeacherVipSealV522',
     'recordVipHackSecurityAlertV44',
     'detectAndBlockStudentVipHackV44',
     'isStudentVipExpired',
@@ -111,7 +111,7 @@ const FN_NAMES = [
     'processIncomingCloudPacket',
     'isValidStudentGmail',
     'decryptV97EmbedPayload',
-    'sanitizePlainInput'
+    'sanitizePlainInput', 'requestBackgroundRenderV521', 'isUserTypingInModalOrInputV521', 'hasStudentVipAccess', 'pushSystemUserPacketToVercelApiV521'
 ];
 
 function createEnv(options) {
@@ -193,14 +193,14 @@ function createEnv(options) {
         extractDeclaration(src.lines, 'const LessonVipVaultV44 = (function() {').code,
         ...FN_NAMES.map(n => extractFunction(src.lines, n).code),
         // V4.8.6 keeps the hash functions but empties the admin/vault literals (lines 2030-2055).
-        extractLineRange(src.lines, 2030, 2055).code,
+        extractLineRange(src.lines, 4679, 4704).code,
         // V4.8.6 lexical constants referenced by safeStorageSet / packet verifier.
-        extractLineRange(src.lines, 2228, 2228).code,
-        extractLineRange(src.lines, 5768, 5768).code,
+        extractLineRange(src.lines, 4878, 4878).code,
+        extractLineRange(src.lines, 8818, 8818).code,
         // Real boot-time user normalization block (V4.8.6): lines 3575-3643.
         'const bundledUsers = [];\n' +
         'function bootNormalizeUsersV44() {\n' +
-        extractLineRange(src.lines, 3575, 3643).code + '\n}',
+        extractLineRange(src.lines, 6314, 6383).code + '\n}',
         'globalThis.BackendVipAuthServiceV44 = BackendVipAuthServiceV44;',
         'globalThis.LessonVipVaultV44 = LessonVipVaultV44;',
         'globalThis.bootNormalizeUsersV44 = bootNormalizeUsersV44;',
