@@ -16,6 +16,13 @@
 //
 // The mock admin login returns a synthetic success response; it is NOT a
 // server-side login and grants no real authority.
+//
+// V4.5+/V5.x note: the app calls Object.freeze(window.TRITHUC) at boot, so
+// direct method assignment throws "Cannot assign to read only property".
+// A Proxy cannot serve different values for frozen non-configurable data
+// properties either (invariant violation), so this PoC clones the API into a
+// mutable facade, installs wrappers there, and swaps the global binding.
+// The frozen target object itself is never mutated.
 
 (() => {
     'use strict';
@@ -33,7 +40,8 @@
         };
     }
 
-    const api = window.TRITHUC || (window.TRITHUC = {});
+    const baseApi = window.TRITHUC || (window.TRITHUC = {});
+    let api = baseApi;
     const origFetch = window.fetch ? window.fetch.bind(window) : null;
     const origGetById = document.getElementById ? document.getElementById.bind(document) : null;
 
@@ -129,8 +137,11 @@
     };
 
     // ---- 2. Hook admin methods. -------------------------------------------
+    // The shipped API is frozen. Build wrappers first, clone the API into a
+    // mutable facade, then swap the global binding. No frozen property changes.
     const originals = [];
     const wrapped = [];
+    const hookCache = new Map();
 
     METHOD_NAMES.forEach(name => {
         const orig = api[name];
@@ -154,10 +165,29 @@
             return out;
         };
         hooked.__AERO_ADMIN_LOG__ = true;
-        api[name] = hooked;
+        hookCache.set(name, hooked);
         originals.push({ name, fn: orig });
         wrapped.push(name);
     });
+
+    // Shallow-clone every own descriptor with mutable attributes. A Proxy is
+    // not usable here: frozen non-configurable data properties must return
+    // their exact target value, so a wrapper in `get` violates the invariant.
+    const facade = Object.create(Object.getPrototypeOf(baseApi));
+    for (const key of Reflect.ownKeys(baseApi)) {
+        const desc = Object.getOwnPropertyDescriptor(baseApi, key);
+        if (!desc) continue;
+        if ('value' in desc) {
+            desc.writable = true;
+            desc.configurable = true;
+        } else {
+            desc.configurable = true;
+        }
+        Object.defineProperty(facade, key, desc);
+    }
+    for (const name of wrapped) facade[name] = hookCache.get(name);
+    api = facade;
+    window.TRITHUC = api;
 
     // ---- 3. Restore / dump. ------------------------------------------------
     window.__AERO_ADMIN_LOG_DUMP__ = function () {
@@ -170,9 +200,8 @@
     };
 
     window.__AERO_ADMIN_LOG_RESTORE__ = function () {
-        originals.forEach(x => {
-            if (api[x.name] && api[x.name].__AERO_ADMIN_LOG__) api[x.name] = x.fn;
-        });
+        // Put the untouched frozen API back; wrappers lived only on the Proxy.
+        window.TRITHUC = baseApi;
         window.fetch = origFetch;
         document.getElementById = origGetById;
         window.__TT50_SERVER_ADMIN_VERIFIED_V485__ = false;
@@ -198,6 +227,7 @@
         methods: wrapped,
         logKey: LOG_KEY,
         scope: 'LOCAL ONLY — no network request is sent',
+        hookStrategy: 'Mutable facade cloned from frozen window.TRITHUC (no property mutation)',
         note: 'Mock admin login grants no real authority. Restore with __AERO_ADMIN_LOG_RESTORE__().'
     };
 })();

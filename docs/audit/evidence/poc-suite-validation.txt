@@ -293,6 +293,8 @@ PASS F-06 states the residual risk
 PASS admin logger payload executes without error
 PASS admin logger is ACTION
 PASS admin logger reports ACTIVE
+PASS admin logger mock API is frozen like the shipped app
+PASS admin logger clones the frozen API instead of assigning to it
 PASS admin logger hooked at least 5 methods
 PASS admin logger wrote an install record
 PASS admin logger mock flag set
@@ -309,6 +311,7 @@ PASS admin logger never sent a network request
 [AERO-ADMIN] restored; log retained in __AERO_ADMIN_OFFLINE_LOG__ — press F5 to clear memory state
 PASS admin logger restore reports count
 PASS admin logger cleared mock flag
+PASS admin logger restored the untouched frozen API
 PASS admin logger retained the local log
 PASS syntax poc_admin_offline_log.js
 PASS syntax poc_f01_student_data.js
@@ -324,4 +327,4 @@ PASS syntax poc_new11_seal_forgery.js
 PASS syntax poc_new15_admin_preview.js
 PASS syntax poc_new17_results_api.js
 
-TOTAL 95 PASS 95 FAIL 0
+TOTAL 98 PASS 98 FAIL 0

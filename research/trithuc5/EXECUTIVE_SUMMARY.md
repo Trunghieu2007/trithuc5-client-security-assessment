@@ -76,7 +76,7 @@ Measured against the V4.8.6 pin (`ffe94aea…`, 9,120,257 bytes / 34,677 lines):
 | Tamper check | signature only | `isValidTeacherVipSealV522` added, stale `_sig` now stripped | F-03 residual reduced but still forgeable offline |
 | Results API | unauthenticated GET | unauthenticated GET (200, 89 records) | NEW-17 unchanged |
 
-Suites on V5.4.6: main 41/41, phase3 8/8, phase4 20/20, PoC 95/95,
+Suites on V5.4.6: main 41/41, phase3 8/8, phase4 20/20, PoC 98/98,
 independent 36/36; secure controls 7 pass / 2 expected-fail.
 Release remains blocked because the approval seal and entitlement gates are still
 client-derivable and result records are readable without authentication.

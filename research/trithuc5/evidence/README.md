@@ -79,7 +79,7 @@ CURRENT STATE: controls fail as expected before remediation
 
 - Source SHA-256 `2dbf781e4febf2e47a78da81352227de30c4972a8f0491e4864bdb32e370f61c`,
   2,777,970 bytes, 39,205 lines.
-- Suites: main 41/41, phase3 8/8, phase4 20/20, PoC validation 95/95,
+- Suites: main 41/41, phase3 8/8, phase4 20/20, PoC validation 98/98,
   independent 36/36; secure controls 7 pass / 2 expected-fail (SC-07, SC-09).
 - Genuine V5.4.x fixes: Google Form dispatch disabled; exam answers/questions removed
   from bundle (191 shells, 0 answers); grading moved to `/api/exams/submit`;
@@ -105,7 +105,11 @@ CURRENT STATE: controls fail as expected before remediation
   admin-relevant `window.TRITHUC` methods, records calls/results/errors into
   `localStorage.__AERO_ADMIN_OFFLINE_LOG__`, and replaces `fetch` with a local
   stub so no request leaves the browser.
+- V4.5+ freezes `window.TRITHUC`; the PoC clones that API into a mutable facade
+  and swaps the global binding instead of assigning to read-only properties.
+  Restore puts the original frozen object back. The validator freezes its mock
+  API so this path is regression-tested.
 - Lifecycle: `__AERO_ADMIN_LOG_DUMP__()`, `__AERO_ADMIN_LOG_CLEAR__()`,
   `__AERO_ADMIN_LOG_RESTORE__()` (then F5). The log is retained after restore.
-- Validated by 16 dedicated checks; PoC suite now 95/95. The mock admin login
+- Validated by 19 dedicated checks; PoC suite now 98/98. The mock admin login
   grants no real authority and no production state is changed.

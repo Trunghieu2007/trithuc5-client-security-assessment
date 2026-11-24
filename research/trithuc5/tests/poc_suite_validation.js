@@ -119,7 +119,9 @@ function makeEnv(seedUsers, seedLogin) {
     sandbox.globalThis = sandbox;
     // Node-side gzip helper for the F-04 DISPLAY PoC (browser path stays untouched).
     sandbox.Buffer = NODE_BUFFER;
-    sandbox.TRITHUC = {
+    // Mirror the shipped V4.5+/V5.x boot path, which freezes the API surface
+    // to stop console monkey-patching. PoCs must survive this.
+    const mockTrithuc = {
         loginAdmin: async () => true,
         logoutAdmin: () => true,
         openAdminPortal: () => 'admin',
@@ -130,6 +132,9 @@ function makeEnv(seedUsers, seedLogin) {
         setAdminUserStatusFilter: f => f,
         setAdminGradeFilter: g => g
     };
+    Object.freeze(mockTrithuc);
+    sandbox.TRITHUC = mockTrithuc;
+    sandbox.__TRITHUC_FROZEN_AT_BOOT__ = Object.isFrozen(sandbox.TRITHUC);
     sandbox.__AERO_GUNZIP__ = (parts) => {
         const zlib = require('zlib');
         const buf = Buffer.concat(parts.map(p => Buffer.isBuffer(p) ? p : Buffer.from(p)));
@@ -369,6 +374,9 @@ for (const f of ['poc_f04_exam_answers.js', 'poc_f01_student_data.js',
     if (!error) {
         check('admin logger is ACTION', result?.type === 'ACTION');
         check('admin logger reports ACTIVE', result?.status === 'ACTIVE', result?.status);
+        check('admin logger mock API is frozen like the shipped app', env.sandbox.__TRITHUC_FROZEN_AT_BOOT__ === true);
+        check('admin logger clones the frozen API instead of assigning to it',
+            /facade cloned from frozen/i.test(result?.hookStrategy || ''), result?.hookStrategy);
         check('admin logger hooked at least 5 methods', (result?.hooked || 0) >= 5, String(result?.hooked));
         const installRows = JSON.parse(env.store.get('__AERO_ADMIN_OFFLINE_LOG__') || '[]');
         check('admin logger wrote an install record', installRows.some(r => r.kind === 'install'));
@@ -387,6 +395,10 @@ for (const f of ['poc_f04_exam_answers.js', 'poc_f01_student_data.js',
         const restored = env.sandbox.__AERO_ADMIN_LOG_RESTORE__();
         check('admin logger restore reports count', restored && restored.restored >= 5);
         check('admin logger cleared mock flag', !env.store.get('__AERO_ADMIN_LOG_MOCK__'));
+        check('admin logger restored the untouched frozen API',
+            Object.isFrozen(env.sandbox.TRITHUC) &&
+            typeof env.sandbox.TRITHUC.loginAdmin === 'function' &&
+            !env.sandbox.TRITHUC.loginAdmin.__AERO_ADMIN_LOG__);
         check('admin logger retained the local log', JSON.parse(env.store.get('__AERO_ADMIN_OFFLINE_LOG__') || '[]').length > 0);
     }
 }

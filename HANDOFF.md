@@ -371,9 +371,12 @@ documented F-02/NEW-15 were inverted to FIX assertions. PoCs `poc_f02_admin_logi
 was added as a read-only DISPLAY probe.
 
 Final suite state: `run_all.js` 41/41, `phase3_tests.js` 8/8, `phase4_tests.js` 20/20,
-`poc_suite_validation.js` 95/95, `independent_verification.js` 36/36,
+`poc_suite_validation.js` 98/98, `independent_verification.js` 36/36,
 `secure_controls.js` 7 pass / 2 expected failures. All logs and `docs/audit/` were regenerated.
-Canonical V5.4.6 docs: `FINDINGS.md`, `PHASE5_UPDATE.md`, `EXECUTIVE_SUMMARY.md`,
+The offline admin logger PoC was corrected for the V4.5+ `Object.freeze(window.TRITHUC)`
+guard: it now clones the frozen API into a mutable facade instead of assigning to read-only
+properties, and the validator freezes its mock API to cover that path. Three new checks bring
+the PoC suite to 98/98. Canonical V5.4.6 docs: `FINDINGS.md`, `PHASE5_UPDATE.md`, `EXECUTIVE_SUMMARY.md`,
 `REMEDIATION_PLAN.md`, `INDEPENDENT_VERIFICATION.md`, `SOURCE.md`, `evidence/README.md`, root
 `README.md` and the full `docs/audit/` package.
 
@@ -433,7 +436,7 @@ re-rendering with weak focus preservation. **No redesign or refactor has been st
   sensitive 4878, nonce 8818, memory 4845, admin session 6485–6497, boot 6314–6383).
 - Added VM dependencies: `isValidTeacherVipSealV522`, `requestBackgroundRenderV521`,
   `isUserTypingInModalOrInputV521`, `pushSystemUserPacketToVercelApiV521`.
-- Suite results: main 41/41, phase3 8/8, phase4 20/20, PoC 95/95, independent 36/36;
+- Suite results: main 41/41, phase3 8/8, phase4 20/20, PoC 98/98, independent 36/36;
   secure controls 7/2 expected-fail. NEW-17 confirmed live (200, 89 records, metadata only).
 - Release verdict unchanged: blocked. No production write; one read-only GET to `/api/results`.
 
